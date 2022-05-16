@@ -1,0 +1,8 @@
+.rasa/
+./botserver-app/auth/
+./botserver-app/logs/
+./certs/
+./db
+
+.env
+

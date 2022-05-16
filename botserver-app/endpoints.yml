@@ -1,0 +1,78 @@
+# This file contains the different endpoints your bot can use.
+
+# Server where the models are pulled from.
+# https://rasa.com/docs/rasa/model-storage#fetching-models-from-a-server
+
+#models:
+#  url: http://my-server.com/models/default_core@latest
+#  wait_time_between_pulls:  10   # [optional](default: 100)
+
+# Server which runs your custom actions.
+# https://rasa.com/docs/rasa/custom-actions
+
+#action_endpoint:
+#  url: "http://localhost:5055/webhook"
+
+# Tracker store which is used to store the conversations.
+# By default the conversations are stored in memory.
+# https://rasa.com/docs/rasa/tracker-stores
+
+#tracker_store:
+#    type: redis
+#    url: <host of the redis instance, e.g. localhost>
+#    port: <port of your redis instance, usually 6379>
+#    db: <number of your database within redis, e.g. 0>
+#    password: <password used for authentication>
+#    use_ssl: <whether or not the communication is encrypted, default false>
+
+#tracker_store:
+#    type: mongod
+#    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
+#    db: <name of the db within your mongo instance, e.g. rasa>
+#    username: <username used for authentication>
+#    password: <password used for authentication>
+
+# Event broker which all conversation events should be streamed to.
+# https://rasa.com/docs/rasa/event-brokers
+
+#event_broker:
+#  url: localhost
+#  username: username
+#  password: password
+#  queue: queue
+#
+models:
+        url: ${RASA_MODEL_SERVER}
+        token: ${RASA_X_TOKEN}
+        wait_time_between_pulls: ${RASA_MODEL_PULL_INTERVAL}
+tracker_store:
+        type: sql
+        dialect: "postgresql"
+        url: ${DB_HOST}
+        port: ${DB_PORT}
+        username: ${DB_USER}
+        password: ${DB_PASSWORD}
+        db: ${DB_DATABASE}
+        login_db: ${DB_LOGIN_DB}
+lock_store:
+        type: "redis"
+        url: ${REDIS_HOST}
+        port: ${REDIS_PORT}
+        password: ${REDIS_PASSWORD}
+        db: ${REDIS_DB}
+cache:
+        type: "redis"
+        url: ${REDIS_HOST}
+        port: ${REDIS_PORT}
+        password: ${REDIS_PASSWORD}
+        db: ${REDIS_CACHE_DB}
+event_broker:
+        type: "pika"
+        url: ${RABBITMQ_HOST}
+        username: ${RABBITMQ_USERNAME}
+        password: ${RABBITMQ_PASSWORD}
+        queues:
+        - ${RABBITMQ_QUEUE}
+action_endpoint:
+        url: ${RASA_USER_APP}/webhook
+        token: ""
