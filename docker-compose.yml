@@ -25,7 +25,7 @@ x-duckling-credentials: &duckling-credentials
 
 x-nginx-host-variables: &nginx-host-variables
   RASA_X_HOST: "rasa-x:5002"
-  RASA_USER_APP: "app:5055"
+  RASA_USER_APP: "action-server:5055"
   RASA_PRODUCTION_HOST: "rasa-production:5005"
 
 x-rasax-credentials: &rasax-credentials
@@ -34,7 +34,7 @@ x-rasax-credentials: &rasax-credentials
   RASA_X_PASSWORD: ${RASA_X_PASSWORD:-}
   RASA_X_TOKEN: ${RASA_X_TOKEN}
   JWT_SECRET: ${JWT_SECRET}
-  RASA_USER_APP: "http://app:5055"
+  RASA_USER_APP: "http://action-server:5055"
   RASA_PRODUCTION_HOST: "http://rasa-production:5005"
   RASA_WORKER_HOST: "http://rasa-worker:5005"
   RASA_TOKEN: ${RASA_TOKEN}
@@ -72,7 +72,6 @@ x-rasa-services: &default-rasa-service
     - rasa-x
     - rabbit
     - redis
-    # - action-server
 
 services:
   rasa-x:
