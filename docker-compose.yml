@@ -52,7 +52,7 @@ x-rasa-credentials: &rasa-credentials
 
 
 x-rasa-services: &default-rasa-service
-  restart: always
+  restart: on-failure:5
   image: "sysang/appserver"
   build: "./botserver-app"
   expose:
@@ -75,7 +75,7 @@ x-rasa-services: &default-rasa-service
 
 services:
   rasa-x:
-    restart: always
+    restart: on-failure:5
     image: "rasa/rasa-x:${RASA_X_VERSION}"
     expose:
       - "5002"
@@ -103,7 +103,7 @@ services:
   db-migration:
     entrypoint: ["python"]
     command: ["-m", "rasax.community.services.db_migration_service"]
-    restart: always
+    restart: on-failure:5
     image: "rasa/rasa-x:${RASA_X_VERSION}"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/health || kill 1"]
@@ -139,14 +139,14 @@ services:
       RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
 
   action-server:
-    restart: always
+    restart: on-failure:5
     image: "sysang/actionserver"
     build: "./botserver-action"
     expose:
       - "5055"
 
   db:
-    restart: always
+    restart: on-failure:5
     image: "bitnami/postgresql:11.9.0"
     expose:
       - "5432"
@@ -158,7 +158,7 @@ services:
       - ./db:/bitnami/postgresql
 
   rabbit:
-    restart: always
+    restart: on-failure:5
     image: "bitnami/rabbitmq:3.8.14"
     environment:
       RABBITMQ_HOST: "rabbit"
@@ -169,14 +169,14 @@ services:
       - "5672"
 
   duckling:
-    restart: always
+    restart: on-failure:5
     image: "rasa/duckling:0.1.6.5-r0"
     expose:
       - "8000"
     command: ["duckling-example-exe", "--no-access-log", "--no-error-log"]
 
   nginx:
-    restart: always
+    restart: on-failure:5
     image: "nginx:1.19"
     ports:
       - "80:8080"
@@ -193,7 +193,7 @@ services:
       - rasa-production
 
   redis:
-    restart: always
+    restart: on-failure:5
     image: "bitnami/redis:6.2.1"
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -201,7 +201,7 @@ services:
       - "6379"
 
   botfrontend:
-    restart: always
+    restart: on-failure:5
     image: "sysang/botfrontend"
     build: "./botfrontend"
     expose:
