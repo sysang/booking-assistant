@@ -1,5 +1,4 @@
-# Pull SDK image as base image
-FROM rasa:localdev
+FROM sysang/tensorflow-source-build:latest
 
 # Use subdirectory as working directory
 WORKDIR /app
