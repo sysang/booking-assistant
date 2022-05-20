@@ -1,7 +1,14 @@
 # This is an example SSL configuration
 # Uncomment and adapt for your deployment as needed
-# listen                  8443 ssl;
 
-# # server_name           example.com;
-# ssl_certificate         /etc/nginx/certs/fullchain.pem;
-# ssl_certificate_key     /etc/nginx/certs/privkey.pem;
+listen                  8443 ssl;
+ssl_certificate         /etc/certs/fullchain.pem;
+ssl_certificate_key     /etc/certs/privkey.pem;
+
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers 'TLS13+AESGCM+AES128:EECDH+AES128';
+ssl_prefer_server_ciphers on;
+ssl_session_cache shared:SSL:50m;
+ssl_session_timeout 1d;
+ssl_session_tickets off;
+ssl_ecdh_curve X25519:sect571r1:secp521r1:secp384r1;
