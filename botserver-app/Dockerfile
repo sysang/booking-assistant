@@ -1,4 +1,4 @@
-FROM sysang/tensorflow-source-build:latest
+FROM rasa/rasa:2.8.25
 
 # Use subdirectory as working directory
 WORKDIR /app
