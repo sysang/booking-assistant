@@ -54,7 +54,11 @@ x-rasa-credentials: &rasa-credentials
 x-rasa-services: &default-rasa-service
   restart: on-failure:5
   image: "sysang/appserver"
-  build: "./botserver-app"
+  build:
+    context: "./botserver-app"
+    dockerfile: "Dockerfile"
+    args:
+        RASA_IMAGE: ${RASA_IMAGE}
   expose:
     - "5005"
   command: >
@@ -186,7 +190,7 @@ services:
       - ./certs:/etc/certs
       - ./nginx-config-files/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-config-files/ssl.conf.template:/etc/nginx/templates/ssl.conf.template
-      - ./nginx-config-files/rasax.nginx.template:/etc/nginx/templates/rasax.nginx.template
+      - ./nginx-config-files/${RASAX_NGINX_TEMPLATE_FILE}:/etc/nginx/templates/rasax.nginx.template
     environment:
       <<: *nginx-host-variables
     depends_on:
