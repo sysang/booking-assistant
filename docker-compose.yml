@@ -53,12 +53,16 @@ x-rasa-credentials: &rasa-credentials
 
 x-rasa-services: &default-rasa-service
   restart: on-failure:5
-  image: "sysang/appserver"
-  build:
-    context: "./botserver-app"
-    dockerfile: "Dockerfile"
-    args:
-        RASA_IMAGE: ${RASA_IMAGE}
+  image: ${RASA_IMAGE}
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+  volumes:
+    - ./botserver-app/:/app/
   expose:
     - "5005"
   command: >
@@ -126,6 +130,8 @@ services:
 
   rasa-production:
     <<: *default-rasa-service
+    ports:  # commented on PROD
+      - "8880-8889:8880-8889"
     environment:
       <<: *rasa-credentials
       RASA_ENVIRONMENT: "production"
