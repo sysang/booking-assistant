@@ -8,6 +8,7 @@ MAINTAINER Sang Dao "sysangtiger@gmail.com"
 
 ARG TENSORFLOW_VERSION=v2.6.4
 ARG KERAS_VERSION=v2.6.0
+ARG NUMPY_VERSION=1.19.2
 
 # ENV GPG_KEY 10822726f75fd7efe05a94fbd6ac2258
 ENV PYTHON_VERSION 3.8.13
@@ -130,7 +131,7 @@ RUN pip --no-cache-dir install \
     wheel \
     keras_applications \
     keras_preprocessing \
-    numpy~=1.21.4 \
+    numpy~=${NUMPY_VERSION} \
     --no-deps \
     && rm -rf /pip_pkg \
     && rm -rf /tmp/* \
@@ -165,7 +166,7 @@ RUN cd tensorflow \
 
 RUN pip install rasa~=2.8.27
 
-RUN pip install numpy~=1.21.4
+RUN pip install numpy~=${NUMPY_VERSION}
 
 # Fix Jupyterlab - see https://github.com/jupyter/jupyter/issues/401
 # TODO: move this on dl-base
