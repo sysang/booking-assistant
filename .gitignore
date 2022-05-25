@@ -2,11 +2,8 @@
 ./botserver-app/auth/
 ./botserver-app/logs/
 ./certs/
-./db
+./db/
+.cache/
 
 .env
-botserver-app/.bash_history
-botserver-app/.config/
-botserver-app/.keras/
-botserver-app/.python_history
-
+.rasa/

@@ -1,0 +1,10 @@
+version: "2.0"
+nlu:
+- intent: request_listing_hotel_by_city
+- intent: request_sorting_hotel_by_price
+- intent: request_sorting_hotel_by_rating
+- intent: decide_hotel_to_book
+- intent: express_time
+- intent: express_name
+- intent: inform_name
+- intent: ask_price

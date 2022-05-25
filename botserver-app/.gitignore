@@ -1,0 +1,6 @@
+
+.config/
+.keras/
+.nv/
+.python_history
+.bash_history
