@@ -1,0 +1,13 @@
+version: "2.0"
+nlu:
+- intent: express_date
+  examples: |
+    - [july 8th](date)
+    - [may 1st](date)
+    - [jan 15th](date)
+    - [the 24th](date)
+- intent: express_length_of_time
+  examples: |
+    - [2 days](duration)
+    - [3 nights](duration)
+    - I’ll be staying for [two nights](duration)

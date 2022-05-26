@@ -1,3 +1,0 @@
-RASA_IMAGE : sysang/tensorflow-source-build:latest : rasa/rasa:2.8.25
-RASAX_NGINX_TEMPLATE_FILE: rasax.nginx.template
-

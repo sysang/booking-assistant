@@ -1,0 +1,3 @@
+RASA_IMAGE : rasa:localdev | rasa/rasa:2.8.25
+RASAX_NGINX_TEMPLATE_FILE: rasax.nginx.template | local.rasax.nginx.template
+

@@ -1620,6 +1620,7 @@ nlu:
     - I've missed you
 
 - intent: smalltalk_user_needs_advice
+  examples: |
     - what should I do about it
     - any suggestions
     - what do you recommend
