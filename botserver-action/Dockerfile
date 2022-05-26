@@ -32,7 +32,7 @@ WORKDIR /app
 # RUN pip install -r requirements-actions.txt
 
 # Copy actions folder to working directory
-COPY . /app/actions
+# COPY . /app/actions
 
 # By best practices, don't run the code with root user
 USER 1001

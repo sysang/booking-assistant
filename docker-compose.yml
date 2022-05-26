@@ -54,15 +54,10 @@ x-rasa-credentials: &rasa-credentials
 x-rasa-services: &default-rasa-service
   restart: on-failure:5
   image: ${RASA_IMAGE}
-  deploy:
-    resources:
-      reservations:
-        devices:
-          - driver: nvidia
-            count: all
-            capabilities: [gpu]
   volumes:
-    - ./botserver-app/:/app/
+    - ./botserver-app/data:/app/data
+    - ./botserver-app/domain.yml:/app/domain.yml
+    - ./botserver-app/config.yml:/app/data/config.yml
   expose:
     - "5005"
   command: >
@@ -130,8 +125,6 @@ services:
 
   rasa-production:
     <<: *default-rasa-service
-    ports:  # commented on PROD
-      - "8880-8889:8880-8889"
     environment:
       <<: *rasa-credentials
       RASA_ENVIRONMENT: "production"
@@ -147,11 +140,20 @@ services:
       DB_DATABASE: "worker_tracker"
       MPLCONFIGDIR: "/tmp/.matplotlib"
       RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   action-server:
     restart: on-failure:5
     image: "sysang/actionserver"
     build: "./botserver-action"
+    volumes:
+      - ./botserver-action/:/app/actions/
     expose:
       - "5055"
 
@@ -215,5 +217,7 @@ services:
     restart: on-failure:5
     image: "sysang/botfrontend"
     build: "./botfrontend"
+    volumes:
+      - ./botfrontend/:/usr/src/app/
     expose:
       - "8000"
