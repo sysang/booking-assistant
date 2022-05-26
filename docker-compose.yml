@@ -54,10 +54,6 @@ x-rasa-credentials: &rasa-credentials
 x-rasa-services: &default-rasa-service
   restart: on-failure:5
   image: ${RASA_IMAGE}
-  volumes:
-    - ./botserver-app/data:/app/data
-    - ./botserver-app/domain.yml:/app/domain.yml
-    - ./botserver-app/config.yml:/app/data/config.yml
   expose:
     - "5005"
   command: >
@@ -140,13 +136,18 @@ services:
       DB_DATABASE: "worker_tracker"
       MPLCONFIGDIR: "/tmp/.matplotlib"
       RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    # volumes:
+    #   - ./botserver-app/data:/app/data/
+    #   - ./botserver-app/models:/app/models/
+    #   - ./botserver-app/domain.yml:/app/domain.yml
+    #   - ./botserver-app/config.yml:/app/config.yml
 
   action-server:
     restart: on-failure:5
