@@ -46,7 +46,7 @@ slots:
 responses:
   utter_asking_checkin_time:
     - text: "When will you need the accommodations?"
-  utter_asking_stay_duration:
+  utter_asking_staying_duration:
     - text: "How long will you be staying?"
   utter_asking_room_type:
     - text: "Do you want a king or a double?"
@@ -54,7 +54,10 @@ responses:
     - text: "Here is the list of available hotel."
 
 actions:
-  - set_booking_information
-  - set_booking_state_information_collecting
-  - set_booking_state_done_collecting_inforation
+  - set_booking_state__information_collecting__
+  - set_booking_state__done_collecting_information__
+  - set_booking_information__city__
+  - set_booking_information__checkin_time__
+  - set_booking_information__duration__
+  - set_booking_information__room_type__
 
