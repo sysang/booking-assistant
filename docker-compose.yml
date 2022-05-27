@@ -157,6 +157,8 @@ services:
       - ./botserver-action/:/app/actions/
     expose:
       - "5055"
+    environment:
+      <<: *duckling-credentials
 
   db:
     restart: on-failure:5

@@ -4,15 +4,15 @@ stories:
 
 - story: happy path
   steps:
-  - intent: request_listing_hotel_by_city
+  - intent: request_listing_hotel_by_area
     entities:
-    - city: hawaii
+    - area: hawaii
   - action: set_booking_state__information_collecting__
   - slot_was_set:
     - booking_state: information_collecting
-  - action: set_booking_information__city__
+  - action: set_booking_information__area__
   - slot_was_set:
-    - bkinfo_city: hawaii
+    - bkinfo_area: hawaii
   - action: utter_asking_checkin_time
   - intent: express_date
     entities:
@@ -37,4 +37,4 @@ stories:
   - action: set_booking_state__done_collecting_information__
   - slot_was_set:
     - booking_state: done_collecting_information
-  - action: utter_to_show_hotel_list
+  - action: bot_show_hotel_list

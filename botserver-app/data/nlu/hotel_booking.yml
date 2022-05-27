@@ -1,12 +1,13 @@
 version: "2.0"
 nlu:
-- intent: request_listing_hotel_by_city
+- intent: request_listing_hotel_by_area
   examples: |
-    - i need to book a hotel for a business surf trip to [hawaii](city).
+    - i need to book a hotel for a business surf trip to [hawaii](area).
 - intent: express_room_type
   examples: |
-    - I’ll be traveling alone, so a room with a [king-size bed](room_type) will be fine
-    - I want a [single](room_type) rooom
+    - I’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
+    - I want a [single](room_type) room
+    - I want a [double](room_type) one
 # - intent: request_sorting_hotel_by_price
 # - intent: request_sorting_hotel_by_rating
 # - intent: decide_hotel_to_book
