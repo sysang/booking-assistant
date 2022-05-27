@@ -42,9 +42,7 @@ RUN apt-get install -y --no-install-recommends \
   pkg-config \
   git-core \
   openssl \
-  libssl-dev
-
-RUN apt-get install -y --no-install-recommends \
+  libssl-dev \
   libffi7 \
   libffi-dev \
   libpng-dev 
@@ -90,9 +88,8 @@ RUN apt-get install -y --no-install-recommends \
   python3-venv \
   python3-dev \
   # required by psycopg2 at build and runtime
-  libpq-dev \
+  libpq-dev
   # required for health check
-  && apt-get autoremove -y
 
 # make some useful symlinks that are expected to exist
 RUN cd /usr/local/bin \

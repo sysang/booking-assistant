@@ -5,8 +5,9 @@ FROM rasa/rasa-sdk:2.8.4
 USER root
 
 # To install system dependencies
-RUN apt-get update -qq && \
-    apt-get clean && \
+RUN apt-get update -qq && apt-get dist-upgrade -y --no-install-recommends
+
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # To install packages from PyPI
@@ -21,6 +22,12 @@ RUN apt-get update -qq && \
 #                             spacy~=2.1.9
 
 # RUN python -m spacy download en
+
+COPY ./requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt \
+    && rm -rf /pip_pkg \
+    && rm -rf /tmp/* \
+    && rm -rf /root/.cache
 
 # Use subdirectory as working directory
 WORKDIR /app

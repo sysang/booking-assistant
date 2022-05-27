@@ -7,7 +7,7 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
-  - request_listing_hotel_by_city
+  - request_listing_hotel_by_area
   - express_date
   - express_length_of_time
   - express_room_type
@@ -15,6 +15,7 @@ intents:
 entities:
   - hotel
   - city
+  - area
   - date
   - duration
   - room_type
@@ -23,7 +24,7 @@ slots:
   bkinfo_hotel:
     type: text
     influence_conversation: true
-  bkinfo_city:
+  bkinfo_area:
     type: text
     influence_conversation: true
   bkinfo_checkin_time:
@@ -56,8 +57,9 @@ responses:
 actions:
   - set_booking_state__information_collecting__
   - set_booking_state__done_collecting_information__
-  - set_booking_information__city__
+  - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__
   - set_booking_information__room_type__
+  - bot_show_hotel_list
 

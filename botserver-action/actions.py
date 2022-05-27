@@ -26,6 +26,8 @@
 #
 #         return []
 
+import logging
+
 from typing import Any, Dict, List, Text, Optional, Tuple
 
 from rasa_sdk import Action, Tracker
@@ -36,6 +38,11 @@ from rasa_sdk.events import (
     ConversationPaused,
     EventType,
 )
+
+from entity_preprocessing_rules import mapping_table
+from service import duckling_parse, query_available_rooms
+
+logger = logging.getLogger(__name__)
 
 
 class set_booking_state__information_collecting__(Action):
@@ -64,6 +71,11 @@ class set_booking_state__done_collecting_information__(Action):
 
 class ActionSetBookingInformation(Action):
 
+  def verify_entity(self, entity_name, entity_value):
+    processor = mapping_table[entity_name]
+    return processor(entity_value)
+
+
   def name(self) -> Text:
     return "ActionSetBookingInformation"
 
@@ -73,23 +85,28 @@ class ActionSetBookingInformation(Action):
   def retrieve_entity_value(self, tracker, entity_name):
     entities = tracker.latest_message['entities']
     entity = list(filter(lambda ent: ent['entity'] == entity_name, entities))
-    print('[DEBUG]: ', entity)
+    logger.info(f"[INFO] retrieve_entity_value, entity: ", entity)
 
     if len(entity) == 0:
       return None
-    else:
-      entity = entity.pop()
-      return entity['value']
+
+    return entity.pop()['value']
 
   def run(self, dispatcher: CollectingDispatcher,
           tracker: Tracker,
           domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     entity_name, slot_name = self.slot_entity()
-    print('[DEBUG]: ', slot_name, entity_name)
-    entity_value = self.retrieve_entity_value(tracker, entity_name)
+    logger.info(f"[INFO] retrieve_entity_value, entity_name: ", entity_name)
+    logger.info(f"[INFO] retrieve_entity_value, slot_name: ", slot_name)
 
-    return [SlotSet(slot_name, entity_value)]
+    entity_value = self.retrieve_entity_value(tracker, entity_name)
+    logger.info(f"[INFO] retrieve_entity_value, entity_value: ", entity_value)
+
+    if self.verify_entity(entity_value, entity_value):
+      return [SlotSet(slot_name, entity_value)]
+
+    return []
 
 
 class set_booking_information__city__(ActionSetBookingInformation):
@@ -126,3 +143,40 @@ class set_booking_information__room_type__(ActionSetBookingInformation):
 
   def slot_entity(self) -> Tuple[str, str]:
     return ('room_type', 'bkinfo_room_type')
+
+
+class bot_show_hotel_list(Action):
+
+  def name(self) -> Text:
+    return "bot_show_hotel_list"
+
+  def run(self, dispatcher: CollectingDispatcher,
+          tracker: Tracker,
+          domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    slots = tracker.slots
+    bkinfo_area = slots['bkinfo_area']
+    bkinfo_room_type = slots['bkinfo_room_type']
+    bkinfo_checkin_time = slots['bkinfo_checkin_time']
+    bkinfo_duration = slots['bkinfo_duration']
+
+    rooms = query_available_rooms(
+          area=bkinfo_area,
+          room_type=bkinfo_room_type,
+          checkin_time=bkinfo_checkin_time,
+          duration=bkinfo_duration
+        )
+
+    tpl = "hotel {}, price ${}"
+    snips = []
+    for room in rooms:
+      snips.append(tpl.format(room['hotel'], room['price']))
+
+    snips = snips.join(', ')
+    message = f"These are available rooms: {snips}."
+
+    dispatcher.utter(text=message)
+
+    return []
+
+
