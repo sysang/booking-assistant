@@ -5,7 +5,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "type": BED_SIZES['single'],
+        "room_type": BED_SIZES['single'],
         "price": "200",
         "occupied_dates": [
             "2022-06-01",
@@ -18,7 +18,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "type": BED_SIZES["double"],
+        "room_type": BED_SIZES["double"],
         "price": "400",
         "occupied_dates": [
             "2022-06-01",
@@ -61,7 +61,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "type": BED_SIZES["double"],
+        "room_type": BED_SIZES["double"],
         "price": "500",
         "occupied_dates": [
             "2022-07-30",
@@ -71,7 +71,7 @@ hawaii =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
-        "type": BED_SIZES['single'],
+        "room_type": BED_SIZES['single'],
         "price": "200",
         "occupied_dates": [
             "2022-06-11",
@@ -92,7 +92,7 @@ hawaii =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
-        "type": BED_SIZES["double"],
+        "room_type": BED_SIZES["double"],
         "price": "500",
         "occupied_dates": [
             "2022-06-01",
@@ -124,7 +124,7 @@ hawaii =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
-        "type": BED_SIZES["double"],
+        "room_type": BED_SIZES["double"],
         "price": "700",
         "occupied_dates": [
             "2022-07-28",

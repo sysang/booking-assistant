@@ -72,7 +72,7 @@ class set_booking_state__done_collecting_information__(Action):
 class ActionSetBookingInformation(Action):
 
   def verify_entity(self, entity_name, entity_value):
-    processor = mapping_table[entity_name]
+    processor = mapping_table(entity_name)
     return processor(entity_value)
 
 
@@ -85,7 +85,7 @@ class ActionSetBookingInformation(Action):
   def retrieve_entity_value(self, tracker, entity_name):
     entities = tracker.latest_message['entities']
     entity = list(filter(lambda ent: ent['entity'] == entity_name, entities))
-    logger.info(f"[INFO] retrieve_entity_value, entity: ", entity)
+    logger.info(f"[INFO] retrieve_entity_value, entity: %s", str(entity))
 
     if len(entity) == 0:
       return None
@@ -97,13 +97,13 @@ class ActionSetBookingInformation(Action):
           domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     entity_name, slot_name = self.slot_entity()
-    logger.info(f"[INFO] retrieve_entity_value, entity_name: ", entity_name)
-    logger.info(f"[INFO] retrieve_entity_value, slot_name: ", slot_name)
+    logger.info(f"[INFO] retrieve_entity_value, entity_name: %s", str(entity_name))
+    logger.info(f"[INFO] retrieve_entity_value, slot_name: %s", str(slot_name))
 
     entity_value = self.retrieve_entity_value(tracker, entity_name)
-    logger.info(f"[INFO] retrieve_entity_value, entity_value: ", entity_value)
+    logger.info(f"[INFO] retrieve_entity_value, entity_value: %s", str(entity_value))
 
-    if self.verify_entity(entity_value, entity_value):
+    if self.verify_entity(entity_name=entity_name, entity_value=entity_value):
       return [SlotSet(slot_name, entity_value)]
 
     return []
@@ -116,6 +116,16 @@ class set_booking_information__city__(ActionSetBookingInformation):
 
   def slot_entity(self) -> Tuple[str, str]:
     return ('city', 'bkinfo_city')
+
+class set_booking_information__area__(ActionSetBookingInformation):
+
+  def name(self) -> Text:
+    return "set_booking_information__area__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('area', 'bkinfo_area')
+
+
 
 
 class set_booking_information__checkin_time__(ActionSetBookingInformation):
@@ -167,15 +177,18 @@ class bot_show_hotel_list(Action):
           duration=bkinfo_duration
         )
 
-    tpl = "hotel {}, price ${}"
-    snips = []
-    for room in rooms:
-      snips.append(tpl.format(room['hotel'], room['price']))
+    if len(rooms) == 0:
+      message = "There is no room satisfied your selection."
+    else:
+      tpl = "\n - hotel {}, {} room, price ${}"
+      snips = []
+      for room in rooms:
+        snips.append(tpl.format(room['hotel'], room['room_type'], room['price']))
 
-    snips = snips.join(', ')
-    message = f"These are available rooms: {snips}."
+      snips = ''.join(snips)
+      message = f"These are available rooms: {snips}."
 
-    dispatcher.utter(text=message)
+    dispatcher.utter_message(text=message)
 
     return []
 
