@@ -1,7 +1,7 @@
 import logging
 
-from hotel_data.constants import BED_SIZES
-from service import duckling_parse
+from .hotel_data.constants import BED_SIZES
+from .service import duckling_parse
 
 
 logger = logging.getLogger(__name__)
@@ -36,16 +36,16 @@ def process_date_value(expression):
 
     return None
 
-def process_date_value(expression):
+def process_room_type(expression):
   bed_sizes = BED_SIZES.values()
 
-  if expression is in bed_sizes:
+  if expression in bed_sizes:
     return expression
 
   return None
 
 mapping_table = {
-      'duration': process_duration_value
-      'date': process_date_value
-      'room_type': process_room_type
+      'duration': process_duration_value,
+      'date': process_date_value,
+      'room_type': process_room_type,
     }

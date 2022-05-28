@@ -1,22 +1,22 @@
 import os
 import logging
-from requests import posts
+import requests
 
 from tinydb import where
 import arrow
 
-from dbconnector import db
+from .dbconnector import db
 
 
 DUCKLING_BASE_URL = os.environ['RASA_DUCKLING_HTTP_URL']
 PARSING_URL = DUCKLING_BASE_URL + '/parse'
 
 def duckling_parse(expression, dim):
-"""
+  """
   r = post('http://duckling:8000/parse', data={"locale": "en_GB", "text": "3 days"})
   r.json()
   # [{'body': '3 days', 'start': 0, 'value': {'value': 3, 'day': 3, 'type': 'value', 'unit': 'day', 'normalized': {'value': 259200, 'unit': 'second'}}, 'end': 6, 'dim': 'duration', 'latent': False}]
-"""
+  """
   _expression = expression.replace('night', 'day')
   _expression = _expression.replace('nights', 'days')
   data = {
@@ -24,7 +24,7 @@ def duckling_parse(expression, dim):
         'text': _expression,
         'dims': [dim]
       }
-  r = posts(PARSING_URL, data=data)
+  r = requests.posts(PARSING_URL, data=data)
   r.raise_for_status()
 
   return r.json()[0]
@@ -52,7 +52,7 @@ def query_available_rooms(area, room_type, checkin_time, duration):
   available = []
   for room in rooms:
     for date in booked_dates:
-      if date not in room['occupied_dates']
+      if date not in room['occupied_dates']:
         available.append(room)
 
   return available
