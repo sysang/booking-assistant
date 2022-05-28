@@ -1,12 +1,15 @@
 import os
 import logging
-import requests
+from requests import post
 
-from tinydb import where
+from tinydb import Query
 import arrow
+from arrow import Arrow
 
 from .dbconnector import db
 
+
+logger = logging.getLogger(__name__)
 
 DUCKLING_BASE_URL = os.environ['RASA_DUCKLING_HTTP_URL']
 PARSING_URL = DUCKLING_BASE_URL + '/parse'
@@ -24,36 +27,59 @@ def duckling_parse(expression, dim):
         'text': _expression,
         'dims': [dim]
       }
-  r = requests.posts(PARSING_URL, data=data)
+  r = post(PARSING_URL, data=data)
   r.raise_for_status()
+
+  logger.info('[INFO] duckling_parse, expression: %s, dimention: %s, result: %s', expression, dim, r.text)
 
   return r.json()[0]
 
 
-def query_available_rooms(area, room_type, checkin_time, duration):
-  parsed_checkin_time = duckling_parse(expression=checkin_time, dim='time')
-  parsed_duration = duckling_parse(expression=duration, dim='duration')
+# def extract_date(time_obj: dict) -> str:
+#   """
+#     Because duckling returns inconsisten format due to dramatic variation of its input
+#     We need extra step to regularize the date value:
+#       1) Expression has absent year, say "May 21st", the value attribute is a dict instead of a str
+#   """
 
-  now = arrow.now()
-  checkin = arrow.get(parsed_checkin_time['value'])
-  if now.timestamp() > checkin.timestamp():
+#   # Handle 1)
+#   if isinstance(time_obj['value'], dict):
+#     return time_obj['value']['value']
+#   else:
+#     return time_obj['value']
+
+
+def query_available_rooms(area, room_type, checkin_time, duration):
+  logger.info('[INFO] querying parameter: (%s, %s, %s, %s)', area, room_type, checkin_time, duration)
+  DATE_FORMAT = 'YYYY-MM-DD'
+
+  parsed_checkin_time = duckling_parse(expression=checkin_time, dim='time')
+  parsed_checkin_time = parsed_checkin_time['value']['value']
+  parsed_duration = duckling_parse(expression=duration, dim='duration')
+  parsed_duration = parsed_duration['value']['value']
+
+  arrobj_now = arrow.now()
+  arrobj_checkin = arrow.get(parsed_checkin_time)
+  if arrobj_now.timestamp() > arrobj_checkin.timestamp():
     return []
 
-  DATE_FORMAT = 'YYYY-MM-DD'
-  checkin_time_cond = checkin.format(DATE_FORMAT)
-  checkout_time_cond = checkin_time_cond.shift(days=parsed_duration.value - 1)
+  arrobj_checkout = arrobj_checkin.shift(days=parsed_duration - 1)
+
   booked_dates = []
-  for r in arrow.Arrow.range('day', checkin_time_cond, checkin_time):
+  for r in arrow.Arrow.range('day', arrobj_checkin, arrobj_checkout):
     booked_dates.append(r.format(DATE_FORMAT))
+
+  logger.info('[INFO] booked_dates: %s', str(booked_dates))
 
   RoomQuery = Query()
   rooms = db.search((RoomQuery.area==area) & (RoomQuery.room_type==room_type))
 
+  logger.info('[INFO] Found %s room in %s', len(rooms), area)
+
   available = []
   for room in rooms:
-    for date in booked_dates:
-      if date not in room['occupied_dates']:
-        available.append(room)
+    if all([date not in room['occupied_dates'] for date in booked_dates]):
+      available.append(room)
 
   return available
 
