@@ -39,8 +39,8 @@ from rasa_sdk.events import (
     EventType,
 )
 
-from entity_preprocessing_rules import mapping_table
-from service import duckling_parse, query_available_rooms
+from .entity_preprocessing_rules import mapping_table
+from .service import duckling_parse, query_available_rooms
 
 logger = logging.getLogger(__name__)
 
