@@ -2,6 +2,7 @@ from .constants import BED_SIZES
 
 hawaii =[
       {
+        "id": 1,
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
@@ -15,6 +16,7 @@ hawaii =[
           ]
       },
       {
+        "id": 2,
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
@@ -58,6 +60,7 @@ hawaii =[
           ]
       },
       {
+        "id": 3,
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
@@ -68,6 +71,7 @@ hawaii =[
           ]
       },
       {
+        "id": 4,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
@@ -89,6 +93,7 @@ hawaii =[
           ]
       },
       {
+        "id": 5,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
@@ -121,10 +126,11 @@ hawaii =[
           ]
       },
       {
+        "id": 6,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # Hawaii County, Hawaii, US
-        "room_type": BED_SIZES["double"],
+        "room_type": BED_SIZES["king-size"],
         "price": "700",
         "occupied_dates": [
             "2022-07-28",

@@ -14,7 +14,7 @@ def process_duration_value(expression):
   parsed_value_unit = parsed['value']['unit']
 
   if parsed_dim == dim and parsed_value_unit == unit:
-    return parsed
+    return parsed['value']['value']
 
   logger.info(f"[INFO] expression %s is invalid. More details: in respect to dimension %s", expression, dim)
   logger.info(f"[INFO] (duckling) parsed: %s", str(parsed))
@@ -28,7 +28,7 @@ def process_date_value(expression):
   parsed_dim = parsed['dim']
 
   if parsed_dim == dim:
-    return parsed
+    return parsed['value']['value']
 
   logger.info(f"[INFO] expression %s is invalid. More details: in respect to dimension %s", expression, dim)
   logger.info(f"[INFO] (duckling) parsed: %s", str(parsed))
@@ -36,12 +36,12 @@ def process_date_value(expression):
   return None
 
 def process_room_type(expression):
-  bed_sizes = BED_SIZES.values()
+  bed_sizes = BED_SIZES.keys()
 
   if expression in bed_sizes:
-    return expression
+    return BED_SIZES[expression]
 
-  logger.info(f"[INFO] expression %s is invalid. The valid values: %s", expression, str(BED_SIZES))
+  logger.info(f"[INFO] expression %s is invalid. The valid values: %s", expression, str(bed_sizes))
 
   return None
 
