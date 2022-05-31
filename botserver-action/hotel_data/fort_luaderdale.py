@@ -2,6 +2,7 @@ from .constants import BED_SIZES
 
 fort_luaderdale =[
       {
+        "id": 7,
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -28,6 +29,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 8,
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -57,6 +59,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 9,
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -78,6 +81,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 10,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -99,6 +103,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 11,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -131,6 +136,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 12,
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
@@ -143,6 +149,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 13,
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US
@@ -156,6 +163,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 14,
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US
@@ -199,6 +207,7 @@ fort_luaderdale =[
           ]
       },
       {
+        "id": 15,
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US

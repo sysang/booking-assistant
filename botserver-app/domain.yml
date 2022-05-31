@@ -11,9 +11,11 @@ intents:
   - express_date
   - express_length_of_time
   - express_room_type
+  - user_click_to_select_hotel
 
 entities:
   - hotel
+  - hotel_id
   - city
   - area
   - date
@@ -21,8 +23,8 @@ entities:
   - room_type
 
 slots:
-  bkinfo_hotel:
-    type: text
+  bkinfo_hotel_id:
+    type: float
     influence_conversation: true
   bkinfo_area:
     type: text
@@ -31,7 +33,7 @@ slots:
     type: text
     influence_conversation: true
   bkinfo_duration:
-    type: text
+    type: float  # unit: day
     influence_conversation: true
   bkinfo_room_type:
     type: text
@@ -43,16 +45,22 @@ slots:
       - init
       - information_collecting
       - done_collecting_information
+      - hotel_selected
 
 responses:
   utter_asking_checkin_time:
     - text: "When will you need the accommodations?"
+    - text: "what is the exact date of your arrival?"
   utter_asking_staying_duration:
     - text: "How long will you be staying?"
   utter_asking_room_type:
-    - text: "Do you want a king or a double?"
-  utter_to_show_hotel_list:
-    - text: "Here is the list of available hotel."
+    - text: "Which room type would you like?"
+  utter_about_to_show_hotel_list:
+    - text: "We found these rooms for you: "
+  utter_room_not_available:
+    - text: "There is no room matching your options."
+  utter_room_selection:
+    - text: "To summarize, you're going to book {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
 
 actions:
   - set_booking_state__information_collecting__
@@ -61,5 +69,7 @@ actions:
   - set_booking_information__checkin_time__
   - set_booking_information__duration__
   - set_booking_information__room_type__
+  - set_booking_information__hotel_id__
   - bot_show_hotel_list
+  - confirm_room_selection
 

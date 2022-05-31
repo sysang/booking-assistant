@@ -46,3 +46,14 @@ policies:
     epochs: 100
     constrain_similarities: true
     batch_size: [32, 64]
+    transformer_size:
+      text: 256
+      action_text: 256
+      label_action_text: 256
+      dialogue: 256
+    number_of_transformer_layers:
+      text: 2
+      action_text: 2
+      label_action_text: 2
+      dialogue: 2
+

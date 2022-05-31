@@ -6,8 +6,12 @@ nlu:
     - [may 1st](date)
     - [jan 15th](date)
     - [the 24th](date)
+    - [september 1st](date)
+    - [sep 30th](date)
+    - [dec 15th](date)
 - intent: express_length_of_time
   examples: |
     - [2 days](duration)
     - [3 nights](duration)
+    - [2 weeks](duration)
     - I’ll be staying for [two nights](duration)

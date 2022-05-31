@@ -50,20 +50,17 @@ def duckling_parse(expression, dim):
 
 
 def query_available_rooms(area, room_type, checkin_time, duration):
-  logger.info('[INFO] querying parameter: (%s, %s, %s, %s)', area, room_type, checkin_time, duration)
+  logger.info('[INFO] querying parameters(area, room_type, checkin_time, duration): (%s, %s, %s, %s)', area, room_type, checkin_time, duration)
   DATE_FORMAT = 'YYYY-MM-DD'
 
-  parsed_checkin_time = duckling_parse(expression=checkin_time, dim='time')
-  parsed_checkin_time = parsed_checkin_time['value']['value']
-  parsed_duration = duckling_parse(expression=duration, dim='duration')
-  parsed_duration = parsed_duration['value']['value']
+  duration = duration - 1  # Compensate when count checkin date
 
   arrobj_now = arrow.now()
-  arrobj_checkin = arrow.get(parsed_checkin_time)
+  arrobj_checkin = arrow.get(checkin_time)
   if arrobj_now.timestamp() > arrobj_checkin.timestamp():
     return []
 
-  arrobj_checkout = arrobj_checkin.shift(days=parsed_duration - 1)
+  arrobj_checkout = arrobj_checkin.shift(days=duration - 1)
 
   booked_dates = []
   for r in arrow.Arrow.range('day', arrobj_checkin, arrobj_checkout):
@@ -83,3 +80,14 @@ def query_available_rooms(area, room_type, checkin_time, duration):
 
   return available
 
+
+def query_room_by_id(id):
+  logger.info('[INFO] query_room_by_id: %d', id)
+
+  RoomQuery = Query()
+  room = db.search(RoomQuery.id==id)
+
+  if len(room) == 0:
+    raise Exeption("Query error: room not found.")
+  else:
+    return room[0]

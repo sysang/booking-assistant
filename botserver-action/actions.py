@@ -27,8 +27,10 @@
 #         return []
 
 import logging
-
+import json
 from typing import Any, Dict, List, Text, Optional, Tuple
+
+import arrow
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -40,7 +42,7 @@ from rasa_sdk.events import (
 )
 
 from .entity_preprocessing_rules import mapping_table
-from .service import duckling_parse, query_available_rooms
+from .service import duckling_parse, query_available_rooms, query_room_by_id
 
 logger = logging.getLogger(__name__)
 
@@ -103,8 +105,9 @@ class ActionSetBookingInformation(Action):
     entity_value = self.retrieve_entity_value(tracker, entity_name)
     logger.info(f"[INFO] retrieve_entity_value, entity_value: %s", str(entity_value))
 
-    if self.verify_entity(entity_name=entity_name, entity_value=entity_value):
-      return [SlotSet(slot_name, entity_value)]
+    valid_entity_value = self.verify_entity(entity_name=entity_name, entity_value=entity_value)
+    if valid_entity_value:
+      return [SlotSet(slot_name, valid_entity_value)]
 
     return []
 
@@ -146,6 +149,15 @@ class set_booking_information__duration__(ActionSetBookingInformation):
     return ('duration', 'bkinfo_duration')
 
 
+class set_booking_information__hotel_id__(ActionSetBookingInformation):
+
+  def name(self) -> Text:
+    return "set_booking_information__hotel_id__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('hotel_id', 'bkinfo_hotel_id')
+
+
 class set_booking_information__room_type__(ActionSetBookingInformation):
 
   def name(self) -> Text:
@@ -164,6 +176,7 @@ class bot_show_hotel_list(Action):
           tracker: Tracker,
           domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+    # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
     slots = tracker.slots
     bkinfo_area = slots['bkinfo_area']
     bkinfo_room_type = slots['bkinfo_room_type']
@@ -178,18 +191,49 @@ class bot_show_hotel_list(Action):
         )
 
     if len(rooms) == 0:
-      message = "There is no room satisfied your selection."
+      dispatcher.utter_message(response="utter_room_not_available")
     else:
-      tpl = "\n - hotel {}, {} room, price ${}"
-      snips = []
+
+      buttons = []
       for room in rooms:
-        snips.append(tpl.format(room['hotel'], room['room_type'], room['price']))
+        params = {
+              'hotel_id': room['id']
+            }
+        params = json.dumps(params)
 
-      snips = ''.join(snips)
-      message = f"These are available rooms: {snips}."
+        buttons.append(
+            {
+              "title": "%s, price: $%s" % (room["hotel"], room['price']),
+              "payload": "/user_click_to_select_hotel%s" % (params)  # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
+            })
 
-    dispatcher.utter_message(text=message)
+      logger.info("[INFO] buttons: %s", buttons)
+      dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
 
     return []
 
+class confirm_room_selection(Action):
 
+  def name(self) -> Text:
+    return "confirm_room_selection"
+
+  def run(self, dispatcher: CollectingDispatcher,
+          tracker: Tracker,
+          domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    slots = tracker.slots
+
+    # TODO: check slot's id, if id is absent restart the process (safe fallback)
+    room = query_room_by_id(slots['bkinfo_hotel_id'])
+    hotel_name = room['hotel']
+
+    checkin_time = arrow.get(slots['bkinfo_checkin_time']).format('MMMM DD YYYY')
+    duration = slots['bkinfo_duration']
+    duration = str(duration) + ' days' if duration > 1 else str(duration) + ' day'
+
+    dispatcher.utter_message(response = "utter_room_selection",
+          room_type=slots['bkinfo_room_type'],
+          checkin_time=checkin_time,
+          duration=duration,
+          hotel_name=hotel_name,
+        )
