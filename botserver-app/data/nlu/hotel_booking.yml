@@ -2,19 +2,47 @@ version: "2.0"
 nlu:
 - intent: request_listing_hotel_by_area
   examples: |
-    - i need to book a hotel for a business surf trip to [hawaii](area).
-    - i need to book a hotel for a business surf trip to [fort lauderdale beach](area).
-    - i need to book a hotel for a business surf trip to [los angelesjk](area).
+    - i need to book a hotel for a business surf trip to [hawaii](area)
+    - i need to book a hotel for a business surf trip to [fort lauderdale beach](area)
+    - i need to book a hotel for a business surf trip to [los angelesjk](area)
+    - can you find me an  place to stay that is located in [fort lauderdale beach](area)
+    - i'm looking for a hotel in [florida](area)
+    - hi! can you help me find a hotel somewhere on [hawaii](area) please
+    - can you tell us if there is a hotel in [san diego](area)
+    - i am looking for an average priced place [san diago](area). thankyou.
+    - i'm looking for a hotel to stay in during my visit to [florida](area)
+- intent: express_checkin_time
+  examples: |
+    - book it from [sunday](date)
+    - i need it on [saturday](date)
+    - i need it on [october 10th](date)
+    - i need it booked on [january 23th](date)
+    - i need it starting from [June 10th](date)
+    - my stay will start on tuesday
+    - we will be arriving on [monday](date)
+    - i would like to book a room for [friday](date)
 - intent: express_room_type
   examples: |
-    - I’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
-    - I want a [single](room_type) room
-    - I want a [double](room_type) one
+    - i’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
+    - i want a [single](room_type) room
+    - i want a [double](room_type) one
     - a [king size](room_type) room
     - i want a room with [queen-size](room_type) bed
     - i want a room with [king-size](room_type) bed
     - i want a room with [king size](room_type) bed
     - a [twin](room_type) room
+- intent: express_room_reservation_duration
+  examples: |
+    - i’ll be staying for [one night](duration)
+    - i’ll be staying for [two nights](duration)
+    - i’ll be staying for [3 days](duration)
+    - book it for [2 nights](duration)
+    - book it for [four nights](duration)
+    - book it for [five days](duration)
+    - i will be there for [three nights](duration)
+    - I will need a room for [2 nights](duration)
+    - can i book that for [three nights](duration)
+    - i would like to book a room for [four nights](duration)
 # - intent: request_sorting_hotel_by_price
 # - intent: request_sorting_hotel_by_rating
 # - intent: decide_hotel_to_book

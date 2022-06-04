@@ -48,9 +48,15 @@ slots:
       - hotel_selected
 
 responses:
+  utter_asking_area:
+    - text: "What area would you like to stay in?"
+    - text: "What area are you interested in?"
+  utter_asking_alternative_area:
+    - text: "Would you like for me to look in another area?"
   utter_asking_checkin_time:
     - text: "When will you need the accommodations?"
     - text: "what is the exact date of your arrival?"
+    - text: "what day would you like to stay on?"
   utter_asking_staying_duration:
     - text: "How long will you be staying?"
   utter_asking_room_type:
@@ -58,9 +64,11 @@ responses:
   utter_about_to_show_hotel_list:
     - text: "We found these rooms for you: "
   utter_room_not_available:
-    - text: "There is no room matching your options."
+    - text: "I'm not finding anything matching your query."
+    - text: "I'm sorry but we have no hotels meeting your criteria."
+    - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
   utter_room_selection:
-    - text: "To summarize, you're going to book {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
+    - text: "I will book you a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
 
 actions:
   - set_booking_state__information_collecting__
