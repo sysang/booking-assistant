@@ -11,7 +11,9 @@ nlu:
     - [dec 15th](date)
 - intent: express_length_of_time
   examples: |
+    - [one days](duration)
     - [2 days](duration)
+    - [three days](duration)
+    - [five days](duration)
     - [3 nights](duration)
     - [2 weeks](duration)
-    - I’ll be staying for [two nights](duration)
