@@ -14,16 +14,24 @@ stories:
   - slot_was_set:
     - bkinfo_area: hawaii
   - action: utter_asking_checkin_time
-  - intent: express_date
-    entities:
-    - date: july 8th
+  - or:
+    - intent: express_date
+      entities:
+      - date: july 8th
+    - intent: express_checkin_time
+      entities:
+      - date: july 8th
   - action: set_booking_information__checkin_time__
   - slot_was_set:
     - bkinfo_checkin_time: july 8th
   - action: utter_asking_staying_duration
-  - intent: express_length_of_time
-    entities:
-    - duration: 2
+  - or:
+    - intent: express_length_of_time
+      entities:
+      - duration: 2
+    - intent: express_room_reservation_duration
+      entities:
+      - duration: 2
   - action: set_booking_information__duration__
   - slot_was_set:
     - bkinfo_duration: 2
