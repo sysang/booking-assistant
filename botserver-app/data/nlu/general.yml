@@ -32,7 +32,6 @@ nlu:
   examples: |
     - need help on chatbot
     - I have a question
-    - I have a question about [Rasa NLU](product)
     - I have a question about the functioning of the device
     - I have a question for you
     - I have a question.

@@ -15,7 +15,7 @@ intents:
 
 entities:
   - hotel
-  - hotel_id
+  - room_id
   - city
   - area
   - date
@@ -23,7 +23,7 @@ entities:
   - room_type
 
 slots:
-  bkinfo_hotel_id:
+  bkinfo_room_id:
     type: float
     influence_conversation: true
   bkinfo_area:
@@ -77,7 +77,7 @@ actions:
   - set_booking_information__checkin_time__
   - set_booking_information__duration__
   - set_booking_information__room_type__
-  - set_booking_information__hotel_id__
+  - set_booking_information__room_id__
   - bot_show_hotel_list
   - confirm_room_selection
 

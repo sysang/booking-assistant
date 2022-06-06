@@ -149,13 +149,13 @@ class set_booking_information__duration__(ActionSetBookingInformation):
     return ('duration', 'bkinfo_duration')
 
 
-class set_booking_information__hotel_id__(ActionSetBookingInformation):
+class set_booking_information__room_id__(ActionSetBookingInformation):
 
   def name(self) -> Text:
-    return "set_booking_information__hotel_id__"
+    return "set_booking_information__room_id__"
 
   def slot_entity(self) -> Tuple[str, str]:
-    return ('hotel_id', 'bkinfo_hotel_id')
+    return ('room_id', 'bkinfo_room_id')
 
 
 class set_booking_information__room_type__(ActionSetBookingInformation):
@@ -197,7 +197,7 @@ class bot_show_hotel_list(Action):
       buttons = []
       for room in rooms:
         params = {
-              'hotel_id': room['id']
+              'room_id': room['id']
             }
         params = json.dumps(params)
 
@@ -224,7 +224,7 @@ class confirm_room_selection(Action):
     slots = tracker.slots
 
     # TODO: check slot's id, if id is absent restart the process (safe fallback)
-    room = query_room_by_id(slots['bkinfo_hotel_id'])
+    room = query_room_by_id(slots['bkinfo_room_id'])
     hotel_name = room['hotel']
 
     checkin_time = arrow.get(slots['bkinfo_checkin_time']).format('MMMM DD YYYY')
