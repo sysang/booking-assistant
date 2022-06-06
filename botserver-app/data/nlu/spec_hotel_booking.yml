@@ -40,13 +40,15 @@ nlu:
     - book it for [four nights](duration)
     - book it for [five days](duration)
     - i will be there for [three nights](duration)
-    - I will need a room for [2 nights](duration)
+    - i will need a room for [2 nights](duration)
     - can i book that for [three nights](duration)
     - i would like to book a room for [four nights](duration)
-# - intent: request_sorting_hotel_by_price
-# - intent: request_sorting_hotel_by_rating
-# - intent: decide_hotel_to_book
-# - intent: express_time
-# - intent: express_name
-# - intent: inform_name
-# - intent: ask_price
+- intent: express_checkin_time+express_room_reservation_duration
+  examples: |
+    - i want to book a room for [three nights](duration) starting from [sunday](date)
+    - book it for [2 nights](date) from [friday](date)
+    - book it for [4 nights](date) in [july 19th](date)
+    - our stay will start on [tuesday](date) for [4 nights](duration)
+    - i need it on [saturday](date), [3 nights](duration) stay
+    - we will be staying on [monday](time) and staying [5 nights](duration)
+    - i would like to book a room for [friday](date) for [four nights](duration)

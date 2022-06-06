@@ -47,3 +47,46 @@ stories:
     - bkinfo_room_id: 4
   - action: confirm_room_selection
 
+- story: main thread 02
+  steps:
+  - intent: request_listing_hotel_by_area
+    entities:
+    - area: hawaii
+  - action: set_booking_state__information_collecting__
+  - slot_was_set:
+    - booking_state: information_collecting
+  - action: set_booking_information__area__
+  - slot_was_set:
+    - bkinfo_area: hawaii
+  - action: utter_asking_checkin_time
+  - intent: express_checkin_time
+    entities:
+    - date: saturday
+  - action: set_booking_information__checkin_time__
+  - slot_was_set:
+    - bkinfo_checkin_time: '2022-06-11T00:00:00.000-07:00'
+  - action: utter_asking_staying_duration
+  - intent: express_length_of_time
+    entities:
+    - duration: 5 days
+  - action: set_booking_information__duration__
+  - slot_was_set:
+    - bkinfo_duration: 5
+  - action: utter_asking_room_type
+  - intent: express_room_type
+    entities:
+    - room_type: single
+  - action: set_booking_information__room_type__
+  - slot_was_set:
+    - bkinfo_room_type: single
+  - action: set_booking_state__done_collecting_information__
+  - slot_was_set:
+    - booking_state: done_collecting_information
+  - action: bot_show_hotel_list
+  - intent: user_click_to_select_hotel
+    entities:
+    - room_id: 1
+  - action: set_booking_information__room_id__
+  - slot_was_set:
+    - bkinfo_room_id: 1
+  - action: confirm_room_selection

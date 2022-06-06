@@ -8,10 +8,12 @@ session_config:
 
 intents:
   - request_listing_hotel_by_area
+  - express_checkin_time
+  - express_room_reservation_duration
+  - user_click_to_select_hotel
   - express_date
   - express_length_of_time
   - express_room_type
-  - user_click_to_select_hotel
 
 entities:
   - hotel
