@@ -10,6 +10,7 @@ intents:
   - request_listing_hotel_by_area
   - express_checkin_time
   - express_room_reservation_duration
+  - express_checkin_time+express_room_reservation_duration
   - user_click_to_select_hotel
   - express_date
   - express_length_of_time
@@ -47,7 +48,13 @@ slots:
       - init
       - information_collecting
       - done_collecting_information
-      - hotel_selected
+      - room_selected
+  booking_failure:
+    type: categorical
+    initial_value: negative
+    values:
+      - negative
+      - missing_booking_info
 
 responses:
   utter_asking_area:
@@ -75,6 +82,7 @@ responses:
 actions:
   - set_booking_state__information_collecting__
   - set_booking_state__done_collecting_information__
+  - set_booking_state__room_selected__
   - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__

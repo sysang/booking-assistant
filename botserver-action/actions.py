@@ -71,6 +71,18 @@ class set_booking_state__done_collecting_information__(Action):
     return [SlotSet("booking_state", "done_collecting_information")]
 
 
+class set_booking_state__room_selected__(Action):
+
+  def name(self) -> Text:
+    return "set_booking_state__room_selected__"
+
+  def run(self, dispatcher: CollectingDispatcher,
+          tracker: Tracker,
+          domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    return [SlotSet("booking_state", "room_selected")]
+
+
 class ActionSetBookingInformation(Action):
 
   def verify_entity(self, entity_name, entity_value):
@@ -176,8 +188,15 @@ class bot_show_hotel_list(Action):
           tracker: Tracker,
           domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
     slots = tracker.slots
+    booking_state__done_collecting_information__ = 'done_collecting_information'
+    booking_failure__missing_booking_info__ = 'missing_booking_info'
+
+    booking_state = slots['booking_state']
+    if booking_state != booking_state__done_collecting_information__:
+      return [SlotSet('booking_failure', booking_failure__missing_booking_info__)]
+
+    # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
     bkinfo_area = slots['bkinfo_area']
     bkinfo_room_type = slots['bkinfo_room_type']
     bkinfo_checkin_time = slots['bkinfo_checkin_time']
@@ -227,7 +246,7 @@ class confirm_room_selection(Action):
     room = query_room_by_id(slots['bkinfo_room_id'])
     hotel_name = room['hotel']
 
-    checkin_time = arrow.get(slots['bkinfo_checkin_time']).format('MMMM DD YYYY')
+    checkin_time = arrow.get(slots['bkinfo_checkin_time']).format('MMMM Do YYYY')
     duration = slots['bkinfo_duration']
     duration = str(duration) + ' days' if duration > 1 else str(duration) + ' day'
 
