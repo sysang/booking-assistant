@@ -50,5 +50,5 @@ nlu:
     - book it for [4 nights](date) in [july 19th](date)
     - our stay will start on [tuesday](date) for [4 nights](duration)
     - i need it on [saturday](date), [3 nights](duration) stay
-    - we will be staying on [monday](time) and staying [5 nights](duration)
+    - we will be staying on [monday](date) and staying [5 nights](duration)
     - i would like to book a room for [friday](date) for [four nights](duration)

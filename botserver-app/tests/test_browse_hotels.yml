@@ -3,7 +3,7 @@
 
 version: "2.0"
 stories:
-- story: main thread 01
+- story: main thread 01, 1st intent
   steps:
   - intent: request_listing_hotel_by_area
     entities:
@@ -47,7 +47,7 @@ stories:
     - bkinfo_room_id: 4
   - action: confirm_room_selection
 
-- story: main thread 02
+- story: main thread 01, 2nd intent
   steps:
   - intent: request_listing_hotel_by_area
     entities:
