@@ -4,13 +4,11 @@ __pycache__/
 .cache/
 .rasa/
 
-mounts/db/
-db/
+mounts/
 
 botserver-app/auth/
-botserver-app/logs/
 botserver-app/git/
+botserver-app/logs/
 botserver-app/models/
-certs/
 
 .env
