@@ -170,7 +170,7 @@ services:
       POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
       POSTGRESQL_DATABASE: "${DB_DATABASE:-rasa}"
     volumes:
-      - ./db:/bitnami/postgresql
+      - ./mounts/db:/bitnami/postgresql
 
   rabbit:
     restart: on-failure:5

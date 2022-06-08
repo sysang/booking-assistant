@@ -1,16 +1,16 @@
 .DS_Store
 ._.DS_Store
 __pycache__/
-
+.cache/
 .rasa/
+
+mounts/db/
+db/
+
 botserver-app/auth/
 botserver-app/logs/
 botserver-app/git/
 botserver-app/models/
 certs/
-db/
-db/data
-.cache/
 
 .env
-.rasa/
