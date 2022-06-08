@@ -1,6 +1,6 @@
 ARG RASA_IMAGE
 
-FROM rasa/rasa:2.8.25
+FROM ${RASA_IMAGE}
 
 # Use subdirectory as working directory
 WORKDIR /app

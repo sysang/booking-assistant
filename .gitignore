@@ -9,6 +9,7 @@ botserver-app/git/
 botserver-app/models/
 certs/
 db/
+db/data
 .cache/
 
 .env
