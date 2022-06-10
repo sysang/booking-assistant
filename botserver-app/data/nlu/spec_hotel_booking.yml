@@ -1,4 +1,5 @@
 version: "2.0"
+
 nlu:
 - intent: request_listing_hotel_by_area
   examples: |
@@ -11,7 +12,7 @@ nlu:
     - can you tell us if there is a hotel in [san diego](area)
     - i am looking for an average priced place [san diago](area). thankyou.
     - i'm looking for a hotel to stay in during my visit to [florida](area)
-- intent: express_checkin_time
+- intent: request_checkin_time
   examples: |
     - book it from [sunday](date)
     - i need it on [saturday](date)
@@ -21,7 +22,7 @@ nlu:
     - my stay will start on tuesday
     - we will be arriving on [monday](date)
     - i would like to book a room for [friday](date)
-- intent: express_room_type
+- intent: request_room_type
   examples: |
     - i’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
     - i want a [single](room_type) room
@@ -31,7 +32,7 @@ nlu:
     - i want a room with [king-size](room_type) bed
     - i want a room with [king size](room_type) bed
     - a [twin](room_type) room
-- intent: express_room_reservation_duration
+- intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)
     - i’ll be staying for [two nights](duration)
@@ -43,7 +44,7 @@ nlu:
     - i will need a room for [2 nights](duration)
     - can i book that for [three nights](duration)
     - i would like to book a room for [four nights](duration)
-- intent: express_checkin_time+express_room_reservation_duration
+- intent: request_checkin_time+request_room_reservation_duration
   examples: |
     - i want to book a room for [three nights](duration) starting from [sunday](date)
     - book it for [2 nights](date) from [friday](date)

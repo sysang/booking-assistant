@@ -1,0 +1,29 @@
+version: "2.0"
+
+stories:
+- story: set botmemo_booking_progress to done_information_collecting, then show room list
+  steps:
+  - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
+    - botmind_state: attentive
+    - bkinfo_area_empty_flag: null
+    - bkinfo_checkin_time_empty_flag: null
+    - bkinfo_duration_empty_flag: null
+    - bkinfo_room_type_empty_flag: null
+    - bkinfo_room_id_empty_flag: true
+  - or:
+    - intent: request_checkin_time
+    - intent: request_room_reservation_duration
+    - intent: request_room_type
+    - intent: express_area
+    - intent: express_date
+    - intent: express_length_of_time
+  - action: botacts_show_room_list
+  - intent: user_click_to_select_hotel
+  - action: set_booking_information__room_id__
+  - slot_was_set:
+    - bkinfo_room_id_empty_flag: null
+  - action: set_botmemo_booking_progress__room_selected__
+  - slot_was_set:
+    - botmemo_booking_progress: room_selected
+  - action: botacts_confirm_room_selection

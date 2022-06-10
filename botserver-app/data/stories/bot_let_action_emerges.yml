@@ -1,0 +1,20 @@
+version: "2.0"
+
+stories:
+- story: bot switches to thinking, bot lets action emerges
+  steps:
+  - or:
+    - intent: request_checkin_time
+    - intent: request_room_reservation_duration
+    - intent: request_room_type
+    - intent: express_area
+    - intent: express_date
+    - intent: express_length_of_time
+  - slot_was_set:
+    - botmind_state: transitioning
+  - action: bot_switchto_thinking
+  - slot_was_set:
+    - botmind_state: thinking
+  - action: bot_let_action_emerges
+  # action_listen is predicted here but the force has been partly neutralized
+  # by botmind_state -> thinking because after this action botmind_state -> attentive

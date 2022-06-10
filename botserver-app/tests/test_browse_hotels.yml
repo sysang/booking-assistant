@@ -59,7 +59,7 @@ stories:
   - slot_was_set:
     - bkinfo_area: hawaii
   - action: utter_asking_checkin_time
-  - intent: express_checkin_time
+  - intent: request_checkin_time
     entities:
     - date: saturday
   - action: set_booking_information__checkin_time__

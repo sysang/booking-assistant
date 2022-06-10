@@ -17,3 +17,15 @@ nlu:
     - [five days](duration)
     - [3 nights](duration)
     - [2 weeks](duration)
+- intent: express_area
+  examples: |
+    - [hawaii](area)
+    - it is [hawaii](area)
+    - [Maren Fort Lauderdale Beach](area)
+    - it's [Maren Fort Lauderdale Beach](area)
+    - [broward county](area)
+    - [broward county](area), florida
+    - it's [broward county](area)
+    - [florida](area)
+    - it is [florida](area)
+    - it's [florida](area)

@@ -7,14 +7,17 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
-  - request_listing_hotel_by_area
-  - express_checkin_time
-  - express_room_reservation_duration
-  - express_checkin_time+express_room_reservation_duration
+  - pseudo_user_intent_to_wait
   - user_click_to_select_hotel
+  - request_listing_hotel_by_area
+  - request_checkin_time
+  - request_room_reservation_duration
+  - request_room_type
+  - request_checkin_time+request_room_reservation_duration
   - express_date
   - express_length_of_time
-  - express_room_type
+  - express_area
+  - greet
 
 entities:
   - hotel
@@ -26,37 +29,73 @@ entities:
   - room_type
 
 slots:
-  bkinfo_room_id:
-    type: float
-    influence_conversation: true
-  bkinfo_area:
-    type: text
-    influence_conversation: true
-  bkinfo_checkin_time:
-    type: text
-    influence_conversation: true
-  bkinfo_duration:
-    type: float  # unit: day
-    influence_conversation: true
-  bkinfo_room_type:
-    type: text
-    influence_conversation: true
-  booking_state:
+  botmind_state:
     type: categorical
+    influence_conversation: true
+    initial_value: attentive
+    values:
+      - transitioning
+      - thinking
+      - attentive
+  botmemo_booking_progress:
+    type: categorical
+    influence_conversation: true
     initial_value: init
     values:
       - init
       - information_collecting
-      - done_collecting_information
+      - done_information_collecting
       - room_selected
-  booking_failure:
+  botmemo_booking_failure:
     type: categorical
+    influence_conversation: true
     initial_value: negative
     values:
       - negative
       - missing_booking_info
+  bkinfo_room_id:
+    type: float
+    influence_conversation: false
+  bkinfo_room_id_empty_flag:
+    type: bool
+    influence_conversation: true
+    initial_value: true
+  bkinfo_area:
+    type: text
+    influence_conversation: false
+  bkinfo_area_empty_flag:
+    type: bool
+    influence_conversation: true
+    initial_value: true
+  bkinfo_checkin_time:
+    type: text
+    influence_conversation: false
+  bkinfo_checkin_time_empty_flag:
+    type: bool
+    influence_conversation: true
+    initial_value: true
+  bkinfo_duration:
+    type: float  # unit: day
+    influence_conversation: false
+  bkinfo_duration_empty_flag:
+    type: bool
+    influence_conversation: true
+    initial_value: true
+  bkinfo_room_type:
+    type: text
+    influence_conversation: false
+  bkinfo_room_type_empty_flag:
+    type: bool
+    influence_conversation: true
+    initial_value: true
 
 responses:
+  utter_action_fallback:
+    - text: "I'm sorry, I can't help you."
+  utter_out_of_scope:
+    - text: "Sorry, I can't handle that request."
+  utter_please_rephrase:
+    - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
   utter_asking_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"
@@ -78,16 +117,23 @@ responses:
     - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
   utter_room_selection:
     - text: "I will book you a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
+  utter_greet:
+    - text: "Hi! Greeting by rule policy."
 
 actions:
-  - set_booking_state__information_collecting__
-  - set_booking_state__done_collecting_information__
-  - set_booking_state__room_selected__
+  - custom_action_fallback
+  - set_botmemo_booking_progress__information_collecting__
+  - set_botmemo_booking_progress__room_selected__
   - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__
   - set_booking_information__room_type__
   - set_booking_information__room_id__
-  - bot_show_hotel_list
-  - confirm_room_selection
+  - botacts_show_room_list
+  - botacts_confirm_room_selection
+  - bot_relieves_imposition_to_think
+  - bot_switchto_thinking
+  - bot_transitioning
+  - bot_let_action_emerges
+  - bot_output_decision
 
