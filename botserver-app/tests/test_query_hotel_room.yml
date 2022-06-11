@@ -1,0 +1,65 @@
+#### This file contains tests to evaluate that your bot behaves as expected.
+#### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
+
+version: "2.0"
+stories:
+- story: collect booking information, no. 01
+  steps:
+  - intent: request_listing_hotel_by_area
+    user: |-
+      i need to book a hotel for a business surf trip to [hawaii](area)
+  - action: set_booking_information__area__
+  - slot_was_set:
+    - bkinfo_area: hawaii
+  - slot_was_set:
+    - bkinfo_area_flag: present
+  - slot_was_set:
+    - botmemo_booking_progress: information_collecting
+  - action: utter_asking_checkin_time
+  - intent: express_date
+    user: |-
+      [september 5th](date)
+  - action: set_booking_information__checkin_time__
+  - slot_was_set:
+    - bkinfo_checkin_time: '2022-09-05T00:00:00.000-07:00'
+  - slot_was_set:
+    - bkinfo_checkin_time_flag: present
+  - slot_was_set:
+    - botmemo_booking_progress: information_collecting
+  - action: utter_asking_staying_duration
+  - intent: express_length_of_time
+    user: |-
+      [5 days](duration)
+  - action: set_booking_information__duration__
+  - slot_was_set:
+    - bkinfo_duration: 5
+  - slot_was_set:
+    - bkinfo_duration_flag: present
+  - slot_was_set:
+    - botmemo_booking_progress: information_collecting
+  - action: utter_asking_room_type
+  - intent: request_room_type
+    user: |-
+      I want a [single](room_type) room
+  - action: set_booking_information__room_type__
+  - slot_was_set:
+    - bkinfo_room_type: single
+  - slot_was_set:
+    - bkinfo_room_type_flag: present
+  - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
+  - action: botacts_show_room_list
+  - intent: user_click_to_select_hotel
+    user: |-
+      /user_click_to_select_hotel{"room_id": 1}
+  - action: set_booking_information__room_id__
+  - slot_was_set:
+    - bkinfo_room_id: 1
+  - slot_was_set:
+    - bkinfo_room_id_flag: present
+  - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
+  - action: set_botmemo_booking_progress__room_selected__
+  - slot_was_set:
+    - botmemo_booking_progress: room_selected
+  - action: botacts_confirm_room_selection

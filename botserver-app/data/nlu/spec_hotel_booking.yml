@@ -4,13 +4,13 @@ nlu:
 - intent: request_listing_hotel_by_area
   examples: |
     - i need to book a hotel for a business surf trip to [hawaii](area)
-    - i need to book a hotel for a business surf trip to [fort lauderdale beach](area)
-    - i need to book a hotel for a business surf trip to [los angelesjk](area)
-    - can you find me an  place to stay that is located in [fort lauderdale beach](area)
+    - i need to book a hotel for a trip to [fort lauderdale beach](area)
+    - i need to book a hotel for a trip to [los angelesjk](area)
+    - can you find me an place to stay that is located in [fort lauderdale beach](area)
     - i'm looking for a hotel in [florida](area)
     - hi! can you help me find a hotel somewhere on [hawaii](area) please
     - can you tell us if there is a hotel in [san diego](area)
-    - i am looking for an average priced place [san diago](area). thankyou.
+    - i am looking for an average priced place in [san diago](area). thankyou.
     - i'm looking for a hotel to stay in during my visit to [florida](area)
 - intent: request_checkin_time
   examples: |
@@ -18,8 +18,8 @@ nlu:
     - i need it on [saturday](date)
     - i need it on [october 10th](date)
     - i need it booked on [january 23th](date)
-    - i need it starting from [June 10th](date)
-    - my stay will start on tuesday
+    - i need it starting from [june 10th](date)
+    - my stay will start on [tuesday](date)
     - we will be arriving on [monday](date)
     - i would like to book a room for [friday](date)
 - intent: request_room_type
@@ -53,3 +53,10 @@ nlu:
     - i need it on [saturday](date), [3 nights](duration) stay
     - we will be staying on [monday](date) and staying [5 nights](duration)
     - i would like to book a room for [friday](date) for [four nights](duration)
+- intent: request_listing_hotel_by_area+request_checkin_time
+  examples: |
+    - i need to book a hotel for a trip to [los angelesjk](area) starting from [sunday](date)
+    - can you find me an place to stay that is located in [fort lauderdale beach](area) on [friday](date)
+    - i'm looking for a hotel in [florida](area) on [september 5th](date)
+    - can you tell us if there is a hotel in [san diego](area) on [monday](date)
+    - i am looking for an average priced place in [san diago](area) on [june 29th](date). thankyou.

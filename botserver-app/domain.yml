@@ -14,10 +14,12 @@ intents:
   - request_room_reservation_duration
   - request_room_type
   - request_checkin_time+request_room_reservation_duration
+  - request_listing_hotel_by_area+request_checkin_time
   - express_date
   - express_length_of_time
   - express_area
   - greet
+  - pseudo_intent
 
 entities:
   - hotel
@@ -56,38 +58,53 @@ slots:
   bkinfo_room_id:
     type: float
     influence_conversation: false
-  bkinfo_room_id_empty_flag:
-    type: bool
+  bkinfo_room_id_flag:
+    type: categorical
     influence_conversation: true
-    initial_value: true
+    initial_value: empty
+    values:
+      - empty
+      - present
   bkinfo_area:
     type: text
     influence_conversation: false
-  bkinfo_area_empty_flag:
-    type: bool
+  bkinfo_area_flag:
+    type: categorical
     influence_conversation: true
-    initial_value: true
+    initial_value: empty
+    values:
+      - empty
+      - present
   bkinfo_checkin_time:
     type: text
     influence_conversation: false
-  bkinfo_checkin_time_empty_flag:
-    type: bool
+  bkinfo_checkin_time_flag:
+    type: categorical
     influence_conversation: true
-    initial_value: true
+    initial_value: empty
+    values:
+      - empty
+      - present
   bkinfo_duration:
     type: float  # unit: day
     influence_conversation: false
-  bkinfo_duration_empty_flag:
-    type: bool
+  bkinfo_duration_flag:
+    type: categorical
     influence_conversation: true
-    initial_value: true
+    initial_value: empty
+    values:
+      - empty
+      - present
   bkinfo_room_type:
     type: text
     influence_conversation: false
-  bkinfo_room_type_empty_flag:
-    type: bool
+  bkinfo_room_type_flag:
+    type: categorical
     influence_conversation: true
-    initial_value: true
+    initial_value: empty
+    values:
+      - empty
+      - present
 
 responses:
   utter_action_fallback:

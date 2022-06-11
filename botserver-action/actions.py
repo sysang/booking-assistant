@@ -183,16 +183,16 @@ class ActionSetBookingInformation(Action):
     valid_entity_value = self.verify_entity(entity_name=entity_name, entity_value=entity_value)
     if valid_entity_value:
       events.append(SlotSet(slot_name, valid_entity_value))
-      # set __empty_flag slot to None
-      empty_flag_slot = f"{slot_name}_empty_flag"
-      events.append(SlotSet(empty_flag_slot, None))
-
-      events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
+      # set __flag slot to None
+      bkinfo_flag_slot = f"{slot_name}_flag"
+      events.append(SlotSet(bkinfo_flag_slot, 'present'))
 
     slots = tracker.slots.copy()
     slots[slot_name] = valid_entity_value
     if self.checkif_done_collection_information(slots):
       events.append(SlotSet("botmemo_booking_progress", "done_information_collecting"))
+    else:
+      events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
 
     return events
 
