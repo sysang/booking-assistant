@@ -1,5 +1,6 @@
 import logging
 import json
+import random
 from typing import Any, Dict, List, Text, Optional, Tuple
 
 import arrow
@@ -22,6 +23,24 @@ from .service import duckling_parse, query_available_rooms, query_room_by_id
 from .commons import BookingInfo
 
 logger = logging.getLogger(__name__)
+
+BOTMIND_STATE_SLOT = {
+    'ATTENTIVE': SlotSet('botmind_state', 'attentive'),
+    'TRANSITIONING': SlotSet('botmind_state', 'transitioning'),
+    'THINKINGx1': SlotSet('botmind_state', 'thinking_boostX1'),
+    'THINKINGx2': SlotSet('botmind_state', 'thinking_boostX2'),
+    'PRIMEx1': SlotSet('botmind_state', 'prime_boostX1'),
+    'PRIMEx2': SlotSet('botmind_state', 'prime_boostX2'),
+}
+
+
+class pseudo_action(Action):
+
+  def name(self) -> Text:
+    return "pseudo_action"
+
+  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    return [BOTMIND_STATE_SLOT['ATTENTIVE']]
 
 
 class custom_action_fallback(Action):
@@ -49,16 +68,6 @@ class bot_relieves_imposition_to_think(Action):
     return "bot_relieves_imposition_to_think"
 
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-    return [FollowupAction(name="bot_transitioning")]
-
-
-class bot_transitioning(Action):
-
-  def name(self) -> Text:
-    return "bot_transitioning"
-
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
     parse_data = {
         "intent": {
             "name": "pseudo_user_intent_to_wait",
@@ -66,10 +75,32 @@ class bot_transitioning(Action):
           }
       }
 
+    botmind_state_slot = BOTMIND_STATE_SLOT['PRIMEx1'] if random.random() > 0.5 else BOTMIND_STATE_SLOT['PRIMEx2']
+
     return [
-          SlotSet("botmind_state", "transitioning"),
-          UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
-        ]
+            UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
+            botmind_state_slot,
+            FollowupAction(name="bot_switchto_thinking"),
+            ]
+
+
+# class bot_transitioning(Action):
+
+#   def name(self) -> Text:
+#     return "bot_transitioning"
+
+#   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     parse_data = {
+#         "intent": {
+#             "name": "pseudo_user_intent_to_wait",
+#             "confidence": 1.0,
+#           }
+#       }
+
+#     return [
+#           BOTMIND_STATE_SLOT['TRANSITIONING'],
+#           UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
+#         ]
 
 
 class bot_switchto_thinking(Action):
@@ -79,9 +110,9 @@ class bot_switchto_thinking(Action):
 
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    return [
-          SlotSet("botmind_state", "thinking"),
-        ]
+    botmind_state_slot = BOTMIND_STATE_SLOT['THINKINGx1'] if random.random() > 0.5 else BOTMIND_STATE_SLOT['THINKINGx2']
+
+    return [botmind_state_slot]
 
 
 class bot_let_action_emerges(Action):
@@ -92,27 +123,28 @@ class bot_let_action_emerges(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     return [
-          FollowupAction(name='bot_output_decision')
+            BOTMIND_STATE_SLOT['TRANSITIONING'],
+            FollowupAction(name="pseudo_action"),
         ]
 
 
-class bot_output_decision(Action):
+# class bot_output_decision(Action):
 
-  def name(self) -> Text:
-    return "bot_output_decision"
+#   def name(self) -> Text:
+#     return "bot_output_decision"
 
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-    parse_data = {
-        "intent": {
-            "name": "pseudo_user_intent_to_wait",
-            "confidence": 1.0,
-          }
-      }
+#   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     parse_data = {
+#         "intent": {
+#             "name": "pseudo_user_intent_to_wait",
+#             "confidence": 1.0,
+#           }
+#       }
 
-    return [
-          SlotSet("botmind_state", "prime"),
-          UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
-        ]
+#     return [
+#           BOTMIND_STATE_SLOT['PRIME'],
+#           UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
+#         ]
 
 
 class set_botmemo_booking_progress__information_collecting__(Action):
@@ -185,7 +217,7 @@ class ActionSetBookingInformation(Action):
       events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
 
     # for every decisive action
-    events.append(SlotSet('botmind_state', 'attentive'))
+    # events.append(BOTMIND_STATE_SLOT['ATTENTIVE'])
 
     return events
 
@@ -295,6 +327,7 @@ class botacts_show_room_list(Action):
       logger.info("[INFO] buttons: %s", buttons)
       dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
 
+    # return [BOTMIND_STATE_SLOT['ATTENTIVE']]
     return []
 
 
@@ -309,9 +342,16 @@ class botacts_confirm_room_selection(Action):
     bkinfo = slots['notes_bkinfo']
 
     # TODO: check slot's id, if id is absent restart the process (safe fallback)
-    room = query_room_by_id(slots['bkinfo_room_id'])
-    hotel_name = room['hotel']
+    room_id = slots.get('bkinfo_room_id')
+    if not room_id:
+        error_message = '[ERROR] in botacts_confirm_room_selection action, missing room id'
+        return [
+                SlotSet('botmemo_booking_failure', 'missing_room_id'),
+                SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+            ]
 
+    room = query_room_by_id(room_id)
+    hotel_name = room['hotel']
     # TODO: check slot for potental error
     checkin_time = arrow.get(bkinfo['bkinfo_checkin_time']).format('MMMM Do YYYY')
     duration = bkinfo['bkinfo_duration']
@@ -324,4 +364,9 @@ class botacts_confirm_room_selection(Action):
           hotel_name=hotel_name,
         )
 
-    return []
+    return [
+            # BOTMIND_STATE_SLOT['ATTENTIVE'],
+            SlotSet('bkinfo_room_id', None),
+            SlotSet('bkinfo_room_id_flag', None),
+            SlotSet('notes_room_id', room_id),
+            ] + BookingInfo.set_booking_information_flag__none__()

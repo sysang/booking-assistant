@@ -88,6 +88,6 @@ def query_room_by_id(id):
   room = db.search(RoomQuery.id==id)
 
   if len(room) == 0:
-    raise Exeption("Query error: room not found.")
+    raise Exception("Query error: room not found.")
   else:
     return room[0]

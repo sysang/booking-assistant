@@ -10,5 +10,6 @@ botserver-app/auth/
 botserver-app/git/
 botserver-app/logs/
 botserver-app/models/
+botfrontend/static/
 
 .env

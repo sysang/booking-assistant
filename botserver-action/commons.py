@@ -41,3 +41,11 @@ class BookingInfo(dict):
       events.append(SlotSet(name, None))
 
     return events
+
+  @classmethod
+  def set_booking_information_flag__none__(self) -> List[Dict[Text, Any]]:
+    events = []
+    for name in self._schema:
+      events.append(SlotSet(f"{name}_flag", None))
+
+    return events

@@ -21,29 +21,29 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 101
+    epochs: 71
     learning_rate: 0.001
     batch_size: [64, 256]
     constrain_similarities: true
-    embedding_dimension: 20
+    embedding_dimension: 32
     dense_dimension:
-      text: 128
-      label: 20
+      text: 256
+      label: 32
     concat_dimension:
-      text: 128
-      label: 20
+      text: 256
+      label: 32
     number_of_transformer_layers: 2
-    transformer_size: 256
-    weight_sparsity: 0.8
+    transformer_size: 512
+    connection_density: 0.2
     number_of_attention_heads: 4
     drop_rate: 0.2  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
   - name: EntitySynonymMapper
-  - name: ResponseSelector
-    epochs: 100
-    constrain_similarities: true
+  # - name: ResponseSelector
+  #   epochs: 100
+  #   constrain_similarities: true
   - name: FallbackClassifier
-    threshold: 0.15
+    threshold: 0.2
     ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
@@ -54,59 +54,77 @@ policies:
 # See https://rasa.com/docs/rasa/policies for more information.
   # - name: MemoizationPolicy
   - name: RulePolicy
-    core_fallback_threshold: 0.12
+    core_fallback_threshold: 0.10
     core_fallback_action_name: "custom_action_fallback"
     enable_fallback_prediction: True
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.35
+    tolerance: 0.12
     max_history: 5
-    learning_rate: 2e-3
+    learning_rate: 2e-4
     epochs: 201
     constrain_similarities: true
-    model_confidence: linear_norm  # softmax | linear_norm
+    model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
+    connection_density: 0.65
     dense_dimension:
-      text: 32
-      intent: 8
-      action_name: 8
-      label_intent: 8
-      entities: 8
-      slots: 32
-      active_loop: 8
-    encoding_dimension: 16
+      text: 64
+      action_text: 64
+      label_action_text: 64
+      intent: 16
+      action_name: 32
+      label_action_name: 32
+      entities: 16
+      slots: 128
+      active_loop: 16
+    concat_dimension:
+      text: 64
+      action_text: 64
+      label_action_text: 64
+    encoding_dimension: 32
     transformer_size:
-      text: 32
-      dialogue: 32
+      text: 128
+      dialogue: 128
+      action_text: 128
+      label_action_text: 128
     number_of_transformer_layers:
-      text: 4
-      dialogue: 4
-    number_of_attention_heads: 4
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
+    number_of_attention_heads: 8
   - name: TEDPolicy
-    max_history: 5
-    learning_rate: 2e-3
-    epochs: 301
+    max_history: 7
+    learning_rate: 1e-4
+    epochs: 811
     constrain_similarities: true
-    model_confidence: linear_norm
+    model_confidence: softmax
     batch_size: [64, 256]
+    connection_density: 0.65
     dense_dimension:
-      text: 32
-      intent: 8
-      action_name: 8
-      label_intent: 8
-      entities: 8
-      slots: 32
-      active_loop: 8
-    encoding_dimension: 16
+      text: 64
+      action_text: 64
+      label_action_text: 64
+      intent: 16
+      action_name: 32
+      label_action_name: 32
+      entities: 16
+      slots: 128
+      active_loop: 16
+    concat_dimension:
+      text: 64
+      action_text: 64
+      label_action_text: 64
+    encoding_dimension: 32
     transformer_size:
-      text: 32
-      dialogue: 32
-      action_text: 32
-      label_action_text: 32
+      text: 128
+      dialogue: 128
+      action_text: 128
+      label_action_text: 128
     number_of_transformer_layers:
-      text: 4
-      dialogue: 4
-      action_text: 4
-      label_action_text: 4
-    number_of_attention_heads: 4
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
+    number_of_attention_heads: 8

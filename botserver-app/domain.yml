@@ -3,7 +3,7 @@ version: "2.0"
 config:
   store_entities_as_slots: false
 session_config:
-  session_expiration_time: 480
+  session_expiration_time: 60
   carry_over_slots_to_new_session: true
 
 intents:
@@ -37,13 +37,15 @@ slots:
     initial_value: attentive
     values:
       - transitioning
-      - thinking
+      - thinking_boostX1
+      - thinking_boostX2
+      - prime_boostX1
+      - prime_boostX2
       - attentive
-      - prime
   botmemo_booking_progress:
     type: categorical
     influence_conversation: true
-    initial_value: init
+    initial_value: null
     values:
       - init
       - information_collecting
@@ -52,17 +54,17 @@ slots:
   botmemo_booking_failure:
     type: categorical
     influence_conversation: true
-    initial_value: negative
+    initial_value: null
     values:
-      - negative
       - missing_booking_info
+      - missing_room_id
   bkinfo_room_id:
     type: float
     influence_conversation: false
   bkinfo_room_id_flag:
     type: categorical
     influence_conversation: true
-    initial_value: empty
+    initial_value: null
     values:
       - empty
       - present
@@ -72,7 +74,7 @@ slots:
   bkinfo_area_flag:
     type: categorical
     influence_conversation: true
-    initial_value: empty
+    initial_value: null
     values:
       - empty
       - present
@@ -82,7 +84,7 @@ slots:
   bkinfo_checkin_time_flag:
     type: categorical
     influence_conversation: true
-    initial_value: empty
+    initial_value: null
     values:
       - empty
       - present
@@ -92,7 +94,7 @@ slots:
   bkinfo_duration_flag:
     type: categorical
     influence_conversation: true
-    initial_value: empty
+    initial_value: null
     values:
       - empty
       - present
@@ -102,12 +104,15 @@ slots:
   bkinfo_room_type_flag:
     type: categorical
     influence_conversation: true
-    initial_value: empty
+    initial_value: null
     values:
       - empty
       - present
       - noted
   notes_bkinfo:
+    type: any
+    influence_conversation: false
+  notes_room_id:
     type: any
     influence_conversation: false
   logs_debugging_info:
@@ -148,6 +153,7 @@ responses:
 
 actions:
   - custom_action_fallback
+  - pseudo_action
   - set_botmemo_booking_progress__information_collecting__
   - set_botmemo_booking_progress__room_selected__
   - set_booking_information__area__

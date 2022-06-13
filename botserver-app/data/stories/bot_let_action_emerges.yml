@@ -3,18 +3,46 @@ version: "2.0"
 stories:
 - story: bot switches to thinking, bot lets action emerges
   steps:
-  - or:
-    - intent: request_checkin_time
-    - intent: request_room_reservation_duration
-    - intent: request_room_type
-    - intent: express_area
-    - intent: express_date
-    - intent: express_length_of_time
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: transitioning
+    - botmind_state: prime_boostX1
   - action: bot_switchto_thinking
   - slot_was_set:
-    - botmind_state: thinking
+    - botmind_state: thinking_boostX1
   - action: bot_let_action_emerges
+  # INFORMATIVE:
+  # - followup
+  # - slot_was_set:
+  #   - botmind_state: transitioning
   # action_listen is predicted here but the force has been partly neutralized
-  # by botmind_state -> thinking because after this action botmind_state -> attentive
+  # by botmind_state -> thinking because after this action botmind_state -> transitioning
+
+- story: bot switches to thinking, bot lets action emerges
+  steps:
+  - intent: pseudo_user_intent_to_wait
+  - slot_was_set:
+    - botmind_state: prime_boostX2
+  - action: bot_switchto_thinking
+  - slot_was_set:
+    - botmind_state: thinking_boostX1
+  - action: bot_let_action_emerges
+
+- story: bot switches to thinking, bot lets action emerges
+  steps:
+  - intent: pseudo_user_intent_to_wait
+  - slot_was_set:
+    - botmind_state: prime_boostX1
+  - action: bot_switchto_thinking
+  - slot_was_set:
+    - botmind_state: thinking_boostX2
+  - action: bot_let_action_emerges
+
+- story: bot switches to thinking, bot lets action emerges
+  steps:
+  - intent: pseudo_user_intent_to_wait
+  - slot_was_set:
+    - botmind_state: prime_boostX2
+  - action: bot_switchto_thinking
+  - slot_was_set:
+    - botmind_state: thinking_boostX2
+  - action: bot_let_action_emerges

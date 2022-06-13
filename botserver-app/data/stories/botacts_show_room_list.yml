@@ -7,18 +7,23 @@ stories:
     - intent: request_checkin_time
     - intent: request_room_reservation_duration
     - intent: request_room_type
+    - intent: request_checkin_time+request_listing_hotel_by_area
+    - intent: request_room_reservation_duration+request_checkin_time
     - intent: express_area
     - intent: express_date
     - intent: express_length_of_time
     - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: transitioning
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
     - bkinfo_room_type_flag: present
     - bkinfo_room_id_flag: empty
+  - action: pseudo_action
+  - slot_was_set:
+    - botmind_state: attentive
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
@@ -34,3 +39,10 @@ stories:
   - slot_was_set:
     - botmemo_booking_progress: room_selected
   - action: botacts_confirm_room_selection
+  - slot_was_set:
+    - botmemo_booking_progress: null
+    - bkinfo_area_flag: null
+    - bkinfo_checkin_time_flag: null
+    - bkinfo_duration_flag: null
+    - bkinfo_room_type_flag: null
+    - bkinfo_room_id_flag: null
