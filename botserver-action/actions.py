@@ -19,6 +19,7 @@ from rasa_sdk.events import (
 
 from .entity_preprocessing_rules import mapping_table
 from .service import duckling_parse, query_available_rooms, query_room_by_id
+from .commons import BookingInfo
 
 logger = logging.getLogger(__name__)
 
@@ -109,7 +110,7 @@ class bot_output_decision(Action):
       }
 
     return [
-          SlotSet("botmind_state", "attentive"),
+          SlotSet("botmind_state", "prime"),
           UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
         ]
 
@@ -156,17 +157,6 @@ class ActionSetBookingInformation(Action):
 
     return entity.pop()['value']
 
-  def checkif_done_collection_information(self, slots):
-    bkinfo = ('bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_room_type')
-
-    for name in bkinfo:
-      v = slots.get(name, False)
-      logger.info("[DEBUG] %s: %s", name, v)
-      if not v:
-        return False
-
-    return True
-
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     entity_name, slot_name = self.slot_entity()
@@ -189,10 +179,13 @@ class ActionSetBookingInformation(Action):
 
     slots = tracker.slots.copy()
     slots[slot_name] = valid_entity_value
-    if self.checkif_done_collection_information(slots):
+    if BookingInfo.checkif_done_collection_information(slots):
       events.append(SlotSet("botmemo_booking_progress", "done_information_collecting"))
     else:
       events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
+
+    # for every decisive action
+    events.append(SlotSet('botmind_state', 'attentive'))
 
     return events
 
@@ -242,6 +235,28 @@ class set_booking_information__room_type__(ActionSetBookingInformation):
     return ('room_type', 'bkinfo_room_type')
 
 
+class set_notes_bkinfo(Action):
+
+  def name(self) -> Text:
+    return "set_notes_bkinfo"
+
+  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    slots = tracker.slots
+
+    botmemo_booking_progress = slots['botmemo_booking_progress']
+    error_message = '[ERROR] in set_notes_bkinfo action, missing booking info'
+    if botmemo_booking_progress != 'done_information_collecting':
+      return [
+            SlotSet('botmemo_booking_failure', 'missing_booking_info'),
+            SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+          ]
+
+    # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
+    bkinfo = BookingInfo(slots)
+
+    return [SlotSet('notes_bkinfo', bkinfo)] + BookingInfo.set_booking_information_flag__noted__()
+
 class botacts_show_room_list(Action):
 
   def name(self) -> Text:
@@ -250,23 +265,16 @@ class botacts_show_room_list(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     slots = tracker.slots
+    bkinfo = slots.get('notes_bkinfo', None)
 
-    botmemo_booking_progress = slots['botmemo_booking_progress']
-    if botmemo_booking_progress != 'done_information_collecting':
-      return [SlotSet('botmemo_booking_failure', 'missing_booking_info')]
+    error_message = '[ERROR] in botacts_show_room_list action, missing booking info'
+    if not bkinfo:
+      return [
+            SlotSet('botmemo_booking_failure', 'missing_booking_info'),
+            SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+          ]
 
-    # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
-    bkinfo_area = slots['bkinfo_area']
-    bkinfo_room_type = slots['bkinfo_room_type']
-    bkinfo_checkin_time = slots['bkinfo_checkin_time']
-    bkinfo_duration = slots['bkinfo_duration']
-
-    rooms = query_available_rooms(
-          area=bkinfo_area,
-          room_type=bkinfo_room_type,
-          checkin_time=bkinfo_checkin_time,
-          duration=bkinfo_duration
-        )
+    rooms = query_available_rooms(**bkinfo)
 
     if len(rooms) == 0:
       dispatcher.utter_message(response="utter_room_not_available")
@@ -298,17 +306,19 @@ class botacts_confirm_room_selection(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     slots = tracker.slots
+    bkinfo = slots['notes_bkinfo']
 
     # TODO: check slot's id, if id is absent restart the process (safe fallback)
     room = query_room_by_id(slots['bkinfo_room_id'])
     hotel_name = room['hotel']
 
-    checkin_time = arrow.get(slots['bkinfo_checkin_time']).format('MMMM Do YYYY')
-    duration = slots['bkinfo_duration']
+    # TODO: check slot for potental error
+    checkin_time = arrow.get(bkinfo['bkinfo_checkin_time']).format('MMMM Do YYYY')
+    duration = bkinfo['bkinfo_duration']
     duration = str(duration) + ' days' if duration > 1 else str(duration) + ' day'
 
     dispatcher.utter_message(response = "utter_room_selection",
-          room_type=slots['bkinfo_room_type'],
+          room_type=bkinfo['bkinfo_room_type'],
           checkin_time=checkin_time,
           duration=duration,
           hotel_name=hotel_name,

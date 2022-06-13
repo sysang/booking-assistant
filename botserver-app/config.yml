@@ -21,15 +21,29 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 50
-    constrain_similarities: true
+    epochs: 101
+    learning_rate: 0.001
     batch_size: [64, 256]
+    constrain_similarities: true
+    embedding_dimension: 20
+    dense_dimension:
+      text: 128
+      label: 20
+    concat_dimension:
+      text: 128
+      label: 20
+    number_of_transformer_layers: 2
+    transformer_size: 256
+    weight_sparsity: 0.8
+    number_of_attention_heads: 4
+    drop_rate: 0.2  # Dropout rate for encoder.
+    drop_rate_attention: 0.0  # Dropout rate for attention.
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
     constrain_similarities: true
   - name: FallbackClassifier
-    threshold: 0.3
+    threshold: 0.15
     ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
@@ -46,53 +60,53 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.15
-    max_history: 10
-    learning_rate: 0.001
-    epochs: 71
+    tolerance: 0.35
+    max_history: 5
+    learning_rate: 2e-3
+    epochs: 201
     constrain_similarities: true
     model_confidence: linear_norm  # softmax | linear_norm
     batch_size: [64, 256]
     dense_dimension:
-      text: 128
-      intent: 20
-      action_name: 20
-      label_intent: 20
-      entities: 20
-      slots: 48
-      active_loop: 20
-    encoding_dimension: 32
+      text: 32
+      intent: 8
+      action_name: 8
+      label_intent: 8
+      entities: 8
+      slots: 32
+      active_loop: 8
+    encoding_dimension: 16
     transformer_size:
-      text: 64
-      dialogue: 64
+      text: 32
+      dialogue: 32
     number_of_transformer_layers:
       text: 4
       dialogue: 4
-    number_of_attention_heads: 8
+    number_of_attention_heads: 4
   - name: TEDPolicy
-    max_history: 10
-    learning_rate: 0.001
-    epochs: 17
+    max_history: 5
+    learning_rate: 2e-3
+    epochs: 301
     constrain_similarities: true
     model_confidence: linear_norm
     batch_size: [64, 256]
     dense_dimension:
-      text: 128
-      intent: 20
-      action_name: 20
-      label_intent: 20
-      entities: 20
-      slots: 48
-      active_loop: 20
-    encoding_dimension: 32
+      text: 32
+      intent: 8
+      action_name: 8
+      label_intent: 8
+      entities: 8
+      slots: 32
+      active_loop: 8
+    encoding_dimension: 16
     transformer_size:
-      text: 64
-      dialogue: 64
-      action_text: 64
-      label_action_text: 64
+      text: 32
+      dialogue: 32
+      action_text: 32
+      label_action_text: 32
     number_of_transformer_layers:
       text: 4
       dialogue: 4
-      action_text: 3
-      label_action_text: 3
-    number_of_attention_heads: 8
+      action_text: 4
+      label_action_text: 4
+    number_of_attention_heads: 4

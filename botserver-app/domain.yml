@@ -39,6 +39,7 @@ slots:
       - transitioning
       - thinking
       - attentive
+      - prime
   botmemo_booking_progress:
     type: categorical
     influence_conversation: true
@@ -105,6 +106,14 @@ slots:
     values:
       - empty
       - present
+      - noted
+  notes_bkinfo:
+    type: any
+    influence_conversation: false
+  logs_debugging_info:
+    type: list
+    influence_conversation: false
+    initial_value: []
 
 responses:
   utter_action_fallback:
@@ -146,6 +155,7 @@ actions:
   - set_booking_information__duration__
   - set_booking_information__room_type__
   - set_booking_information__room_id__
+  - set_notes_bkinfo
   - botacts_show_room_list
   - botacts_confirm_room_selection
   - bot_relieves_imposition_to_think

@@ -19,6 +19,12 @@ stories:
     - bkinfo_duration_flag: present
     - bkinfo_room_type_flag: present
     - bkinfo_room_id_flag: empty
+  - action: set_notes_bkinfo
+  - slot_was_set:
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
   - action: botacts_show_room_list
   - intent: user_click_to_select_hotel
   - action: set_booking_information__room_id__

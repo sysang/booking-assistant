@@ -47,9 +47,9 @@ stories:
 
 - story: collect booking information - 02
   steps:
-  - intent: pseudo_intent
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: prime
     - botmemo_booking_progress: information_collecting
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: present
@@ -59,6 +59,7 @@ stories:
   - intent: express_area
   - action: set_booking_information__area__
   - slot_was_set:
+    - botmind_state: attentive
     - bkinfo_area_flag: present
   - action: bot_relieves_imposition_to_think
   # - action: followup
@@ -68,9 +69,9 @@ stories:
 
 - story: collect booking information - 03
   steps:
-  - intent: pseudo_intent
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: prime
     - botmemo_booking_progress: information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: empty
@@ -82,6 +83,7 @@ stories:
     - intent: request_checkin_time
   - action: set_booking_information__checkin_time__
   - slot_was_set:
+    - botmind_state: attentive
     - bkinfo_checkin_time_flag: present
   - action: bot_relieves_imposition_to_think
   # - action: followup
@@ -91,9 +93,9 @@ stories:
 
 - story: collect booking information - 03
   steps:
-  - intent: pseudo_intent
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: prime
     - botmemo_booking_progress: information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
@@ -105,6 +107,7 @@ stories:
     - intent: request_room_reservation_duration
   - action: set_booking_information__duration__
   - slot_was_set:
+    - botmind_state: attentive
     - bkinfo_duration_flag: present
   - action: bot_relieves_imposition_to_think
   # - action: followup
@@ -114,9 +117,9 @@ stories:
 
 - story: collect booking information - 04
   steps:
-  - intent: pseudo_intent
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: prime
     - botmemo_booking_progress: information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
@@ -126,6 +129,7 @@ stories:
   - intent: request_room_type
   - action: set_booking_information__room_type__
   - slot_was_set:
+    - botmind_state: attentive
     - bkinfo_room_type_flag: present
   - action: bot_relieves_imposition_to_think
   # - action: followup
@@ -135,9 +139,9 @@ stories:
 
 - story: collect booking information - 05, multi-intent
   steps:
-  - intent: pseudo_intent
+  - intent: pseudo_user_intent_to_wait
   - slot_was_set:
-    - botmind_state: attentive
+    - botmind_state: prime
     - botmemo_booking_progress: information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: empty
@@ -147,12 +151,11 @@ stories:
   - intent: request_checkin_time+request_room_reservation_duration
   - action: set_booking_information__duration__
   - slot_was_set:
+    - botmind_state: attentive
     - bkinfo_duration_flag: present
-    - botmemo_booking_progress: information_collecting
   - action: set_booking_information__checkin_time__
   - slot_was_set:
     - bkinfo_checkin_time_flag: present
-    - botmemo_booking_progress: information_collecting
   - action: bot_relieves_imposition_to_think
   # - action: followup
   # - action: bot_transitioning
@@ -176,5 +179,4 @@ stories:
   - action: set_booking_information__area__
   - slot_was_set:
     - bkinfo_area_flag: present
-    - botmemo_booking_progress: information_collecting
   - action: utter_asking_staying_duration
