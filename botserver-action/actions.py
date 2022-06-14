@@ -141,8 +141,7 @@ class ActionSetBookingInformation(Action):
 
     return entity.pop()['value']
 
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
+  def retrieve_slot_data(self, tracker):
     entity_name, slot_name = self.slot_entity()
     logger.info(f"[INFO] retrieve_entity_value, entity_name: %s", str(entity_name))
     logger.info(f"[INFO] retrieve_entity_value, slot_name: %s", str(slot_name))
@@ -150,19 +149,18 @@ class ActionSetBookingInformation(Action):
     entity_value = self.retrieve_entity_value(tracker, entity_name)
     logger.info(f"[INFO] retrieve_entity_value, entity_value: %s", str(entity_value))
 
-    events = []
     if not entity_value:
-      return events
+      return None, None
 
     valid_entity_value = self.verify_entity(entity_name=entity_name, entity_value=entity_value)
-    if valid_entity_value:
-      events.append(SlotSet(slot_name, valid_entity_value))
-      # set __flag slot to None
-      bkinfo_flag_slot = f"{slot_name}_flag"
-      events.append(SlotSet(bkinfo_flag_slot, 'present'))
+
+    return slot_name, valid_entity_value
+
+  def update_booking_progress(self, slot_name, slot_value, tracker):
+    events = []
 
     slots = tracker.slots.copy()
-    slots[slot_name] = valid_entity_value
+    slots[slot_name] = slot_value
     if BookingInfo.checkif_done_collection_information(slots):
       events.append(SlotSet("botmemo_booking_progress", "done_information_collecting"))
     else:
@@ -170,6 +168,23 @@ class ActionSetBookingInformation(Action):
 
     if BookingInfo.checkif_room_selectd(slots):
       events.append(SlotSet("botmemo_booking_progress", "room_selected"))
+
+    return events
+
+  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    events = []
+
+    slot_name, slot_value = self.retrieve_slot_data(tracker)
+    if slot_value and slot_name:
+      events.append(SlotSet(slot_name, slot_value))
+
+      # set __flag slot to None
+      bkinfo_flag_slot = f"{slot_name}_flag"
+      events.append(SlotSet(bkinfo_flag_slot, 'present'))
+    else:
+        return events
+
+    events = events + self.update_booking_progress(slot_name, slot_value, tracker)
 
     return events
 
@@ -239,7 +254,7 @@ class set_notes_bkinfo(Action):
     # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
     bkinfo = BookingInfo(slots)
 
-    return [SlotSet('notes_bkinfo', bkinfo)] + BookingInfo.set_booking_information_flag__noted__()
+    return [SlotSet('notes_bkinfo', bkinfo)] + BookingInfo.set_booking_information_flag(value='noted')
 
 class botacts_show_room_list(Action):
 
@@ -321,4 +336,66 @@ class botacts_confirm_room_selection(Action):
             SlotSet('bkinfo_room_id', None),
             SlotSet('bkinfo_room_id_flag', None),
             SlotSet('notes_room_id', room_id),
-            ] + BookingInfo.set_booking_information_flag__none__()
+        ] + BookingInfo.set_booking_information_flag(value=None) + BookingInfo.set_booking_information(value=None)
+
+
+class ActionReviseBookingInformation(ActionSetBookingInformation):
+
+  def name(self) -> Text:
+    return "ActionReviseBookingInformation"
+
+  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    slot_name, slot_value = self.retrieve_slot_data(tracker)
+    if not slot_name and not slot_value:
+      return []
+
+    events = []
+
+    if slot_value:
+      events.append(SlotSet(slot_name, slot_value))
+      events.append(SlotSet('notes_bkinfo', None))
+      events = events + BookingInfo.set_booking_information_flag(value='present')
+    elif slot_name:
+      events.append(SlotSet('botmemo_booking_progress', 'information_collecting'))
+      events.append(SlotSet(f"{slot_name}_flag", 'onchange'))
+
+    events = events + self.update_booking_progress(slot_name, slot_value, tracker)
+
+    return events
+
+
+class revise_booking_information__area__(ActionReviseBookingInformation):
+
+  def name(self) -> Text:
+    return "revise_booking_information__area__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('area', 'bkinfo_area')
+
+
+class revise_booking_information__checkin_time__(ActionReviseBookingInformation):
+
+  def name(self) -> Text:
+    return "revise_booking_information__checkin_time__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('date', 'bkinfo_checkin_time')
+
+
+class revise_booking_information__duration__(ActionReviseBookingInformation):
+
+  def name(self) -> Text:
+    return "revise_booking_information__duration__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('duration', 'bkinfo_duration')
+
+
+class revise_booking_information__room_type__(ActionReviseBookingInformation):
+
+  def name(self) -> Text:
+    return "revise_booking_information__room_type__"
+
+  def slot_entity(self) -> Tuple[str, str]:
+    return ('room_type', 'bkinfo_room_type')

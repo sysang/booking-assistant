@@ -34,19 +34,18 @@ class BookingInfo(dict):
     return True
 
   @classmethod
-  def set_booking_information_flag__noted__(self) -> List[Dict[Text, Any]]:
+  def set_booking_information_flag(self, value) -> List[Dict[Text, Any]]:
     events = []
     for name in self._schema:
-      events.append(SlotSet(f"{name}_flag", 'noted'))
-      events.append(SlotSet(name, None))
+      events.append(SlotSet(f"{name}_flag", value))
 
     return events
 
   @classmethod
-  def set_booking_information_flag__none__(self) -> List[Dict[Text, Any]]:
+  def set_booking_information(self, value) -> List[Dict[Text, Any]]:
     events = []
     for name in self._schema:
-      events.append(SlotSet(f"{name}_flag", None))
+      events.append(SlotSet(name, value))
 
     return events
 

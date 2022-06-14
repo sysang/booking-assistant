@@ -1,0 +1,111 @@
+version: "2.0"
+
+stories:
+- story: when information has been collected completely, user wants to revise area
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmemo_booking_progress: done_information_collecting
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+  - intent: revise_area
+    entities:
+      - area: hawaii
+  - action: revise_booking_information__area__
+  - slot_was_set:
+    - bkinfo_area_flag: present
+    - bkinfo_checkin_time_flag: present
+    - bkinfo_duration_flag: present
+    - bkinfo_room_type_flag: present
+  - action: set_notes_bkinfo
+  - slot_was_set:
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+
+- story: when information has been collected completely, user wants to revise check-in time
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmemo_booking_progress: done_information_collecting
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+  - intent: revise_checkin_time
+    entities:
+      - date: september 5th
+  - action: revise_booking_information__checkin_time__
+  - slot_was_set:
+    - bkinfo_area_flag: present
+    - bkinfo_checkin_time_flag: present
+    - bkinfo_duration_flag: present
+    - bkinfo_room_type_flag: present
+  - action: set_notes_bkinfo
+  - slot_was_set:
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+
+- story: when information has been collected completely, user wants to revise reservation duration
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmemo_booking_progress: done_information_collecting
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+  - intent: revise_room_reservation_duration
+    entities:
+      - duration: 1 day
+  - action: revise_booking_information__duration__
+  - slot_was_set:
+    - bkinfo_area_flag: present
+    - bkinfo_checkin_time_flag: present
+    - bkinfo_duration_flag: present
+    - bkinfo_room_type_flag: present
+  - action: set_notes_bkinfo
+  - slot_was_set:
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+
+- story: when information has been collected completely, user wants to revise room type
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmemo_booking_progress: done_information_collecting
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+  - intent: revise_room_type
+    entities:
+      - room_type: double
+  - action: revise_booking_information__room_type__
+  - slot_was_set:
+    - bkinfo_area_flag: present
+    - bkinfo_checkin_time_flag: present
+    - bkinfo_duration_flag: present
+    - bkinfo_room_type_flag: present
+  - action: set_notes_bkinfo
+  - slot_was_set:
+    - bkinfo_area_flag: noted
+    - bkinfo_checkin_time_flag: noted
+    - bkinfo_duration_flag: noted
+    - bkinfo_room_type_flag: noted
+  - action: botacts_show_room_list
+

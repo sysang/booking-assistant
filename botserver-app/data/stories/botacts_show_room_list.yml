@@ -3,16 +3,6 @@ version: "2.0"
 stories:
 - story: set botmemo_booking_progress to done_information_collecting, then show room list
   steps:
-  - or:
-    - intent: request_checkin_time
-    - intent: request_room_reservation_duration
-    - intent: request_room_type
-    - intent: request_listing_hotel_by_area+request_checkin_time
-    - intent: request_checkin_time+request_room_reservation_duration
-    - intent: express_area
-    - intent: express_date
-    - intent: express_length_of_time
-    - intent: pseudo_user_intent_to_wait
   - slot_was_set:
     - botmind_state: transitioning
     - botmemo_booking_progress: done_information_collecting

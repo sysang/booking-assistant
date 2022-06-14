@@ -13,6 +13,10 @@ intents:
   - request_checkin_time
   - request_room_reservation_duration
   - request_room_type
+  - revise_area
+  - revise_checkin_time
+  - revise_room_reservation_duration
+  - revise_room_type
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
   - express_date
@@ -68,6 +72,7 @@ slots:
     values:
       - empty
       - present
+      - onchange
   bkinfo_area:
     type: text
     influence_conversation: false
@@ -78,6 +83,7 @@ slots:
     values:
       - empty
       - present
+      - onchange
   bkinfo_checkin_time:
     type: text
     influence_conversation: false
@@ -88,6 +94,7 @@ slots:
     values:
       - empty
       - present
+      - onchange
   bkinfo_duration:
     type: float  # unit: day
     influence_conversation: false
@@ -98,6 +105,7 @@ slots:
     values:
       - empty
       - present
+      - onchange
   bkinfo_room_type:
     type: text
     influence_conversation: false
@@ -108,6 +116,7 @@ slots:
     values:
       - empty
       - present
+      - onchange
       - noted
   notes_bkinfo:
     type: any
@@ -160,6 +169,10 @@ actions:
   - set_booking_information__duration__
   - set_booking_information__room_type__
   - set_booking_information__room_id__
+  - revise_booking_information__area__
+  - revise_booking_information__checkin_time__
+  - revise_booking_information__duration__
+  - revise_booking_information__room_type__
   - set_notes_bkinfo
   - botacts_show_room_list
   - botacts_confirm_room_selection

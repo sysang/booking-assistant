@@ -55,8 +55,32 @@ nlu:
     - i would like to book a room for [friday](date) for [four nights](duration)
 - intent: request_listing_hotel_by_area+request_checkin_time
   examples: |
-    - i need to book a hotel for a trip to [los angelesjk](area) starting from [sunday](date)
+    - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](date)
     - can you find me an place to stay that is located in [fort lauderdale beach](area) on [friday](date)
     - i'm looking for a hotel in [florida](area) on [september 5th](date)
     - can you tell us if there is a hotel in [san diego](area) on [monday](date)
     - i am looking for an average priced place in [san diago](area) on [june 29th](date). thankyou.
+- intent: revise_area
+  examples: |
+    - i want another place, it is [san diego](area)
+    - can you change the area to [new york](area) please
+    - can you change the city to [austin](area) please
+- intent: revise_checkin_time
+  examples: |
+    - could i change check in time to [sunday](date)
+    - could i change checkin time to [sunday](date)
+    - i change my mind, please change the date to [december 12th](date)
+    - sorry can i change date to [october 1st](date)
+    - i want it on [january 25th](date), please update
+    - it is wrong day, please chagne it to [this sunday](date)
+- intent: revise_room_reservation_duration
+  examples: |
+    - can you change the duration to [2 days](duration)
+    - can you increase the duration to [five days](duration)
+    - i want to change my staying to [1 day](duration)
+    - my mistake i acctually want to stay in [two days](duration)
+- intent: revise_room_type
+  examples: |
+    - could i change room to [king-size](room_type) bed
+    - could i change room to [single](room_type)
+    - sorry, my mistake i acctually want [double](room_type) room

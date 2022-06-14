@@ -1,8 +1,7 @@
 version: "2.0"
 
 stories:
-
-- story: collect booking information, no. 01
+- story: query hotel room, start to end flow
   steps:
   - intent: request_listing_hotel_by_area
     entities:
@@ -73,7 +72,7 @@ stories:
     - bkinfo_room_type_flag: null
     - bkinfo_room_id_flag: null
 
-- story: collect booking information - 02
+- story: query hotel room - request area
   steps:
   - slot_was_set:
     - botmind_state: transitioning
@@ -87,9 +86,13 @@ stories:
   - slot_was_set:
     - botmind_state: attentive
   - action: utter_asking_area
-  - intent: express_area
-    entities:
-      - area: hawaii
+  - or:
+    - intent: request_listing_hotel_by_area
+      entities:
+        - area: hawaii
+    - intent: express_area
+      entities:
+        - area: hawaii
   - action: set_booking_information__area__
   - slot_was_set:
     - bkinfo_area_flag: present
@@ -99,7 +102,7 @@ stories:
   # - action: followup
   # - action: bot_switchto_thinking
 
-- story: collect booking information - 03
+- story: query hotel room - request check-in time
   steps:
   - slot_was_set:
     - botmind_state: transitioning
@@ -125,7 +128,7 @@ stories:
     - bkinfo_checkin_time_flag: present
   - action: utter_asking_staying_duration
 
-- story: collect booking information - 03
+- story: query hotel room - request reservation duration
   steps:
   - slot_was_set:
     - botmind_state: transitioning
@@ -151,7 +154,7 @@ stories:
     - bkinfo_duration_flag: present
   - action: utter_asking_room_type
 
-- story: collect booking information - 04
+- story: query hotel room - request room type
   steps:
   - slot_was_set:
     - botmind_state: transitioning
@@ -178,7 +181,7 @@ stories:
   # - action: followup
   # - action: bot_switchto_thinking
 
-- story: collect booking information - 05, multi-intent
+- story: query hotel room - (multi-intent) request check-in time, reservation duration
   steps:
   - intent: request_checkin_time+request_room_reservation_duration
     entities:
@@ -200,7 +203,7 @@ stories:
     - bkinfo_checkin_time_flag: present
   - action: utter_asking_room_type
 
-- story: collect booking information - 06, multi-intent
+- story: query hotel room - (multi-intent) request hotel by area, request check-in time
   steps:
   - intent: request_listing_hotel_by_area+request_checkin_time
     entities:
