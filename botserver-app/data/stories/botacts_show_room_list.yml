@@ -7,8 +7,8 @@ stories:
     - intent: request_checkin_time
     - intent: request_room_reservation_duration
     - intent: request_room_type
-    - intent: request_checkin_time+request_listing_hotel_by_area
-    - intent: request_room_reservation_duration+request_checkin_time
+    - intent: request_listing_hotel_by_area+request_checkin_time
+    - intent: request_checkin_time+request_room_reservation_duration
     - intent: express_area
     - intent: express_date
     - intent: express_length_of_time
@@ -35,8 +35,6 @@ stories:
   - action: set_booking_information__room_id__
   - slot_was_set:
     - bkinfo_room_id_flag: present
-  - action: set_botmemo_booking_progress__room_selected__
-  - slot_was_set:
     - botmemo_booking_progress: room_selected
   - action: botacts_confirm_room_selection
   - slot_was_set:

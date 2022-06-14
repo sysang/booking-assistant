@@ -11,3 +11,28 @@ Training data must declare condition (slot information), otherwise training mach
 This makes rules (were not declare condition) mostly uneffective in runtime because the condition mostly would have been changed.
 
 # It seems that action without preceded intent is ingored
+
+# To inspect training dataset
+
+```python
+from rasa.core.training import load_data
+from rasa.shared.core.domain import Domain
+import asyncio
+
+domain = Domain.from_file('domain.yml')
+training_trackers = asyncio.run(load_data(resource_name='data', domain=domain, augmentation_factor=0))
+
+interpreter = create_interpreter('/tmp/tmp01_hudjq/nlu')  # trained nlu model
+tracker_state_features, label_ids, entity_tags = ted._featurize_for_training(training_trackers, domain, interpreter)
+```
+
+```python
+sample_no = 0
+for tracker_state, label in zip(tracker_state_features, label_ids):
+  print('\nsample: ', sample_no)
+  print('label: ', label)
+  print('features: ')
+  for features in tracker_state:
+    print(features.keys())
+  sample_no += 1
+```

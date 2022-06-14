@@ -21,20 +21,19 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 71
+    epochs: 101
     learning_rate: 0.001
     batch_size: [64, 256]
     constrain_similarities: true
     embedding_dimension: 32
     dense_dimension:
-      text: 256
+      text: 128
       label: 32
     concat_dimension:
-      text: 256
+      text: 128
       label: 32
     number_of_transformer_layers: 2
-    transformer_size: 512
-    connection_density: 0.2
+    transformer_size: 256
     number_of_attention_heads: 4
     drop_rate: 0.2  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
@@ -61,70 +60,70 @@ policies:
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
     tolerance: 0.12
-    max_history: 5
+    max_history: 3
     learning_rate: 2e-4
     epochs: 201
     constrain_similarities: true
     model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
-    connection_density: 0.65
+    connection_density: 0.89
     dense_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
+      text: 32
+      action_text: 32
+      label_action_text: 16
       intent: 16
-      action_name: 32
-      label_action_name: 32
-      entities: 16
-      slots: 128
+      action_name: 16
+      label_action_name: 16
+      entities: 32
+      slots: 64
       active_loop: 16
     concat_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
-    encoding_dimension: 32
+      text: 32
+      action_text: 32
+      label_action_text: 32
+    encoding_dimension: 16
     transformer_size:
       text: 128
       dialogue: 128
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 2
-      dialogue: 2
-      action_text: 2
-      label_action_text: 2
-    number_of_attention_heads: 8
+      text: 1
+      dialogue: 1
+      action_text: 1
+      label_action_text: 1
+    number_of_attention_heads: 16
   - name: TEDPolicy
-    max_history: 7
+    max_history: 3
     learning_rate: 1e-4
-    epochs: 811
+    epochs: 1024
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [64, 256]
-    connection_density: 0.65
+    connection_density: 0.89
     dense_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
+      text: 32
+      action_text: 32
+      label_action_text: 16
       intent: 16
-      action_name: 32
-      label_action_name: 32
-      entities: 16
-      slots: 128
+      action_name: 16
+      label_action_name: 16
+      entities: 32
+      slots: 64
       active_loop: 16
     concat_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
-    encoding_dimension: 32
+      text: 32
+      action_text: 32
+      label_action_text: 32
+    encoding_dimension: 16
     transformer_size:
       text: 128
       dialogue: 128
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 2
-      dialogue: 2
-      action_text: 2
-      label_action_text: 2
-    number_of_attention_heads: 8
+      text: 1
+      dialogue: 1
+      action_text: 1
+      label_action_text: 1
+    number_of_attention_heads: 16

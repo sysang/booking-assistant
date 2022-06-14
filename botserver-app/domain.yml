@@ -155,7 +155,6 @@ actions:
   - custom_action_fallback
   - pseudo_action
   - set_botmemo_booking_progress__information_collecting__
-  - set_botmemo_booking_progress__room_selected__
   - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__

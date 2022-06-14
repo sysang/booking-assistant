@@ -49,3 +49,7 @@ class BookingInfo(dict):
       events.append(SlotSet(f"{name}_flag", None))
 
     return events
+
+  @classmethod
+  def checkif_room_selectd(self, slots):
+    return slots.get('bkinfo_room_id', False)

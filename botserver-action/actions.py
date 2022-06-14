@@ -84,25 +84,6 @@ class bot_relieves_imposition_to_think(Action):
             ]
 
 
-# class bot_transitioning(Action):
-
-#   def name(self) -> Text:
-#     return "bot_transitioning"
-
-#   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#     parse_data = {
-#         "intent": {
-#             "name": "pseudo_user_intent_to_wait",
-#             "confidence": 1.0,
-#           }
-#       }
-
-#     return [
-#           BOTMIND_STATE_SLOT['TRANSITIONING'],
-#           UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
-#         ]
-
-
 class bot_switchto_thinking(Action):
 
   def name(self) -> Text:
@@ -128,25 +109,6 @@ class bot_let_action_emerges(Action):
         ]
 
 
-# class bot_output_decision(Action):
-
-#   def name(self) -> Text:
-#     return "bot_output_decision"
-
-#   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#     parse_data = {
-#         "intent": {
-#             "name": "pseudo_user_intent_to_wait",
-#             "confidence": 1.0,
-#           }
-#       }
-
-#     return [
-#           BOTMIND_STATE_SLOT['PRIME'],
-#           UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
-#         ]
-
-
 class set_botmemo_booking_progress__information_collecting__(Action):
 
   def name(self) -> Text:
@@ -155,16 +117,6 @@ class set_botmemo_booking_progress__information_collecting__(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     return [SlotSet("botmemo_booking_progress", "information_collecting")]
-
-
-class set_botmemo_booking_progress__room_selected__(Action):
-
-  def name(self) -> Text:
-    return "set_botmemo_booking_progress__room_selected__"
-
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-    return [SlotSet("botmemo_booking_progress", "room_selected")]
 
 
 class ActionSetBookingInformation(Action):
@@ -216,8 +168,8 @@ class ActionSetBookingInformation(Action):
     else:
       events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
 
-    # for every decisive action
-    # events.append(BOTMIND_STATE_SLOT['ATTENTIVE'])
+    if BookingInfo.checkif_room_selectd(slots):
+      events.append(SlotSet("botmemo_booking_progress", "room_selected"))
 
     return events
 
