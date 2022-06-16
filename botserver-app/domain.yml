@@ -7,9 +7,10 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
-  - pseudo_user_intent_to_wait
+  - pseudo_user_intent
   - user_click_to_select_hotel
   - request_listing_hotel_by_area
+  - request_searching_hotel
   - request_checkin_time
   - request_room_reservation_duration
   - request_room_type
@@ -19,18 +20,22 @@ intents:
   - revise_room_type
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
-  - express_date
+  - express_time
   - express_length_of_time
   - express_area
   - greet
-  - pseudo_intent
+  - thank
+  - affirm
+  - deny
+  - react_positive
+  - react_negative
 
 entities:
   - hotel
   - room_id
   - city
   - area
-  - date
+  - time
   - duration
   - room_type
 
@@ -46,12 +51,20 @@ slots:
       - prime_boostX1
       - prime_boostX2
       - attentive
-  botmemo_booking_progress:
+  botmind_context:
+    type: categorical
+    influence_conversation: true
+    initial_value: idle
+    values:
+      - idle
+      - workingonbooking
+      - chitchat #  in waiting user's request
+  botmemo_booking_progress:  # working memory
     type: categorical
     influence_conversation: true
     initial_value: null
     values:
-      - init
+      - initialized
       - information_collecting
       - done_information_collecting
       - room_selected
@@ -62,13 +75,17 @@ slots:
     values:
       - missing_booking_info
       - missing_room_id
+  userintent_affirm:
+    type: bool
+    influence_conversation: true
+    initial_value: null
   bkinfo_room_id:
     type: float
     influence_conversation: false
   bkinfo_room_id_flag:
     type: categorical
     influence_conversation: true
-    initial_value: null
+    initial_value: empty
     values:
       - empty
       - present
@@ -79,7 +96,7 @@ slots:
   bkinfo_area_flag:
     type: categorical
     influence_conversation: true
-    initial_value: null
+    initial_value: empty
     values:
       - empty
       - present
@@ -90,7 +107,7 @@ slots:
   bkinfo_checkin_time_flag:
     type: categorical
     influence_conversation: true
-    initial_value: null
+    initial_value: empty
     values:
       - empty
       - present
@@ -101,7 +118,7 @@ slots:
   bkinfo_duration_flag:
     type: categorical
     influence_conversation: true
-    initial_value: null
+    initial_value: empty
     values:
       - empty
       - present
@@ -112,7 +129,7 @@ slots:
   bkinfo_room_type_flag:
     type: categorical
     influence_conversation: true
-    initial_value: null
+    initial_value: empty
     values:
       - empty
       - present
@@ -121,13 +138,21 @@ slots:
   notes_bkinfo:
     type: any
     influence_conversation: false
-  notes_room_id:
-    type: any
-    influence_conversation: false
   logs_debugging_info:
     type: list
     influence_conversation: false
     initial_value: []
+  search_result_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - notfound
+      - available
+  notes_search_result:
+    type: any
+    influence_conversation: false
+
 
 responses:
   utter_action_fallback:
@@ -158,7 +183,24 @@ responses:
   utter_room_selection:
     - text: "I will book you a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
   utter_greet:
-    - text: "Hi! Greeting by rule policy."
+    - text: "Hi! I am digital booking assistant. How may I help you?"
+  utter_bot_job_to_support_booking:
+    - text: "My job is to help you to quickly find a suitable hotel."
+  utter_asking_revise_booking_information:
+    - text: "Do you want to change booking information?"
+  utter_inform_booking_area_revised:
+    - text: "Booking area has been changed to {bkinfo_area}."
+  utter_inform_checkin_time_revised:
+    - text: "Check-in time has been changed to {bkinfo_checkin_time}."
+  utter_inform_reservation_duration_revised:
+    - text: "Reservation duration has been changed to {bkinfo_duration}."
+  utter_inform_hotel_room_type_revised:
+    - text: "Room type has been changed to {bkinfo_room_type}."
+  utter_checkif_user_wants_booking:
+    - text: "You want to make hotel bookng, don't you?"
+    - text: "Are you mentioning about hotel booking?"
+  utter_explain_room_type:
+    - text: "Hotels label their rooms by the size bed, the number of beds in the room, as well as the furnishings, interior design, and additional amenities. Follow this, https://hoteltechreport.com/news/room-type, to know more information."
 
 actions:
   - custom_action_fallback
@@ -176,9 +218,13 @@ actions:
   - set_notes_bkinfo
   - botacts_show_room_list
   - botacts_confirm_room_selection
+  - botacts_start_conversation
+  - botacts_express_bot_job_to_support_booking
   - bot_relieves_imposition_to_think
   - bot_switchto_thinking
   - bot_transitioning
   - bot_let_action_emerges
   - bot_output_decision
+  - botacts_checkif_user_wants_booking
+  - bot_perceive_user_wants_booking
 

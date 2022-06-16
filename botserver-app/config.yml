@@ -10,9 +10,18 @@ pipeline:
 # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # If you'd like to customize it, uncomment and adjust the pipeline.
 # See https://rasa.com/docs/rasa/tuning-your-model for more information.
+  - name: HFTransformersNLP
+    # Name of the language model to use
+    model_name: "bert"
+    # Pre-Trained weights to be loaded
+    model_weights: "rasa/LaBSE"
+    # An optional path to a specific directory to download and cache the pre-trained model weights.
+    # The `default` cache_dir is the same as https://huggingface.co/transformers/serialization.html#cache-directory .
+    cache_dir: null
   - name: WhitespaceTokenizer
     intent_tokenization_flag: True
     intent_split_symbol: "+"
+  - name: LanguageModelFeaturizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
@@ -21,11 +30,12 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 101
+    intent_classification: True
+    entity_recognition: True
+    epochs: 51
     learning_rate: 0.001
     batch_size: [64, 256]
     constrain_similarities: true
-    embedding_dimension: 32
     dense_dimension:
       text: 128
       label: 32
@@ -35,12 +45,23 @@ pipeline:
     number_of_transformer_layers: 2
     transformer_size: 256
     number_of_attention_heads: 4
-    drop_rate: 0.2  # Dropout rate for encoder.
+    use_masked_language_model: True
+    connection_density: 0.3
+    embedding_dimension: 32
+    hidden_layers_sizes:
+      text: [512, 128]
+    drop_rate: 0.25  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
+  - name: DucklingEntityExtractor
+    url: http://duckling:8000
+    dimensions:
+      - time
+      - duration
   - name: EntitySynonymMapper
   # - name: ResponseSelector
   #   epochs: 100
   #   constrain_similarities: true
+  # - name: "EntitySynonymMapper"
   - name: FallbackClassifier
     threshold: 0.2
     ambiguity_threshold: 0.1
@@ -53,16 +74,16 @@ policies:
 # See https://rasa.com/docs/rasa/policies for more information.
   # - name: MemoizationPolicy
   - name: RulePolicy
-    core_fallback_threshold: 0.10
+    core_fallback_threshold: 0.35
     core_fallback_action_name: "custom_action_fallback"
     enable_fallback_prediction: True
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.12
+    tolerance: 0.45
     max_history: 3
     learning_rate: 2e-4
-    epochs: 201
+    epochs: 501
     constrain_similarities: true
     model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
@@ -95,11 +116,11 @@ policies:
     number_of_attention_heads: 16
   - name: TEDPolicy
     max_history: 3
-    learning_rate: 1e-4
-    epochs: 2048
+    learning_rate: 2e-4
+    epochs: 357
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [128, 256]
+    batch_size: [65, 256]
     connection_density: 0.89
     dense_dimension:
       text: 32

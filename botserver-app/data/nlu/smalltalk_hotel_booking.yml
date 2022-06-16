@@ -1,0 +1,10 @@
+version: "2.0"
+
+nlu:
+- intent: request_explain_room_type
+  examples: |
+    - what is room type
+    - how many room types are there
+    - i do not understand room type, could you explain
+
+

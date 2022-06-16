@@ -5,12 +5,17 @@ stories:
   steps:
   - slot_was_set:
     - botmind_state: attentive
+    - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - bkinfo_room_id_flag: empty
+    - search_result_flag: null
   - action: botacts_show_room_list
+  - slot_was_set:
+    - search_result_flag: available
   - intent: revise_area
     entities:
       - area: hawaii
@@ -26,18 +31,22 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
-  - action: botacts_show_room_list
 
 - story: when information has been collected completely, user wants to revise check-in time
   steps:
   - slot_was_set:
     - botmind_state: attentive
+    - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - bkinfo_room_id_flag: empty
+    - search_result_flag: null
   - action: botacts_show_room_list
+  - slot_was_set:
+    - search_result_flag: available
   - intent: revise_checkin_time
     entities:
       - date: september 5th
@@ -53,18 +62,22 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
-  - action: botacts_show_room_list
 
 - story: when information has been collected completely, user wants to revise reservation duration
   steps:
   - slot_was_set:
     - botmind_state: attentive
+    - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - bkinfo_room_id_flag: empty
+    - search_result_flag: null
   - action: botacts_show_room_list
+  - slot_was_set:
+    - search_result_flag: available
   - intent: revise_room_reservation_duration
     entities:
       - duration: 1 day
@@ -80,18 +93,22 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
-  - action: botacts_show_room_list
 
 - story: when information has been collected completely, user wants to revise room type
   steps:
   - slot_was_set:
     - botmind_state: attentive
+    - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - bkinfo_room_id_flag: empty
+    - search_result_flag: null
   - action: botacts_show_room_list
+  - slot_was_set:
+    - search_result_flag: available
   - intent: revise_room_type
     entities:
       - room_type: double
@@ -107,5 +124,4 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
-  - action: botacts_show_room_list
 

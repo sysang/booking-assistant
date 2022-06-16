@@ -3,7 +3,7 @@ version: "2.0"
 stories:
 - story: bot switches to thinking, bot lets action emerges
   steps:
-  - intent: pseudo_user_intent_to_wait
+  - intent: pseudo_user_intent
   - slot_was_set:
     - botmind_state: prime_boostX1
   - action: bot_switchto_thinking
@@ -19,7 +19,7 @@ stories:
 
 - story: bot switches to thinking, bot lets action emerges
   steps:
-  - intent: pseudo_user_intent_to_wait
+  - intent: pseudo_user_intent
   - slot_was_set:
     - botmind_state: prime_boostX2
   - action: bot_switchto_thinking
@@ -29,7 +29,7 @@ stories:
 
 - story: bot switches to thinking, bot lets action emerges
   steps:
-  - intent: pseudo_user_intent_to_wait
+  - intent: pseudo_user_intent
   - slot_was_set:
     - botmind_state: prime_boostX1
   - action: bot_switchto_thinking
@@ -39,7 +39,7 @@ stories:
 
 - story: bot switches to thinking, bot lets action emerges
   steps:
-  - intent: pseudo_user_intent_to_wait
+  - intent: pseudo_user_intent
   - slot_was_set:
     - botmind_state: prime_boostX2
   - action: bot_switchto_thinking

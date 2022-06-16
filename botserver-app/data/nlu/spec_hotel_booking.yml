@@ -1,6 +1,18 @@
 version: "2.0"
 
 nlu:
+- intent: request_searching_hotel
+  examples: |
+    - can you help searching hotel
+    - i am searching a hotel
+    - i am looking for a hotel
+    - could you help me find a hotel
+    - could you help me find a hotel romm
+    - please help me find a hotel
+    - i need a room
+    - i need to find a hotel
+    - i am about to find a hotel
+    - please find me a hotel
 - intent: request_listing_hotel_by_area
   examples: |
     - i need to book a hotel for a business surf trip to [hawaii](area)
@@ -8,10 +20,12 @@ nlu:
     - i need to book a hotel for a trip to [los angelesjk](area)
     - can you find me an place to stay that is located in [fort lauderdale beach](area)
     - i'm looking for a hotel in [florida](area)
+    - i'm searching for a hotel in [florida](area)
     - hi! can you help me find a hotel somewhere on [hawaii](area) please
     - can you tell us if there is a hotel in [san diego](area)
     - i am looking for an average priced place in [san diago](area). thankyou.
     - i'm looking for a hotel to stay in during my visit to [florida](area)
+    - i need a hotel room in [florida](area), could you help
 - intent: request_checkin_time
   examples: |
     - book it from [sunday](date)
@@ -83,4 +97,52 @@ nlu:
   examples: |
     - could i change room to [king-size](room_type) bed
     - could i change room to [single](room_type)
+    - can i change room type to [single](room_type)
     - sorry, my mistake i acctually want [double](room_type) room
+    - sorry, it is wrong one, i want a [queen](room_type)
+- synonym: days
+  examples: |
+    - nights
+- synonym: day
+  examples: |
+    - night
+- synonym: king
+  examples: |
+    - king size
+    - king-size
+    - king-size bed
+- synonym: queen
+  examples: |
+    - queen size
+    - queen-size
+    - queen-size bed
+- synonym: joint
+  examples: |
+    - adjoining
+- synonym: apartment
+  examples: |
+    - apartment style
+    - apartment-style
+- lookup: room_type
+  examples: |
+    - single
+    - double
+    - triple
+    - quad
+    - king
+    - queen
+    - twin
+    - hollywood twin
+    - double-double
+    - studio
+    - standard
+    - deluxe
+    - joint
+    - connecting
+    - suite
+    - apartment
+    - accessible
+    - cabana
+    - villa
+    - penthouse
+

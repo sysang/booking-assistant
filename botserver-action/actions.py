@@ -33,6 +33,34 @@ BOTMIND_STATE_SLOT = {
     'PRIMEx2': SlotSet('botmind_state', 'prime_boostX2'),
 }
 
+DATE_FORMAT = 'MMMM Do YYYY'
+
+
+from .actions_botacts_checkif_user_wants_booking import botacts_checkif_user_wants_booking, bot_perceive_user_wants_booking
+
+class custom_action_fallback(Action):
+
+    def name(self) -> Text:
+        return "custom_action_fallback"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        return [
+            FollowupAction('bot_let_action_emerges'),
+        ]
+
+
+class bot_let_action_emerges(Action):
+
+  def name(self) -> Text:
+    return "bot_let_action_emerges"
+
+  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    return [
+            BOTMIND_STATE_SLOT['TRANSITIONING'],
+            FollowupAction(name="pseudo_action"),
+        ]
+
 
 class pseudo_action(Action):
 
@@ -41,19 +69,6 @@ class pseudo_action(Action):
 
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
     return [BOTMIND_STATE_SLOT['ATTENTIVE']]
-
-
-class custom_action_fallback(Action):
-
-  def name(self) -> Text:
-    return "custom_action_fallback"
-
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-    dispatcher.utter_message(response="utter_action_fallback")
-
-    # return [Restarted()]
-    return [FollowupAction(name="action_listen"), AllSlotsReset()]
 
 
 class bot_relieves_imposition_to_think(Action):
@@ -70,7 +85,7 @@ class bot_relieves_imposition_to_think(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
     parse_data = {
         "intent": {
-            "name": "pseudo_user_intent_to_wait",
+            "name": "pseudo_user_intent",
             "confidence": 1.0,
           }
       }
@@ -78,7 +93,7 @@ class bot_relieves_imposition_to_think(Action):
     botmind_state_slot = BOTMIND_STATE_SLOT['PRIMEx1'] if random.random() > 0.5 else BOTMIND_STATE_SLOT['PRIMEx2']
 
     return [
-            UserUttered(text="/pseudo_user_intent_to_wait", parse_data=parse_data),
+            UserUttered(text="/pseudo_user_intent", parse_data=parse_data),
             botmind_state_slot,
             FollowupAction(name="bot_switchto_thinking"),
             ]
@@ -94,19 +109,6 @@ class bot_switchto_thinking(Action):
     botmind_state_slot = BOTMIND_STATE_SLOT['THINKINGx1'] if random.random() > 0.5 else BOTMIND_STATE_SLOT['THINKINGx2']
 
     return [botmind_state_slot]
-
-
-class bot_let_action_emerges(Action):
-
-  def name(self) -> Text:
-    return "bot_let_action_emerges"
-
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-    return [
-            BOTMIND_STATE_SLOT['TRANSITIONING'],
-            FollowupAction(name="pseudo_action"),
-        ]
 
 
 class set_botmemo_booking_progress__information_collecting__(Action):
@@ -163,11 +165,14 @@ class ActionSetBookingInformation(Action):
     slots[slot_name] = slot_value
     if BookingInfo.checkif_done_collection_information(slots):
       events.append(SlotSet("botmemo_booking_progress", "done_information_collecting"))
-    else:
+    elif slots.get('botmemo_booking_progress') != 'information_collecting':
       events.append(SlotSet("botmemo_booking_progress", "information_collecting"))
 
     if BookingInfo.checkif_room_selectd(slots):
       events.append(SlotSet("botmemo_booking_progress", "room_selected"))
+
+    if slots.get('botmind_context') != 'workingonbooking':
+      events.append(SlotSet("botmind_context", "workingonbooking"))
 
     return events
 
@@ -204,7 +209,7 @@ class set_booking_information__checkin_time__(ActionSetBookingInformation):
     return "set_booking_information__checkin_time__"
 
   def slot_entity(self) -> Tuple[str, str]:
-    return ('date', 'bkinfo_checkin_time')
+    return ('time', 'bkinfo_checkin_time')
 
 
 class set_booking_information__duration__(ActionSetBookingInformation):
@@ -246,15 +251,22 @@ class set_notes_bkinfo(Action):
     botmemo_booking_progress = slots['botmemo_booking_progress']
     error_message = '[ERROR] in set_notes_bkinfo action, missing booking info'
     if botmemo_booking_progress != 'done_information_collecting':
-      return [
+        return [
             SlotSet('botmemo_booking_failure', 'missing_booking_info'),
             SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
-          ]
+        ]
 
     # TODO: check slot's value, if slot is empty re-proceed appropricate info collecting step
     bkinfo = BookingInfo(slots)
 
-    return [SlotSet('notes_bkinfo', bkinfo)] + BookingInfo.set_booking_information_flag(value='noted')
+    events = [
+        SlotSet('notes_bkinfo', bkinfo),
+        SlotSet('notes_search_result', None),
+        SlotSet('search_result_flag', None),
+    ]
+    events += BookingInfo.set_booking_information_flag(value='noted')
+
+    return events
 
 class botacts_show_room_list(Action):
 
@@ -275,8 +287,11 @@ class botacts_show_room_list(Action):
 
     rooms = query_available_rooms(**bkinfo)
 
+    events = []
+
     if len(rooms) == 0:
       dispatcher.utter_message(response="utter_room_not_available")
+      events.append(SlotSet('search_result_flag', 'notfound'))
     else:
       buttons = []
       for room in rooms:
@@ -294,8 +309,11 @@ class botacts_show_room_list(Action):
       logger.info("[INFO] buttons: %s", buttons)
       dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
 
+      events.append(SlotSet('search_result_flag', 'available'))
+      events.append(SlotSet('notes_search_result', rooms))
+
     # return [BOTMIND_STATE_SLOT['ATTENTIVE']]
-    return []
+    return events
 
 
 class botacts_confirm_room_selection(Action):
@@ -320,49 +338,67 @@ class botacts_confirm_room_selection(Action):
     room = query_room_by_id(room_id)
     hotel_name = room['hotel']
     # TODO: check slot for potental error
-    checkin_time = arrow.get(bkinfo['bkinfo_checkin_time']).format('MMMM Do YYYY')
+    checkin_time = arrow.get(bkinfo['bkinfo_checkin_time']).format(DATE_FORMAT)
     duration = bkinfo['bkinfo_duration']
     duration = str(duration) + ' days' if duration > 1 else str(duration) + ' day'
 
-    dispatcher.utter_message(response = "utter_room_selection",
+    dispatcher.utter_message(response="utter_room_selection",
           room_type=bkinfo['bkinfo_room_type'],
           checkin_time=checkin_time,
           duration=duration,
           hotel_name=hotel_name,
         )
 
-    return [
-            # BOTMIND_STATE_SLOT['ATTENTIVE'],
-            SlotSet('bkinfo_room_id', None),
+    events = [
+            SlotSet('botmind_context', 'idle'),
+            SlotSet('botmemo_booking_progress', None),
+            SlotSet('search_result_flag', None),
             SlotSet('bkinfo_room_id_flag', None),
-            SlotSet('notes_room_id', room_id),
-        ] + BookingInfo.set_booking_information_flag(value=None) + BookingInfo.set_booking_information(value=None)
+        ]
+
+    events +=  BookingInfo.set_booking_information_flag(value=None)
+    events +=  BookingInfo.set_booking_information(value=None)
+
+    return events
 
 
 class ActionReviseBookingInformation(ActionSetBookingInformation):
 
-  def name(self) -> Text:
-    return "ActionReviseBookingInformation"
+    def name(self) -> Text:
+        return "ActionReviseBookingInformation"
 
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def inform(self, slot_name, slot_value, dispatcher):
+        if 'bkinfo_area' == slot_name:
+            dispatcher.utter_message(response='utter_inform_booking_area_revised', bkinfo_area=slot_value)
+        elif 'bkinfo_checkin_time' == slot_name:
+            bkinfo_checkin_time = arrow.get(slot_value).format(DATE_FORMAT)
+            dispatcher.utter_message(response='utter_inform_checkin_time_revised', bkinfo_checkin_time=bkinfo_checkin_time)
+        elif 'bkinfo_duration' == slot_name:
+            dispatcher.utter_message(response='utter_inform_reservation_duration_revised', bkinfo_duration=slot_value)
+        elif 'bkinfo_room_type' == slot_name:
+            dispatcher.utter_message(response='utter_inform_hotel_room_type_revised', bkinfo_room_type=slot_value)
 
-    slot_name, slot_value = self.retrieve_slot_data(tracker)
-    if not slot_name and not slot_value:
-      return []
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    events = []
+        slot_name, slot_value = self.retrieve_slot_data(tracker)
+        if not slot_name and not slot_value:
+            return []
 
-    if slot_value:
-      events.append(SlotSet(slot_name, slot_value))
-      events.append(SlotSet('notes_bkinfo', None))
-      events = events + BookingInfo.set_booking_information_flag(value='present')
-    elif slot_name:
-      events.append(SlotSet('botmemo_booking_progress', 'information_collecting'))
-      events.append(SlotSet(f"{slot_name}_flag", 'onchange'))
+        events = []
 
-    events = events + self.update_booking_progress(slot_name, slot_value, tracker)
+        if slot_value:
+            events.append(SlotSet(slot_name, slot_value))
+            events.append(SlotSet('notes_bkinfo', None))
+            events += BookingInfo.set_booking_information_flag(value='present')
+        elif slot_name:
+            events.append(SlotSet('botmemo_booking_progress', 'information_collecting'))
+            events.append(SlotSet(f"{slot_name}_flag", 'onchange'))
 
-    return events
+        events += self.update_booking_progress(slot_name, slot_value, tracker)
+
+        self.inform(slot_name, slot_value, dispatcher)
+
+        return events
 
 
 class revise_booking_information__area__(ActionReviseBookingInformation):
@@ -399,3 +435,31 @@ class revise_booking_information__room_type__(ActionReviseBookingInformation):
 
   def slot_entity(self) -> Tuple[str, str]:
     return ('room_type', 'bkinfo_room_type')
+
+
+class botacts_start_conversation(Action):
+
+    def name(self) -> Text:
+        return "botacts_start_conversation"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        events = [
+            SlotSet('botmind_context', 'chitchat'),
+        ]
+
+        return events
+
+
+class botacts_express_bot_job_to_support_booking(Action):
+
+    def name(self) -> Text:
+        return "botacts_express_bot_job_to_support_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        events = [
+            SlotSet('botmind_context', 'workingonbooking'),
+            SlotSet('botmemo_booking_progress', 'initialized')
+        ]
+
+        return events
