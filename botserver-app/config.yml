@@ -36,20 +36,20 @@ pipeline:
     learning_rate: 0.001
     batch_size: [64, 256]
     constrain_similarities: true
+    hidden_layers_sizes:
+      text: [512, 128]
     dense_dimension:
       text: 128
       label: 32
     concat_dimension:
       text: 128
       label: 32
+    connection_density: 0.3
     number_of_transformer_layers: 2
     transformer_size: 256
     number_of_attention_heads: 4
     use_masked_language_model: True
-    connection_density: 0.3
     embedding_dimension: 32
-    hidden_layers_sizes:
-      text: [512, 128]
     drop_rate: 0.25  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
   - name: DucklingEntityExtractor
@@ -74,24 +74,24 @@ policies:
 # See https://rasa.com/docs/rasa/policies for more information.
   # - name: MemoizationPolicy
   - name: RulePolicy
-    core_fallback_threshold: 0.35
+    core_fallback_threshold: 0.29
     core_fallback_action_name: "custom_action_fallback"
     enable_fallback_prediction: True
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.45
+    tolerance: 0.47
     max_history: 3
     learning_rate: 2e-4
-    epochs: 501
+    epochs: 701
     constrain_similarities: true
     model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
-    connection_density: 0.89
+    connection_density: 0.85
     dense_dimension:
       text: 32
       action_text: 32
-      label_action_text: 16
+      label_action_text: 32
       intent: 16
       action_name: 16
       label_action_name: 16
@@ -109,23 +109,24 @@ policies:
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 1
-      dialogue: 1
-      action_text: 1
-      label_action_text: 1
+      text: 3
+      dialogue: 3
+      action_text: 3
+      label_action_text: 3
     number_of_attention_heads: 16
+    embedding_dimension: 16
   - name: TEDPolicy
-    max_history: 3
+    max_history: 2
     learning_rate: 2e-4
-    epochs: 357
+    epochs: 2048
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [65, 256]
-    connection_density: 0.89
+    batch_size: [64, 256]
+    connection_density: 0.85
     dense_dimension:
       text: 32
       action_text: 32
-      label_action_text: 16
+      label_action_text: 32
       intent: 16
       action_name: 16
       label_action_name: 16
@@ -143,8 +144,9 @@ policies:
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 1
-      dialogue: 1
-      action_text: 1
-      label_action_text: 1
+      text: 3
+      dialogue: 3
+      action_text: 3
+      label_action_text: 3
     number_of_attention_heads: 16
+    embedding_dimension: 16

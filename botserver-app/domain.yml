@@ -67,6 +67,7 @@ slots:
       - initialized
       - information_collecting
       - done_information_collecting
+      - room_showing
       - room_selected
   botmemo_booking_failure:
     type: categorical
@@ -135,9 +136,6 @@ slots:
       - present
       - onchange
       - noted
-  notes_bkinfo:
-    type: any
-    influence_conversation: false
   logs_debugging_info:
     type: list
     influence_conversation: false
@@ -149,10 +147,6 @@ slots:
     values:
       - notfound
       - available
-  notes_search_result:
-    type: any
-    influence_conversation: false
-
 
 responses:
   utter_action_fallback:
@@ -181,13 +175,13 @@ responses:
     - text: "I'm sorry but we have no hotels meeting your criteria."
     - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
   utter_room_selection:
-    - text: "I will book you a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}."
+    - text: "You've selected a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}. Do you want to proceed booking."
   utter_greet:
-    - text: "Hi! I am digital booking assistant. How may I help you?"
+    - text: "Hi! I am virtual booking assistant. How may I help you?"
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."
   utter_asking_revise_booking_information:
-    - text: "Do you want to change booking information?"
+    - text: "Let's try with other options."
   utter_inform_booking_area_revised:
     - text: "Booking area has been changed to {bkinfo_area}."
   utter_inform_checkin_time_revised:
@@ -205,7 +199,6 @@ responses:
 actions:
   - custom_action_fallback
   - pseudo_action
-  - set_botmemo_booking_progress__information_collecting__
   - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__

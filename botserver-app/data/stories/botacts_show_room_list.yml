@@ -22,9 +22,10 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: user_click_to_select_hotel
     entities:
       - room_id: 1
@@ -42,6 +43,7 @@ stories:
     - bkinfo_room_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
+  - action: action_listen
 
 - story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
   steps:
@@ -64,7 +66,8 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: notfound
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: notfound
+    - botmemo_booking_progress: room_showing
   - action: utter_asking_revise_booking_information

@@ -12,15 +12,16 @@ stories:
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
     - bkinfo_room_id_flag: empty
-    - search_result_flag: null
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: revise_area
     entities:
       - area: hawaii
   - action: revise_booking_information__area__
   - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
@@ -31,6 +32,7 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: available
 
 - story: when information has been collected completely, user wants to revise check-in time
   steps:
@@ -43,15 +45,16 @@ stories:
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
     - bkinfo_room_id_flag: empty
-    - search_result_flag: null
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: revise_checkin_time
     entities:
       - date: september 5th
   - action: revise_booking_information__checkin_time__
   - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
@@ -62,6 +65,7 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: notfound
 
 - story: when information has been collected completely, user wants to revise reservation duration
   steps:
@@ -74,15 +78,16 @@ stories:
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
     - bkinfo_room_id_flag: empty
-    - search_result_flag: null
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: revise_room_reservation_duration
     entities:
       - duration: 1 day
   - action: revise_booking_information__duration__
   - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
@@ -93,6 +98,7 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: available
 
 - story: when information has been collected completely, user wants to revise room type
   steps:
@@ -105,15 +111,16 @@ stories:
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
     - bkinfo_room_id_flag: empty
-    - search_result_flag: null
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: revise_room_type
     entities:
       - room_type: double
   - action: revise_booking_information__room_type__
   - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
@@ -124,4 +131,5 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: notfound
 

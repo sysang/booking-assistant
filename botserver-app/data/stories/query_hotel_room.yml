@@ -64,9 +64,10 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
   - intent: user_click_to_select_hotel
     entities:
       - room_id: 1
@@ -198,9 +199,10 @@ stories:
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
     - bkinfo_room_type_flag: noted
+    - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
-    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
 
 - story: query hotel room - (multi-intent) request check-in time, reservation duration
   steps:

@@ -20,11 +20,9 @@ def duckling_parse(expression, dim):
   r.json()
   # [{'body': '3 days', 'start': 0, 'value': {'value': 3, 'day': 3, 'type': 'value', 'unit': 'day', 'normalized': {'value': 259200, 'unit': 'second'}}, 'end': 6, 'dim': 'duration', 'latent': False}]
   """
-  _expression = expression.replace('night', 'day')
-  _expression = _expression.replace('nights', 'days')
   data = {
         'locale': 'en_US',
-        'text': _expression,
+        'text': expression,
         'dims': [dim]
       }
   r = post(PARSING_URL, data=data)

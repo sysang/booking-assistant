@@ -7,23 +7,6 @@ stories:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-  - or:
-    - intent: pseudo_user_intent
-    - intent: user_click_to_select_hotel
-    - intent: request_listing_hotel_by_area
-    - intent: request_searching_hotel
-    - intent: request_checkin_time
-    - intent: request_room_reservation_duration
-    - intent: request_room_type
-    - intent: revise_area
-    - intent: revise_checkin_time
-    - intent: revise_room_reservation_duration
-    - intent: revise_room_type
-    - intent: request_checkin_time+request_room_reservation_duration
-    - intent: request_listing_hotel_by_area+request_checkin_time
-    - intent: express_time
-    - intent: express_length_of_time
-    - intent: express_area
   - action: action_unlikely_intent
   - action: bot_relieves_imposition_to_think
 
@@ -33,23 +16,14 @@ stories:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
-  - or:
-    - intent: pseudo_user_intent
-    - intent: user_click_to_select_hotel
-    - intent: request_listing_hotel_by_area
-    - intent: request_searching_hotel
-    - intent: request_checkin_time
-    - intent: request_room_reservation_duration
-    - intent: request_room_type
-    - intent: revise_area
-    - intent: revise_checkin_time
-    - intent: revise_room_reservation_duration
-    - intent: revise_room_type
-    - intent: request_checkin_time+request_room_reservation_duration
-    - intent: request_listing_hotel_by_area+request_checkin_time
-    - intent: express_time
-    - intent: express_length_of_time
-    - intent: express_area
   - action: action_unlikely_intent
   - action: bot_relieves_imposition_to_think
 
+- story: action_unlikely_intent is to trigger bot_relieves_imposition_to_think
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+  - action: action_unlikely_intent
+  - action: bot_relieves_imposition_to_think

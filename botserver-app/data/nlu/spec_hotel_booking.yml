@@ -13,11 +13,21 @@ nlu:
     - i need to find a hotel
     - i am about to find a hotel
     - please find me a hotel
+    - i want to make booking
 - intent: request_listing_hotel_by_area
   examples: |
+    - i need to book a hotel for a trip to [los angeles](area)
+    - i need to book a hotel for a trip to [hanoi](area)
+    - i need to book a hotel for a trip to [ho chi minh city](area)
+    - i need to book a hotel for a trip to [bangkok](area)
+    - i need to book a hotel for a trip to [paris](area)
+    - i need to book a hotel for a trip to [shanghai](area)
+    - i need to book a hotel for a trip to [berlin](area)
+    - i need to book a hotel for a trip to [bejing](area)
+    - i need to book a hotel for a trip to [singapore](area)
+    - i need to book a hotel for a trip to [hongkong](area)
     - i need to book a hotel for a business surf trip to [hawaii](area)
     - i need to book a hotel for a trip to [fort lauderdale beach](area)
-    - i need to book a hotel for a trip to [los angelesjk](area)
     - can you find me an place to stay that is located in [fort lauderdale beach](area)
     - i'm looking for a hotel in [florida](area)
     - i'm searching for a hotel in [florida](area)
@@ -28,14 +38,14 @@ nlu:
     - i need a hotel room in [florida](area), could you help
 - intent: request_checkin_time
   examples: |
-    - book it from [sunday](date)
-    - i need it on [saturday](date)
-    - i need it on [october 10th](date)
-    - i need it booked on [january 23th](date)
-    - i need it starting from [june 10th](date)
-    - my stay will start on [tuesday](date)
-    - we will be arriving on [monday](date)
-    - i would like to book a room for [friday](date)
+    - book it from [sunday](time)
+    - i need it on [saturday](time)
+    - i need it on [october 10th](time)
+    - i need it booked on [january 23th](time)
+    - i need it starting from [june 10th](time)
+    - my stay will start on [tuesday](time)
+    - we will be arriving on [monday](time)
+    - i would like to book a room for [friday](time)
 - intent: request_room_type
   examples: |
     - i’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
@@ -60,33 +70,36 @@ nlu:
     - i would like to book a room for [four nights](duration)
 - intent: request_checkin_time+request_room_reservation_duration
   examples: |
-    - i want to book a room for [three nights](duration) starting from [sunday](date)
-    - book it for [2 nights](date) from [friday](date)
-    - book it for [4 nights](date) in [july 19th](date)
-    - our stay will start on [tuesday](date) for [4 nights](duration)
-    - i need it on [saturday](date), [3 nights](duration) stay
-    - we will be staying on [monday](date) and staying [5 nights](duration)
-    - i would like to book a room for [friday](date) for [four nights](duration)
+    - i want to book a room for [three nights](duration) starting from [sunday](time)
+    - book it for [2 nights](duration) from [friday](time)
+    - book it for [4 nights](duration) in [july 19th](time)
+    - our stay will start on [tuesday](time) for [4 nights](duration)
+    - i need it on [saturday](time), [3 nights](duration) stay
+    - we will be staying on [monday](time) and staying [5 nights](duration)
+    - i would like to book a room for [friday](time) for [four nights](duration)
 - intent: request_listing_hotel_by_area+request_checkin_time
   examples: |
-    - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](date)
-    - can you find me an place to stay that is located in [fort lauderdale beach](area) on [friday](date)
-    - i'm looking for a hotel in [florida](area) on [september 5th](date)
-    - can you tell us if there is a hotel in [san diego](area) on [monday](date)
-    - i am looking for an average priced place in [san diago](area) on [june 29th](date). thankyou.
+    - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](time)
+    - can you find me an place to stay that is located in [fort lauderdale beach](area) on [friday](time)
+    - i'm looking for a hotel in [florida](area) on [september 5th](time)
+    - can you tell us if there is a hotel in [san diego](area) on [monday](time)
+    - i am looking for an average priced place in [san diago](area) on [june 29th](time). thankyou.
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
     - can you change the area to [new york](area) please
     - can you change the city to [austin](area) please
+    - change the area to [chicago](area)
+    - change the place to [hamberg](area)
 - intent: revise_checkin_time
   examples: |
-    - could i change check in time to [sunday](date)
-    - could i change checkin time to [sunday](date)
-    - i change my mind, please change the date to [december 12th](date)
-    - sorry can i change date to [october 1st](date)
-    - i want it on [january 25th](date), please update
-    - it is wrong day, please chagne it to [this sunday](date)
+    - could i change check in time to [sunday](time)
+    - could i change checkin time to [sunday](time)
+    - i change my mind, please change the date to [december 12th](time)
+    - i change my mind, please change the time to [december 12th](time)
+    - sorry can i change date to [october 1st](time)
+    - i want it on [january 25th](time), please update
+    - it is wrong day, please chagne it to [this sunday](time)
 - intent: revise_room_reservation_duration
   examples: |
     - can you change the duration to [2 days](duration)

@@ -7,36 +7,37 @@ from .service import duckling_parse
 logger = logging.getLogger(__name__)
 
 def process_duration_value(expression):
-  # dim = 'duration'
-  # unit = 'day'
-  # parsed = duckling_parse(expression=expression, dim=dim)
-  # parsed_dim = parsed['dim']
-  # parsed_value_unit = parsed['value']['unit']
 
-  # if parsed_dim == dim and parsed_value_unit == unit:
-  #   return parsed['value']['value']
+    if isinstance(expression, int):
+        return expression
 
-  # logger.info(f"[INFO] expression %s is invalid. More details: in respect to dimension %s", expression, dim)
-  # logger.info(f"[INFO] (duckling) parsed: %s", str(parsed))
+    if isinstance(expression, str):
+        dim = 'duration'
+        unit = 'day'
+        expression = expression.replace('night', 'day').replace('nights', 'days')
 
-  # return None
+        parsed = duckling_parse(expression=expression, dim=dim)
+        parsed_dim = parsed['dim']
+        parsed_value_unit = parsed['value']['unit']
 
-  return expression
+        if parsed_dim == dim and parsed_value_unit == unit:
+            return parsed['value']['value']
+
+        logger.info(f"[INFO] expression %s is invalid. More details: in respect to dimension %s", expression, dim)
+        logger.info(f"[INFO] (duckling) parsed: %s", str(parsed))
+
+    return None
 
 
-def process_date_value(expression):
-  # dim = 'time'
-  # parsed = duckling_parse(expression=expression, dim=dim)
-  # parsed_dim = parsed['dim']
+def process_time_value(expression):
 
-  # if parsed_dim == dim:
-  #   return parsed['value']['value']
+    if isinstance(expression, str):
+        return expression
 
-  # logger.info(f"[INFO] expression %s is invalid. More details: in respect to dimension %s", expression, dim)
-  # logger.info(f"[INFO] (duckling) parsed: %s", str(parsed))
+    if isinstance(expression, dict):
+        return expression.get('from', None)
 
-  # return None
-  return expression
+    return None
 
 def process_room_type(expression):
   # bed_sizes = BED_SIZES.keys()
@@ -52,7 +53,7 @@ def process_room_type(expression):
 def mapping_table(entity_name):
   TABLE = {
       'duration': process_duration_value,
-      'date': process_date_value,
+      'time': process_time_value,
       'room_type': process_room_type,
     }
 
