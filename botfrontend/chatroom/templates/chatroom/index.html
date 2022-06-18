@@ -1,11 +1,17 @@
 {% load static %}
-
-<head>
-</head>
-<body>
-    <div class="chat-container">
-      <h1>Page</h1>
-    </div>
+<!DOCTYPE html>
+<html style="height: 100%;" class="" lang="en-us">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Website powered by Webkul">
+        <meta name="robots" content="index,follow">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <title>Qlo Reservation System</title>
+        <link rel="stylesheet" href="{% static 'chatroom/css/index.css' %}" type="text/css" media="all">
+    </head>
+<body style="height: 100%;" class="index hide-left-column hide-right-column lang_en" id="index">
     <script>
       !(function () {
         let e = document.createElement("script"),
@@ -25,6 +31,527 @@
         }),
         t.insertBefore(e, t.firstChild);
       })();
-</script>
+    </script>
+    <div id="page" style="height: 100%;">
+        <div class="header-container" style="height: 100%;">
+            <header id="header" style="background-image:url({% static 'chatroom/asset/hotel_header_image.jpg'%}); height: 100%;">
+                <div class="container">
+                    <div class="row">
+                        <div id="header_logo" class="col-xs-4">
+                            <a href="/dialogue/chatroom/" title="Qlo Reservation System">
+                                <img class="logo img-responsive" src="{% static 'chatroom/asset/logo.jpg' %}" alt="Qlo Reservation System" width="243" height="61">
+                            </a>
+                        </div>
+                        <div class="pull-right clearfix nav_menu_padding">
+                            <button type="button" class="nav_toggle">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="nav_menu_padding header_user_info pull-right hidden-xs">
+                            <ul class="navbar-nav userlogin_block hidden-xs">
+                                <li class="active">
+                                    <a class="user_login navigation-link" href="/dialogue/chatroom/" rel="nofollow" title="Log in to your customer account">
+                                        <span class="hide_xs">Sign in</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-desc-container">
+                    <div class="header-desc-wrapper">
+                        <div class="header-desc-primary">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+                                        <p class="header-desc-welcome">Welcome To</p>
+                                        <hr class="heasder-desc-hr-first">
+                                        <div class="header-desc-inner-wrapper">
+                                            <h1 class="header-hotel-name">Hotel Mountain View</h1>
+                                            <p class="header-hotel-desc">
+                                                Tofu helvetica leggings tattooed. Skateboard blue bottle green juice, brooklyn cardigan kitsch fap narwhal organic flexitarian.
+                                            </p>
+                                            <hr class="heasder-desc-hr-second">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-rmsearch-container header-rmsearch-hide-xs hidden-xs">
+                    <div class="header-rmsearch-wrapper" id="xs_room_search_form">
+                        <div class="header-rmsearch-primary">
+                            <div class="container">
+                                <div class="row header-rmsearch-inner-wrapper">
+                                    <form method="POST" id="search_hotel_block_form">
+                                        <div class="form-group col-sm-6 col-lg-3 ">
+                                            <input type="text" class="form-control header-rmsearch-input" id="hotel_location" name="hotel_location" autocomplete="off" placeholder="Hotel Location">
+                                        </div>
+                                        <div class="form-group col-sm-6 col-lg-3 ">
+                                            <div class="dropdown">
+                                                <button class="form-control header-rmsearch-input " type="button" data-toggle="dropdown" id="id_hotel_button">
+                                                    <span id="hotel_cat_name" class="pull-left">Select Hotel</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4 col-lg-2 ">
+                                            <input type="text" class="form-control header-rmsearch-input input-date hasDatepicker" id="check_in_time" name="check_in_time" autocomplete="off" placeholder="Check In Date" readonly="readonly">
+                                        </div>
+                                        <div class="form-group col-sm-4 col-lg-2 ">
+                                            <input type="text" class="form-control header-rmsearch-input input-date hasDatepicker" id="check_out_time" name="check_out_time" autocomplete="off" placeholder="Check Out Date" readonly="readonly">
+                                        </div>
+                                        <div class="form-group col-sm-4 col-lg-2 ">
+                                            <button type="submit" class="btn btn-default button button-medium exclusive" name="search_room_submit" id="search_room_submit">
+                                                <span>Search Now</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="columns-container">
+        <div id="center_column" class="center_column col-xs-12 col-sm-12">
+            <div id="hotelAmenitiesBlock" class="row home_block_container">
+                <div class="col-xs-12 col-sm-12 home_amenities_wrapper" style="height: 850px;">
+                    <div class="row home_block_desc_wrapper">
+                        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+                            <p class="home_block_heading">Amenities</p>
+                            <p class="home_block_description">
+                                Families travelling with kids will find Amboseli national park a safari destination matched to no other, with less tourist traffic, breathtaking open space.
+                            </p>
+                            <hr class="home_block_desc_line">
+                        </div>
+                    </div>
+                        <div class="homeAmenitiesBlock home_block_content" style="left: 0; right: 0px; top: 250px;">
+                            <div class="row margin-lr-0">
+                                <div class="col-md-6 padding-lr-0 hidden-xs hidden-sm">
+                                    <div class="row margin-lr-0 amenity_content">
+                                        <div class="col-md-6 padding-lr-0">
+                                            <div class="amenity_img_primary">
+                                                <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_1.jpg'%}')"></div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">luxurious Rooms</p>
+                                                <p class="amenity_description">
+                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s
+                                                </p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 padding-lr-0 visible-sm">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-sm-6 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_1.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">luxurious Rooms</p>
+                                                <p class="amenity_description">
+                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s
+                                                </p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 padding-lr-0 visible-xs">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-xs-12 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_1.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">luxurious Rooms</p>
+                                                <p class="amenity_description">
+                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s
+                                                </p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 padding-lr-0 hidden-xs hidden-sm">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-md-6 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_2.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">World class cheffs</p>
+                                                <p class="amenity_description">
+                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s
+                                                </p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 padding-lr-0 visible-sm">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-sm-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">World class cheffs</p>
+                                                <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_2.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 padding-lr-0 visible-xs">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-xs-12 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_2.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">World class cheffs</p>
+                                                <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-lr-0">
+                            <div class="col-md-6 padding-lr-0 hidden-xs hidden-sm">
+                                <div class="row margin-lr-0 amenity_content">
+                                    <div class="col-md-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                        <div class="amenity_desc_primary">
+                                            <div class="amenity_desc_secondary">
+                                                <p class="amenity_heading">Restaurants</p>
+                                                <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                                <hr class="amenity_desc_hr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 padding-lr-0">
+                                        <div class="amenity_img_primary">
+                                            <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_3.jpg'%}')"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-sm-12 padding-lr-0 visible-sm">
+                            <div class="row margin-lr-0 amenity_content">
+                                <div class="col-sm-6 padding-lr-0">
+                                    <div class="amenity_img_primary">
+                                        <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_3.jpg'%}')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                    <div class="amenity_desc_primary">
+                                        <div class="amenity_desc_secondary">
+                                            <p class="amenity_heading">Restaurants</p>
+                                            <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                            <hr class="amenity_desc_hr">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 padding-lr-0 visible-xs">
+                            <div class="row margin-lr-0 amenity_content">
+                                <div class="col-xs-12 padding-lr-0">
+                                    <div class="amenity_img_primary">
+                                        <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_3.jpg'%}')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                    <div class="amenity_desc_primary">
+                                        <div class="amenity_desc_secondary">
+                                            <p class="amenity_heading">Restaurants</p>
+                                            <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                            <hr class="amenity_desc_hr">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 padding-lr-0 hidden-xs hidden-sm">
+                            <div class="row margin-lr-0 amenity_content">
+                                <div class="col-md-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                    <div class="amenity_desc_primary">
+                                        <div class="amenity_desc_secondary">
+                                            <p class="amenity_heading">Gym &amp; Spa</p>
+                                            <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                            <hr class="amenity_desc_hr">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 padding-lr-0">
+                                    <div class="amenity_img_primary">
+                                        <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_4.jpg'%}')"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 padding-lr-0 visible-sm">
+                            <div class="row margin-lr-0 amenity_content">
+                                <div class="col-sm-6 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                    <div class="amenity_desc_primary">
+                                        <div class="amenity_desc_secondary">
+                                            <p class="amenity_heading">Gym &amp; Spa</p>
+                                            <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                            <hr class="amenity_desc_hr">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 padding-lr-0">
+                                    <div class="amenity_img_primary">
+                                        <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_4.jpg'%}')"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 padding-lr-0 visible-xs">
+                            <div class="row margin-lr-0 amenity_content">
+                                <div class="col-xs-12 padding-lr-0">
+                                    <div class="amenity_img_primary">
+                                        <div class="amenity_img_secondary" style="background-image: url('{% static 'chatroom/asset/hotels_features_img_4.jpg'%}')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 padding-lr-0 amenity_desc_cont" style="height: 267px;">
+                                    <div class="amenity_desc_primary">
+                                        <div class="amenity_desc_secondary">
+                                            <p class="amenity_heading">Gym &amp; Spa</p>
+                                            <p class="amenity_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s</p>
+                                            <hr class="amenity_desc_hr">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="hotelRoomsBlock" class="container home_block_container hidden-xs hidden-sm">
+                <div class="row home_block_desc_wrapper">
+                    <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+                        <p class="home_block_heading">Our Rooms</p>
+                        <p class="home_block_description">Families travelling with kids will find Amboseli national park a safari destination matched to no other, with less tourist traffic, breathtaking open space.</p>
+                        <hr class="home_block_desc_line">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row home_block_content">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 margin-btm-30">
+                                        <img src="{% static '/chatroom/asset/super-delux-rooms_001.jpg' %}" alt="Delux Rooms" class="img-responsive width-100">
+                                        <div class="hotelRoomDescContainer">
+                                            <div class="row margin-lr-0">
+                                                <p class="htlRoomTypeNameText pull-left">Delux Rooms</p>
+                                                <p class="htlRoomTypePriceText pull-right"> <span class="wk_roomType_price ">$1,500.00</span> /&nbsp;Per Night </p>
+                                            </div>
+                                            <div class="row margin-lr-0 htlRoomTypeDescText">
+                                                Fashion axe kogi yuccie, ramps shabby chic direct
+                                                trade before they sold out distillery bicycle rights. Slow-carb +1 quinoa VHS. +1 brunch trust fund,
+                                                meggings chartreuse sustainable everyday carry tumblr hoodie tacos tilde ramps post-ironic fixie.
+                                            </div>
+                                            <div class="row margin-lr-0">
+                                                <a target="_blank" class="btn btn-default button htlRoomTypeBookNow" href="/dialogue/chatroom/">
+                                                    <span>book now</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 margin-btm-30">
+                                        <img src="{% static '/chatroom/asset/super-delux-rooms_002.jpg' %}" alt="Executive Rooms" class="img-responsive width-100">
+                                        <div class="hotelRoomDescContainer">
+                                            <div class="row margin-lr-0">
+                                                <p class="htlRoomTypeNameText pull-left">Executive Rooms</p>
+                                                <p class="htlRoomTypePriceText pull-right"> <span class="wk_roomType_price ">$2,000.00</span> /&nbsp;Per Night </p>
+                                            </div>
+                                            <div class="row margin-lr-0 htlRoomTypeDescText">
+                                                <p>
+                                                    Fashion axe kogi yuccie, ramps shabby chic direct trade before they 
+                                                    sold out distillery bicycle rights. Slow-carb +1 quinoa VHS. +1 brunch 
+                                                    trust fund, meggings chartreuse sustainable everyday carry tumblr hoodie
+                                                    tacos tilde ramps post-ironic fixie.
+                                                </p>
+                                            </div>
+                                            <div class="row margin-lr-0">
+                                                <a target="_blank" class="btn btn-default button htlRoomTypeBookNow" href="/dialogue/chatroom/">
+                                                    <span>book now</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 margin-btm-30">
+                                        <img src="{% static '/chatroom/asset/super-delux-rooms_003.jpg' %}" alt="General Rooms" class="img-responsive width-100">
+                                        <div class="hotelRoomDescContainer">
+                                            <div class="row margin-lr-0">
+                                                <p class="htlRoomTypeNameText pull-left">General Rooms</p>
+                                                <p class="htlRoomTypePriceText pull-right"> <span class="wk_roomType_price ">$1,000.00</span> /&nbsp;Per Night </p>
+                                            </div>
+                                            <div class="row margin-lr-0 htlRoomTypeDescText">
+                                                <p>
+                                                    Fashion axe kogi yuccie, ramps shabby chic direct trade before they 
+                                                    sold out distillery bicycle rights. Slow-carb +1 quinoa VHS. +1 brunch 
+                                                    trust fund, meggings chartreuse sustainable everyday carry tumblr hoodie
+                                                    tacos tilde ramps post-ironic fixie.
+                                                </p>
+                                            </div>
+                                            <div class="row margin-lr-0">
+                                                <a target="_blank" class="btn btn-default button htlRoomTypeBookNow" href="/dialogue/chatroom/"><span>book now</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 margin-btm-30">
+                                        <img src="{% static '/chatroom/asset/super-delux-rooms_004.jpg' %}" alt="luxury Rooms" class="img-responsive width-100">
+                                        <div class="hotelRoomDescContainer">
+                                            <div class="row margin-lr-0">
+                                                <p class="htlRoomTypeNameText pull-left">luxury Rooms</p>
+                                                <p class="htlRoomTypePriceText pull-right"> <span class="wk_roomType_price ">$2,500.00</span> /&nbsp;Per Night </p>
+                                            </div>
+                                            <div class="row margin-lr-0 htlRoomTypeDescText">
+                                                Fashion axe kogi yuccie, ramps shabby chic direct
+                                                trade before they sold out distillery bicycle rights. Slow-carb +1 quinoa VHS. +1 brunch trust fund,
+                                                meggings chartreuse sustainable everyday carry tumblr hoodie tacos tilde ramps post-ironic fixie.
+                                            </div>
+                                            <div class="row margin-lr-0">
+                                                <a target="_blank" class="btn btn-default button htlRoomTypeBookNow" href="/dialogue/chatroom/">
+                                                    <span>book now</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="visible-xs" style="height: 1552px;"></div>
+        <footer id="footer" class="container">
+            <div class="row margin-btm-50">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <section class="col-xs-12 col-sm-12">
+                            <div class="row margin-lr-0 footer-section-heading">
+                                <p>About</p>
+                                <hr>
+                            </div>
+                            <div class="row margin-lr-0 footer-about-hotel">
+                                <p>Tofu helvetica leggings tattooed. Skateboard blue bottle green juice, brooklyn cardigan kitsch fap narwhal organic flexitarian.</p> 
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <section class="col-xs-12 col-sm-12">
+                            <div class="row margin-lr-0 footer-section-heading">
+                            <p>payment accepted</p>
+                            <hr>
+                            </div>
+                            <div class="row margin-lr-0 footer-payment-block">
+                                <img src="{% static 'chatroom/asset/1.jpg' %}">
+                                <img src="{% static 'chatroom/asset/2.jpg' %}">
+                                <img src="{% static 'chatroom/asset/3.jpg' %}">
+                                <img src="{% static 'chatroom/asset/4.jpg' %}">
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <section class="col-xs-12 col-sm-12">
+                            <div class="row margin-lr-0 footer-section-heading">
+                                <p>GET NOTIFICATIONS</p>
+                                <hr>
+                            </div>
+                            <div class="row margin-lr-0">
+                                <div>
+                                    <div class="form-group">
+                                        <input class="inputNew form-control grey newsletter-input" id="newsletter-input" type="text" name="email" size="18" value="Enter your e-mail">
+                                        <button name="submitNewsletter" class="btn button button-medium newsletter-btn">
+                                            <span>Subscribe</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <section class="col-xs-12 col-sm-12">
+                            <div class="row margin-lr-0 footer-section-heading">
+                                <p>Explore</p>
+                                <hr>
+                            </div>
+                            <div class="row margin-lr-0">
+                                <ul class="footer-navigation-section">
+                                    <li class="item">
+                                        <a title="Policies" href="/dialogue/chatroom/">Policies</a>
+                                    </li>
+                                    <li class="item">
+                                        <a title="Legal Notice" href="/dialogue/chatroom/">Legal Notice</a>
+                                    </li>
+                                    <li class="item">
+                                        <a title="Terms and conditions of use" href="/dialogue/chatroom/">Terms and conditions of use</a>
+                                    </li>
+                                    <li class="item">
+                                        <a title="About us" href="/dialogue/chatroom/">About us</a>
+                                    </li>
+                                    <li class="item">
+                                        <a title="Secure payment" href="/dialogue/chatroom/">Secure payment</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="copyRightWrapper">
+            <p class="copyRight"> © 2010-2022&nbsp; All rights reserved.</p>
+        </div>
+    </div>
 </body>
-
+</html>
