@@ -46,16 +46,16 @@ nlu:
     - my stay will start on [tuesday](time)
     - we will be arriving on [monday](time)
     - i would like to book a room for [friday](time)
-- intent: request_room_type
+- intent: request_bed_type
   examples: |
-    - i’ll be traveling alone, so a room with a [king-size](room_type) bed will be fine
-    - i want a [single](room_type) room
-    - i want a [double](room_type) one
-    - a [king size](room_type) room
-    - i want a room with [queen-size](room_type) bed
-    - i want a room with [king-size](room_type) bed
-    - i want a room with [king size](room_type) bed
-    - a [twin](room_type) room
+    - i’ll be traveling alone, so a room with a [king-size](bed_type) bed will be fine
+    - i want a [single](bed_type) room
+    - i want a [double](bed_type) one
+    - a [king size](bed_type) room
+    - i want a room with [queen-size](bed_type) bed
+    - i want a room with [king-size](bed_type) bed
+    - i want a room with [king size](bed_type) bed
+    - a [twin](bed_type) room
 - intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)
@@ -106,56 +106,27 @@ nlu:
     - can you increase the duration to [five days](duration)
     - i want to change my staying to [1 day](duration)
     - my mistake i acctually want to stay in [two days](duration)
-- intent: revise_room_type
+- intent: revise_bed_type
   examples: |
-    - could i change room to [king-size](room_type) bed
-    - could i change room to [single](room_type)
-    - can i change room type to [single](room_type)
-    - sorry, my mistake i acctually want [double](room_type) room
-    - sorry, it is wrong one, i want a [queen](room_type)
-- synonym: days
-  examples: |
-    - nights
-- synonym: day
-  examples: |
-    - night
+    - could i change room to [king-size](bed_type) bed
+    - could i change room to [single](bed_type)
+    - can i change room type to [single](bed_type)
+    - sorry, my mistake i acctually want [double](bed_type) room
+    - sorry, it is wrong one, i want a [queen](bed_type)
 - synonym: king
   examples: |
     - king size
     - king-size
-    - king-size bed
+    - california king
 - synonym: queen
   examples: |
     - queen size
     - queen-size
-    - queen-size bed
-- synonym: joint
+- synonym: single
   examples: |
-    - adjoining
-- synonym: apartment
-  examples: |
-    - apartment style
-    - apartment-style
-- lookup: room_type
-  examples: |
-    - single
-    - double
-    - triple
-    - quad
-    - king
-    - queen
     - twin
     - hollywood twin
-    - double-double
-    - studio
-    - standard
-    - deluxe
-    - joint
-    - connecting
-    - suite
-    - apartment
-    - accessible
-    - cabana
-    - villa
-    - penthouse
-
+- synonym: double
+  examples: |
+    - small double
+    - large double

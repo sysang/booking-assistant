@@ -37,7 +37,7 @@ entities:
   - area
   - time
   - duration
-  - room_type
+  - bed_type
 
 slots:
   botmind_state:
@@ -175,7 +175,7 @@ responses:
     - text: "I'm sorry but we have no hotels meeting your criteria."
     - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
   utter_room_selection:
-    - text: "You've selected a {room_type} room in {duration}, checkin at {checkin_time}, {hotel_name}. Do you want to proceed booking."
+    - text: "You've selected a {bed_type} bed(s) room in {duration}, checkin at {checkin_time}, {hotel_name}. Do you want to proceed booking."
   utter_greet:
     - text: "Hi! I am virtual booking assistant. How may I help you?"
   utter_bot_job_to_support_booking:

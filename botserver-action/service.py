@@ -33,20 +33,6 @@ def duckling_parse(expression, dim):
   return r.json()[0]
 
 
-# def extract_date(time_obj: dict) -> str:
-#   """
-#     Because duckling returns inconsisten format due to dramatic variation of its input
-#     We need extra step to regularize the date value:
-#       1) Expression has absent year, say "May 21st", the value attribute is a dict instead of a str
-#   """
-
-#   # Handle 1)
-#   if isinstance(time_obj['value'], dict):
-#     return time_obj['value']['value']
-#   else:
-#     return time_obj['value']
-
-
 def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_room_type):
   logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_room_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_room_type, bkinfo_checkin_time, bkinfo_duration)
   DATE_FORMAT = 'YYYY-MM-DD'
