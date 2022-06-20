@@ -57,3 +57,26 @@ nlu:
     - [florida](area)
     - it is [florida](area)
     - it's [florida](area)
+- intent: express_mountof_money
+  examples: |
+    - [42€](amount-of-money)
+    - [100 EUR](amount-of-money)
+    - [10 USD](amount-of-money)
+    - [$99](amount-of-money)
+    - [301 GBP](amount-of-money)
+    - [99 CAD](amount-of-money)
+    - [500 SGD](amount-of-money)
+    - [1500 INR](amount-of-money)
+    - [5 JPY](amount-of-money)
+    - [50¥](amount-of-money)
+    - [9999 THB](amount-of-money)
+    - i think about [$150](amount-of-money)
+    - it is [$250][amount-of-money]
+    - it is [213 EUR][amount-of-money]
+    - it should be around [250 EUR](amount-of-money)
+    - i wan a price of [150 GBP](amount-of-money)
+    - less than [10000 INR](amount-of-money)
+    - no more than [5000 JPY](amount-of-money)
+    - [300 EUR](amount-of-money) would be affordable
+    - [500$](amount-of-money) would be okay
+    - [200€](amount-of-money) would be good

@@ -14,7 +14,7 @@ class BookingInfo(dict):    # TODO: transform flags to FSM
         'bkinfo_area',
         'bkinfo_checkin_time',
         'bkinfo_duration',
-        'bkinfo_room_type',
+        'bkinfo_bed_type',
     }
 
   def __init__(self, slots):
@@ -71,5 +71,5 @@ class BookingInfo(dict):    # TODO: transform flags to FSM
     return duration
 
   @property
-  def room_type(self):
-      return self['bkinfo_room_type']
+  def bed_type(self):
+      return self['bkinfo_bed_type']

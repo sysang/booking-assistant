@@ -10,16 +10,16 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - or:
     - intent: request_checkin_time
     - intent: request_room_reservation_duration
-    - intent: request_room_type
+    - intent: request_bed_type
     - intent: revise_checkin_time
     - intent: revise_room_reservation_duration
-    - intent: revise_room_type
+    - intent: revise_bed_type
     - intent: request_checkin_time+request_room_reservation_duration
     - intent: express_time
     - intent: express_length_of_time

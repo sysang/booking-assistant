@@ -141,10 +141,10 @@ class set_booking_information__room_id__(ActionSetBookingInformation):
     return ('room_id', 'bkinfo_room_id')
 
 
-class set_booking_information__room_type__(ActionSetBookingInformation):
+class set_booking_information__bed_type__(ActionSetBookingInformation):
 
   def name(self) -> Text:
-    return "set_booking_information__room_type__"
+    return "set_booking_information__bed_type__"
 
   def slot_entity(self) -> Tuple[str, str]:
-    return ('room_type', 'bkinfo_room_type')
+    return ('bed_type', 'bkinfo_bed_type')

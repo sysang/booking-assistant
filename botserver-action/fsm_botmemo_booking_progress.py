@@ -13,7 +13,7 @@ class FSMBotmemeBookingProgress():
             - bkinfo_area
             - bkinfo_checkin_time
             - bkinfo_duration
-            - bkinfo_room_type
+            - bkinfo_bed_type
             - bkinfo_room_id
     """
     _STATES = (
@@ -30,7 +30,7 @@ class FSMBotmemeBookingProgress():
         "bkinfo_area",
         "bkinfo_checkin_time",
         "bkinfo_duration",
-        "bkinfo_room_type",
+        "bkinfo_bed_type",
         "bkinfo_room_id",
         "botmind_context",
         "search_result_flag",

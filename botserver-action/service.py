@@ -33,8 +33,8 @@ def duckling_parse(expression, dim):
   return r.json()[0]
 
 
-def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_room_type):
-  logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_room_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_room_type, bkinfo_checkin_time, bkinfo_duration)
+def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type):
+  logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration)
   DATE_FORMAT = 'YYYY-MM-DD'
 
   bkinfo_duration = bkinfo_duration - 1  # Compensate when count checkin date
@@ -53,7 +53,7 @@ def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bki
   logger.info('[INFO] booked_dates: %s', str(booked_dates))
 
   RoomQuery = Query()
-  rooms = db.search((RoomQuery.area==bkinfo_area) & (RoomQuery.room_type==bkinfo_room_type))
+  rooms = db.search((RoomQuery.area==bkinfo_area) & (RoomQuery.bed_type==bkinfo_bed_type))
 
   logger.info('[INFO] Found %s room in %s', len(rooms), bkinfo_area)
 

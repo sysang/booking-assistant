@@ -6,7 +6,7 @@ fort_luaderdale =[
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES['single'],
+        "bed_type": BED_SIZES['single'],
         "price": "500",
         "occupied_dates": [
             "2022-06-01",
@@ -33,7 +33,7 @@ fort_luaderdale =[
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES["king-size"],
+        "bed_type": BED_SIZES["king-size"],
         "price": "700",
         "occupied_dates": [
             "2022-06-01",
@@ -63,7 +63,7 @@ fort_luaderdale =[
         "hotel": "Maren Fort Lauderdale Beach",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES["double"],
+        "bed_type": BED_SIZES["double"],
         "price": "1000",
         "occupied_dates": [
             "2022-07-01",
@@ -85,7 +85,7 @@ fort_luaderdale =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES['double'],
+        "bed_type": BED_SIZES['double'],
         "price": "1000",
         "occupied_dates": [
             "2022-06-11",
@@ -107,7 +107,7 @@ fort_luaderdale =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES["triple"],
+        "bed_type": BED_SIZES["triple"],
         "price": "200",
         "occupied_dates": [
             "2022-06-01",
@@ -140,7 +140,7 @@ fort_luaderdale =[
         "hotel": "Mauna Lani, Auberge Resorts",
         "area": "fort lauderdale beach",
         "city": "broward, florida",  # Broward County, Florida, US
-        "room_type": BED_SIZES["king-size"],
+        "bed_type": BED_SIZES["king-size"],
         "price": "1500",
         "occupied_dates": [
             "2022-07-28",
@@ -153,7 +153,7 @@ fort_luaderdale =[
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US
-        "room_type": BED_SIZES['double'],
+        "bed_type": BED_SIZES['double'],
         "price": "500",
         "occupied_dates": [
             "2022-06-01",
@@ -167,7 +167,7 @@ fort_luaderdale =[
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US
-        "room_type": BED_SIZES["queen-size"],
+        "bed_type": BED_SIZES["queen-size"],
         "price": "1000",
         "occupied_dates": [
             "2022-06-01",
@@ -211,7 +211,7 @@ fort_luaderdale =[
         "hotel": "East Shore Resort",
         "area": "clearwater",
         "city": "pinellas, florida",  # Pinellas County, Florida, US
-        "room_type": BED_SIZES["double"],
+        "bed_type": BED_SIZES["double"],
         "price": "1200",
         "occupied_dates": [
             "2022-06-01",

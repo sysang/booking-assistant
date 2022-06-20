@@ -13,7 +13,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: utter_asking_area
@@ -50,20 +50,20 @@ stories:
   - action: set_booking_information__duration__
   - slot_was_set:
     - bkinfo_duration_flag: present
-  - action: utter_asking_room_type
-  - intent: request_room_type
+  - action: utter_asking_bed_type
+  - intent: request_bed_type
     entities:
-      - room_type: single
-  - action: set_booking_information__room_type__
+      - bed_type: single
+  - action: set_booking_information__bed_type__
   - slot_was_set:
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - botmemo_booking_progress: done_information_collecting
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
@@ -82,7 +82,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
 
@@ -95,7 +95,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
@@ -123,7 +123,7 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
@@ -151,7 +151,7 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
@@ -168,7 +168,7 @@ stories:
   - action: set_booking_information__duration__
   - slot_was_set:
     - bkinfo_duration_flag: present
-  - action: utter_asking_room_type
+  - action: utter_asking_bed_type
 
 - story: query hotel room - request room type
   steps:
@@ -179,26 +179,26 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
   - slot_was_set:
     - botmind_state: attentive
-  - action: utter_asking_room_type
-  - intent: request_room_type
+  - action: utter_asking_bed_type
+  - intent: request_bed_type
     entities:
-      - room_type: single
-  - action: set_booking_information__room_type__
+      - bed_type: single
+  - action: set_booking_information__bed_type__
   - slot_was_set:
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - botmemo_booking_progress: done_information_collecting
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
@@ -213,7 +213,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - intent: request_checkin_time+request_room_reservation_duration
@@ -237,7 +237,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - intent: request_listing_hotel_by_area+request_checkin_time

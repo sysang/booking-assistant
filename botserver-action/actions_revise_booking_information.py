@@ -52,8 +52,8 @@ class ActionReviseBookingInformation(ActionSetBookingInformation):
             dispatcher.utter_message(response='utter_inform_checkin_time_revised', bkinfo_checkin_time=bkinfo_checkin_time)
         elif 'bkinfo_duration' == slot_name:
             dispatcher.utter_message(response='utter_inform_reservation_duration_revised', bkinfo_duration=slot_value)
-        elif 'bkinfo_room_type' == slot_name:
-            dispatcher.utter_message(response='utter_inform_hotel_room_type_revised', bkinfo_room_type=slot_value)
+        elif 'bkinfo_bed_type' == slot_name:
+            dispatcher.utter_message(response='utter_inform_hotel_bed_type_revised', bkinfo_bed_type=slot_value)
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
@@ -113,12 +113,12 @@ class revise_booking_information__duration__(ActionReviseBookingInformation):
     return ('duration', 'bkinfo_duration')
 
 
-class revise_booking_information__room_type__(ActionReviseBookingInformation):
+class revise_booking_information__bed_type__(ActionReviseBookingInformation):
 
   def name(self) -> Text:
-    return "revise_booking_information__room_type__"
+    return "revise_booking_information__bed_type__"
 
   def slot_entity(self) -> Tuple[str, str]:
-    return ('room_type', 'bkinfo_room_type')
+    return ('bed_type', 'bkinfo_bed_type')
 
 

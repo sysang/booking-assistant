@@ -13,11 +13,11 @@ intents:
   - request_searching_hotel
   - request_checkin_time
   - request_room_reservation_duration
-  - request_room_type
+  - request_bed_type
   - revise_area
   - revise_checkin_time
   - revise_room_reservation_duration
-  - revise_room_type
+  - revise_bed_type
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
   - express_time
@@ -124,10 +124,10 @@ slots:
       - empty
       - present
       - onchange
-  bkinfo_room_type:
+  bkinfo_bed_type:
     type: text
     influence_conversation: false
-  bkinfo_room_type_flag:
+  bkinfo_bed_type_flag:
     type: categorical
     influence_conversation: true
     initial_value: empty
@@ -166,8 +166,11 @@ responses:
     - text: "what day would you like to stay on?"
   utter_asking_staying_duration:
     - text: "How long will you be staying?"
-  utter_asking_room_type:
-    - text: "Which room type would you like?"
+  utter_asking_bed_type:
+    - text: "Which bed type would you like?"
+  utter_asking_price:
+    - text: "what price you are looking for?"
+    - text: "what price you would you take?"
   utter_about_to_show_hotel_list:
     - text: "We found these rooms for you: "
   utter_room_not_available:
@@ -188,13 +191,13 @@ responses:
     - text: "Check-in time has been changed to {bkinfo_checkin_time}."
   utter_inform_reservation_duration_revised:
     - text: "Reservation duration has been changed to {bkinfo_duration}."
-  utter_inform_hotel_room_type_revised:
-    - text: "Room type has been changed to {bkinfo_room_type}."
+  utter_inform_hotel_bed_type_revised:
+    - text: "Room type has been changed to {bkinfo_bed_type}."
   utter_checkif_user_wants_booking:
     - text: "You want to make hotel bookng, don't you?"
     - text: "Are you mentioning about hotel booking?"
-  utter_explain_room_type:
-    - text: "Hotels label their rooms by the size bed, the number of beds in the room, as well as the furnishings, interior design, and additional amenities. Follow this, https://hoteltechreport.com/news/room-type, to know more information."
+  utter_explain_bed_type:
+    - text: "Bed type refers to bed size, there are basis types such as Single (Twin), Double, Queen, King."
 
 actions:
   - custom_action_fallback
@@ -202,12 +205,12 @@ actions:
   - set_booking_information__area__
   - set_booking_information__checkin_time__
   - set_booking_information__duration__
-  - set_booking_information__room_type__
+  - set_booking_information__bed_type__
   - set_booking_information__room_id__
   - revise_booking_information__area__
   - revise_booking_information__checkin_time__
   - revise_booking_information__duration__
-  - revise_booking_information__room_type__
+  - revise_booking_information__bed_type__
   - set_notes_bkinfo
   - botacts_show_room_list
   - botacts_confirm_room_selection

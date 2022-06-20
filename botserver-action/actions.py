@@ -42,14 +42,14 @@ from .actions_set_booking_information import (
     set_booking_information__area__,
     set_booking_information__checkin_time__,
     set_booking_information__duration__,
-    set_booking_information__room_type__,
+    set_booking_information__bed_type__,
     set_booking_information__room_id__,
 )
 from .actions_revise_booking_information import (
     revise_booking_information__area__,
     revise_booking_information__checkin_time__,
     revise_booking_information__duration__,
-    revise_booking_information__room_type__,
+    revise_booking_information__bed_type__,
 )
 
 class custom_action_fallback(Action):
@@ -226,7 +226,7 @@ class botacts_confirm_room_selection(Action):
     hotel_name = room['hotel']
 
     dispatcher.utter_message(response="utter_room_selection",
-          room_type=bkinfo.room_type,
+          bed_type=bkinfo.bed_type,
           checkin_time=bkinfo.checkin_time,
           duration=bkinfo.duration,
           hotel_name=hotel_name,

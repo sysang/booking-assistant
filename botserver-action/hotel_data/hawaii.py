@@ -6,7 +6,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "room_type": BED_SIZES['single'],
+        "bed_type": BED_SIZES['single'],
         "price": "200",
         "occupied_dates": [
             "2022-06-01",
@@ -20,7 +20,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "room_type": BED_SIZES["double"],
+        "bed_type": BED_SIZES["double"],
         "price": "400",
         "occupied_dates": [
             "2022-06-01",
@@ -64,7 +64,7 @@ hawaii =[
         "hotel": "royal kona resort",
         "area": "hawaii",
         "city": "hawaii, hawaii",  # hawaii county, hawaii, us
-        "room_type": BED_SIZES["double"],
+        "bed_type": BED_SIZES["double"],
         "price": "500",
         "occupied_dates": [
             "2022-07-30",

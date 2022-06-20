@@ -10,7 +10,7 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
@@ -21,7 +21,7 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
@@ -40,7 +40,7 @@ stories:
     - bkinfo_area_flag: empty
     - bkinfo_checkin_time_flag: empty
     - bkinfo_duration_flag: empty
-    - bkinfo_room_type_flag: empty
+    - bkinfo_bed_type_flag: empty
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: action_listen
@@ -54,7 +54,7 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
     - bkinfo_room_id_flag: empty
     - search_result_flag: null
   - action: pseudo_action
@@ -65,7 +65,7 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: notfound
   - action: botacts_show_room_list
   - slot_was_set:

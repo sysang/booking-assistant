@@ -10,7 +10,7 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - bkinfo_room_id_flag: empty
     - search_result_flag: available
   - action: botacts_show_room_list
@@ -25,13 +25,13 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
 
 - story: when information has been collected completely, user wants to revise check-in time
@@ -43,7 +43,7 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - bkinfo_room_id_flag: empty
     - search_result_flag: available
   - action: botacts_show_room_list
@@ -58,13 +58,13 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: notfound
 
 - story: when information has been collected completely, user wants to revise reservation duration
@@ -76,7 +76,7 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - bkinfo_room_id_flag: empty
     - search_result_flag: available
   - action: botacts_show_room_list
@@ -91,13 +91,13 @@ stories:
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
 
 - story: when information has been collected completely, user wants to revise room type
@@ -109,27 +109,27 @@ stories:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - bkinfo_room_id_flag: empty
     - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
     - botmemo_booking_progress: room_showing
-  - intent: revise_room_type
+  - intent: revise_bed_type
     entities:
-      - room_type: double
-  - action: revise_booking_information__room_type__
+      - bed_type: double
+  - action: revise_booking_information__bed_type__
   - slot_was_set:
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area_flag: present
     - bkinfo_checkin_time_flag: present
     - bkinfo_duration_flag: present
-    - bkinfo_room_type_flag: present
+    - bkinfo_bed_type_flag: present
   - action: set_notes_bkinfo
   - slot_was_set:
     - bkinfo_area_flag: noted
     - bkinfo_checkin_time_flag: noted
     - bkinfo_duration_flag: noted
-    - bkinfo_room_type_flag: noted
+    - bkinfo_bed_type_flag: noted
     - search_result_flag: notfound
 
