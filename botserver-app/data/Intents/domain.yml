@@ -1,0 +1,27 @@
+version: "2.0"
+
+intents:
+  - pseudo_user_intent
+  - user_click_to_select_hotel
+  - request_listing_hotel_by_area
+  - request_searching_hotel
+  - request_checkin_time
+  - request_room_reservation_duration
+  - request_bed_type
+  - revise_area
+  - revise_checkin_time
+  - revise_room_reservation_duration
+  - revise_bed_type
+  - request_checkin_time+request_room_reservation_duration
+  - request_listing_hotel_by_area+request_checkin_time
+  - express_time
+  - express_length_of_time
+  - express_area
+  - express_mountof_money
+  - express_expected_mountof_money
+  - greet
+  - thank
+  - affirm
+  - deny
+  - react_positive
+  - react_negative

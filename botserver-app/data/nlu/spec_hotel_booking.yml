@@ -87,6 +87,7 @@ nlu:
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
+    - i have change my mind, please select another place, it is [san diego](area)
     - can you change the area to [new york](area) please
     - can you change the city to [austin](area) please
     - change the area to [chicago](area)
@@ -105,6 +106,7 @@ nlu:
     - can you change the duration to [2 days](duration)
     - can you increase the duration to [five days](duration)
     - i want to change my staying to [1 day](duration)
+    - i have changed my mind, please change staying to [1 day](duration)
     - my mistake i acctually want to stay in [two days](duration)
 - intent: revise_bed_type
   examples: |

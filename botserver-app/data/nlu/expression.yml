@@ -70,10 +70,22 @@ nlu:
     - [5 JPY](amount-of-money)
     - [50¥](amount-of-money)
     - [9999 THB](amount-of-money)
+    - it costs [42€](amount-of-money)
+    - it costs [100 EUR](amount-of-money)
+    - it costs [10 USD](amount-of-money)
+    - it costs [$99](amount-of-money)
+    - it is [500 SGD](amount-of-money)
+    - it is [1500 INR](amount-of-money)
+    - it is [5 JPY](amount-of-money)
+    - it is [50¥](amount-of-money)
+    - it is [9999 THB](amount-of-money)
+- intent: express_expected_mountof_money
+  examples: |
     - i think about [$150](amount-of-money)
     - it is [$250][amount-of-money]
     - it is [213 EUR][amount-of-money]
     - it should be around [250 EUR](amount-of-money)
+    - it should cost [100 EUR](amount-of-money)
     - i wan a price of [150 GBP](amount-of-money)
     - less than [10000 INR](amount-of-money)
     - no more than [5000 JPY](amount-of-money)

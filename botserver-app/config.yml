@@ -6,6 +6,16 @@
 # https://rasa.com/docs/rasa/nlu/components/
 language: en
 
+importers:
+- name: MultiProjectImporter
+
+imports:
+  - data/Intents
+  - data/Entities
+  - data/Slots
+  - data/Responses
+  - data/Actions
+
 pipeline:
 # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # If you'd like to customize it, uncomment and adjust the pipeline.

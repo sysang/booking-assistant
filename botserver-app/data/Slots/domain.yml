@@ -1,0 +1,110 @@
+version: "2.0"
+
+slots:
+  botmind_state:
+    type: categorical
+    influence_conversation: true
+    initial_value: attentive
+    values:
+      - transitioning
+      - thinking_boostX1
+      - thinking_boostX2
+      - prime_boostX1
+      - prime_boostX2
+      - attentive
+  botmind_context:
+    type: categorical
+    influence_conversation: true
+    initial_value: idle
+    values:
+      - idle
+      - workingonbooking
+      - chitchat #  in waiting user's request
+  botmemo_booking_progress:  # working memory
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - initialized
+      - information_collecting
+      - done_information_collecting
+      - room_showing
+      - room_selected
+  botmemo_booking_failure:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - missing_booking_info
+      - missing_room_id
+  userintent_affirm:
+    type: bool
+    influence_conversation: true
+    initial_value: null
+  bkinfo_room_id:
+    type: float
+    influence_conversation: false
+  bkinfo_room_id_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: empty
+    values:
+      - empty
+      - present
+      - onchange
+  bkinfo_area:
+    type: text
+    influence_conversation: false
+  bkinfo_area_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: empty
+    values:
+      - empty
+      - present
+      - onchange
+  bkinfo_checkin_time:
+    type: text
+    influence_conversation: false
+  bkinfo_checkin_time_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: empty
+    values:
+      - empty
+      - present
+      - onchange
+  bkinfo_duration:
+    type: float  # unit: day
+    influence_conversation: false
+  bkinfo_duration_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: empty
+    values:
+      - empty
+      - present
+      - onchange
+  bkinfo_bed_type:
+    type: text
+    influence_conversation: false
+  bkinfo_bed_type_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: empty
+    values:
+      - empty
+      - present
+      - onchange
+      - noted
+  logs_debugging_info:
+    type: list
+    influence_conversation: false
+    initial_value: []
+  search_result_flag:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - notfound
+      - available

@@ -10,7 +10,7 @@ rules:
       - bkinfo_area_flag: empty
       - bkinfo_checkin_time_flag: empty
       - bkinfo_duration_flag: empty
-      - bkinfo_room_type_flag: empty
+      - bkinfo_bed_type_flag: empty
       - bkinfo_room_id_flag: empty
       - search_result_flag: null
   steps:
@@ -29,7 +29,7 @@ rules:
       - bkinfo_area_flag: empty
       - bkinfo_checkin_time_flag: empty
       - bkinfo_duration_flag: empty
-      - bkinfo_room_type_flag: empty
+      - bkinfo_bed_type_flag: empty
       - bkinfo_room_id_flag: empty
       - search_result_flag: null
   steps:
@@ -50,7 +50,7 @@ rules:
       - bkinfo_area_flag: empty
       - bkinfo_checkin_time_flag: empty
       - bkinfo_duration_flag: empty
-      - bkinfo_room_type_flag: empty
+      - bkinfo_bed_type_flag: empty
       - bkinfo_room_id_flag: empty
       - search_result_flag: null
   steps:

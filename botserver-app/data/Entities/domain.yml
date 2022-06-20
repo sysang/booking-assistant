@@ -1,0 +1,12 @@
+version: "2.0"
+
+entities:
+  - hotel
+  - room_id
+  - city
+  - area
+  - time
+  - duration
+  - bed_type
+  - amount-of-money
+
