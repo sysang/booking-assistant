@@ -7,7 +7,7 @@ upstream docker-rasax-api {
 }
 
 upstream docker-bot-frontend {
-  server http://botfrontend:8000 max_fails=0;
+  server ${BOT_FRONTEND_HOST} max_fails=0;
 }
 
 server {

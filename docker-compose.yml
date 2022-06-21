@@ -27,6 +27,7 @@ x-nginx-host-variables: &nginx-host-variables
   RASA_X_HOST: "rasa-x:5002"
   RASA_USER_APP: "action-server:5055"
   RASA_PRODUCTION_HOST: "rasa-production:5005"
+  BOT_FRONTEND_HOST: "botfrontend:5005"
 
 x-rasax-credentials: &rasax-credentials
   RASA_X_HOST: "http://rasa-x:5002"
@@ -152,7 +153,10 @@ services:
   action-server:
     restart: on-failure:5
     image: "sysang/actionserver"
-    build: "./botserver-action"
+    build:
+      context: "./botserver-action"
+      args:
+        RASA_SDK_IMAGE: ${RASA_SDK_IMAGE}        
     volumes:
       - ./botserver-action/:/app/actions/
     expose:
@@ -207,6 +211,8 @@ services:
     depends_on:
       - rasa-x
       - rasa-production
+      - rasa-worker
+      - botfrontend
 
   redis:
     restart: on-failure:5

@@ -10,8 +10,6 @@ https://forum.rasa.com/t/trigger-intent-from-custom-action/51727/6
 Training data must declare condition (slot information), otherwise training machenisim will impose initinal slot information as condition (very implicit).  
 This makes rules (were not declare condition) mostly uneffective in runtime because the condition mostly would have been changed.
 
-# It seems that action without preceded intent is ingored
-
 # To inspect training dataset
 
 ```python
@@ -41,3 +39,12 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 `sudo nvim /etc/docker/daemon.json`
 `{"dns": ["192.168.1.1"]}`
 `sudo service docker restart`
+
+# Build rasa:localdev for old processor which does not support new computing instruction set
+## rasa-3.2.1, tensorflow-2.7.3
+- `wget https://github.com/RasaHQ/rasa/archive/refs/tags/3.2.1.tar.gz`
+- `wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.7.3.tar.gz`
+- use Dockerfile-tf-v2.7.3 to build image -> sysang/tf-2.7.3-source-build
+- replace base image in rasa-3.2.1/docker/Dockerfile.base by sysang/tf-2.7.3-source-build:latest
+- replace rasa-3.2.1/Dockerfile by Dockerfile-rasa-3.2.1, use Dockerfile-rasa-3.2.1 to build rasa:localdev
+- (replace peotry.lock by peotry-rasa-3.2.1.lock which is resolved by pyproject.toml after exclude tensorflow section and set numpy===1.21.4)
