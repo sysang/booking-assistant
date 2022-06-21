@@ -15,6 +15,7 @@ imports:
   - data/Slots
   - data/Responses
   - data/Actions
+  - data/Forms
 
 pipeline:
 # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
@@ -62,12 +63,6 @@ pipeline:
     embedding_dimension: 32
     drop_rate: 0.25  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
-  - name: DucklingEntityExtractor
-    url: http://duckling:8000
-    dimensions:
-      - time
-      - duration
-      - amount-of-money
   - name: EntitySynonymMapper
   # - name: ResponseSelector
   #   epochs: 100

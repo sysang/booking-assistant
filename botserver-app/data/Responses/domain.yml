@@ -7,20 +7,18 @@ responses:
     - text: "Sorry, I can't handle that request."
   utter_please_rephrase:
     - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
-  utter_asking_area:
+  utter_ask_bkinfo_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"
-  utter_asking_alternative_area:
-    - text: "Would you like for me to look in another area?"
-  utter_asking_checkin_time:
+  utter_ask_bkinfo_checkin_time:
     - text: "When will you need the accommodations?"
     - text: "what is the exact date of your arrival?"
     - text: "what day would you like to stay on?"
-  utter_asking_staying_duration:
+  utter_ask_bkinfo_duration:
     - text: "How long will you be staying?"
-  utter_asking_bed_type:
+  utter_ask_bkinfo_bed_type:
     - text: "Which bed type would you like?"
-  utter_asking_price:
+  utter_ask_bkinfo_price:
     - text: "what price you are looking for?"
     - text: "what price you would you take?"
   utter_about_to_show_hotel_list:

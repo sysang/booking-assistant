@@ -51,11 +51,9 @@ nlu:
     - i’ll be traveling alone, so a room with a [king-size](bed_type) bed will be fine
     - i want a [single](bed_type) room
     - i want a [double](bed_type) one
-    - a [king size](bed_type) room
     - i want a room with [queen-size](bed_type) bed
     - i want a room with [king-size](bed_type) bed
     - i want a room with [king size](bed_type) bed
-    - a [twin](bed_type) room
 - intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)

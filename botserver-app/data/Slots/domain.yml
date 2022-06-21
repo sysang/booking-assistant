@@ -37,66 +37,73 @@ slots:
     values:
       - missing_booking_info
       - missing_room_id
-  userintent_affirm:
-    type: bool
-    influence_conversation: true
-    initial_value: null
+  # userintent_affirm:
+  #   type: bool
+  #   influence_conversation: true
+  #   initial_value: null
   bkinfo_room_id:
     type: float
-    influence_conversation: false
-  bkinfo_room_id_flag:
-    type: categorical
     influence_conversation: true
-    initial_value: empty
-    values:
-      - empty
-      - present
-      - onchange
+  # bkinfo_room_id_flag:
+  #   type: categorical
+  #   influence_conversation: true
+  #   initial_value: empty
+  #   values:
+  #     - empty
+  #     - present
+  #     - onchange
+  #     - noted
   bkinfo_area:
     type: text
-    influence_conversation: false
-  bkinfo_area_flag:
-    type: categorical
     influence_conversation: true
-    initial_value: empty
-    values:
-      - empty
-      - present
-      - onchange
+  # bkinfo_area_flag:
+  #   type: categorical
+  #   influence_conversation: true
+  #   initial_value: empty
+  #   values:
+  #     - empty
+  #     - present
+  #     - onchange
+  #     - noted
   bkinfo_checkin_time:
     type: text
-    influence_conversation: false
-  bkinfo_checkin_time_flag:
-    type: categorical
     influence_conversation: true
-    initial_value: empty
-    values:
-      - empty
-      - present
-      - onchange
+  # bkinfo_checkin_time_flag:
+  #   type: categorical
+  #   influence_conversation: true
+  #   initial_value: empty
+  #   values:
+  #     - empty
+  #     - present
+  #     - onchange
+  #     - noted
   bkinfo_duration:
-    type: float  # unit: day
-    influence_conversation: false
-  bkinfo_duration_flag:
-    type: categorical
+    type: text  # unit: day
     influence_conversation: true
-    initial_value: empty
-    values:
-      - empty
-      - present
-      - onchange
+  # bkinfo_duration_flag:
+  #   type: categorical
+  #   influence_conversation: true
+  #   initial_value: empty
+  #   values:
+  #     - empty
+  #     - present
+  #     - onchange
+  #     - noted
   bkinfo_bed_type:
     type: text
-    influence_conversation: false
-  bkinfo_bed_type_flag:
-    type: categorical
     influence_conversation: true
-    initial_value: empty
-    values:
-      - empty
-      - present
-      - onchange
-      - noted
+  # bkinfo_bed_type_flag:
+  #   type: categorical
+  #   influence_conversation: true
+  #   initial_value: empty
+  #   values:
+  #     - empty
+  #     - present
+  #     - onchange
+  #     - noted
+  bkinfo_price:
+    type: text
+    influence_conversation: true
   logs_debugging_info:
     type: list
     influence_conversation: false

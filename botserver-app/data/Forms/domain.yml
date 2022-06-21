@@ -1,0 +1,53 @@
+version: "2.0"
+
+forms:
+  bkinfo_form:
+    required_slots:
+      bkinfo_area:
+        - type: from_entity
+          intent: express_area
+          entity: area
+        - type: from_entity
+          intent: request_listing_hotel_by_area
+          entity: area
+        - type: from_entity
+          intent: request_listing_hotel_by_area+request_checkin_time
+          entity: area
+      bkinfo_checkin_time:
+        - type: from_entity
+          intent: express_time
+          entity: time
+        - type: from_entity
+          intent: request_checkin_time
+          entity: time
+        - type: from_entity
+          intent: request_listing_hotel_by_area+request_checkin_time
+          entity: time
+        - type: from_entity
+          intent: request_checkin_time+request_room_reservation_duration
+          entity: time
+      bkinfo_duration:
+        - type: from_entity
+          intent: express_length_of_time
+          entity: duration
+        - type: from_entity
+          intent: request_room_reservation_duration
+          entity: duration
+        - type: from_entity
+          intent: request_checkin_time+request_room_reservation_duration
+          entity: duration
+      bkinfo_bed_type:
+        - type: from_entity
+          intent: express_bed_type
+          entity: bed_type
+        - type: from_entity
+          intent: request_bed_type
+          entity: bed_type
+      bkinfo_price:
+        - type: from_entity
+          intent: express_mountof_money
+          entity: amount-of-money
+        - type: from_entity
+          intent: express_expected_mountof_money
+          entity: amount-of-money
+

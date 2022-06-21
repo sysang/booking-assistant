@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Text, Optional, Tuple
 import arrow
 
 from rasa_sdk import Action, Tracker
+from rasa_sdk.forms import ValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import (
     Restarted,
@@ -17,6 +18,7 @@ from rasa_sdk.events import (
     ActionExecuted,
     UserUttered,
 )
+from rasa_sdk.types import DomainDict
 
 from .entity_preprocessing_rules import mapping_table
 from .service import duckling_parse, query_available_rooms, query_room_by_id
@@ -274,3 +276,16 @@ class botacts_express_bot_job_to_support_booking(Action):
         ]
 
         return events
+
+
+class ValidatePredefinedSlots(ValidationAction):
+    def validate_bkinfo_checkin_time(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,) -> Dict[Text, Any]:
+
+        raise Exception('Ok')
+
+        return {'bkinfo_checkin_time': slot_value}

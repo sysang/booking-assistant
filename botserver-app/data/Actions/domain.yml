@@ -1,6 +1,7 @@
 version: "2.0"
 
 actions:
+  - action_validate_slot_mappings
   - custom_action_fallback
   - pseudo_action
   - set_booking_information__area__

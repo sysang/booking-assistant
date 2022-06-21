@@ -36,3 +36,8 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
     print(features.keys())
   sample_no += 1
 ```
+
+# Docker fails to connect with archive.ubuntu.com, https://mklasen.com/docker-fails-to-connect-with-archive-ubuntu-com/
+`sudo nvim /etc/docker/daemon.json`
+`{"dns": ["192.168.1.1"]}`
+`sudo service docker restart`
