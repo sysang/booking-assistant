@@ -131,9 +131,9 @@ slots:
     values:
       - notfound
       - available
-  logs_fallback_loop_num:
-    type: float
+  logs_fallback_loop_history:
+    type: list
     mappings:
       - type: custom
     influence_conversation: false
-    initial_value: 0
+    initial_value: []

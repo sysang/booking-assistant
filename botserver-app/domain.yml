@@ -8,7 +8,7 @@ session_config:
 
 responses:
   utter_looping_fallback:
-    - text: "I'm sorry because of getting totally lost. It's quite embarrassing but if you don't mind we would have to start over again."
+    - text: "I'm sorry because of getting totally lost. It's quite embarrassing but if you don't mind let's start over again."
   utter_out_of_scope:
     - text: "Sorry, I can't handle that request."
   utter_please_rephrase:

@@ -2,6 +2,7 @@ import logging
 import json
 import random
 from typing import Any, Dict, List, Text, Optional, Tuple
+from datetime import datetime
 
 import arrow
 
@@ -62,15 +63,24 @@ class custom_action_fallback(Action):
         return "custom_action_fallback"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        logs_fallback_loop_num = tracker.slots.get('logs_fallback_loop_num', 0)
-        if logs_fallback_loop_num > 2:
-            dispatcher.utter_message(response='utter_looping_fallback')
-            return [AllSlotsReset()]
+        THRESHOLD = 10
+
+        logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
+        now = datetime.now()
 
         events = [
-            SlotSet('logs_fallback_loop_num', logs_fallback_loop_num + 1),
+            SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [now.timestamp()]),
             FollowupAction('bot_let_action_emerges'),
         ]
+
+        if len(logs_fallback_loop_history) == 0:
+            return events
+
+        last = datetime.fromtimestamp(logs_fallback_loop_history[-1])
+        duration = now - last
+        if duration.seconds < THRESHOLD:
+            dispatcher.utter_message(response='utter_looping_fallback')
+            return [AllSlotsReset()]
 
         return events
 
