@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3.1"
 
 rules:
 - rule: greet then start conversation
@@ -14,7 +14,7 @@ rules:
     - botmind_context: chitchat
   - action: utter_greet
 
-- rule: chitchat then start working on booking
+- rule: chitchat then start conversing on booking
   condition:
     - slot_was_set:
       - botmind_state: attentive
@@ -29,7 +29,7 @@ rules:
   - action: bkinfo_form
   - active_loop: bkinfo_form
 
-- rule: idle then start working on booking
+- rule: idle then start conversing on booking
   condition:
     - slot_was_set:
       - botmind_state: attentive

@@ -1,7 +1,8 @@
-version: "2.0"
+version: "3.1"
 
 intents:
-  - pseudo_user_intent
+  - bot_intents_to_think
+  - bot_embodies_intention
   - user_click_to_select_hotel
   - request_listing_hotel_by_area
   - request_searching_hotel
@@ -14,9 +15,10 @@ intents:
   - revise_bed_type
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
+  - express_area
   - express_time
   - express_length_of_time
-  - express_area
+  - express_bed_type
   - express_mountof_money
   - express_expected_mountof_money
   - greet

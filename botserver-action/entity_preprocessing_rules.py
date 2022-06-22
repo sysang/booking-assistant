@@ -1,7 +1,7 @@
 import logging
 
 from .hotel_data.constants import BED_SIZES
-from .service import duckling_parse
+from .duckling_service import duckling_parse
 
 
 logger = logging.getLogger(__name__)

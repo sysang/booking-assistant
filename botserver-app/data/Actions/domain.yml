@@ -1,6 +1,7 @@
-version: "2.0"
+version: "3.1"
 
 actions:
+  - action_botmemo_booking_progress
   - action_validate_slot_mappings
   - custom_action_fallback
   - pseudo_action
@@ -13,15 +14,16 @@ actions:
   - revise_booking_information__checkin_time__
   - revise_booking_information__duration__
   - revise_booking_information__bed_type__
-  - set_notes_bkinfo
   - botacts_show_room_list
   - botacts_confirm_room_selection
   - botacts_start_conversation
   - botacts_express_bot_job_to_support_booking
+  - botacts_checkif_user_wants_booking
   - bot_relieves_imposition_to_think
   - bot_switchto_thinking
   - bot_transitioning
   - bot_let_action_emerges
   - bot_output_decision
-  - botacts_checkif_user_wants_booking
   - bot_perceive_user_wants_booking
+  - bot_determines_botmemo_booking_progress
+  - bot_search_hotel_rooms

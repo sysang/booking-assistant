@@ -19,7 +19,7 @@ from rasa_sdk.events import (
 )
 
 from .entity_preprocessing_rules import mapping_table
-from .service import duckling_parse, query_available_rooms, query_room_by_id
+from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
 from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
 

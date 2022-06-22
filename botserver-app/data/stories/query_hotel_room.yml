@@ -1,0 +1,66 @@
+version: "3.1"
+
+stories:
+- story: set botmemo_booking_progress to done_information_collecting, then show room list
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
+    - bkinfo_area: null
+    - bkinfo_checkin_time: null
+    - bkinfo_duration: null
+    - bkinfo_bed_type: null
+    - bkinfo_room_id: null
+    - search_result_flag: null
+  - intent: request_searching_hotel
+  - action: botacts_express_bot_job_to_support_booking
+  - slot_was_set:
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: initialized
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - action: bkinfo_form
+  - slot_was_set:
+    - botmemo_booking_progress: done_information_collecting
+    - requested_slot: null
+    - bkinfo_area: true
+    - bkinfo_checkin_time: true
+    - bkinfo_duration: true
+    - bkinfo_bed_type: true
+  - active_loop: null
+  - checkpoint: check_done_information_collecting
+  - action: bot_search_hotel_rooms
+  - slot_was_set:
+    - search_result_flag: available
+  - action: botacts_show_room_list
+  - slot_was_set:
+    - botmemo_booking_progress: room_showing
+  - intent: user_click_to_select_hotel
+    entities:
+      - room_id: 1
+  - slot_was_set:
+    - bkinfo_room_id: 1
+    - botmemo_booking_progress: room_selected
+  - action: botacts_confirm_room_selection
+  - slot_was_set:
+    - botmind_context: idle
+    - botmemo_booking_progress: null
+    - bkinfo_area: null
+    - bkinfo_checkin_time: null
+    - bkinfo_duration: null
+    - bkinfo_bed_type: null
+    - bkinfo_room_id: null
+    - search_result_flag: null
+  - action: action_listen
+
+- story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
+  steps:
+  - checkpoint: check_done_information_collecting
+  - action: bot_search_hotel_rooms
+  - slot_was_set:
+    - search_result_flag: notfound
+  - action: botacts_show_room_list
+  - slot_was_set:
+    - botmemo_booking_progress: room_showing
+  - action: utter_asking_revise_booking_information

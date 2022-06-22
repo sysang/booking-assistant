@@ -1,6 +1,6 @@
 # source: https://raw.githubusercontent.com/RasaHQ/NLU-training-data/main/mood/nlu.yml
 
-version: "2.0"
+version: "3.1"
 nlu:
 - intent: emotion_happy
   examples: |

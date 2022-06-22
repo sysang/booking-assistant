@@ -1,6 +1,6 @@
 # Source: https://raw.githubusercontent.com/cedextech/rasa-chatbot-templates/master/01_smalltalk_bot/src/data/nlu.md
 
-version: "2.0"
+version: "3.1"
 nlu:
 - intent: smalltalk_agent_acquaintance
   examples: |

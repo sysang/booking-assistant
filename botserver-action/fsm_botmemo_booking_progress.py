@@ -1,6 +1,8 @@
 import logging
 
-from .service import duckling_parse, query_available_rooms, query_room_by_id
+from rasa_sdk.events import SlotSet
+
+from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
 
 logger = logging.getLogger(__name__)
@@ -31,9 +33,18 @@ class FSMBotmemeBookingProgress():
         "bkinfo_checkin_time",
         "bkinfo_duration",
         "bkinfo_bed_type",
+        'bkinfo_price',
         "bkinfo_room_id",
         "botmind_context",
         "search_result_flag",
+    }
+
+    _FORM_SCHEMA = {
+        'bkinfo_area',
+        'bkinfo_checkin_time',
+        'bkinfo_duration',
+        'bkinfo_bed_type',
+        'bkinfo_price',
     }
 
     _ASSOCIATIVE_MEM = 'botmemo_booking_progress'
@@ -45,7 +56,11 @@ class FSMBotmemeBookingProgress():
         _slots = slots.copy()
         _slots = { prop:_slots.get(prop, None) for prop in self._STI_SIGNAL }
         self.slots = {**_slots, **additional}
-        self.form = BookingInfo(slots=self.slots)
+
+        self.form = { field:self.slots[field] for field in self._FORM_SCHEMA }
+
+    def is_form_completed(self):
+        return all(self.form.values())
 
     def checkif_none(self):
         return self.slots['botmind_context'] != 'workingonbooking'
@@ -57,13 +72,17 @@ class FSMBotmemeBookingProgress():
         return any(self.form.value())
 
     def checkif_ready(self):
-        return self.form.is_completed()
+        return self.is_form_completed()
 
     def checkif_showing(self):
         return self.slots.get('search_result_flag')
 
     def checkif_done(self):
         return self.slots.get('bkinfo_room_id')
+
+    @property
+    def SlotSetEvent(self):
+        return SlotSet(self._ASSOCIATIVE_MEM, self.next_state)
 
     @property
     def next_state(self):

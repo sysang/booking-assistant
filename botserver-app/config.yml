@@ -4,6 +4,8 @@
 
 # Configuration for Rasa NLU.
 # https://rasa.com/docs/rasa/nlu/components/
+version: "3.1"
+
 language: en
 
 importers:
@@ -21,18 +23,25 @@ pipeline:
 # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # If you'd like to customize it, uncomment and adjust the pipeline.
 # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: HFTransformersNLP
-    # Name of the language model to use
-    model_name: "bert"
-    # Pre-Trained weights to be loaded
-    model_weights: "rasa/LaBSE"
-    # An optional path to a specific directory to download and cache the pre-trained model weights.
-    # The `default` cache_dir is the same as https://huggingface.co/transformers/serialization.html#cache-directory .
-    cache_dir: null
   - name: WhitespaceTokenizer
     intent_tokenization_flag: True
     intent_split_symbol: "+"
   - name: LanguageModelFeaturizer
+    # Name of the language model to use
+    model_name: "bert"
+    # Pre-Trained weights to be loaded
+    model_weights: "rasa/LaBSE"
+
+    # An optional path to a directory from which
+    # to load pre-trained model weights.
+    # If the requested model is not found in the
+    # directory, it will be downloaded and
+    # cached in this directory for future use.
+    # The default value of `cache_dir` can be
+    # set using the environment variable
+    # `TRANSFORMERS_CACHE`, as per the
+    # Transformers library.
+    cache_dir: null
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
@@ -86,10 +95,10 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.47
-    max_history: 3
+    tolerance: 0.63
+    max_history: 5
     learning_rate: 2e-4
-    epochs: 701
+    epochs: 501
     constrain_similarities: true
     model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
@@ -115,16 +124,16 @@ policies:
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 3
-      dialogue: 3
-      action_text: 3
-      label_action_text: 3
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
     number_of_attention_heads: 16
     embedding_dimension: 16
   - name: TEDPolicy
-    max_history: 2
+    max_history: 3
     learning_rate: 2e-4
-    epochs: 1024
+    epochs: 501
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [64, 256]
@@ -150,9 +159,9 @@ policies:
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 3
-      dialogue: 3
-      action_text: 3
-      label_action_text: 3
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
     number_of_attention_heads: 16
     embedding_dimension: 16

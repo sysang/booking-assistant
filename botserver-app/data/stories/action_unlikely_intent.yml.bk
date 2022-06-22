@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3.0"
 
 stories:
 - story: action_unlikely_intent is to trigger bot_relieves_imposition_to_think

@@ -1,27 +1,24 @@
-version: "2.0"
+version: "3.1"
 
 stories:
 - story: set botmemo_booking_progress to done_information_collecting, then show room list
   steps:
   - slot_was_set:
-    - botmind_state: transitioning
+    - botmind_state: null
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
-    - bkinfo_area_flag: present
-    - bkinfo_checkin_time_flag: present
-    - bkinfo_duration_flag: present
-    - bkinfo_bed_type_flag: present
-    - bkinfo_room_id_flag: empty
+    - bkinfo_area: true
+    - bkinfo_checkin_time: true
+    - bkinfo_duration: true
+    - bkinfo_bed_type: true
+    - bkinfo_room_id: null
     - search_result_flag: null
+  - intent: bot_embodies_intention
   - action: pseudo_action
   - slot_was_set:
     - botmind_state: attentive
-  - action: set_notes_bkinfo
+  - action: bot_search_hotel_rooms
   - slot_was_set:
-    - bkinfo_area_flag: noted
-    - bkinfo_checkin_time_flag: noted
-    - bkinfo_duration_flag: noted
-    - bkinfo_bed_type_flag: noted
     - search_result_flag: available
   - action: botacts_show_room_list
   - slot_was_set:
@@ -29,43 +26,39 @@ stories:
   - intent: user_click_to_select_hotel
     entities:
       - room_id: 1
-  - action: set_booking_information__room_id__
   - slot_was_set:
+    - bkinfo_room_id: 1
     - botmemo_booking_progress: room_selected
-    - bkinfo_room_id_flag: present
   - action: botacts_confirm_room_selection
   - slot_was_set:
     - botmind_context: idle
     - botmemo_booking_progress: null
-    - bkinfo_area_flag: empty
-    - bkinfo_checkin_time_flag: empty
-    - bkinfo_duration_flag: empty
-    - bkinfo_bed_type_flag: empty
-    - bkinfo_room_id_flag: empty
+    - bkinfo_area: null
+    - bkinfo_checkin_time: null
+    - bkinfo_duration: null
+    - bkinfo_bed_type: null
+    - bkinfo_room_id: null
     - search_result_flag: null
   - action: action_listen
 
 - story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
   steps:
   - slot_was_set:
-    - botmind_state: transitioning
+    - botmind_state: null
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
-    - bkinfo_area_flag: present
-    - bkinfo_checkin_time_flag: present
-    - bkinfo_duration_flag: present
-    - bkinfo_bed_type_flag: present
-    - bkinfo_room_id_flag: empty
+    - bkinfo_area: true
+    - bkinfo_checkin_time: true
+    - bkinfo_duration: true
+    - bkinfo_bed_type: true
+    - bkinfo_room_id: null
     - search_result_flag: null
+  - intent: bot_embodies_intention
   - action: pseudo_action
   - slot_was_set:
     - botmind_state: attentive
-  - action: set_notes_bkinfo
+  - action: bot_search_hotel_rooms
   - slot_was_set:
-    - bkinfo_area_flag: noted
-    - bkinfo_checkin_time_flag: noted
-    - bkinfo_duration_flag: noted
-    - bkinfo_bed_type_flag: noted
     - search_result_flag: notfound
   - action: botacts_show_room_list
   - slot_was_set:

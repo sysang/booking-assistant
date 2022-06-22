@@ -1,8 +1,10 @@
-version: "2.0"
+version: "3.1"
 
 slots:
   botmind_state:
     type: categorical
+    mappings:
+      - type: custom
     influence_conversation: true
     initial_value: attentive
     values:
@@ -14,6 +16,8 @@ slots:
       - attentive
   botmind_context:
     type: categorical
+    mappings:
+      - type: custom
     influence_conversation: true
     initial_value: idle
     values:
@@ -22,6 +26,9 @@ slots:
       - chitchat #  in waiting user's request
   botmemo_booking_progress:  # working memory
     type: categorical
+    mappings:
+      - type: custom
+        action: bot_determines_botmemo_booking_progress
     influence_conversation: true
     initial_value: null
     values:
@@ -30,88 +37,103 @@ slots:
       - done_information_collecting
       - room_showing
       - room_selected
+      - information_revising
   botmemo_booking_failure:
     type: categorical
+    mappings:
+      - type: custom
     influence_conversation: true
     initial_value: null
     values:
       - missing_booking_info
       - missing_room_id
-  # userintent_affirm:
-  #   type: bool
-  #   influence_conversation: true
-  #   initial_value: null
   bkinfo_room_id:
     type: float
+    mappings:
+      - type: from_entity
+        intent: user_click_to_select_hotel
+        entity: room_id
     influence_conversation: true
-  # bkinfo_room_id_flag:
-  #   type: categorical
-  #   influence_conversation: true
-  #   initial_value: empty
-  #   values:
-  #     - empty
-  #     - present
-  #     - onchange
-  #     - noted
   bkinfo_area:
     type: text
+    mappings:
+      - type: from_entity
+        intent: express_area
+        entity: area
+      - type: from_entity
+        intent: request_listing_hotel_by_area
+        entity: area
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time
+        entity: area
     influence_conversation: true
-  # bkinfo_area_flag:
-  #   type: categorical
-  #   influence_conversation: true
-  #   initial_value: empty
-  #   values:
-  #     - empty
-  #     - present
-  #     - onchange
-  #     - noted
   bkinfo_checkin_time:
     type: text
+    mappings:
+      - type: from_entity
+        intent: express_time
+        entity: time
+      - type: from_entity
+        intent: request_checkin_time
+        entity: time
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time
+        entity: time
+      - type: from_entity
+        intent: request_checkin_time+request_room_reservation_duration
+        entity: time
     influence_conversation: true
-  # bkinfo_checkin_time_flag:
-  #   type: categorical
-  #   influence_conversation: true
-  #   initial_value: empty
-  #   values:
-  #     - empty
-  #     - present
-  #     - onchange
-  #     - noted
   bkinfo_duration:
     type: text  # unit: day
+    mappings:
+      - type: from_entity
+        intent: express_length_of_time
+        entity: duration
+      - type: from_entity
+        intent: request_room_reservation_duration
+        entity: duration
+      - type: from_entity
+        intent: request_checkin_time+request_room_reservation_duration
+        entity: duration
     influence_conversation: true
-  # bkinfo_duration_flag:
-  #   type: categorical
-  #   influence_conversation: true
-  #   initial_value: empty
-  #   values:
-  #     - empty
-  #     - present
-  #     - onchange
-  #     - noted
   bkinfo_bed_type:
     type: text
+    mappings:
+      - type: from_entity
+        intent: express_bed_type
+        entity: bed_type
+      - type: from_entity
+        intent: request_bed_type
+        entity: bed_type
     influence_conversation: true
-  # bkinfo_bed_type_flag:
-  #   type: categorical
-  #   influence_conversation: true
-  #   initial_value: empty
-  #   values:
-  #     - empty
-  #     - present
-  #     - onchange
-  #     - noted
   bkinfo_price:
     type: text
+    mappings:
+      - type: from_entity
+        intent: express_mountof_money
+        entity: amount-of-money
+      - type: from_entity
+        intent: express_expected_mountof_money
+        entity: amount-of-money
     influence_conversation: true
   logs_debugging_info:
     type: list
+    mappings:
+      - type: custom
     influence_conversation: false
     initial_value: []
   search_result_flag:
     type: categorical
+    mappings:
+      - type: custom
     influence_conversation: true
     initial_value: null
     values:
       - notfound
       - available
+  logs_fallback_loop_num:
+    type: float
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: 0
