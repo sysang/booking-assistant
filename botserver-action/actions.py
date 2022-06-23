@@ -173,12 +173,12 @@ class bot_search_hotel_rooms(Action):
             SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
         ]
 
+    bkinfo = botmemo_booking_progress.form
     rooms = query_available_rooms(**bkinfo)
 
     events = []
 
     if len(rooms) == 0:
-        dispatcher.utter_message(response="utter_room_not_available")
         events.append(SlotSet('search_result_flag', 'notfound'))
     else:
         events.append(SlotSet('search_result_flag', 'available'))

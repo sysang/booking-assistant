@@ -11,7 +11,7 @@ from .dbconnector import db
 
 logger = logging.getLogger(__name__)
 
-def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type):
+def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price=None):
   logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration)
   DATE_FORMAT = 'YYYY-MM-DD'
 

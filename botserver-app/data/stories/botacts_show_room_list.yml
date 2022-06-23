@@ -4,7 +4,7 @@ stories:
 - story: set botmemo_booking_progress to done_information_collecting, then show room list
   steps:
   - slot_was_set:
-    - botmind_state: null
+    - botmind_state: transitioning
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area: true
@@ -44,7 +44,7 @@ stories:
 - story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
   steps:
   - slot_was_set:
-    - botmind_state: null
+    - botmind_state: transitioning
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
     - bkinfo_area: true

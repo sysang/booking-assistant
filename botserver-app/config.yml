@@ -89,7 +89,7 @@ policies:
 # See https://rasa.com/docs/rasa/policies for more information.
   # - name: MemoizationPolicy
   - name: RulePolicy
-    core_fallback_threshold: 0.29
+    core_fallback_threshold: 0.15
     core_fallback_action_name: "custom_action_fallback"
     enable_fallback_prediction: True
     restrict_rules: true

@@ -20,16 +20,73 @@ stories:
     - botmemo_booking_progress: initialized
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
+  - or:
+    - intent: request_listing_hotel_by_area
+      entities:
+        - area: hawaii
+    - intent: express_area
+      entities:
+        - area: hawaii
+  - slot_was_set:
+    - botmemo_booking_progress: information_collecting
+  - slot_was_set:
+    - bkinfo_area: hawaii
   - action: bkinfo_form
   - slot_was_set:
+    - requested_slot: bkinfo_checkin_time
+  - or:
+    - intent: express_time
+      entities:
+        - time: september 5th
+    - intent: request_checkin_time
+      entities:
+        - time: september 5th
+  - slot_was_set:
+    - bkinfo_checkin_time: '2022-09-05T00:00:00.000-07:00'
+  - action: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_duration
+  - or:
+    - intent: express_length_of_time
+      entities:
+        - duration: 1 day
+    - intent: request_room_reservation_duration
+      entities:
+        - duration: five days
+  - slot_was_set:
+    - bkinfo_duration: 5
+  - action: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_bed_type
+  - or:
+    - intent: request_bed_type
+      entities:
+        - bed_type: single
+    - intent: express_bed_type
+      entities:
+        - bed_type: single
+  - slot_was_set:
+    - bkinfo_bed_type: single
+  - action: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_price
+  - or:
+    - intent: express_expected_mountof_money
+      entities:
+        - amount-of-money: 200 USD
+    - intent: express_mountof_money
+      entities:
+        - amount-of-money: 200 USD
+  - slot_was_set:
+    - bkinfo_price: 200
     - botmemo_booking_progress: done_information_collecting
+  - action: bkinfo_form
+  - slot_was_set:
     - requested_slot: null
-    - bkinfo_area: true
-    - bkinfo_checkin_time: true
-    - bkinfo_duration: true
-    - bkinfo_bed_type: true
   - active_loop: null
-  - checkpoint: check_done_information_collecting
+  # - checkpoint: check_done_information_collecting
   - action: bot_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
@@ -54,13 +111,13 @@ stories:
     - search_result_flag: null
   - action: action_listen
 
-- story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
-  steps:
-  - checkpoint: check_done_information_collecting
-  - action: bot_search_hotel_rooms
-  - slot_was_set:
-    - search_result_flag: notfound
-  - action: botacts_show_room_list
-  - slot_was_set:
-    - botmemo_booking_progress: room_showing
-  - action: utter_asking_revise_booking_information
+# - story: set botmemo_booking_progress to done_information_collecting, then inform there is not available
+#   steps:
+#   - checkpoint: check_done_information_collecting
+#   - action: bot_search_hotel_rooms
+#   - slot_was_set:
+#     - search_result_flag: notfound
+#   - action: botacts_show_room_list
+#   - slot_was_set:
+#     - botmemo_booking_progress: room_showing
+#   - action: utter_asking_revise_booking_information

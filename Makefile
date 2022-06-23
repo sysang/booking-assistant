@@ -17,4 +17,7 @@ restartcontainers:
 
 train: trainrasachatbot restartcontainers
 
+dryrun:
+	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --dry-run'
+
 test: testrasachatbot
