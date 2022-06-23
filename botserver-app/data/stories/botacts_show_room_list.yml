@@ -11,6 +11,7 @@ stories:
     - bkinfo_checkin_time: true
     - bkinfo_duration: true
     - bkinfo_bed_type: true
+    - bkinfo_price: true
     - bkinfo_room_id: null
     - search_result_flag: null
   - intent: bot_embodies_intention
@@ -51,6 +52,7 @@ stories:
     - bkinfo_checkin_time: true
     - bkinfo_duration: true
     - bkinfo_bed_type: true
+    - bkinfo_price: true
     - bkinfo_room_id: null
     - search_result_flag: null
   - intent: bot_embodies_intention
