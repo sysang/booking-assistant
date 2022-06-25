@@ -48,74 +48,152 @@ slots:
       - missing_booking_info
       - missing_room_id
   bkinfo_room_id:
+    influence_conversation: true
     type: float
     mappings:
       - type: from_entity
         intent: user_click_to_select_hotel
         entity: room_id
-    influence_conversation: true
   bkinfo_area:
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: express_area
         entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
       - type: from_entity
         intent: request_listing_hotel_by_area
         entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
       - type: from_entity
         intent: request_listing_hotel_by_area+request_checkin_time
         entity: area
-    influence_conversation: true
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+      - type: from_entity
+        intent: revise_area
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
   bkinfo_checkin_time:
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: express_time
         entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
       - type: from_entity
         intent: request_checkin_time
         entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
       - type: from_entity
         intent: request_listing_hotel_by_area+request_checkin_time
         entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
       - type: from_entity
         intent: request_checkin_time+request_room_reservation_duration
         entity: time
-    influence_conversation: true
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: revise_checkin_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
   bkinfo_duration:
+    influence_conversation: true
     type: text  # unit: day
     mappings:
       - type: from_entity
         intent: express_length_of_time
         entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
       - type: from_entity
         intent: request_room_reservation_duration
         entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
       - type: from_entity
         intent: request_checkin_time+request_room_reservation_duration
         entity: duration
-    influence_conversation: true
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: revise_room_reservation_duration
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
   bkinfo_bed_type:
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: express_bed_type
         entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
       - type: from_entity
         intent: request_bed_type
         entity: bed_type
-    influence_conversation: true
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: revise_bed_type
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
   bkinfo_price:
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: express_mountof_money
         entity: amount-of-money
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_price
       - type: from_entity
         intent: express_expected_mountof_money
         entity: amount-of-money
-    influence_conversation: true
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_price
+      - type: from_entity
+        intent: revise_price
+        entity: amount-of-money
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_price
   logs_debugging_info:
     type: list
     mappings:
@@ -127,8 +205,9 @@ slots:
     mappings:
       - type: custom
     influence_conversation: true
-    initial_value: null
+    initial_value: waiting
     values:
+      - waiting
       - notfound
       - available
   logs_fallback_loop_history:
@@ -137,3 +216,24 @@ slots:
       - type: custom
     influence_conversation: false
     initial_value: []
+  botmind_name:
+    type: text
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: Badge
+  botmemo_conversation_progress:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: null
+    values:
+      - greeted
+  old:
+    type: any
+    mappings:
+      - type: custom
+        action: action_old_slot_mapping
+    influence_conversation: false
+    initial_value: null

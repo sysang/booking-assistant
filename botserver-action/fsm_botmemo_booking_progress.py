@@ -18,7 +18,7 @@ class FSMBotmemeBookingProgress():
             - bkinfo_bed_type
             - bkinfo_room_id
     """
-    _STATES = (
+    STATES = (
         None,                           # 0
         'initialized',                  # 1 initialized
         'information_collecting',       # 2 inprogress
@@ -39,7 +39,7 @@ class FSMBotmemeBookingProgress():
         "search_result_flag",
     }
 
-    _FORM_SCHEMA = {
+    FORM_SCHEMA = {
         'bkinfo_area',
         'bkinfo_checkin_time',
         'bkinfo_duration',
@@ -49,6 +49,8 @@ class FSMBotmemeBookingProgress():
 
     _ASSOCIATIVE_MEM = 'botmemo_booking_progress'
 
+    search_result_flag__waiting__ = 'waiting'
+
     def __init__(self, slots, additional={}):
 
         self.state = slots.get(self._ASSOCIATIVE_MEM)
@@ -57,7 +59,7 @@ class FSMBotmemeBookingProgress():
         _slots = { prop:_slots.get(prop, None) for prop in self._STI_SIGNAL }
         self.slots = {**_slots, **additional}
 
-        self.form = { field:self.slots[field] for field in self._FORM_SCHEMA }
+        self.form = { field:self.slots[field] for field in self.FORM_SCHEMA }
 
     def is_form_completed(self):
         return all(self.form.values())
@@ -75,7 +77,7 @@ class FSMBotmemeBookingProgress():
         return self.is_form_completed()
 
     def checkif_showing(self):
-        return self.slots.get('search_result_flag')
+        return self.slots.get('search_result_flag') != self.search_result_flag__waiting__
 
     def checkif_done(self):
         return self.slots.get('bkinfo_room_id')
@@ -87,15 +89,15 @@ class FSMBotmemeBookingProgress():
     @property
     def next_state(self):
         if self.checkif_none():
-            return self._STATES[0]
+            return self.STATES[0]
         if self.checkif_inintialized():
-            return self._STATES[1]
+            return self.STATES[1]
         if self.checkif_done():
-            return self._STATES[5]
+            return self.STATES[5]
         if self.checkif_showing():
-            return self._STATES[4]
+            return self.STATES[4]
         if self.checkif_ready():
-            return self._STATES[3]
+            return self.STATES[3]
 
         # inprogress <- fallback state
-        return self._STATES[2]
+        return self.STATES[2]

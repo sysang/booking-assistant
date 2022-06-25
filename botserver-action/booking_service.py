@@ -42,22 +42,33 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_p
     locations = search_locations(name=bkinfo_area)
     locations = index_location_by_dest_type(data=locations)
     destination = choose_location(data=locations)
-    checkin_date, checkout_date = parse_date_range(from_time=bkinfo_checkin_time, duration=bkinfo_duration)
 
-    hotels = search_hotel(dest_id=destination['dest_id'], dest_type=destination['dest_type'], checkin_date=checkin_date, checkout_date=checkout_date)
+    checkin_date = parse_checkin_time(expression=bkinfo_checkin_time)
+    duration = parse_bkinfo_duration(expression=bkinfo_duration)
+    checkin_date, checkout_date = parse_date_range(from_time=checkin_date.value, duration=duration.value)
+
+    max_price = parse_bkinfo_price(expression=bkinfo_max_price)
+
+    hotels = search_hotel(
+        dest_id=destination['dest_id'],
+        dest_type=destination['dest_type'],
+        checkin_date=checkin_date,
+        checkout_date=checkout_date,
+        currency=max_price.unit,
+    )
     hotels = hotels['result']
     hotels = sort_hotel_by_review_score(hotels)
 
     rooms_indexed_by_hote_id = {}
     counter = 0
     for hotel in hotels:
-        room_list = get_room_list_by_hotel(hotel_id=hotel['hotel_id'], checkin_date=checkin_date, checkout_date=checkout_date)
+        room_list = get_room_list_by_hotel(hotel_id=hotel['hotel_id'], checkin_date=checkin_date, checkout_date=checkout_date, currency=max_price.unit)
         for item in room_list:
             blocks = item['block']
             ref_rooms = item['rooms']
             for block in blocks:
                 room = curate_room_info(hotel=hotel, block=block, ref_rooms=ref_rooms)
-                if verifyif_room_in_price_range(room=room, price=bkinfo_max_price) and verifyif_room_has_bed_type(room=room, bed_type=bkinfo_bed_type):
+                if verifyif_room_in_price_range(room=room, price=max_price.value) and verifyif_room_has_bed_type(room=room, bed_type=bkinfo_bed_type):
                     hotel_id = room['hotel_id']
                     if rooms_indexed_by_hote_id.get(hotel_id, None):
                         rooms_indexed_by_hote_id[hotel_id].append(room)
@@ -122,7 +133,7 @@ def curate_room_info(hotel, block, ref_rooms):
 
 
 @lru_cache
-def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date):
+def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> rooms = response.json()
     >>> rooms[0].keys()
@@ -143,7 +154,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date):
         "hotel_id": hotel_id,
         "adults_number_by_rooms": number_of_occupancy,
         "room_number": number_of_room,
-        "currency": CURRENCY,
+        "currency": currency,
         "locale": LOCALE,
         "units": UNITS,
     }
@@ -156,7 +167,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date):
 
 
 @lru_cache
-def search_hotel(dest_id, dest_type, checkin_date, checkout_date):
+def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> hotels = response.json()
     >>> hotels.keys()
@@ -192,7 +203,7 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date):
         "dest_type": dest_type,
         "adults_number": number_of_occupancy,
         "room_number": number_of_room,
-        "filter_by_currency": CURRENCY,
+        "filter_by_currency": currency,
         "locale": LOCALE,
         "units": UNITS,
     }

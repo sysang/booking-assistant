@@ -12,7 +12,7 @@ def parse_date_range(from_time, duration, format=DATE_FORMAT):
   return (arrobj_checkin.format(format), arrobj_checkout.format(format))
 
 
-if __name__ == '__main__':
+def __test__parse_date_range():
     from_time, to_time = parse_date_range('2022-01-01', 3)
     assert from_time == '2022-01-01', "from_time is incorrect."
     assert to_time == '2022-01-04', "to_time is incorrect."
@@ -22,3 +22,7 @@ if __name__ == '__main__':
     assert to_time == '2022-02-02', "to_time is incorrect."
 
     print('Success.')
+
+
+def __test__():
+    __test__parse_date_range()

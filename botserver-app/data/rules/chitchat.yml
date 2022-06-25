@@ -1,27 +1,28 @@
 version: "3.1"
 
 rules:
-- rule: response to out_of_scope
+
+- rule: perform chitchat
   condition:
     - slot_was_set:
       - botmind_state: attentive
       - botmind_context: idle
       - botmemo_booking_progress: null
   steps:
-  - intent: out_of_scope
-  - action: utter_out_of_scope
+  - intent: smalltalk
+  - action: utter_smalltalk
 
-- rule: response to out_of_scope
+- rule: perform chitchat
   condition:
     - slot_was_set:
       - botmind_state: attentive
       - botmind_context: workingonbooking
       - botmemo_booking_progress: null
   steps:
-  - intent: out_of_scope
-  - action: utter_out_of_scope
+  - intent: smalltalk
+  - action: utter_smalltalk
 
-- rule: form execution, response to out_of_scope
+- rule: form execution, perform chitchat
   condition:
   - slot_was_set:
     - botmind_state: attentive
@@ -29,16 +30,16 @@ rules:
     - botmemo_booking_progress: initialized
   - active_loop: bkinfo_form
   steps:
-  - intent: out_of_scope
+  - intent: smalltalk
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
-  - action: utter_out_of_scope
+  - action: utter_smalltalk
   - action: bkinfo_form
   - active_loop: bkinfo_form
   wait_for_user_input: false
 
-- rule: form execution, response to out_of_scope
+- rule: form execution, perform chitchat
   condition:
   - slot_was_set:
     - botmind_state: attentive
@@ -46,11 +47,11 @@ rules:
     - botmemo_booking_progress: information_collecting
   - active_loop: bkinfo_form
   steps:
-  - intent: out_of_scope
+  - intent: smalltalk
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
-  - action: utter_out_of_scope
+  - action: utter_smalltalk
   - action: bkinfo_form
   - active_loop: bkinfo_form
   wait_for_user_input: false

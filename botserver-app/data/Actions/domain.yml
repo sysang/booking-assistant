@@ -3,6 +3,7 @@ version: "3.1"
 actions:
   - action_botmemo_booking_progress
   - action_validate_slot_mappings
+  - validate_bkinfo_form
   - custom_action_fallback
   - pseudo_action
   - set_booking_information__area__
@@ -27,3 +28,6 @@ actions:
   - bot_perceive_user_wants_booking
   - bot_determines_botmemo_booking_progress
   - bot_search_hotel_rooms
+  - action_deactivate_loop_and_utter_out_of_scope
+  - action_old_slot_mapping
+  - botacts_utter_revised_bkinfo

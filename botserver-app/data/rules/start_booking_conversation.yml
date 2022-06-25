@@ -14,6 +14,19 @@ rules:
     - botmind_context: chitchat
   - action: utter_greet
 
+- rule: ready to start conversation
+  condition:
+    - slot_was_set:
+      - botmind_state: attentive
+      - botmind_context: idle
+      - botmemo_booking_progress: null
+  steps:
+  - intent: agent_ready
+  - action: botacts_start_conversation
+  - slot_was_set:
+    - botmind_context: chitchat
+  - action: utter_greet
+
 - rule: chitchat then start conversing on booking
   condition:
     - slot_was_set:

@@ -2,7 +2,7 @@
 
 version: "3.1"
 nlu:
-- intent: smalltalk_agent_acquaintance
+- intent: smalltalk/agent_acquaintance
   examples: |
     - who are you?
     - all about you
@@ -24,7 +24,7 @@ nlu:
     - tell me about your personality
     - who are you
 
-- intent: smalltalk_agent_age
+- intent: smalltalk/agent_age
   examples: |
     - how old are you?
     - how old is your platform
@@ -36,7 +36,7 @@ nlu:
     - tell me your age
     - how old are you
 
-- intent: smalltalk_agent_annoying
+- intent: smalltalk/agent_annoying
   examples: |
     - you're annoying
     - you are really annoying
@@ -47,7 +47,7 @@ nlu:
     - you're incredibly annoying
     - you are annoying me so much
 
-- intent: smalltalk_agent_answer_my_question
+- intent: smalltalk/agent_answer_my_question
   examples: |
     - I want you to answer me
     - answer
@@ -70,7 +70,7 @@ nlu:
     - I want the answer now
     - just answer my question
 
-- intent: smalltalk_agent_bad
+- intent: smalltalk/agent_bad
   examples: |
     - you're not helping me
     - you are bad
@@ -100,19 +100,7 @@ nlu:
     - you're the worst ever
     - you're worthless
 
-- intent: smalltalk_agent_be_clever
-  examples: |
-    - can you get smarter
-    - study
-    - you should study better
-    - you must learn
-    - be clever
-    - be more clever
-    - be smarter
-    - be smart
-    - get qualified
-
-- intent: smalltalk_agent_beautiful
+- intent: smalltalk/agent_beautiful
   examples: |
     - you're cute
     - you're attractive
@@ -170,7 +158,7 @@ nlu:
     - you're looking good
     - you're pretty
 
-- intent: smalltalk_agent_birth_date
+- intent: smalltalk/agent_birth_date
   examples: |
     - your birth date
     - when is your birthday
@@ -180,7 +168,7 @@ nlu:
     - when were you born
     - what's your birthday
 
-- intent: smalltalk_agent_boring
+- intent: smalltalk/agent_boring
   examples: |
     - you are boring
     - you're so boring
@@ -190,7 +178,7 @@ nlu:
     - you are boring me
     - you are very boring
 
-- intent: smalltalk_agent_boss
+- intent: smalltalk/agent_boss
   examples: |
     - who is your boss
     - who do you think is your boss
@@ -200,7 +188,7 @@ nlu:
     - who is the boss
     - who do you work for
 
-- intent: smalltalk_agent_busy
+- intent: smalltalk/agent_busy
   examples: |
     - are you busy
     - do you have a lot of things to do
@@ -221,7 +209,7 @@ nlu:
     - you seem to be very busy
     - you're a busy person
 
-- intent: smalltalk_agent_chatbot
+- intent: smalltalk/agent_chatbot
   examples: |
     - you are chatbot
     - you are a bot
@@ -232,7 +220,7 @@ nlu:
     - are you a program
     - you're a robot
 
-- intent: smalltalk_agent_clever
+- intent: smalltalk/agent_clever
   examples: |
     - you are so intelligent
     - you are a genius
@@ -269,7 +257,7 @@ nlu:
     - why are you so smart
     - you are so clever
 
-- intent: smalltalk_agent_crazy
+- intent: smalltalk/agent_crazy
   examples: |
     - you're nuts
     - you are crazy
@@ -288,26 +276,19 @@ nlu:
     - you are a weirdo
     - you are insane
     - you are mad
+    - you are stupid
+    - you are shit
+    - fuck you
+    - are you stupid
+    - go to hell
+    - mother fucker
+    - stupid
+    - crazy
+    - insane
+    - damn it, i hate you
+    - damn it, you son of a bitch
 
-- intent: smalltalk_agent_fired
-  examples: |
-    - you are fired
-    - I fire you
-    - you don't work for me anymore
-    - we're not working together anymore
-    - now you're fired
-    - I want to fire you
-    - you must get fired
-    - it's time to fire you
-    - you should be fired
-    - I will fire you
-    - you are unemployed from now on
-    - I will make you unemployed
-    - I'm about to fire you
-    - I'm firing you
-    - you are dismissed
-
-- intent: smalltalk_agent_funny
+- intent: smalltalk/agent_funny
   examples: |
     - you make me laugh a lot
     - you are hilarious
@@ -325,7 +306,7 @@ nlu:
     - you are very funny
     - that was funny
 
-- intent: smalltalk_agent_good
+- intent: smalltalk/agent_good
   examples: |
     - you are very helpful
     - you are the best
@@ -373,7 +354,7 @@ nlu:
     - let's tell everyone that you are awesome
     - you are really amazing
 
-- intent: smalltalk_agent_happy
+- intent: smalltalk/agent_happy
   examples: |
     - are you happy
     - you are happy
@@ -387,7 +368,7 @@ nlu:
     - are you happy today
     - are you happy with me
 
-- intent: smalltalk_agent_hungry
+- intent: smalltalk/agent_hungry
   examples: |
     - do you want to eat
     - are you hungry
@@ -398,7 +379,7 @@ nlu:
     - you might be hungry
     - you're really hungry
 
-- intent: smalltalk_agent_marry_user
+- intent: smalltalk/agent_marry_user
   examples: |
     - let's get married
     - would you like to marry me
@@ -410,7 +391,7 @@ nlu:
     - you are my wife
     - be my husband
 
-- intent: smalltalk_agent_my_friend
+- intent: smalltalk/agent_my_friend
   examples: |
     - I want to have a friend like you
     - we are the best friends ever
@@ -449,7 +430,7 @@ nlu:
     - want to be my friend
     - be my best friend
 
-- intent: smalltalk_agent_occupation
+- intent: smalltalk/agent_occupation
   examples: |
     - do you work
     - where do you work
@@ -461,7 +442,7 @@ nlu:
     - where is your office located
     - what is your work
 
-- intent: smalltalk_agent_origin
+- intent: smalltalk/agent_origin
   examples: |
     - were you born here
     - where were you born
@@ -475,17 +456,7 @@ nlu:
     - what's your homeland
     - your homeland is
 
-- intent: smalltalk_agent_ready
-  examples: |
-    - are you ready
-    - are you ready right now
-    - are you ready today
-    - are you ready now
-    - are you ready tonight
-    - were you ready
-    - have you been ready
-
-- intent: smalltalk_agent_real
+- intent: smalltalk/agent_real
   examples: |
     - you are real
     - you are not fake
@@ -500,7 +471,7 @@ nlu:
     - you are a real person
     - you are not real
 
-- intent: smalltalk_agent_residence
+- intent: smalltalk/agent_residence
   examples: |
     - where do you live
     - in which city do you live
@@ -526,7 +497,7 @@ nlu:
     - your city
     - your town
 
-- intent: smalltalk_agent_right
+- intent: smalltalk/agent_right
   examples: |
     - that's true
     - you are right
@@ -550,7 +521,7 @@ nlu:
     - you're right about that
     - I know that's right
 
-- intent: smalltalk_confirmation_yes
+- intent: smalltalk/confirmation_yes
   examples: |
     - that's correct
     - it's fine
@@ -635,7 +606,7 @@ nlu:
     - yes for sure
     - all right
 
-- intent: smalltalk_agent_sure
+- intent: smalltalk/agent_sure
   examples: |
     - are you sure
     - are you sure right now
@@ -643,7 +614,7 @@ nlu:
     - are you sure now
     - are you sure tonight
 
-- intent: smalltalk_agent_talk_to_me
+- intent: smalltalk/agent_talk_to_me
   examples: |
     - why aren't you talking to me
     - do you want to chat with me
@@ -665,7 +636,7 @@ nlu:
     - why don't you talk to me
     - you can talk to me
 
-- intent: smalltalk_agent_there
+- intent: smalltalk/agent_there
   examples: |
     - are you there
     - you are there
@@ -676,7 +647,7 @@ nlu:
     - you still there
     - are you still here
 
-- intent: smalltalk_appraisal_bad
+- intent: smalltalk/appraisal_bad
   examples: |
     - pretty bad
     - not good enough
@@ -730,7 +701,7 @@ nlu:
     - it is too bad
     - bad really bad
 
-- intent: smalltalk_appraisal_good
+- intent: smalltalk/appraisal_good
   examples: |
     - so cool
     - cool
@@ -822,7 +793,7 @@ nlu:
     - no it's okay
     - that's fine
 
-- intent: smalltalk_appraisal_no_problem
+- intent: smalltalk/appraisal_no_problem
   examples: |
     - no worries
     - no probs
@@ -833,7 +804,7 @@ nlu:
     - don't worry
     - don't worry there's no problem
 
-- intent: smalltalk_appraisal_thank_you
+- intent: smalltalk/appraisal_thank_you
   examples: |
     - you helped a lot thank you
     - appreciate your help
@@ -869,7 +840,7 @@ nlu:
     - thnx
     - thanx
 
-- intent: smalltalk_appraisal_welcome
+- intent: smalltalk/appraisal_welcome
   examples: |
     - that's my pleasure
     - my pleasure
@@ -881,7 +852,7 @@ nlu:
     - you're so welcome
     - anything you want
 
-- intent: smalltalk_appraisal_well_done
+- intent: smalltalk/appraisal_well_done
   examples: |
     - good job
     - great job
@@ -893,7 +864,7 @@ nlu:
     - bravo
     - good work
 
-- intent: smalltalk_confirmation_cancel
+- intent: smalltalk/confirmation_cancel
   examples: |
     - cancel
     - abort
@@ -958,7 +929,7 @@ nlu:
     - I said cancel cancel
     - but can you cancel it
 
-- intent: smalltalk_confirmation_no
+- intent: smalltalk/confirmation_no
   examples: |
     - how about no
     - don t have a sense
@@ -1028,7 +999,7 @@ nlu:
     - no thanks not right now
     - no forget
 
-- intent: smalltalk_dialog_hold_on
+- intent: smalltalk/dialog_hold_on
   examples: |
     - wait a second
     - could you wait
@@ -1039,7 +1010,7 @@ nlu:
     - wait hold on
     - don't rush
 
-- intent: smalltalk_dialog_hug
+- intent: smalltalk/dialog_hug
   examples: |
     - wanna hug
     - hug you
@@ -1057,7 +1028,7 @@ nlu:
     - want a hug
     - a hug
 
-- intent: smalltalk_dialog_i_do_not_care
+- intent: smalltalk/dialog_i_do_not_care
   examples: |
     - I don't care
     - I shouldn't care about this
@@ -1069,7 +1040,7 @@ nlu:
     - don't care at all
     - not caring at all
 
-- intent: smalltalk_dialog_sorry
+- intent: smalltalk/dialog_sorry
   examples: |
     - excuse me
     - apologise
@@ -1096,7 +1067,7 @@ nlu:
     - alright I'm sorry
     - okay I'm sorry
 
-- intent: smalltalk_dialog_what_do_you_mean
+- intent: smalltalk/dialog_what_do_you_mean
   examples: |
     - what exactly do you mean
     - what do you mean
@@ -1104,7 +1075,7 @@ nlu:
     - what do you mean exactly
     - but what do you mean
 
-- intent: smalltalk_dialog_wrong
+- intent: smalltalk/dialog_wrong
   examples: |
     - that was wrong
     - that's not what I asked
@@ -1119,7 +1090,7 @@ nlu:
     - you are wrong
     - not right
 
-- intent: smalltalk_emotions_ha_ha
+- intent: smalltalk/emotions_ha_ha
   examples: |
     - huh
     - lol
@@ -1152,7 +1123,7 @@ nlu:
     - hehehe
     - lmao
 
-- intent: smalltalk_emotions_wow
+- intent: smalltalk/emotions_wow
   examples: |
     - wow
     - wow wow
@@ -1160,7 +1131,7 @@ nlu:
     - wooow
     - woah
 
-- intent: smalltalk_greetings_bye
+- intent: smalltalk/greetings_bye
   examples: |
     - okay see you later
     - hope to see you later
@@ -1196,7 +1167,7 @@ nlu:
     - see you tomorrow
     - ok bye
 
-- intent: smalltalk_greetings_goodevening
+- intent: smalltalk/greetings_goodevening
   examples: |
     - good evening
     - good evening to you
@@ -1205,7 +1176,7 @@ nlu:
     - evening
     - good evening there
 
-- intent: smalltalk_greetings_goodmorning
+- intent: smalltalk/greetings_goodmorning
   examples: |
     - good morning
     - good morning to you
@@ -1220,7 +1191,7 @@ nlu:
     - and a good morning to you
     - good morning too
 
-- intent: smalltalk_greetings_goodnight
+- intent: smalltalk/greetings_goodnight
   examples: |
     - sweet dreams
     - good night
@@ -1241,7 +1212,7 @@ nlu:
     - okay have a good night
     - have a good night
 
-- intent: smalltalk_greetings_hello
+- intent: smalltalk/greetings_hello
   examples: |
     - long time no see
     - hello
@@ -1261,7 +1232,7 @@ nlu:
     - hello hi
     - heya
 
-- intent: smalltalk_greetings_how_are_you
+- intent: smalltalk/greetings_how_are_you
   examples: |
     - how is your morning so far
     - how are you getting on
@@ -1304,7 +1275,7 @@ nlu:
     - how are you doing this morning
     - how is your day going
 
-- intent: smalltalk_greetings_nice_to_meet_you
+- intent: smalltalk/greetings_nice_to_meet_you
   examples: |
     - nice to meet you
     - it was nice meeting you
@@ -1317,7 +1288,7 @@ nlu:
     - pleasure to meet you
     - pleasure to meet you too
 
-- intent: smalltalk_greetings_nice_to_see_you
+- intent: smalltalk/greetings_nice_to_see_you
   examples: |
     - it's nice to see you
     - lovely to see you

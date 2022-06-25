@@ -15,7 +15,6 @@ imports:
   - data/Intents
   - data/Entities
   - data/Slots
-  - data/Responses
   - data/Actions
   - data/Forms
 
@@ -73,13 +72,12 @@ pipeline:
     drop_rate: 0.25  # Dropout rate for encoder.
     drop_rate_attention: 0.0  # Dropout rate for attention.
   - name: EntitySynonymMapper
-  # - name: ResponseSelector
-  #   epochs: 100
-  #   constrain_similarities: true
-  # - name: "EntitySynonymMapper"
+  - name: ResponseSelector
+    epochs: 100
+    constrain_similarities: true
   - name: FallbackClassifier
-    threshold: 0.2
-    ambiguity_threshold: 0.1
+    threshold: 0.15
+    ambiguity_threshold: 0.12
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
@@ -89,79 +87,79 @@ policies:
 # See https://rasa.com/docs/rasa/policies for more information.
   # - name: MemoizationPolicy
   - name: RulePolicy
-    core_fallback_threshold: 0.15
-    core_fallback_action_name: "custom_action_fallback"
+    core_fallback_threshold: 0.10
+    core_fallback_action_name: custom_action_fallback
     enable_fallback_prediction: True
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.63
-    max_history: 5
-    learning_rate: 2e-4
-    epochs: 501
+    tolerance: 0.65
+    max_history: 4
+    learning_rate: 2e-3
+    epochs: 201
     constrain_similarities: true
     model_confidence: softmax  # softmax | linear_norm
     batch_size: [64, 256]
     connection_density: 0.85
     dense_dimension:
-      text: 32
-      action_text: 32
-      label_action_text: 32
-      intent: 16
+      text: 16
+      action_text: 16
+      label_action_text: 16
+      intent: 32
       action_name: 16
       label_action_name: 16
-      entities: 32
-      slots: 64
+      entities: 16
+      slots: 32
       active_loop: 16
     concat_dimension:
-      text: 32
-      action_text: 32
-      label_action_text: 32
-    encoding_dimension: 16
+      text: 64
+      action_text: 64
+      label_action_text: 64
+    encoding_dimension: 64
     transformer_size:
       text: 128
       dialogue: 128
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 2
-      dialogue: 2
-      action_text: 2
-      label_action_text: 2
+      text: 3
+      dialogue: 3
+      action_text: 3
+      label_action_text: 3
     number_of_attention_heads: 16
-    embedding_dimension: 16
+    embedding_dimension: 32
   - name: TEDPolicy
-    max_history: 3
-    learning_rate: 2e-4
-    epochs: 501
+    max_history: 2
+    learning_rate: 2e-3
+    epochs: 1234
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [64, 256]
     connection_density: 0.85
     dense_dimension:
-      text: 32
-      action_text: 32
-      label_action_text: 32
-      intent: 16
+      text: 16
+      action_text: 16
+      label_action_text: 16
+      intent: 32
       action_name: 16
       label_action_name: 16
-      entities: 32
-      slots: 64
+      entities: 16
+      slots: 32
       active_loop: 16
     concat_dimension:
-      text: 32
-      action_text: 32
-      label_action_text: 32
-    encoding_dimension: 16
+      text: 64
+      action_text: 64
+      label_action_text: 64
+    encoding_dimension: 64
     transformer_size:
       text: 128
       dialogue: 128
       action_text: 128
       label_action_text: 128
     number_of_transformer_layers:
-      text: 2
-      dialogue: 2
-      action_text: 2
-      label_action_text: 2
+      text: 3
+      dialogue: 3
+      action_text: 3
+      label_action_text: 3
     number_of_attention_heads: 16
-    embedding_dimension: 16
+    embedding_dimension: 32

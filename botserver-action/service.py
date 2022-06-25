@@ -7,40 +7,42 @@ import arrow
 from arrow import Arrow
 
 from .dbconnector import db
+from .duckling_service import (
+    parse_checkin_time,
+    parse_bkinfo_duration,
+    parse_bkinfo_price,
+)
 
 
 logger = logging.getLogger(__name__)
 
 def query_available_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price=None):
-  logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration)
-  DATE_FORMAT = 'YYYY-MM-DD'
+    logger.info('[INFO] querying parameters(bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration): (%s, %s, %s, %s)', bkinfo_area, bkinfo_bed_type, bkinfo_checkin_time, bkinfo_duration)
+    DATE_FORMAT = 'YYYY-MM-DD'
 
-  bkinfo_duration = int(bkinfo_duration) - 1  # Compensate when count checkin date
+    checkin_date = parse_checkin_time(expression=bkinfo_checkin_time)
+    duration = parse_bkinfo_duration(expression=bkinfo_duration)
 
-  arrobj_now = arrow.now()
-  arrobj_checkin = arrow.get(bkinfo_checkin_time)
-  if arrobj_now.timestamp() > arrobj_checkin.timestamp():
-    return []
+    checkin_date_arrobj = arrow.get(checkin_date.value)
+    checkout_date_arrobj = checkin_date_arrobj.shift(days=duration.value)
 
-  arrobj_checkout = arrobj_checkin.shift(days=bkinfo_duration - 1)
+    booked_dates = []
+    for r in arrow.Arrow.range('day', checkin_date_arrobj, checkout_date_arrobj):
+        booked_dates.append(r.format(DATE_FORMAT))
 
-  booked_dates = []
-  for r in arrow.Arrow.range('day', arrobj_checkin, arrobj_checkout):
-    booked_dates.append(r.format(DATE_FORMAT))
+    logger.info('[INFO] booked_dates: %s', str(booked_dates))
 
-  logger.info('[INFO] booked_dates: %s', str(booked_dates))
+    RoomQuery = Query()
+    rooms = db.search((RoomQuery.area==bkinfo_area) & (RoomQuery.bed_type==bkinfo_bed_type))
 
-  RoomQuery = Query()
-  rooms = db.search((RoomQuery.area==bkinfo_area) & (RoomQuery.bed_type==bkinfo_bed_type))
+    logger.info('[INFO] Found %s room in %s', len(rooms), bkinfo_area)
 
-  logger.info('[INFO] Found %s room in %s', len(rooms), bkinfo_area)
+    available = []
+    for room in rooms:
+        if all([date not in room['occupied_dates'] for date in booked_dates]):
+            available.append(room)
 
-  available = []
-  for room in rooms:
-    if all([date not in room['occupied_dates'] for date in booked_dates]):
-      available.append(room)
-
-  return available
+    return available
 
 
 def query_room_by_id(id):

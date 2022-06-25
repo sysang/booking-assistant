@@ -13,6 +13,7 @@ intents:
   - revise_checkin_time
   - revise_room_reservation_duration
   - revise_bed_type
+  - revise_price
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
   - express_area
@@ -27,3 +28,4 @@ intents:
   - deny
   - react_positive
   - react_negative
+  - agent_ready

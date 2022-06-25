@@ -1,6 +1,7 @@
 import logging
 import json
 import random
+import copy
 from typing import Any, Dict, List, Text, Optional, Tuple
 from datetime import datetime
 
@@ -26,6 +27,7 @@ from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
 from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
 from .actions_validate_predefined_slots import ValidatePredefinedSlots
+from .actions_validate_info_form import ValidateBkinfoForm
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +93,6 @@ class bot_let_action_emerges(Action):
         return "bot_let_action_emerges"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        logger.info("[DEBUG] %s", tracker.latest_message)
         parse_data = {
             "intent": {
                 "name": "bot_embodies_intention",
@@ -193,23 +194,24 @@ class botacts_show_room_list(Action):
   def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     slots = tracker.slots
-    bkinfo = BookingInfo(slots=slots)
+    botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
 
     error_message = '[ERROR] in botacts_show_room_list action, bkinfo is incomplete'
-    if not bkinfo.is_completed():
+    if not botmemo_booking_progress.is_form_completed():
       return [
             SlotSet('botmemo_booking_failure', 'missing_booking_info'),
             SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
           ]
 
-    botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
-    rooms = query_available_rooms(**bkinfo)
-
     events = []
 
+    bkinfo = botmemo_booking_progress.form
+    rooms = query_available_rooms(**bkinfo)
     search_result_flag = slots.get('search_result_flag')
+
     if search_result_flag == 'notfound':
       dispatcher.utter_message(response="utter_room_not_available")
+
     elif search_result_flag == 'available':
       buttons = []
       for room in rooms:
@@ -226,6 +228,9 @@ class botacts_show_room_list(Action):
 
       logger.info("[INFO] buttons: %s", buttons)
       dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
+
+    else:
+        return [FollowupAction(name='bot_search_hotel_rooms')]
 
     events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
 
@@ -248,27 +253,12 @@ class botacts_confirm_room_selection(Action):
                 SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
             ]
 
-    bkinfo = BookingInfo(slots=slots)
-
     room = query_room_by_id(room_id)
     hotel_name = room['hotel']
 
-    dispatcher.utter_message(response="utter_room_selection",
-          bed_type=bkinfo.bed_type,
-          checkin_time=bkinfo.checkin_time,
-          duration=bkinfo.duration,
-          hotel_name=hotel_name,
-        )
+    dispatcher.utter_message(response="utter_room_selection", hotel_name=hotel_name)
 
-    events = [
-            SlotSet('botmind_context', 'idle'),
-            SlotSet('botmemo_booking_progress', None),
-            SlotSet('search_result_flag', None),
-            SlotSet('bkinfo_room_id_flag', None),
-        ]
-
-    events +=  BookingInfo.set_booking_information_flag(value=None)
-    events +=  BookingInfo.set_booking_information(value=None)
+    events = [AllSlotsReset()]
 
     return events
 
@@ -322,7 +312,6 @@ class bot_determines_botmemo_booking_progress(Action):
 
         return mapped_slots
 
-
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
         mapped_slots = self.slots_for_entities(entities, domain)
@@ -331,3 +320,61 @@ class bot_determines_botmemo_booking_progress(Action):
         logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form)
 
         return [botmemo_booking_progress.SlotSetEvent]
+
+
+class action_old_slot_mapping(Action):
+
+    def name(self) -> Text:
+        return "action_old_slot_mapping"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        slots = copy.copy(tracker.slots)
+        del slots['old']
+        del slots['requested_slot']
+        del slots['logs_debugging_info']
+        del slots['logs_fallback_loop_history']
+        del slots['session_started_metadata']
+        del slots['botmind_name']
+
+        return [SlotSet('old', slots)]
+
+
+class botacts_utter_revised_bkinfo(Action):
+
+    def name(self) -> Text:
+        return "botacts_utter_revised_bkinfo"
+
+    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        mapped_slots = {}
+        for slot_name, slot_conf in domain['slots'].items():
+            for entity in entities:
+                for mapping in slot_conf['mappings']:
+                    if mapping['type'] != 'from_entity':
+                        continue
+                    if mapping['entity'] != entity['entity']:
+                        continue
+                    mapped_slots[slot_name] = entity.get('value')
+
+        return mapped_slots
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        schema = FSMBotmemeBookingProgress.FORM_SCHEMA
+        slots = tracker.slots
+
+        entities = tracker.latest_message['entities']
+        mapped_slots = self.slots_for_entities(entities, domain)
+
+        events = []
+        for slot_name in schema:
+            oldval = slots.get(slot_name)
+            newval = mapped_slots.get(slot_name)
+            if oldval != newval and oldval and newval:
+                response = f"utter_revised_{slot_name}"
+                variable = f"{slot_name}_revised"
+                data = {variable: newval}
+                dispatcher.utter_message(response=response, **data)
+                events.append(SlotSet(slot_name, newval))
+
+        return events
+
+

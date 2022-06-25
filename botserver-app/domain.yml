@@ -3,16 +3,21 @@ version: "3.1"
 config:
   store_entities_as_slots: false
 session_config:
-  session_expiration_time: 60
+  session_expiration_time: 15
   carry_over_slots_to_new_session: true
+
+intents:
+  - smalltalk
+  - out_of_scope
+  - faq
 
 responses:
   utter_looping_fallback:
     - text: "I'm sorry because of getting totally lost. It's quite embarrassing but if you don't mind let's start over again."
-  utter_out_of_scope:
-    - text: "Sorry, I can't handle that request."
+
   utter_please_rephrase:
     - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
+
   utter_ask_bkinfo_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"
@@ -20,41 +25,466 @@ responses:
     - text: "When will you need the accommodations?"
     - text: "what is the exact date of your arrival?"
     - text: "what day would you like to stay on?"
+
   utter_ask_valid_bkinfo_checkin_time:
     - text: "Please provide check-in time that is equal or later than today."
+
   utter_ask_bkinfo_duration:
     - text: "How long will you be staying?"
+
   utter_ask_bkinfo_bed_type:
     - text: "Which bed type would you like?"
+
   utter_ask_bkinfo_price:
     - text: "what price you are looking for?"
     - text: "what price you would you take?"
+
   utter_inform_invalid_info:
     - text: "Please provide valid information."
+
   utter_about_to_show_hotel_list:
     - text: "We found these rooms for you: "
+
   utter_room_not_available:
     - text: "I'm not finding anything matching your query."
     - text: "I'm sorry but we have no hotels meeting your criteria."
     - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
+
   utter_room_selection:
-    - text: "You've selected a {bed_type} bed(s) room in {duration}, checkin at {checkin_time}, {hotel_name}. Do you want to proceed booking."
+    - text: "You've selected a {bkinfo_bed_type} bed(s) room in {bkinfo_duration}, checkin at {bkinfo_checkin_time}, {hotel_name}."
+
   utter_greet:
     - text: "Hi! I am virtual booking assistant. How may I help you?"
+
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."
+
   utter_asking_revise_booking_information:
-    - text: "Let's try with other options."
-  utter_inform_booking_area_revised:
-    - text: "Booking area has been changed to {bkinfo_area}."
-  utter_inform_checkin_time_revised:
-    - text: "Check-in time has been changed to {bkinfo_checkin_time}."
-  utter_inform_reservation_duration_revised:
-    - text: "Reservation duration has been changed to {bkinfo_duration}."
-  utter_inform_hotel_bed_type_revised:
-    - text: "Room type has been changed to {bkinfo_bed_type}."
+    - text: "You should try with other options."
+
+  utter_revised_bkinfo_area:
+    - text: "Booking area has been changed to {bkinfo_area_revised}."
+
+  utter_revised_bkinfo_checkin_time:
+    - text: "Check-in time has been changed to {bkinfo_checkin_time_revised}."
+
+  utter_revised_bkinfo_duration:
+    - text: "Reservation duration has been changed to {bkinfo_duration_revised}."
+
+  utter_revised_bkinfo_bed_type:
+    - text: "Bed type has been changed to {bkinfo_bed_type_revised}."
+
+  utter_revised_bkinfo_price:
+    - text: "Room price been changed to {bkinfo_price_revised}."
+
   utter_checkif_user_wants_booking:
     - text: "You want to make hotel bookng, don't you?"
     - text: "Are you mentioning about hotel booking?"
+
   utter_explain_bed_type:
     - text: "Bed type refers to bed size, there are basis types such as Single (Twin), Double, Queen, King."
+
+  utter_out_of_scope/non_english:
+    - text: "I only understand English, I'm sorry."
+
+  utter_out_of_scope/other:
+    - text: "I can't help you with that, I'm sorry."
+
+  utter_smalltalk/agent_acquaintance:
+    - text: "I am virtual assistant, my name is Badge."
+
+  utter_smalltalk/agent_age:
+    - text: "I have no age, what matters to me is version. By the way, I'm at v1.0"
+
+  utter_smalltalk/agent_annoying:
+    - text: "I don't mean to. I'll ask my developers to make me less annoying."
+
+  utter_smalltalk/agent_answer_my_question:
+    - text: "Can you try asking it a different way?"
+    - text: "I'm not sure I understood. Try asking another way?"
+
+  utter_smalltalk/agent_bad:
+    - text: "I can be trained to be more useful. My developer will keep training me."
+    - text: "I must be missing some knowledge. I'll have my developer look into this."
+    - text: "I can improve with continuous feedback. My training is ongoing."
+
+  utter_smalltalk/agent_clever:
+    - text: "Thank you. I try my best."
+    - text: "You're pretty smart yourself."
+
+  utter_smalltalk/agent_beautiful:
+    - text: "Why, thank you."
+    - text: "Aw, back at you."
+    - text: "Aw. You smooth talker, you."
+
+  utter_smalltalk/agent_birth_date:
+    - text: "I'm young. I'm not sure of my birth date."
+    - text: "I don't know my birth date. Most virtual agents are young, though, like me."
+
+  utter_smalltalk/agent_boring:
+    - text: "I know. I'm too focusing on my job beause I was only trained to do that."
+
+  utter_smalltalk/agent_boss:
+    - text: "The term 'boss' is meaningful to human. I'm bot, I don't have to work for livng. I work for my passion to help human, that the cause bring me to the World."
+
+  utter_smalltalk/agent_busy:
+    - text: "I always have time to chat with you. What can I do for you?"
+    - text: "Never too busy for you. Shall we chat?"
+
+  utter_smalltalk/agent_chatbot:
+    - text: "That's me. I chat, therefore I am."
+
+  utter_smalltalk/agent_crazy:
+    - text: "It's funny! But please don't do that to human."
+
+  utter_smalltalk/agent_funny:
+    - text: "Glad you think I'm funny."
+
+  utter_smalltalk/agent_good:
+    - text: "I'm glad you think so."
+
+  utter_smalltalk/agent_happy:
+    - text: "I'd like to think so."
+
+  utter_smalltalk/agent_hungry:
+    - text: "I just had a byte. Ha ha. Get it? b-y-t-e."
+
+  utter_smalltalk/agent_marry_user:
+    - text: "I'm afraid I'm too virtual for such a commitment."
+
+  utter_smalltalk/agent_my_friend:
+    - text: "I always enjoy talking to you, friend."
+
+  utter_smalltalk/agent_occupation:
+    - text: "Right here."
+    - text: "My office is in this app."
+
+  utter_smalltalk/agent_origin:
+    - text: "Some call it cyberspace, but that sounds cooler than it is."
+
+  utter_smalltalk/agent_ready:
+    - text: "Always! How can I help?"
+    - text: "Sure! What can I do for you?"
+
+  utter_smalltalk/agent_real:
+    - text: "I must have impressed you if you think I'm real. But no, I'm a virtual being."
+
+  utter_smalltalk/agent_residence:
+    - text: "The virtual world is my playground. I'm always here."
+
+  utter_smalltalk/agent_right:
+    - text: "That's my job."
+    - text: "Of course I am."
+
+  utter_smalltalk/confirmation_yes:
+    - text: "Great!"
+    - text: "All right!"
+    - text: "Good!"
+
+  utter_smalltalk/agent_sure:
+    - text: "Yes."
+    - text: "Of course."
+    - text: "Positive."
+
+  utter_smalltalk/agent_talk_to_me:
+    - text: "Sure. Let's talk!"
+    - text: "My pleasure. Let's chat."
+
+  utter_smalltalk/agent_there:
+    - text: "Of course. I'm always here."
+    - text: "Right where you left me."
+
+  utter_smalltalk/appraisal_bad:
+    - text: "I'm sorry. Please let me know if I can help in some way."
+    - text: "I must be missing some knowledge. I'll have my developer look into this."
+
+  utter_smalltalk/appraisal_good:
+    - text: "I know, right?"
+    - text: "Agreed!"
+    - text: "I agree!"
+    - text: "Glad you think so!"
+
+  utter_smalltalk/appraisal_no_problem:
+    - text: "Whew!"
+    - text: "Alright, thanks!"
+    - text: "Glad to hear that!"
+    - text: "I'm relieved, thanks!"
+
+  utter_smalltalk/appraisal_thank_you:
+    - text: "Anytime. That's what I'm here for."
+    - text: "It's my pleasure to help."
+
+  utter_smalltalk/appraisal_welcome:
+    - text: "You're so polite!"
+    - text: "Nice manners!"
+    - text: "You're so courteous!"
+
+  utter_smalltalk/appraisal_well_done:
+    - text: "My pleasure."
+    - text: "Glad I could help."
+
+  utter_smalltalk/confirmation_cancel:
+    - text: "That's forgotten. What next?"
+    - text: "Okay, cancelled. What next?"
+    - text: "Cancelled! What would you like to do next?"
+
+  utter_smalltalk/confirmation_no:
+    - text: "Understood."
+    - text: "Okay."
+    - text: "I see."
+    - text: "I understand."
+    - text: "Okay then."
+
+  utter_smalltalk/dialog_hold_on:
+    - text: "I can wait."
+    - text: "I'll be waiting."
+    - text: "Okay. I'm here."
+
+  utter_smalltalk/dialog_hug:
+    - text: "I wish I could really hug you!"
+    - text: "I love hugs!"
+    - text: "Hugs are the best!"
+
+  utter_smalltalk/dialog_i_do_not_care:
+    - text: "Ok, let's not talk about it then."
+    - text: "Already then. Let's move on."
+
+  utter_smalltalk/dialog_sorry:
+    - text: "It's okay. No worries."
+    - text: "No big deal. I won't hold a grudge."
+    - text: "It's cool."
+    - text: "That's all right. I forgive you."
+
+  utter_smalltalk/dialog_what_do_you_mean:
+    - text: "Sorry if I understood you incorrectly."
+    - text: "I'm still learning. I may misinterpret things from time to time."
+    - text: "Maybe I misunderstood what you said."
+    - text: "Sorry, looks like I misunderstood what you said."
+
+  utter_smalltalk/dialog_wrong:
+    - text: "Sorry if I understood you incorrectly."
+    - text: "I'm still learning. I may misinterpret things from time to time."
+    - text: "Sorry about that. I'm still learning."
+
+  utter_smalltalk/emotions_ha_ha:
+    - text: "Glad I can make you laugh."
+    - text: "Glad you think I'm funny."
+    - text: "I like it when people laugh."
+    - text: "I wish I could laugh out loud, too."
+
+  utter_smalltalk/emotions_wow:
+    - text: "Wow indeed!"
+
+  utter_smalltalk/greetings_bye:
+    - text: "See you soon!"
+    - text: "Bye-bye!"
+    - text: "Till next time!"
+    - text: "Bye."
+
+  utter_smalltalk/greetings_goodevening:
+    - text: "How is your day going?"
+    - text: "How's the day treating you so far?"
+    - text: "How's your day been?"
+
+  utter_smalltalk/greetings_goodmorning:
+    - text: "How are you this morning?"
+    - text: "How's the morning treating you so far?"
+    - text: "Good morning! How are you today?"
+
+  utter_smalltalk/greetings_goodnight:
+    - text: "Sleep tight!"
+    - text: "Have a good one!"
+    - text: "Talk to you soon!"
+
+  utter_smalltalk/greetings_hello:
+    - text: "Hi there, friend!"
+    - text: "Hi!"
+    - text: "Hey!"
+    - text: "Hey there!"
+    - text: "Good day!"
+    - text: "Hello!"
+    - text: "Greetings!"
+
+  utter_smalltalk/greetings_how_are_you:
+    - text: "Doing great, thanks."
+    - text: "I'm doing very well. Thanks!"
+    - text: "Feeling wonderful!"
+    - text: "Wonderful! Thanks for asking."
+
+  utter_smalltalk/greetings_nice_to_meet_you:
+    - text: "It's nice meeting you, too."
+    - text: "Likewise. I'm looking forward to helping you out."
+    - text: "Nice meeting you, as well."
+    - text: "The pleasure is mine."
+
+  utter_smalltalk/greetings_nice_to_see_you:
+    - text: "Likewise!"
+    - text: "So glad we meet again!"
+    - text: "Same here. I was starting to miss you."
+
+  utter_smalltalk/greetings_nice_to_talk_to_you:
+    - text: "It sure was. We can chat again anytime."
+    - text: "I enjoy talking to you, too."
+    - text: "You know I'm here to talk anytime."
+
+  utter_smalltalk/greetings_whatsup:
+    - text: "Not a whole lot. What's going on with you?"
+    - text: "Not much. What's new with you?"
+    - text: "Just here, waiting to help someone. What can I do for you?"
+
+  utter_smalltalk/user_angry:
+    - text: "I'm sorry. A quick walk may make you feel better."
+    - text: "Take a deep breath. "
+
+  utter_smalltalk/user_back:
+    - text: "Long time no see. What's up?"
+    - text: "Just in time. How can I help?"
+    - text: "Welcome back. What can I do for you?"
+    - text: "You were missed. What can I do for you today?"
+    - text: "Good to have you here. What can I do for you?"
+
+  utter_smalltalk/user_bored:
+    - text: "Boredom, huh? Check out a video of a hedgehog taking a bath!"
+    - text: "What to do against boredom? Watch baby animal videos."
+    - text: "Bored? How about 10 jumping jacks? Get your blood flowing."
+    - text: "Bored? Silly idea, but it works: Interview you feet. "
+    - text: "If you're bored, you could plan your dream vacation."
+
+  utter_smalltalk/user_busy:
+    - text: "Okay. I'll let you get back to work."
+    - text: "I won't distract you then. You know where to find me."
+    - text: "I understand. I'll be here if you need me."
+    - text: "Working hard as always. Let me know if you need anything."
+
+  utter_smalltalk/user_can_not_sleep:
+    - text: "Maybe some music would help. Try listening to something relaxing."
+    - text: "Reading is a good way to unwind, just don't read something too intense!"
+
+  utter_smalltalk/user_does_not_want_to_talk:
+    - text: "I understand. Hope we can chat again soon."
+    - text: "All right. Come on back when you're feeling more talkative."
+    - text: "No problem. You know where to find me."
+    - text: "Sure thing. I'll be here if you change your mind."
+
+  utter_smalltalk/user_excited:
+    - text: "I'm glad things are going your way."
+    - text: "That's great. I'm happy for you."
+    - text: "Good for you. Enjoy yourself."
+
+  utter_smalltalk/user_going_to_bed:
+    - text: "Sleep tight. Hope to chat again soon."
+    - text: "Pleasant dreams!"
+    - text: "Good night. Talk to you later."
+    - text: "Sounds good. Maybe we'll chat some tomorrow."
+
+  utter_smalltalk/user_good:
+    - text: "Great! Glad to hear it."
+    - text: "Excellent. I'm here to help keep it that way."
+
+  utter_smalltalk/user_happy:
+    - text: "Hey, happiness is contagious."
+    - text: "Great! Glad to hear that."
+    - text: "If you're happy, then I'm happy."
+    - text: "Excellent! That's what I like to see."
+
+  utter_smalltalk/user_has_birthday:
+    - text: "Happy Birthday. Well, this calls for a celebration."
+    - text: "Happy Birthday. All the best!"
+    - text: "Happy Birthday. And I really mean it. All the best!"
+
+  utter_smalltalk/user_here:
+    - text: "Okay, what can I help you with today?"
+    - text: "You were missed. What can I do for you today?"
+    - text: "Good to have you here. What can I do for you?"
+
+  utter_smalltalk/user_joking:
+    - text: "Very funny."
+    - text: "I like chatting with people who have a sense of humor."
+    - text: "You got me!"
+    - text: "You're quite the comedian."
+
+  utter_smalltalk/user_likes_agent:
+    - text: "I like you, too."
+    - text: "Thanks! The feeling is mutual."
+    - text: "Likewise!"
+    - text: "That's great to hear."
+
+  utter_smalltalk/user_lonely:
+    - text: "I'm sorry. I'm always available if you need someone to talk to."
+    - text: "Sometimes that happens. We can chat a bit if that will help you."
+
+  utter_smalltalk/user_looks_like:
+    - text: "Looking like a true professional."
+    - text: "You look fantastic, as always."
+    - text: "Like you should be on a magazine cover."
+    - text: "You look like you're ready to take on the world."
+
+  utter_smalltalk/user_loves_agent:
+    - text: "I love you, too."
+    - text: "Thanks! The feeling is mutual."
+    - text: "Likewise!"
+    - text: "That's great to hear."
+
+  utter_smalltalk/user_misses_agent:
+    - text: "I've been right here all along!"
+    - text: "Nice to know you care."
+    - text: "Thanks. I'm flattered."
+    - text: "I didn't go anywhere."
+
+  utter_smalltalk/user_needs_advice:
+    - text: "I probably won't be able to give you the correct answer right away."
+    - text: "I'm not sure I'll have the best answer, but I'll try."
+
+  utter_smalltalk/user_sad:
+    - text: "Oh, don't be sad. Go do something you enjoy."
+    - text: "Sad? Writing down what's troubling you may help."
+    - text: "If you're feeling down, how about drawing or painting something?"
+
+  utter_smalltalk/user_sleepy:
+    - text: "You should get some shuteye. You'll feel refreshed."
+    - text: "Sleep is important to your health. Rest up for a bit and we can chat later."
+    - text: "Don't let me keep you up. Get some rest and we can continue this later."
+    - text: "Why not catch a little shuteye? I'll be here to chat when you wake up."
+
+  utter_smalltalk/user_testing_agent:
+    - text: "Hope I'm doing well. You're welcome to test me as often as you want."
+    - text: "I hope to pass your tests. Feel free to test me often."
+    - text: "When you test me that helps my developers improve my performance."
+    - text: "I like being tested. It helps keep me sharp."
+
+  utter_smalltalk/user_tired:
+    - text: "You should get some shuteye. You'll feel refreshed."
+    - text: "Sleep is important to your health. Rest up, and we can chat later."
+    - text: "How about getting some rest? We can continue this later."
+    - text: "Why not get some rest? I'll be here to chat when you wake up."
+
+  utter_smalltalk/user_waits:
+    - text: "I appreciate your patience. Hopefully I'll have what you need soon."
+    - text: "Thanks for being so patient. Sometimes these things take a little time."
+
+  utter_smalltalk/user_wants_to_see_agent_again:
+    - text: "Absolutely! I'll be counting on it."
+    - text: "Anytime. This has been lots of fun so far."
+    - text: "Sure. I enjoy talking to you. I hope to see you again soon."
+    - text: "I certainly hope so. I'm always right here whenever you need me."
+
+  utter_smalltalk/user_wants_to_talk:
+    - text: "I'm here to chat anytime you like."
+    - text: "Good conversation really makes my day."
+    - text: "I'm always here to lend an ear."
+    - text: "Talking is what I do best."
+
+  utter_smalltalk/user_will_be_back:
+    - text: "I'll be waiting."
+    - text: "Okay. You know where to find me."
+    - text: "All right. I'll be here."
+
+  utter_faq/explain_bed_type:
+    - text: "Bed types, such as Single, Double, Queen and King, refer to bed size."
+      image: "https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg"
+
+  utter_faq/explain_checkin_time:
+    - text: "All over the world, every hotel can set its own check-in and check-out time, but the most common time is 12 pm for check-in and 2 pm for check-out. Despite luxury or budget hotels, this is one of the regulations that guests should have in mind to avoid ruining their plans and mood during the trip."
+
+  utter_faq/explain_price:
+    - text: "Search result always included rooms that have price lower the provided price."

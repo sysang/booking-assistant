@@ -18,7 +18,7 @@ nlu:
   examples: |
     - i need to book a hotel for a trip to [los angeles](area)
     - i need to book a hotel for a trip to [hanoi](area)
-    - i need to book a hotel for a trip to [ho chi minh city](area)
+    - i need to book a hotel for a trip to [ho chi minh](area) city
     - i need to book a hotel for a trip to [bangkok](area)
     - i need to book a hotel for a trip to [paris](area)
     - i need to book a hotel for a trip to [shanghai](area)
@@ -31,6 +31,7 @@ nlu:
     - can you find me an place to stay that is located in [fort lauderdale beach](area)
     - i'm looking for a hotel in [florida](area)
     - i'm searching for a hotel in [florida](area)
+    - i'm searching for a hotel in [da dang](area), vietnam
     - hi! can you help me find a hotel somewhere on [hawaii](area) please
     - can you tell us if there is a hotel in [san diego](area)
     - i am looking for an average priced place in [san diago](area). thankyou.
@@ -54,6 +55,10 @@ nlu:
     - i want a room with [queen-size](bed_type) bed
     - i want a room with [king-size](bed_type) bed
     - i want a room with [king size](bed_type) bed
+    - i want a [single](bed_type)
+    - i want a [double](bed_type)
+    - i want a [queen-size](bed_type)
+    - i want a [king-size](bed_type)
 - intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)
@@ -108,11 +113,19 @@ nlu:
     - my mistake i acctually want to stay in [two days](duration)
 - intent: revise_bed_type
   examples: |
-    - could i change room to [king-size](bed_type) bed
-    - could i change room to [single](bed_type)
-    - can i change room type to [single](bed_type)
+    - could you change room to [king-size](bed_type) bed
+    - could you change room to [single](bed_type)
+    - i want change room type to [single](bed_type)
     - sorry, my mistake i acctually want [double](bed_type) room
     - sorry, it is wrong one, i want a [queen](bed_type)
+    - sorry, could you change bed type to double
+- intent: revise_price
+  examples: |
+    - could i change price to [700 JPY](amount-of-money)
+    - plase change price to [1200 THB](amount-of-money)
+    - plase revise price to [300 inr](amount-of-money)
+    - my mistake, i actually want a price around [100 GBP](amount-of-money)
+    - sorry, my mistake, what i acctually is [200 usd](amount-of-money)
 - synonym: king
   examples: |
     - king size
