@@ -10484,8 +10484,6 @@ input.uniform-input, input.uniform-input:focus {
   left: 0;
   right: 0;
   z-index: 10;}
-.header-rmsearch-hide-xs {
-  background-image: url("../img/black-opacity-5.png");}
 .header-rmsearch-show-xs {
   background-color: #ffffff;
   top: 0;}

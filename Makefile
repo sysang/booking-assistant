@@ -5,6 +5,7 @@ help:
 	echo "Commands:"
 	echo "- train"
 	echo "- test"
+	echo "- dryrun"
 
 testrasachatbot:
 	docker exec ailab zsh -c 'TIMESTAMP="$(shell date +%Y%m%d\[\]%H%M%S)" && cd /workspace/rasachatbot/botserver-app && rasa test core --out="results/$$TIMESTAMP"'
@@ -20,4 +21,8 @@ train: trainrasachatbot restartcontainers
 dryrun:
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --dry-run'
 
-test: testrasachatbot
+test:
+	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
+
+query_hotel_room_test:
+	make test testfile=query_hotel_room model=$(model)

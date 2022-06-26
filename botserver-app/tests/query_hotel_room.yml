@@ -1,0 +1,10 @@
+stories:
+- name: set botmemo_booking_progress to done_information_collecting, then show room list
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'hawaii'
+    - 'september 5th'
+    - '3 days'
+    - 'I want a single bed'
+    - '200 USD'
+    - '/user_click_to_select_hotel{"room_id": 1}'
