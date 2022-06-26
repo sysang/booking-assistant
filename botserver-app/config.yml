@@ -93,73 +93,69 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.65
+    tolerance: 0.61
     max_history: 4
-    learning_rate: 2e-3
+    learning_rate: 2e-4
     epochs: 201
-    constrain_similarities: true
-    model_confidence: softmax  # softmax | linear_norm
-    batch_size: [64, 256]
-    connection_density: 0.85
-    dense_dimension:
-      text: 16
-      action_text: 16
-      label_action_text: 16
-      intent: 32
-      action_name: 16
-      label_action_name: 16
-      entities: 16
-      slots: 32
-      active_loop: 16
-    concat_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
-    encoding_dimension: 64
-    transformer_size:
-      text: 128
-      dialogue: 128
-      action_text: 128
-      label_action_text: 128
-    number_of_transformer_layers:
-      text: 3
-      dialogue: 3
-      action_text: 3
-      label_action_text: 3
-    number_of_attention_heads: 16
-    embedding_dimension: 32
-  - name: TEDPolicy
-    max_history: 2
-    learning_rate: 2e-3
-    epochs: 1234
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [64, 256]
-    connection_density: 0.85
+    connection_density: 0.2
     dense_dimension:
-      text: 16
-      action_text: 16
-      label_action_text: 16
+      text: 128
       intent: 32
-      action_name: 16
-      label_action_name: 16
-      entities: 16
-      slots: 32
-      active_loop: 16
+      action_name: 32
+      label_intent: 32
+      entities: 32
+      slots: 64
+      active_loop: 32
     concat_dimension:
-      text: 64
-      action_text: 64
-      label_action_text: 64
+      text: 192
+      action_text: 192
+      label_action_text: 192
     encoding_dimension: 64
     transformer_size:
-      text: 128
-      dialogue: 128
-      action_text: 128
-      label_action_text: 128
+      text: 192
+      dialogue: 192
+      action_text: 192
+      label_action_text: 192
     number_of_transformer_layers:
-      text: 3
-      dialogue: 3
-      action_text: 3
-      label_action_text: 3
-    number_of_attention_heads: 16
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
+    number_of_attention_heads: 8
+    embedding_dimension: 32
+  - name: TEDPolicy
+    max_history: 3
+    learning_rate: 2e-4
+    epochs: 2043
+    constrain_similarities: true
+    model_confidence: softmax
+    batch_size: [64, 256]
+    connection_density: 0.2
+    dense_dimension:
+      text: 128
+      intent: 32
+      action_name: 32
+      label_intent: 32
+      entities: 20
+      slots: 64
+      active_loop: 32
+    concat_dimension:
+      text: 192
+      action_text: 192
+      label_action_text: 192
+    encoding_dimension: 64
+    transformer_size:
+      text: 192
+      dialogue: 192
+      action_text: 192
+      label_action_text: 192
+    number_of_transformer_layers:
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2
+    number_of_attention_heads: 8
     embedding_dimension: 32

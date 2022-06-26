@@ -26,3 +26,18 @@ test:
 
 query_hotel_room_test:
 	make test testfile=query_hotel_room model=$(model)
+
+chitchat_outofscope_query_hotel_room:
+	make test testfile=chitchat_outofscope_query_hotel_room model=$(model)
+
+chitchat_smalltalk_query_hotel_room:
+	make test testfile=chitchat_smalltalk_query_hotel_room model=$(model)
+
+chitchat_faq_query_hotel_room:
+	make test testfile=chitchat_faq_query_hotel_room model=$(model)
+
+chitchat_nlufallback_query_hotel_room:
+	make test testfile=chitchat_nlufallback_query_hotel_room model=$(model)
+
+chitchat_revisebkinfo_query_hotel_room:
+	make test testfile=chitchat_revisebkinfo_query_hotel_room model=$(model)

@@ -1,5 +1,6 @@
 import arrow
 from arrow import Arrow
+from typing import Any, Dict, List, Text, Optional, Tuple
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
@@ -22,6 +23,20 @@ def __test__parse_date_range():
     assert to_time == '2022-02-02', "to_time is incorrect."
 
     print('Success.')
+
+
+def slots_for_entities(entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+    mapped_slots = {}
+    for slot_name, slot_conf in domain['slots'].items():
+        for entity in entities:
+            for mapping in slot_conf['mappings']:
+                if mapping['type'] != 'from_entity':
+                    continue
+                if mapping['entity'] != entity['entity']:
+                    continue
+                mapped_slots[slot_name] = entity.get('value')
+
+    return mapped_slots
 
 
 def __test__():

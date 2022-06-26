@@ -28,6 +28,7 @@ from .data_struture import BookingInfo
 from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
 from .actions_validate_predefined_slots import ValidatePredefinedSlots
 from .actions_validate_info_form import ValidateBkinfoForm
+from .utils import slots_for_entities
 
 logger = logging.getLogger(__name__)
 
@@ -65,26 +66,10 @@ class custom_action_fallback(Action):
         return "custom_action_fallback"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        THRESHOLD = 10
-
-        logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
-        now = datetime.now()
-
-        events = [
+        return [
             SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [now.timestamp()]),
             FollowupAction('bot_let_action_emerges'),
         ]
-
-        if len(logs_fallback_loop_history) == 0:
-            return events
-
-        last = datetime.fromtimestamp(logs_fallback_loop_history[-1])
-        duration = now - last
-        if duration.seconds < THRESHOLD:
-            dispatcher.utter_message(response='utter_looping_fallback')
-            return [AllSlotsReset()]
-
-        return events
 
 
 class bot_let_action_emerges(Action):
@@ -93,17 +78,31 @@ class bot_let_action_emerges(Action):
         return "bot_let_action_emerges"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        THRESHOLD = 10
         parse_data = {
             "intent": {
                 "name": "bot_embodies_intention",
                 "confidence": 1.0,
             }
         }
-        return [
+
+        events = [
             BOTMIND_STATE_SLOT['TRANSITIONING'],
             UserUttered(text="/bot_embodies_intention", parse_data=parse_data),
             FollowupAction(name="pseudo_action"),
         ]
+
+        logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
+        if len(logs_fallback_loop_history) == 0:
+            return events
+
+        last = datetime.fromtimestamp(logs_fallback_loop_history[-1])
+        duration = datetime.now() - last
+        if duration.seconds < THRESHOLD:
+            dispatcher.utter_message(response='utter_looping_fallback')
+            return [AllSlotsReset()]
+
+        return events
 
 
 class pseudo_action(Action):
@@ -140,7 +139,7 @@ class bot_relieves_imposition_to_think(Action):
     return [
         UserUttered(text="/bot_intents_to_think", parse_data=parse_data),
         botmind_state_slot,
-        # FollowupAction(name="bot_switchto_thinking"),
+        FollowupAction(name="bot_switchto_thinking"),
     ]
 
 
@@ -345,17 +344,7 @@ class botacts_utter_revised_bkinfo(Action):
         return "botacts_utter_revised_bkinfo"
 
     def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        mapped_slots = {}
-        for slot_name, slot_conf in domain['slots'].items():
-            for entity in entities:
-                for mapping in slot_conf['mappings']:
-                    if mapping['type'] != 'from_entity':
-                        continue
-                    if mapping['entity'] != entity['entity']:
-                        continue
-                    mapped_slots[slot_name] = entity.get('value')
-
-        return mapped_slots
+        return slots_for_entities(entities, domain)
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         schema = FSMBotmemeBookingProgress.FORM_SCHEMA

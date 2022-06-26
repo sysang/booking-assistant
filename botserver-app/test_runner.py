@@ -21,7 +21,7 @@ assert testfile, "Parameter `testfile` is not valid."
 assert Path(f"models/{model}").exists(), 'Pre-trained model file does not exists'
 
 now = datetime.now()
-tracking_time = now.strftime(format='%y%m%d][%H%M')
+tracking_time = now.strftime(format='%y%m%d][%H%M%S')
 reportfile = f"tests/reports/{testfile}[{model}][{tracking_time}].log"
 
 logger = logging.getLogger(__name__)
@@ -43,29 +43,34 @@ endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
 
 if __name__ == '__main__':
     stories = load_data(testfile)
+    tester = f'autotester[{model}][{tracking_time}]'
 
     for story in stories['stories']:
         name = story['name']
         steps = story['steps']
-        log = []
+        is_passed = True
 
-        logger.info("\n_____ STORY ________________________________________________________________________")
-        logger.info(f"\nName: {name}")
-        logger.info("--- -- ---- --- - - - - - - - - - - ------ -- - - -- - - -- ---- -- -- - -- ----- ---\n")
+        logger.info("\n_____  STORY  ______________________________________________________________________")
+        logger.info("")
+        logger.info(f"Name: {name}")
+        logger.info(f"Identity: {tester}")
+        logger.info("- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---\n")
 
         for step in story['steps']:
-            payload = {'sender': f'autotester-{model}-{tracking_time}', 'message': step}
+            payload = {'sender': tester, 'message': step}
 
             r = requests.post(endpoind, data=json.dumps(payload))
             body = r.json()
             utter = "\n(USER)  %s" % (step)
-            message = [ "(BOT)   -> %s" % (item['text']) for item in body ]
-            message = '\n'.join(message)
+            logs = [ "(BOT)   -> %s" % (item.get('text', item.get('image', item.get('buttons')))) for item in body ]
+            message = '\n'.join(logs) if len(logs) > 0 else '(BOT)   <<< error >>> '
+            is_passed = is_passed and len(logs) > 0
 
             logger.info(utter)
             logger.info(message)
             time.sleep(0.1)
-        logger.info("\n___________________________________________________________________ END _________\n")
+        result = 'passed' if is_passed else 'ERROR'
+        logger.info(f"\n__________________________________________________________________  {result}  _________\n")
 
     with open(reportfile, 'r') as reader:
         print(reader.read())

@@ -38,25 +38,25 @@ nlu:
 - intent: express_length_of_time
   examples: |
     - [1 day](duration)
+    - [3 days](duration)
+    - [1 hour](duration)
+    - [1 minute](duration)
+    - [60 minutes](duration)
+    - [thirty minutes](duration)
+    - [1 second](duration)
     - [one day](duration)
+    - [one and half day](duration)
     - [2 days](duration)
     - [three days](duration)
     - [five days](duration)
     - [3 nights](duration)
+    - [a night](duration)
+    - [1 night](duration)
+    - [one night](duration)
     - [one week](duration)
     - [2 weeks](duration)
-- intent: express_area
-  examples: |
-    - [hawaii](area)
-    - it is [hawaii](area)
-    - [Maren Fort Lauderdale Beach](area)
-    - it's [Maren Fort Lauderdale Beach](area)
-    - [broward county](area)
-    - [broward county](area), florida
-    - it's [broward county](area)
-    - [florida](area)
-    - it is [florida](area)
-    - it's [florida](area)
+    - [200 years](duration)
+    - [two days three hourse 1 minute](duration)
 - intent: express_bed_type
   examples: |
     - a [twin](bed_type) room

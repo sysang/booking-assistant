@@ -1,0 +1,14 @@
+stories:
+- name: when information is being collected, revise bkinfo
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'please change the place to [hamburg]'
+  - 'september 5th'
+  - 'please change check in time to  september 6th'
+  - '10 days'
+  - 'my mistake i actually want to stay in 1 day'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'could i change price to 50 usd'
+

@@ -54,11 +54,17 @@ nlu:
     - i want a [double](bed_type) one
     - i want a room with [queen-size](bed_type) bed
     - i want a room with [king-size](bed_type) bed
-    - i want a room with [king size](bed_type) bed
-    - i want a [single](bed_type)
-    - i want a [double](bed_type)
-    - i want a [queen-size](bed_type)
-    - i want a [king-size](bed_type)
+    - i want a room with [queen size](bed_type) bed
+    - i want a [single](bed_type) bed
+    - i want a [double](bed_type) bed
+    - i want a [queen-size](bed_type) bed
+    - i want a [king-size](bed_type) bed
+    - i want [queen-size](bed_type)
+    - i want [queen size](bed_type)
+    - i want [king-size](bed_type)
+    - i want [king size](bed_type)
+    - single bed should be finde
+    - i need room with twin beds
 - intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)
@@ -90,17 +96,22 @@ nlu:
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
+    - i want another place, it's [fort lauderdale beach](area)
     - i have change my mind, please select another place, it is [san diego](area)
     - can you change the area to [new york](area) please
-    - can you change the city to [austin](area) please
+    - could you change the city to [austin](area) please
     - change the area to [chicago](area)
-    - change the place to [hamberg](area)
+    - change the place to [hamburg](area), germany
+    - please change the place to [hamburg](area)
+    - change the place to [stuttgart](area), germany
+    - please change the place to [stuttgart](area)
+    - please change the place to fort lauderdale beach
 - intent: revise_checkin_time
   examples: |
     - could i change check in time to [sunday](time)
     - could i change checkin time to [sunday](time)
     - i change my mind, please change the date to [december 12th](time)
-    - i change my mind, please change the time to [december 12th](time)
+    - please change the time to [december 12th](time)
     - sorry can i change date to [october 1st](time)
     - i want it on [january 25th](time), please update
     - it is wrong day, please chagne it to [this sunday](time)
@@ -110,7 +121,7 @@ nlu:
     - can you increase the duration to [five days](duration)
     - i want to change my staying to [1 day](duration)
     - i have changed my mind, please change staying to [1 day](duration)
-    - my mistake i acctually want to stay in [two days](duration)
+    - my mistake i actually want to stay in [two days](duration)
 - intent: revise_bed_type
   examples: |
     - could you change room to [king-size](bed_type) bed

@@ -21,13 +21,11 @@ responses:
   utter_ask_bkinfo_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"
+
   utter_ask_bkinfo_checkin_time:
     - text: "When will you need the accommodations?"
     - text: "what is the exact date of your arrival?"
     - text: "what day would you like to stay on?"
-
-  utter_ask_valid_bkinfo_checkin_time:
-    - text: "Please provide check-in time that is equal or later than today."
 
   utter_ask_bkinfo_duration:
     - text: "How long will you be staying?"
@@ -38,6 +36,15 @@ responses:
   utter_ask_bkinfo_price:
     - text: "what price you are looking for?"
     - text: "what price you would you take?"
+
+  utter_ask_valid_bkinfo_checkin_time:
+    - text: "Please provide check-in time that is equal or later than today."
+
+  utter_ask_valid_bkinfo_duration:
+    - text: "Please provide reservation duration length in day or week."
+
+  utter_ask_valid_bkinfo_price:
+    - text: "Please provide positive number and correct currency code. If you're not sure you can take this reference: https://www.iban.com/currency-codes"
 
   utter_inform_invalid_info:
     - text: "Please provide valid information."
@@ -63,19 +70,19 @@ responses:
     - text: "You should try with other options."
 
   utter_revised_bkinfo_area:
-    - text: "Booking area has been changed to {bkinfo_area_revised}."
+    - text: "Booking area has been changed to {bkinfo_area}."
 
   utter_revised_bkinfo_checkin_time:
-    - text: "Check-in time has been changed to {bkinfo_checkin_time_revised}."
+    - text: "Check-in time has been changed to {bkinfo_checkin_time}."
 
   utter_revised_bkinfo_duration:
-    - text: "Reservation duration has been changed to {bkinfo_duration_revised}."
+    - text: "Reservation duration has been changed to {bkinfo_duration}."
 
   utter_revised_bkinfo_bed_type:
-    - text: "Bed type has been changed to {bkinfo_bed_type_revised}."
+    - text: "Bed type has been changed to {bkinfo_bed_type}."
 
   utter_revised_bkinfo_price:
-    - text: "Room price been changed to {bkinfo_price_revised}."
+    - text: "Room price been changed to {bkinfo_price}."
 
   utter_checkif_user_wants_booking:
     - text: "You want to make hotel bookng, don't you?"

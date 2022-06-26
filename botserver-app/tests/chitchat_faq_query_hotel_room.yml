@@ -1,0 +1,15 @@
+stories:
+- name: when information is being collected, faq
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'what is bed type'
+    - 'hawaii'
+    - 'what is bed type'
+    - 'september 5th'
+    - 'what is bed type'
+    - '3 days'
+    - 'what is bed type'
+    - 'I want a single bed'
+    - 'what is bed type'
+    - '200 USD'
+    - '/user_click_to_select_hotel{"room_id": 1}'

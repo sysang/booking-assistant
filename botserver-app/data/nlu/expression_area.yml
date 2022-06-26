@@ -1,0 +1,14 @@
+version: "3.1"
+nlu:
+- intent: express_area
+  examples: |
+    - [hawaii](area)
+    - it is [hawaii](area)
+    - [maren fort lauderdale beach](area)
+    - it's [maren fort lauderdale beach](area)
+    - [broward county](area)
+    - [broward county](area), florida
+    - it's [broward county](area)
+    - [florida](area)
+    - it is [florida](area)
+    - it's [florida](area)

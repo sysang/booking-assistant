@@ -1,0 +1,15 @@
+stories:
+- name: when information is being collected, out_of_scope
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'Wie fange ich mit Rasa an?'
+    - 'hawaii'
+    - 'Wie fange ich mit Rasa an?'
+    - 'september 5th'
+    - 'Wie fange ich mit Rasa an?'
+    - '3 days'
+    - 'Wie fange ich mit Rasa an?'
+    - 'I want a single bed room'
+    - 'Wie fange ich mit Rasa an?'
+    - '200 USD'
+    - '/user_click_to_select_hotel{"room_id": 1}'
