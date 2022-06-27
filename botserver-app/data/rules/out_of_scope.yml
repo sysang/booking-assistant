@@ -36,7 +36,6 @@ rules:
   - action: utter_out_of_scope
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  wait_for_user_input: false
 
 - rule: form execution, response to out_of_scope
   condition:
@@ -53,4 +52,3 @@ rules:
   - action: utter_out_of_scope
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  wait_for_user_input: false

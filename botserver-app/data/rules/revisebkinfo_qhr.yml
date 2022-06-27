@@ -13,7 +13,7 @@ rules:
     entities:
       - area: hawaii
   - slot_was_set:
-      - bkinfo_area: hawaii
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_utter_revised_bkinfo
   - action: bot_relieves_imposition_to_think
   wait_for_user_input: false
@@ -29,7 +29,7 @@ rules:
     entities:
       - time: '2022-09-05T00:00:00.000-07:00'
   - slot_was_set:
-      - bkinfo_checkin_time: '2022-09-05T00:00:00.000-07:00'
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_utter_revised_bkinfo
   - action: bot_relieves_imposition_to_think
   wait_for_user_input: false
@@ -45,7 +45,7 @@ rules:
     entities:
       - duration: 3
   - slot_was_set:
-      - bkinfo_duration: 3
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_utter_revised_bkinfo
   - action: bot_relieves_imposition_to_think
   wait_for_user_input: false
@@ -61,7 +61,7 @@ rules:
     entities:
       - bed_type: single
   - slot_was_set:
-    - bkinfo_bed_type: single
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_utter_revised_bkinfo
   - action: bot_relieves_imposition_to_think
   wait_for_user_input: false
@@ -77,6 +77,6 @@ rules:
     entities:
       - amount-of-money: 200 USD
   - slot_was_set:
-    - bkinfo_price: 200
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_utter_revised_bkinfo
   wait_for_user_input: false

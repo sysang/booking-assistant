@@ -24,6 +24,14 @@ dryrun:
 test:
 	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
 
+test_all:
+	make query_hotel_room_test model=$(MODEL)
+	make chitchat_outofscope_query_hotel_room model=$(MODEL)
+	make chitchat_smalltalk_query_hotel_room model=$(MODEL)
+	make chitchat_faq_query_hotel_room model=$(MODEL)
+	make chitchat_nlufallback_query_hotel_room model=$(MODEL)
+	make chitchat_revisebkinfo_query_hotel_room model=$(MODEL)
+
 query_hotel_room_test:
 	make test testfile=query_hotel_room model=$(model)
 

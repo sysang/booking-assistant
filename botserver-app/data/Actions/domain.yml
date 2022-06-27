@@ -31,3 +31,4 @@ actions:
   - action_deactivate_loop_and_utter_out_of_scope
   - action_old_slot_mapping
   - botacts_utter_revised_bkinfo
+  - action_bkinfo_status_slot_mapping

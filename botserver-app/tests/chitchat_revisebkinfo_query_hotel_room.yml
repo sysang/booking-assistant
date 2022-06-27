@@ -3,7 +3,7 @@ stories:
   steps:
   - 'Could you help me search for a hotel?'
   - 'hawaii'
-  - 'please change the place to [hamburg]'
+  - 'please change the place to hamburg'
   - 'september 5th'
   - 'please change check in time to  september 6th'
   - '10 days'

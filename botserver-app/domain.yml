@@ -98,7 +98,7 @@ responses:
     - text: "I can't help you with that, I'm sorry."
 
   utter_smalltalk/agent_acquaintance:
-    - text: "I am virtual assistant, my name is Badge."
+    - text: "I am virtual assistant, my name is {botmind_name}."
 
   utter_smalltalk/agent_age:
     - text: "I have no age, what matters to me is version. By the way, I'm at v1.0"

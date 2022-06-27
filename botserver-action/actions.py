@@ -67,7 +67,6 @@ class custom_action_fallback(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         return [
-            SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [now.timestamp()]),
             FollowupAction('bot_let_action_emerges'),
         ]
 
@@ -101,6 +100,8 @@ class bot_let_action_emerges(Action):
         if duration.seconds < THRESHOLD:
             dispatcher.utter_message(response='utter_looping_fallback')
             return [AllSlotsReset()]
+
+        events.insert(0, SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [now.timestamp()]))
 
         return events
 
@@ -171,6 +172,7 @@ class bot_search_hotel_rooms(Action):
         return [
             SlotSet('botmemo_booking_failure', 'missing_booking_info'),
             SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+            FollowupAction('bot_let_action_emerges'),
         ]
 
     bkinfo = botmemo_booking_progress.form
@@ -250,6 +252,7 @@ class botacts_confirm_room_selection(Action):
         return [
                 SlotSet('botmemo_booking_failure', 'missing_room_id'),
                 SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+                FollowupAction('bot_let_action_emerges'),
             ]
 
     room = query_room_by_id(room_id)
@@ -367,3 +370,19 @@ class botacts_utter_revised_bkinfo(Action):
         return events
 
 
+class action_bkinfo_status_slot_mapping(Action):
+
+    def name(self) -> Text:
+        return "action_bkinfo_status_slot_mapping"
+
+    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        return slots_for_entities(entities, domain)
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        mapped_slots = self.slots_for_entities(entities, domain)
+        botmemo_booking_progress = FSMBotmemeBookingProgress(tracker.slots, additional=mapped_slots)
+
+        slot_value = list(botmemo_booking_progress.form.values())
+
+        return [SlotSet('botmemo_bkinfo_status', slot_value)]

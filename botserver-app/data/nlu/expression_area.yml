@@ -4,11 +4,21 @@ nlu:
   examples: |
     - [hawaii](area)
     - it is [hawaii](area)
-    - [maren fort lauderdale beach](area)
-    - it's [maren fort lauderdale beach](area)
+    - [fort lauderdale beach](area)
+    - it's [fort lauderdale beach](area)
     - [broward county](area)
     - [broward county](area), florida
     - it's [broward county](area)
     - [florida](area)
     - it is [florida](area)
     - it's [florida](area)
+    - [Alexander City](area), Alabama
+    - [Andalusia](area), Alabama
+    - [Anniston](area), Alabama
+    - [Athens](area), Alabama
+    - [Atmore](area), Alabama
+    - [Auburn](area), Alabama
+    - [Bessemer](area), Alabama
+    - [Birmingham](area), Alabama
+    - [Chickasaw](area), Alabama
+    - [Clanton](area), Alabama

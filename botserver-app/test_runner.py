@@ -21,7 +21,7 @@ assert testfile, "Parameter `testfile` is not valid."
 assert Path(f"models/{model}").exists(), 'Pre-trained model file does not exists'
 
 now = datetime.now()
-tracking_time = now.strftime(format='%y%m%d][%H%M%S')
+tracking_time = now.strftime(format='%m%d-%H%M')
 reportfile = f"tests/reports/{testfile}[{model}][{tracking_time}].log"
 
 logger = logging.getLogger(__name__)
@@ -43,9 +43,12 @@ endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
 
 if __name__ == '__main__':
     stories = load_data(testfile)
-    tester = f'autotester[{model}][{tracking_time}]'
+    model_name = model.replace('.tar.gz', '')
+    counter = 0
 
     for story in stories['stories']:
+        counter += 1
+        tester = f'ST{counter}-{testfile}[{model_name}][{tracking_time}]'
         name = story['name']
         steps = story['steps']
         is_passed = True

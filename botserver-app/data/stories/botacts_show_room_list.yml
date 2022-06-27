@@ -7,17 +7,17 @@ stories:
     - botmind_state: transitioning
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
-    - bkinfo_area: true
-    - bkinfo_checkin_time: true
-    - bkinfo_duration: true
-    - bkinfo_bed_type: true
-    - bkinfo_price: true
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
     - bkinfo_room_id: null
     - search_result_flag: waiting
   - intent: bot_embodies_intention
   - action: pseudo_action
   - slot_was_set:
     - botmind_state: attentive
+  - action: bkinfo_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
   - action: bot_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
@@ -34,10 +34,7 @@ stories:
   - slot_was_set:
     - botmind_context: idle
     - botmemo_booking_progress: null
-    - bkinfo_area: null
-    - bkinfo_checkin_time: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
+    - botmemo_bkinfo_status: [null,null,null,null,null]
     - bkinfo_room_id: null
     - search_result_flag: waiting
   - action: action_listen
@@ -48,17 +45,17 @@ stories:
     - botmind_state: transitioning
     - botmind_context: workingonbooking
     - botmemo_booking_progress: done_information_collecting
-    - bkinfo_area: true
-    - bkinfo_checkin_time: true
-    - bkinfo_duration: true
-    - bkinfo_bed_type: true
-    - bkinfo_price: true
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
     - bkinfo_room_id: null
     - search_result_flag: waiting
   - intent: bot_embodies_intention
   - action: pseudo_action
   - slot_was_set:
     - botmind_state: attentive
+  - action: bkinfo_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
   - action: bot_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: notfound

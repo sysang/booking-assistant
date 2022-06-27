@@ -77,6 +77,10 @@ nlu:
     - i will need a room for [2 nights](duration)
     - can i book that for [three nights](duration)
     - i would like to book a room for [four nights](duration)
+    - i’ll be staying for [3 hours](duration)  # invalid unit
+    - book it for [half day](duration)
+    - book it for [four seconds](duration)
+    - book it for [86400 seconds](duration)
 - intent: request_checkin_time+request_room_reservation_duration
   examples: |
     - i want to book a room for [three nights](duration) starting from [sunday](time)
@@ -122,6 +126,11 @@ nlu:
     - i want to change my staying to [1 day](duration)
     - i have changed my mind, please change staying to [1 day](duration)
     - my mistake i actually want to stay in [two days](duration)
+    - can you change the duration to [2 hours](duration)  # invalid unit
+    - can you increase the duration to [five minutes](duration)
+    - i want to change my staying to [1 second](duration)
+    - i have changed my mind, please change staying to [1 year](duration)
+    - my mistake i actually want to stay in [23 hours](duration)
 - intent: revise_bed_type
   examples: |
     - could you change room to [king-size](bed_type) bed
@@ -137,6 +146,11 @@ nlu:
     - plase revise price to [300 inr](amount-of-money)
     - my mistake, i actually want a price around [100 GBP](amount-of-money)
     - sorry, my mistake, what i acctually is [200 usd](amount-of-money)
+    - could i change price to [701 JPX](amount-of-money)  #  invalid currency code
+    - plase change price to [1201 THP](amount-of-money)
+    - plase revise price to [301 ins](amount-of-money)
+    - my mistake, i actually want a price around [101 gpp](amount-of-money)
+    - sorry, my mistake, what i acctually is [201 uss](amount-of-money)
 - synonym: king
   examples: |
     - king size

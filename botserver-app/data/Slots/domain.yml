@@ -55,7 +55,7 @@ slots:
         intent: user_click_to_select_hotel
         entity: room_id
   bkinfo_area:
-    influence_conversation: true
+    influence_conversation: false
     type: text
     mappings:
       - type: from_entity
@@ -83,7 +83,7 @@ slots:
         # - active_loop: bkinfo_form
         #   requested_slot: bkinfo_area
   bkinfo_checkin_time:
-    influence_conversation: true
+    influence_conversation: false
     type: text
     mappings:
       - type: from_entity
@@ -117,7 +117,7 @@ slots:
         # - active_loop: bkinfo_form
         #   requested_slot: bkinfo_checkin_time
   bkinfo_duration:
-    influence_conversation: true
+    influence_conversation: false
     type: text  # unit: day
     mappings:
       - type: from_entity
@@ -145,7 +145,7 @@ slots:
         # - active_loop: bkinfo_form
         #   requested_slot: bkinfo_duration
   bkinfo_bed_type:
-    influence_conversation: true
+    influence_conversation: false
     type: text
     mappings:
       - type: from_entity
@@ -173,7 +173,7 @@ slots:
         # - active_loop: bkinfo_form
         #   requested_slot: bkinfo_bed_type
   bkinfo_price:
-    influence_conversation: true
+    influence_conversation: false
     type: text
     mappings:
       - type: from_entity
@@ -222,18 +222,24 @@ slots:
       - type: custom
     influence_conversation: false
     initial_value: Badge
-  botmemo_conversation_progress:
-    type: categorical
-    mappings:
-      - type: custom
-    influence_conversation: true
-    initial_value: null
-    values:
-      - greeted
   old:
     type: any
+    influence_conversation: false
     mappings:
       - type: custom
         action: action_old_slot_mapping
-    influence_conversation: false
     initial_value: null
+  botmemo_bkinfo_status:
+    type: addons.custom_slot_types.BkinfoStatus
+    influence_conversation: true
+    mappings:
+      - type: custom
+        action: action_bkinfo_status_slot_mapping
+    initial_value: []
+  notes_bkinfo:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null
+

@@ -7,11 +7,7 @@ stories:
     - botmind_state: attentive
     - botmind_context: idle
     - botmemo_booking_progress: null
-    - bkinfo_area: null
-    - bkinfo_checkin_time: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
+    - botmemo_bkinfo_status: [null,null,null,null,null]
     - bkinfo_room_id: null
     - search_result_flag: waiting
   - intent: request_searching_hotel
@@ -33,7 +29,7 @@ stories:
   - slot_was_set:
     - botmemo_booking_progress: information_collecting
   - slot_was_set:
-    - bkinfo_area: hawaii
+    - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
   - action: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_checkin_time
@@ -45,7 +41,7 @@ stories:
       entities:
         - time: september 5th
   - slot_was_set:
-    - bkinfo_checkin_time: '2022-09-05T00:00:00.000-07:00'
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',null,null,null]
   - action: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_duration
@@ -57,7 +53,7 @@ stories:
       entities:
         - duration: five days
   - slot_was_set:
-    - bkinfo_duration: 5
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration',null,null]
   - action: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_bed_type
@@ -70,6 +66,7 @@ stories:
         - bed_type: single
   - slot_was_set:
     - bkinfo_bed_type: single
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type',null]
   - action: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_price
@@ -81,8 +78,9 @@ stories:
       entities:
         - amount-of-money: 200 USD
   - slot_was_set:
-    - bkinfo_price: 200
     - botmemo_booking_progress: done_information_collecting
+  - slot_was_set:
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: bkinfo_form
   - slot_was_set:
     - requested_slot: null
@@ -104,6 +102,7 @@ stories:
   - slot_was_set:
     - botmind_context: idle
     - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: [null,null,null,null,null]
     - bkinfo_area: null
     - bkinfo_checkin_time: null
     - bkinfo_duration: null
