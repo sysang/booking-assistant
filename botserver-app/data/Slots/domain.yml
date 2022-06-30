@@ -9,8 +9,7 @@ slots:
     initial_value: attentive
     values:
       - transitioning
-      - thinking_boostX1
-      - thinking_boostX2
+      - thinking
       - prime_boostX1
       - prime_boostX2
       - attentive
@@ -76,12 +75,6 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_area
-      - type: from_entity
-        intent: revise_area
-        entity: area
-        # conditions:
-        # - active_loop: bkinfo_form
-        #   requested_slot: bkinfo_area
   bkinfo_checkin_time:
     influence_conversation: false
     type: text
@@ -110,12 +103,6 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
-      - type: from_entity
-        intent: revise_checkin_time
-        entity: time
-        # conditions:
-        # - active_loop: bkinfo_form
-        #   requested_slot: bkinfo_checkin_time
   bkinfo_duration:
     influence_conversation: false
     type: text  # unit: day
@@ -138,12 +125,6 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
-      - type: from_entity
-        intent: revise_room_reservation_duration
-        entity: duration
-        # conditions:
-        # - active_loop: bkinfo_form
-        #   requested_slot: bkinfo_duration
   bkinfo_bed_type:
     influence_conversation: false
     type: text
@@ -166,12 +147,6 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_bed_type
-      - type: from_entity
-        intent: revise_bed_type
-        entity: bed_type
-        # conditions:
-        # - active_loop: bkinfo_form
-        #   requested_slot: bkinfo_bed_type
   bkinfo_price:
     influence_conversation: false
     type: text
@@ -188,12 +163,41 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_price
+  bkinfo_area_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_area
+        entity: area
+  bkinfo_checkin_time_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_checkin_time
+        entity: time
+  bkinfo_duration_revised:
+    influence_conversation: false
+    type: text  # unit: day
+    mappings:
+      - type: from_entity
+        intent: revise_room_reservation_duration
+        entity: duration
+  bkinfo_bed_type_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_bed_type
+        entity: bed_type
+  bkinfo_price_revised:
+    influence_conversation: false
+    type: text
+    mappings:
       - type: from_entity
         intent: revise_price
         entity: amount-of-money
-        # conditions:
-        # - active_loop: bkinfo_form
-        #   requested_slot: bkinfo_price
   logs_debugging_info:
     type: list
     mappings:
@@ -205,10 +209,9 @@ slots:
     mappings:
       - type: custom
     influence_conversation: true
-    initial_value: waiting
+    initial_value: null
     values:
       - waiting
-      - notfound
       - available
   logs_fallback_loop_history:
     type: list
@@ -235,8 +238,14 @@ slots:
     mappings:
       - type: custom
         action: action_bkinfo_status_slot_mapping
-    initial_value: []
+    initial_value: null
   notes_bkinfo:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null
+  notes_search_result:
     type: any
     influence_conversation: false
     mappings:

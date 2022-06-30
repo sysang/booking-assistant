@@ -62,12 +62,12 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slot_name = 'bkinfo_area'
 
-        self.utter_if_revised_bkinfo(
-            dispatcher=dispatcher,
-            tracker=tracker,
-            domain=domain,
-            slot_name=slot_name,
-        )
+        # self.utter_if_revised_bkinfo(
+        #     dispatcher=dispatcher,
+        #     tracker=tracker,
+        #     domain=domain,
+        #     slot_name=slot_name,
+        # )
 
         return {}
 
@@ -90,13 +90,6 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
-        self.utter_if_revised_bkinfo(
-            domain=domain,
-            tracker=tracker,
-            dispatcher=dispatcher,
-            slot_name=slot_name,
-        )
-
         return {}
 
     def validate_bkinfo_duration(
@@ -117,13 +110,6 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
-        self.utter_if_revised_bkinfo(
-            domain=domain,
-            tracker=tracker,
-            dispatcher=dispatcher,
-            slot_name=slot_name,
-        )
-
         return {}
 
     def validate_bkinfo_bed_type(
@@ -134,13 +120,6 @@ class ValidateBkinfoForm(FormValidationAction):
         domain: DomainDict,) -> Dict[Text, Any]:
 
         slot_name = 'bkinfo_bed_type'
-
-        self.utter_if_revised_bkinfo(
-            domain=domain,
-            tracker=tracker,
-            dispatcher=dispatcher,
-            slot_name=slot_name,
-        )
 
         return {}
 
@@ -154,17 +133,8 @@ class ValidateBkinfoForm(FormValidationAction):
         slot_name = 'bkinfo_price'
         result = parse_bkinfo_price(expression=slot_value)
 
-        # logger.info('[DEV] slot_value: %s', slot_value)
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_price')
-            # logger.info('[DEV] old_slot_value: %s', self.old_slot_value(tracker, slot_name))
             return {slot_name: self.old_slot_value(tracker, slot_name)}
-
-        self.utter_if_revised_bkinfo(
-            domain=domain,
-            tracker=tracker,
-            dispatcher=dispatcher,
-            slot_name=slot_name,
-        )
 
         return {}

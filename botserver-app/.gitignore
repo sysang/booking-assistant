@@ -5,3 +5,5 @@
 .nv/
 .python_history
 .bash_history
+
+tensorboard/

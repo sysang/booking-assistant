@@ -63,6 +63,7 @@ if __name__ == '__main__':
             payload = {'sender': tester, 'message': step}
 
             r = requests.post(endpoind, data=json.dumps(payload))
+            r.raise_for_status()
             body = r.json()
             utter = "\n(USER)  %s" % (step)
             logs = [ "(BOT)   -> %s" % (item.get('text', item.get('image', item.get('buttons')))) for item in body ]

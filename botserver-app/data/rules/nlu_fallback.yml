@@ -3,20 +3,21 @@ version: "3.1"
 rules:
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence, idle
   condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: idle
-      - botmemo_booking_progress: null
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
   steps:
   - intent: nlu_fallback
   - action: utter_please_rephrase
 
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking, room_showing
   condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: workingonbooking
-      - botmemo_booking_progress: null
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+    - requested_slot: null
   steps:
   - intent: nlu_fallback
   - action: utter_please_rephrase

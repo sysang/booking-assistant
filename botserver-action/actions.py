@@ -35,8 +35,8 @@ logger = logging.getLogger(__name__)
 BOTMIND_STATE_SLOT = {
     'ATTENTIVE': SlotSet('botmind_state', 'attentive'),
     'TRANSITIONING': SlotSet('botmind_state', 'transitioning'),
-    'THINKINGx1': SlotSet('botmind_state', 'thinking_boostX1'),
-    'THINKINGx2': SlotSet('botmind_state', 'thinking_boostX2'),
+    'THINKINGx1': SlotSet('botmind_state', 'thinking'),
+    'THINKINGx2': SlotSet('botmind_state', 'thinking'),
     'PRIMEx1': SlotSet('botmind_state', 'prime_boostX1'),
     'PRIMEx2': SlotSet('botmind_state', 'prime_boostX2'),
 }
@@ -70,6 +70,15 @@ class custom_action_fallback(Action):
             FollowupAction('bot_let_action_emerges'),
         ]
 
+class action_unlikely_intent(Action):
+
+    def name(self) -> Text:
+        return "action_unlikely_intent"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        return [
+            FollowupAction('bot_let_action_emerges'),
+        ]
 
 class bot_let_action_emerges(Action):
 
@@ -85,13 +94,14 @@ class bot_let_action_emerges(Action):
             }
         }
 
+        logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
         events = [
             BOTMIND_STATE_SLOT['TRANSITIONING'],
             UserUttered(text="/bot_embodies_intention", parse_data=parse_data),
             FollowupAction(name="pseudo_action"),
+            SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [datetime.now().timestamp()]),
         ]
 
-        logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
         if len(logs_fallback_loop_history) == 0:
             return events
 
@@ -100,8 +110,6 @@ class bot_let_action_emerges(Action):
         if duration.seconds < THRESHOLD:
             dispatcher.utter_message(response='utter_looping_fallback')
             return [AllSlotsReset()]
-
-        events.insert(0, SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [now.timestamp()]))
 
         return events
 
@@ -180,62 +188,75 @@ class bot_search_hotel_rooms(Action):
 
     events = []
 
-    if len(rooms) == 0:
-        events.append(SlotSet('search_result_flag', 'notfound'))
+    if rooms is None or len(rooms) == 0:
+        events.append(SlotSet('notes_search_result', []))
     else:
-        events.append(SlotSet('search_result_flag', 'available'))
+        events.append(SlotSet('notes_search_result', rooms))
+
+    notes_bkinfo = {}
+    for slot_name in FSMBotmemeBookingProgress.FORM_SCHEMA:
+        # events.append(SlotSet(slot_name, None))
+        notes_bkinfo[slot_name] = slots.get(slot_name)
+
+    events.append(SlotSet('search_result_flag', 'available'))
+    events.append(SlotSet('notes_bkinfo', notes_bkinfo))
 
     return events
 
 class botacts_show_room_list(Action):
 
-  def name(self) -> Text:
-    return "botacts_show_room_list"
+    def name(self) -> Text:
+        return "botacts_show_room_list"
 
-  def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    slots = tracker.slots
-    botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
+        events = []
+        slots = tracker.slots
+        notes_bkinfo = slots.get('notes_bkinfo')
+        botmemo_booking_progress = slots.get('botmemo_booking_progress')
+        rooms = slots.get('notes_search_result')
 
-    error_message = '[ERROR] in botacts_show_room_list action, bkinfo is incomplete'
-    if not botmemo_booking_progress.is_form_completed():
-      return [
-            SlotSet('botmemo_booking_failure', 'missing_booking_info'),
-            SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
-          ]
+        if botmemo_booking_progress == 'room_selected':
+            error_message = '[ERROR] in botacts_show_room_list action, room has been selected.'
 
-    events = []
+            return [
+                SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+                FollowupAction('botacts_confirm_room_selection'),
+            ]
 
-    bkinfo = botmemo_booking_progress.form
-    rooms = query_available_rooms(**bkinfo)
-    search_result_flag = slots.get('search_result_flag')
+        if botmemo_booking_progress != 'done_information_collecting':
+            error_message = '[ERROR] in botacts_show_room_list action, bkinfo is incomplete'
 
-    if search_result_flag == 'notfound':
-      dispatcher.utter_message(response="utter_room_not_available")
+            return [
+                SlotSet('botmemo_booking_failure', 'missing_booking_info'),
+                SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+                FollowupAction('bot_let_action_emerges'),
+            ]
 
-    elif search_result_flag == 'available':
-      buttons = []
-      for room in rooms:
-        params = {
-              'room_id': room['id']
-            }
-        params = json.dumps(params)
+        if rooms is None or len(rooms) == 0:
+            dispatcher.utter_message(response="utter_room_not_available")
+            dispatcher.utter_message(response="utter_asking_revise_booking_information")
 
-        buttons.append(
-            {
-              "title": "%s, price: $%s" % (room["hotel"], room['price']),
-              "payload": "/user_click_to_select_hotel%s" % (params)  # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
-            })
+        else:
+            buttons = []
+            for room in rooms:
+                params = { 'room_id': room['id'] }
+                params = json.dumps(params)
 
-      logger.info("[INFO] buttons: %s", buttons)
-      dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
+                buttons.append({
+                    "title": "%s, price: $%s" % (room["hotel"], room['price']),
+                    "payload": "/user_click_to_select_hotel%s" % (params)  # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
+                })
 
-    else:
-        return [FollowupAction(name='bot_search_hotel_rooms')]
+            logger.info("[INFO] buttons: %s", buttons)
+            dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
 
-    events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
+        events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
 
-    return events
+        events.append(SlotSet('search_result_flag', None))
+
+        return events
 
 
 class botacts_confirm_room_selection(Action):
@@ -287,10 +308,15 @@ class botacts_express_bot_job_to_support_booking(Action):
 
         dispatcher.utter_message(response='utter_bot_job_to_support_booking')
 
-        botmemo_booking_progress = FSMBotmemeBookingProgress(slots=tracker.slots, additional={'botmind_context': 'workingonbooking'})
+        botmemo_booking_progress = FSMBotmemeBookingProgress(
+            slots=tracker.slots,
+            additional={'botmind_context': 'workingonbooking', 'search_result_flag': 'waiting'},
+        )
         events = [
             SlotSet('botmind_context', 'workingonbooking'),
+            SlotSet('search_result_flag', 'waiting'),
             SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state),
+            SlotSet('botmemo_bkinfo_status', [None] * len(FSMBotmemeBookingProgress.FORM_SCHEMA)),
         ]
 
         return events
@@ -301,22 +327,13 @@ class bot_determines_botmemo_booking_progress(Action):
     def name(self) -> Text:
         return "bot_determines_botmemo_booking_progress"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        mapped_slots = {}
-        for slot_name, slot_conf in domain['slots'].items():
-            for entity in entities:
-                for mapping in slot_conf['mappings']:
-                    if mapping['type'] != 'from_entity':
-                        continue
-                    if mapping['entity'] != entity['entity']:
-                        continue
-                    mapped_slots[slot_name] = entity.get('value')
-
-        return mapped_slots
+    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        return slots_for_entities(entities, intent, domain)
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
-        mapped_slots = self.slots_for_entities(entities, domain)
+        intent = tracker.latest_message['intent']
+        mapped_slots = self.slots_for_entities(entities, intent, domain)
         botmemo_booking_progress = FSMBotmemeBookingProgress(tracker.slots, additional=mapped_slots)
 
         logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form)
@@ -346,26 +363,23 @@ class botacts_utter_revised_bkinfo(Action):
     def name(self) -> Text:
         return "botacts_utter_revised_bkinfo"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, domain)
-
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        events = []
         schema = FSMBotmemeBookingProgress.FORM_SCHEMA
         slots = tracker.slots
+        search_result_flag = slots.get('search_result_flag')
 
-        entities = tracker.latest_message['entities']
-        mapped_slots = self.slots_for_entities(entities, domain)
-
-        events = []
         for slot_name in schema:
-            oldval = slots.get(slot_name)
-            newval = mapped_slots.get(slot_name)
-            if oldval != newval and oldval and newval:
-                response = f"utter_revised_{slot_name}"
-                variable = f"{slot_name}_revised"
-                data = {variable: newval}
-                dispatcher.utter_message(response=response, **data)
-                events.append(SlotSet(slot_name, newval))
+            slot_name_revised = f"{slot_name}_revised"
+            slot_value_revised = slots.get(slot_name_revised, None)
+            if slot_value_revised:
+                response = 'utter_revised_{slot_name}'
+                dispatcher.utter_message(response=response)
+                events.append(SlotSet(slot_name, slot_value_revised))
+
+        if search_result_flag == 'room_showing':
+            events.append(SlotSet('botmemo_booking_progress', 'done_information_collecting'))
+            events.append(SlotSet('search_result_flag', 'waiting'))
 
         return events
 
@@ -375,14 +389,22 @@ class action_bkinfo_status_slot_mapping(Action):
     def name(self) -> Text:
         return "action_bkinfo_status_slot_mapping"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, domain)
+    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        return slots_for_entities(entities, intent, domain)
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        entities = tracker.latest_message['entities']
-        mapped_slots = self.slots_for_entities(entities, domain)
-        botmemo_booking_progress = FSMBotmemeBookingProgress(tracker.slots, additional=mapped_slots)
+        slots = tracker.slots
+        botmemo_bkinfo_status = slots.get('botmemo_bkinfo_status', None)
 
+        # TODO: check for intent mapping
+        entities = tracker.latest_message['entities']
+        intent = tracker.latest_message['intent']
+        mapped_slots = self.slots_for_entities(entities, intent, domain)
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=mapped_slots)
+        logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form.values())
         slot_value = list(botmemo_booking_progress.form.values())
+
+        if not botmemo_bkinfo_status:
+            return [SlotSet('botmemo_bkinfo_status', None)]
 
         return [SlotSet('botmemo_bkinfo_status', slot_value)]

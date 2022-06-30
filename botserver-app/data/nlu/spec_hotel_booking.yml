@@ -133,12 +133,12 @@ nlu:
     - my mistake i actually want to stay in [23 hours](duration)
 - intent: revise_bed_type
   examples: |
-    - could you change room to [king-size](bed_type) bed
-    - could you change room to [single](bed_type)
+    - could you change bed type to [king-size](bed_type)
+    - could you change type to [single](bed_type)
     - i want change room type to [single](bed_type)
     - sorry, my mistake i acctually want [double](bed_type) room
     - sorry, it is wrong one, i want a [queen](bed_type)
-    - sorry, could you change bed type to double
+    - sorry, could you change bed type to [double](bed_type)
 - intent: revise_price
   examples: |
     - could i change price to [700 JPY](amount-of-money)

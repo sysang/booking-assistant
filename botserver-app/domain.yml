@@ -70,19 +70,19 @@ responses:
     - text: "You should try with other options."
 
   utter_revised_bkinfo_area:
-    - text: "Booking area has been changed to {bkinfo_area}."
+    - text: "Booking area has been changed to {bkinfo_area_revised}."
 
   utter_revised_bkinfo_checkin_time:
-    - text: "Check-in time has been changed to {bkinfo_checkin_time}."
+    - text: "Check-in time has been changed to {bkinfo_checkin_time_revised}."
 
   utter_revised_bkinfo_duration:
-    - text: "Reservation duration has been changed to {bkinfo_duration}."
+    - text: "Reservation duration has been changed to {bkinfo_duration_revised}."
 
   utter_revised_bkinfo_bed_type:
-    - text: "Bed type has been changed to {bkinfo_bed_type}."
+    - text: "Bed type has been changed to {bkinfo_bed_type_revised}."
 
   utter_revised_bkinfo_price:
-    - text: "Room price been changed to {bkinfo_price}."
+    - text: "Room price been changed to {bkinfo_price_revised}."
 
   utter_checkif_user_wants_booking:
     - text: "You want to make hotel bookng, don't you?"

@@ -23,14 +23,14 @@ UNIT_WEEK = 'week'
 
 class ParseResult:
     error_names = {
-        'None': None,
+        None: None,
         'failed': 'failed',
         'invalid_checkin_time': 'invalid_checkin_time',
         'invalid_bkinfo_duration': 'invalid_bkinfo_duration',
     }
 
     def __init__(self, value, unit='', parsed=None, error=None):
-        self.error = str(error)
+        self.error = error
         self.value = value
         self.unit = unit
         self.parsed = parsed
@@ -40,7 +40,6 @@ class ParseResult:
         assert error in self.error_names.keys(), "Error is not listed." % (error)
         return self.error == error
 
-    @property
     def is_valid(self):
         return not self.error
 

@@ -8,7 +8,7 @@ stories:
     - botmind_state: prime_boostX1
   - action: bot_switchto_thinking
   - slot_was_set:
-    - botmind_state: thinking_boostX1
+    - botmind_state: thinking
   - action: bot_let_action_emerges
   # INFORMATIVE:
   # - followup
@@ -24,7 +24,7 @@ stories:
     - botmind_state: prime_boostX2
   - action: bot_switchto_thinking
   - slot_was_set:
-    - botmind_state: thinking_boostX1
+    - botmind_state: thinking
   - action: bot_let_action_emerges
 
 - story: bot switches to thinking, bot lets action emerges
@@ -34,7 +34,7 @@ stories:
     - botmind_state: prime_boostX1
   - action: bot_switchto_thinking
   - slot_was_set:
-    - botmind_state: thinking_boostX2
+    - botmind_state: thinking
   - action: bot_let_action_emerges
 
 - story: bot switches to thinking, bot lets action emerges
@@ -44,5 +44,5 @@ stories:
     - botmind_state: prime_boostX2
   - action: bot_switchto_thinking
   - slot_was_set:
-    - botmind_state: thinking_boostX2
+    - botmind_state: thinking
   - action: bot_let_action_emerges

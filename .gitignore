@@ -5,6 +5,7 @@ __pycache__/
 .rasa/
 
 mounts/
+tmp/
 
 botserver-app/auth/
 botserver-app/git/

@@ -4,20 +4,21 @@ rules:
 
 - rule: perform chitchat
   condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: idle
-      - botmemo_booking_progress: null
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
   steps:
   - intent: smalltalk
   - action: utter_smalltalk
 
 - rule: perform chitchat
   condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: workingonbooking
-      - botmemo_booking_progress: null
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+    - requested_slot: null
   steps:
   - intent: smalltalk
   - action: utter_smalltalk

@@ -2,6 +2,12 @@ import logging
 
 from rasa_sdk.events import SlotSet
 
+from .duckling_service import (
+    parse_checkin_time,
+    parse_bkinfo_duration,
+    parse_bkinfo_price,
+)
+
 from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
 
@@ -39,13 +45,13 @@ class FSMBotmemeBookingProgress():
         "search_result_flag",
     }
 
-    FORM_SCHEMA = {
+    FORM_SCHEMA = (
         'bkinfo_area',
         'bkinfo_checkin_time',
         'bkinfo_duration',
         'bkinfo_bed_type',
         'bkinfo_price',
-    }
+    )
 
     _ASSOCIATIVE_MEM = 'botmemo_booking_progress'
 
@@ -59,16 +65,51 @@ class FSMBotmemeBookingProgress():
         _slots = { prop:_slots.get(prop, None) for prop in self._STI_SIGNAL }
         self.slots = {**_slots, **additional}
 
-        self.form = { field:self.slots[field] for field in self.FORM_SCHEMA }
+        self.form = self.bind_value()
+
+    def bind_value(self):
+        form = {}
+        for field in self.FORM_SCHEMA:
+            value = self.slots[field]
+            validating_func = self.get_validating_func(field)
+            if value and not validating_func(value):
+                form[field] = None
+            else:
+                form[field] = value
+
+        return form
+
+    def default_validating_func(self, field):
+        return True
+
+    def get_validating_func(self, field):
+        func = getattr(self, f'validate_{field}', None)
+
+        if func:
+            return func
+
+        return getattr(self, 'default_validating_func')
+
+    def validate_bkinfo_checkin_time(self, value):
+        result = parse_checkin_time(expression=value)
+        return result.is_valid()
+
+    def validate_bkinfo_duration(self, value):
+        result = parse_bkinfo_duration(expression=value)
+        return result.is_valid()
+
+    def validate_bkinfo_price(self, value):
+        result = parse_bkinfo_price(expression=value)
+        return result.is_valid()
 
     def is_form_completed(self):
         return all(self.form.values())
 
     def checkif_none(self):
-        return self.slots['botmind_context'] != 'workingonbooking'
+        return self.slots['botmind_context'] != 'workingonbooking' and self.slots.get('search_result_flag') is None
 
     def checkif_inintialized(self):
-        return all([not v for v in self.form.values()])
+        return all([not v for v in self.form.values()]) and self.slots.get('search_result_flag') == self.search_result_flag__waiting__
 
     def checkif_inprogress(self):
         return any(self.form.value())
@@ -101,3 +142,126 @@ class FSMBotmemeBookingProgress():
 
         # inprogress <- fallback state
         return self.STATES[2]
+
+def __test__():
+
+    def execute(slots, expected, index):
+        uit = FSMBotmemeBookingProgress(slots)
+        next_state = uit.next_state
+        assert next_state == expected, f"Incorrect next_state: {next_state}"
+        print(f' ({index})(T)\t next_state must be {expected}')
+
+
+    INDEX = 1
+    slots = {
+        "bkinfo_area": None,
+        "bkinfo_checkin_time": None,
+        "bkinfo_duration": None,
+        "bkinfo_bed_type": None,
+        'bkinfo_price': None,
+        "bkinfo_room_id": None,
+        "botmind_context": 'idle',
+        "search_result_flag": None,
+    }
+    expected = None
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 2
+    slots = {
+        "bkinfo_area": None,
+        "bkinfo_checkin_time": None,
+        "bkinfo_duration": None,
+        "bkinfo_bed_type": None,
+        'bkinfo_price': None,
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'waiting',
+    }
+    expected = 'initialized'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 3
+    slots = {
+        "bkinfo_area": 'test',
+        "bkinfo_checkin_time": 'test',
+        "bkinfo_duration": 'test',
+        "bkinfo_bed_type": 'test',
+        'bkinfo_price': 'test',
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'available',
+    }
+    expected = 'room_showing'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 4
+    slots = {
+        "bkinfo_area": None,
+        "bkinfo_checkin_time": None,
+        "bkinfo_duration": None,
+        "bkinfo_bed_type": None,
+        'bkinfo_price': None,
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'available',
+    }
+    expected = 'room_showing'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 5
+    slots = {
+        "bkinfo_area": None,
+        "bkinfo_checkin_time": None,
+        "bkinfo_duration": None,
+        "bkinfo_bed_type": None,
+        'bkinfo_price': None,
+        "bkinfo_room_id": 1,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'available',
+    }
+    expected = 'room_selected'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 6
+    slots = {
+        "bkinfo_area": 'test',
+        "bkinfo_checkin_time": 'test',
+        "bkinfo_duration": 'test',
+        "bkinfo_bed_type": 'test',
+        'bkinfo_price': 'test',
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'waiting',
+    }
+    expected = 'done_information_collecting'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 7
+    slots = {
+        "bkinfo_area": 'test',
+        "bkinfo_checkin_time": 'test',
+        "bkinfo_duration": 'test',
+        "bkinfo_bed_type": 'test',
+        'bkinfo_price': None,
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'waiting',
+    }
+    expected = 'information_collecting'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    INDEX = 8
+    slots = {
+        "bkinfo_area": None,
+        "bkinfo_checkin_time": 'test',
+        "bkinfo_duration": None,
+        "bkinfo_bed_type": None,
+        'bkinfo_price': None,
+        "bkinfo_room_id": None,
+        "botmind_context": 'workingonbooking',
+        "search_result_flag": 'waiting',
+    }
+    expected = 'information_collecting'
+    execute(slots=slots, expected=expected, index=INDEX)
+
+    print('*** Finished ***')

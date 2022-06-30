@@ -18,19 +18,22 @@ restartcontainers:
 
 train: trainrasachatbot restartcontainers
 
+core:
+	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train core --augmentation 0 -v'
+
 dryrun:
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --dry-run'
 
 test:
 	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
 
-test_all:
-	make query_hotel_room_test model=$(MODEL)
-	make chitchat_outofscope_query_hotel_room model=$(MODEL)
-	make chitchat_smalltalk_query_hotel_room model=$(MODEL)
-	make chitchat_faq_query_hotel_room model=$(MODEL)
-	make chitchat_nlufallback_query_hotel_room model=$(MODEL)
-	make chitchat_revisebkinfo_query_hotel_room model=$(MODEL)
+testall:
+	make query_hotel_room_test model=$(M)
+	make chitchat_outofscope_query_hotel_room model=$(M)
+	make chitchat_smalltalk_query_hotel_room model=$(M)
+	make chitchat_faq_query_hotel_room model=$(M)
+	make chitchat_nlufallback_query_hotel_room model=$(M)
+	make chitchat_revisebkinfo_query_hotel_room model=$(M)
 
 query_hotel_room_test:
 	make test testfile=query_hotel_room model=$(model)
@@ -49,3 +52,9 @@ chitchat_nlufallback_query_hotel_room:
 
 chitchat_revisebkinfo_query_hotel_room:
 	make test testfile=chitchat_revisebkinfo_query_hotel_room model=$(model)
+
+copyaddons:
+	docker cp botserver-app/addons/custom_slot_types.py rasachatbot-rasa-production-1:/app/addons/
+
+test_actions_fsm_botmemo_booking_progress:
+	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.fsm_botmemo_booking_progress import __test__; __test__();"'

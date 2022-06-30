@@ -25,7 +25,7 @@ def __test__parse_date_range():
     print('Success.')
 
 
-def slots_for_entities(entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
     mapped_slots = {}
     for slot_name, slot_conf in domain['slots'].items():
         for entity in entities:
@@ -33,6 +33,8 @@ def slots_for_entities(entities: List[Dict[Text, Any]], domain: Dict[Text, Any])
                 if mapping['type'] != 'from_entity':
                     continue
                 if mapping['entity'] != entity['entity']:
+                    continue
+                if mapping['intent'] != intent['name']:
                     continue
                 mapped_slots[slot_name] = entity.get('value')
 

@@ -17,12 +17,23 @@ from .duckling_service import (
 
 logger = logging.getLogger(__name__)
 
-
 class ValidatePredefinedSlots(ValidationAction):
 
     def old_slot_value(self, tracker, slot_name):
         slots = tracker.slots.get('old', {})
         return slots.get(slot_name, None)
+
+    def validate_bkinfo_area_revised(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,) -> Dict[Text, Any]:
+
+        slot_name = 'bkinfo_area_revised'
+
+        return {slot_name: slot_value}
+
 
     def validate_bkinfo_checkin_time(
         self,
@@ -36,7 +47,7 @@ class ValidatePredefinedSlots(ValidationAction):
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_inform_invalid_info')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         if result.if_error('invalid_checkin_time'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
@@ -59,8 +70,19 @@ class ValidatePredefinedSlots(ValidationAction):
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
         if result.if_error('invalid_bkinfo_duration'):
-            dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
+            return {slot_name: None}
+
+        return {slot_name: slot_value}
+
+    def validate_bkinfo_bed_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,) -> Dict[Text, Any]:
+
+        slot_name = 'bkinfo_bed_type'
 
         return {slot_name: slot_value}
 
@@ -74,10 +96,8 @@ class ValidatePredefinedSlots(ValidationAction):
         slot_name = 'bkinfo_price'
         result = parse_bkinfo_price(expression=slot_value)
 
-        logger.info('[DEV] slot_value: %s', slot_name)
         if result.if_error('failed'):
-            dispatcher.utter_message(response='utter_inform_invalid_info')
-            logger.info('[DEV] old_slot_value: %s', self.old_slot_value(tracker, slot_name))
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            dispatcher.utter_message(response='utter_ask_valid_bkinfo_price')
+            return {slot_name: None}
 
         return {slot_name: slot_value}
