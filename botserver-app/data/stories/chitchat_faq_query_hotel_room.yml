@@ -1,123 +1,123 @@
-version: "3.1"
+# version: "3.1"
 
-stories:
-- story: when information is being collected, bkinfo_area, faq
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: initialized
-    - botmemo_bkinfo_status: [null,null,null,null,null]
-    - bkinfo_room_id: null
-    - search_result_flag: waiting
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_area
-  - intent: faq
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: utter_faq
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_area
+# stories:
+# - story: when information is being collected, bkinfo_area, faq
+#   steps:
+#   - slot_was_set:
+#     - botmind_state: attentive
+#     - botmind_context: workingonbooking
+#     - botmemo_booking_progress: initialized
+#     - botmemo_bkinfo_status: [null,null,null,null,null]
+#     - bkinfo_room_id: null
+#     - search_result_flag: waiting
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_area
+#   - intent: faq
+#   - action: action_execution_rejected
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - action: utter_faq
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_area
 
-- story: when information is being collected, bkinfo_checkin_time, faq
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
-    - bkinfo_room_id: null
-    - search_result_flag: waiting
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_checkin_time
-  - intent: faq
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: utter_faq
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_checkin_time
+# - story: when information is being collected, bkinfo_checkin_time, faq
+#   steps:
+#   - slot_was_set:
+#     - botmind_state: attentive
+#     - botmind_context: workingonbooking
+#     - botmemo_booking_progress: information_collecting
+#     - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
+#     - bkinfo_room_id: null
+#     - search_result_flag: waiting
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_checkin_time
+#   - intent: faq
+#   - action: action_execution_rejected
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - action: utter_faq
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_checkin_time
 
-- story: when information is being collected, bkinfo_duration, faq
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',null,null,null]
-    - bkinfo_room_id: null
-    - search_result_flag: waiting
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_duration
-  - intent: faq
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: utter_faq
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_duration
+# - story: when information is being collected, bkinfo_duration, faq
+#   steps:
+#   - slot_was_set:
+#     - botmind_state: attentive
+#     - botmind_context: workingonbooking
+#     - botmemo_booking_progress: information_collecting
+#     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',null,null,null]
+#     - bkinfo_room_id: null
+#     - search_result_flag: waiting
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_duration
+#   - intent: faq
+#   - action: action_execution_rejected
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - action: utter_faq
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_duration
 
-- story: when information is being collected, bkinfo_bed_type, faq
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration',null,null]
-    - bkinfo_room_id: null
-    - search_result_flag: waiting
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_bed_type
-  - intent: faq
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: utter_faq
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_bed_type
+# - story: when information is being collected, bkinfo_bed_type, faq
+#   steps:
+#   - slot_was_set:
+#     - botmind_state: attentive
+#     - botmind_context: workingonbooking
+#     - botmemo_booking_progress: information_collecting
+#     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration',null,null]
+#     - bkinfo_room_id: null
+#     - search_result_flag: waiting
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_bed_type
+#   - intent: faq
+#   - action: action_execution_rejected
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - action: utter_faq
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_bed_type
 
-- story: when information is being collected, bkinfo_price, faq
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type',null]
-    - bkinfo_room_id: null
-    - search_result_flag: waiting
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_price
-  - intent: faq
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: utter_faq
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - slot_was_set:
-    - requested_slot: bkinfo_price
+# - story: when information is being collected, bkinfo_price, faq
+#   steps:
+#   - slot_was_set:
+#     - botmind_state: attentive
+#     - botmind_context: workingonbooking
+#     - botmemo_booking_progress: information_collecting
+#     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type',null]
+#     - bkinfo_room_id: null
+#     - search_result_flag: waiting
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_price
+#   - intent: faq
+#   - action: action_execution_rejected
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - action: utter_faq
+#   - action: bkinfo_form
+#   - active_loop: bkinfo_form
+#   - slot_was_set:
+#     - requested_slot: bkinfo_price
 
-- story: when information has been collected completely, available, faq
-  steps:
-  - checkpoint: checkpoint_room_showing_available
-  - intent: faq
-  - action: utter_faq
+# - story: when information has been collected completely, available, faq
+#   steps:
+#   - checkpoint: checkpoint_room_showing_available
+#   - intent: faq
+#   - action: utter_faq

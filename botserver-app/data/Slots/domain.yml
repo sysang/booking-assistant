@@ -27,7 +27,7 @@ slots:
     type: categorical
     mappings:
       - type: custom
-        action: bot_determines_botmemo_booking_progress
+        action: action_botmemo_booking_progress_mapping
     influence_conversation: true
     initial_value: null
     values:
@@ -164,35 +164,35 @@ slots:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_price
   bkinfo_area_revised:
-    influence_conversation: false
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: revise_area
         entity: area
   bkinfo_checkin_time_revised:
-    influence_conversation: false
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: revise_checkin_time
         entity: time
   bkinfo_duration_revised:
-    influence_conversation: false
+    influence_conversation: true
     type: text  # unit: day
     mappings:
       - type: from_entity
         intent: revise_room_reservation_duration
         entity: duration
   bkinfo_bed_type_revised:
-    influence_conversation: false
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
         intent: revise_bed_type
         entity: bed_type
   bkinfo_price_revised:
-    influence_conversation: false
+    influence_conversation: true
     type: text
     mappings:
       - type: from_entity
@@ -213,6 +213,7 @@ slots:
     values:
       - waiting
       - available
+      - updating
   logs_fallback_loop_history:
     type: list
     mappings:
@@ -251,4 +252,3 @@ slots:
     mappings:
       - type: custom
     initial_value: null
-

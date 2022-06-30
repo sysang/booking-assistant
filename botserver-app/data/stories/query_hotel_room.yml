@@ -87,14 +87,10 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - checkpoint: checkpoint_done_information_collecting
-  - action: bot_search_hotel_rooms
+  - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
-  - action: botacts_show_room_list
-  - slot_was_set:
     - botmemo_booking_progress: room_showing
-    - search_result_flag: null
   - checkpoint: checkpoint_room_showing_available
   - intent: user_click_to_select_hotel
     entities:

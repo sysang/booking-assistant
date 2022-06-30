@@ -1,7 +1,7 @@
 version: "3.1"
 
 nlu:
-- intent: faq/explain_bed_type
+- intent: smalltalk/explain_bed_type
   examples: |
     - what is bed type
     - how many bed types are there
@@ -16,7 +16,7 @@ nlu:
     - give me explaination about bed type
     - please explain more about bed type
 
-- intent: faq/explain_checkin_time
+- intent: smalltalk/explain_checkin_time
   examples: |
     - what is check-in time
     - i do not understand check-in time, could you explain
@@ -28,7 +28,7 @@ nlu:
     - give me explaination about check-in time
     - please explain more about check-in time
 
-- intent: faq/explain_price
+- intent: smalltalk/explain_price
   examples: |
     - what does price mean
     - why do i need provide price

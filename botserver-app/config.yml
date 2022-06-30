@@ -51,9 +51,9 @@ pipeline:
   - name: DIETClassifier
     intent_classification: True
     entity_recognition: True
-    epochs: 171
+    epochs: 231
     learning_rate: 1e-3
-    batch_size: [64, 356]  # default [64, 256]
+    batch_size: [64, 256]  # default [64, 256]
     constrain_similarities: true
     hidden_layers_sizes:  # default: text: [], label: [])
       text: []
@@ -65,22 +65,22 @@ pipeline:
       text: 128
       label: 20
     connection_density: 0.20
-    transformer_size: 256  # default 256
+    transformer_size: 384  # default 256
     number_of_transformer_layers: 2
     number_of_attention_heads: 4
     use_masked_language_model: True
     embedding_dimension: 32
-    drop_rate: 0.2  # Dropout rate for encoder. Default: 0.2
-    drop_rate_attention: 0.0  # Dropout rate for attention.
-    number_of_negative_examples: 30  # default: 20
+    drop_rate: 0.23  # Dropout rate for encoder. Default: 0.2
+    drop_rate_attention: 0.08  # Dropout rate for attention.
+    number_of_negative_examples: 50  # default: 20
     similarity_type: auto  # default: auto
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
     constrain_similarities: true
   - name: FallbackClassifier
-    threshold: 0.25
-    ambiguity_threshold: 0.21
+    threshold: 0.35
+    ambiguity_threshold: 0.25
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
@@ -135,11 +135,11 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 6.66e-5  # default 1e-3
-    epochs: 5121
+    epochs: 2041
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [16, 16]  # default [32, 256]
-    connection_density: 0.85  # default 0.2
+    connection_density: 0.35  # default 0.2
     dense_dimension:
       text: 128  # default 128
       intent: 32  # default 20
@@ -169,6 +169,6 @@ policies:
     drop_rate_label: 0.0  # default 0.0
     drop_rate_attention: 0.0 # default 0.0
     renormalize_confidences: True  # default False
-    number_of_negative_examples: 18  # default 20
+    number_of_negative_examples: 40  # default 20
     tensorboard_log_directory: 'tensorboard'
 

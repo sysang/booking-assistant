@@ -9,7 +9,7 @@ session_config:
 intents:
   - smalltalk
   - out_of_scope
-  - faq
+  # - faq
 
 responses:
   utter_looping_fallback:
@@ -486,12 +486,12 @@ responses:
     - text: "Okay. You know where to find me."
     - text: "All right. I'll be here."
 
-  utter_faq/explain_bed_type:
+  utter_smalltalk/explain_bed_type:
     - text: "Bed types, such as Single, Double, Queen and King, refer to bed size."
       image: "https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg"
 
-  utter_faq/explain_checkin_time:
+  utter_smalltalk/explain_checkin_time:
     - text: "All over the world, every hotel can set its own check-in and check-out time, but the most common time is 12 pm for check-in and 2 pm for check-out. Despite luxury or budget hotels, this is one of the regulations that guests should have in mind to avoid ruining their plans and mood during the trip."
 
-  utter_faq/explain_price:
+  utter_smalltalk/explain_price:
     - text: "Search result always included rooms that have price lower the provided price."
