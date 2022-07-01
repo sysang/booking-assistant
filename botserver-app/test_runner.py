@@ -15,10 +15,11 @@ args = parser.parse_args()
 
 model = args.model
 testfile = args.testfile
+model_path = Path(f"models/{model}")
 
 assert model, "Parameter `model` is not valid."
 assert testfile, "Parameter `testfile` is not valid."
-assert Path(f"models/{model}").exists(), 'Pre-trained model file does not exists'
+assert model_path.exists(), f'Path to model file, {model_path}, does not exists'
 
 now = datetime.now()
 tracking_time = now.strftime(format='%m%d-%H%M')

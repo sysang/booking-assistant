@@ -1,0 +1,50 @@
+stories:
+- name: Form is filled, rooms are shown, revise bkinfo_area
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'september 5th'
+  - '10 days'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'please change the place to hamburg'
+
+- name: Form is filled, rooms are shown, revise bkinfo_checkin_time
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'september 5th'
+  - '10 days'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'please change check in time to  september 6th'
+
+- name: Form is filled, rooms are shown, revise bkinfo_duration
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'september 5th'
+  - '10 days'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'my mistake i actually want to stay in 1 day'
+
+- name: Form is filled, rooms are shown, revise bkinfo_area
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'september 5th'
+  - '10 days'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'sorry, could you change bed type to queen'
+
+- name: Form is filled, rooms are shown, revise bkinfo_area
+  steps:
+  - 'Could you help me search for a hotel?'
+  - 'hawaii'
+  - 'september 5th'
+  - '10 days'
+  - 'I want a single bed room'
+  - '200 usd'
+  - 'could i change price to 50 usd'

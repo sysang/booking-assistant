@@ -29,29 +29,41 @@ test:
 
 testall:
 	make query_hotel_room_test model=$(M)
-	make chitchat_outofscope_query_hotel_room model=$(M)
-	make chitchat_smalltalk_query_hotel_room model=$(M)
-	make chitchat_faq_query_hotel_room model=$(M)
-	make chitchat_nlufallback_query_hotel_room model=$(M)
-	make chitchat_revisebkinfo_query_hotel_room model=$(M)
+	make query_hotel_room_schema_test model=$(M)
+	make query_hotel_room_chitchat_faq_test model=$(M)
+	make query_hotel_room_chitchat_nlufallback_test model=$(M)
+	make query_hotel_room_chitchat_outofscope_test model=$(M)
+	make query_hotel_room_chitchat_revisebkinfo_test model=$(M)
+	make query_hotel_room_chitchat_smalltalk_test model=$(M)
+	make query_hotel_room_donecollecting_revisebkinfo_test model=$(M)
 
-query_hotel_room_test:
-	make test testfile=query_hotel_room model=$(model)
+query_hotel_room_schema_test:
+	export testfile=query_hotel_room_schema; \
+	make test testfile=$$testfile model=$(M)
 
-chitchat_outofscope_query_hotel_room:
-	make test testfile=chitchat_outofscope_query_hotel_room model=$(model)
+query_hotel_room_chitchat_faq_test:
+	export testfile=query_hotel_room_chitchat_faq; \
+	make test testfile=$$testfile model=$(M)
 
-chitchat_smalltalk_query_hotel_room:
-	make test testfile=chitchat_smalltalk_query_hotel_room model=$(model)
+query_hotel_room_chitchat_nlufallback_test:
+	export testfile=query_hotel_room_chitchat_nlufallback; \
+	make test testfile=$$testfile model=$(M)
 
-chitchat_faq_query_hotel_room:
-	make test testfile=chitchat_faq_query_hotel_room model=$(model)
+query_hotel_room_chitchat_outofscope_test:
+	export testfile=query_hotel_room_chitchat_outofscope; \
+	make test testfile=$$testfile model=$(M)
 
-chitchat_nlufallback_query_hotel_room:
-	make test testfile=chitchat_nlufallback_query_hotel_room model=$(model)
+query_hotel_room_chitchat_revisebkinfo_test:
+	export testfile=query_hotel_room_chitchat_revisebkinfo; \
+	make test testfile=$$testfile model=$(M)
 
-chitchat_revisebkinfo_query_hotel_room:
-	make test testfile=chitchat_revisebkinfo_query_hotel_room model=$(model)
+query_hotel_room_chitchat_smalltalk_test:
+	export testfile=query_hotel_room_chitchat_smalltalk; \
+	make test testfile=$$testfile model=$(M)
+
+query_hotel_room_donecollecting_revisebkinfo_test:
+	export testfile=query_hotel_room_donecollecting_revisebkinfo; \
+	make test testfile=$$testfile model=$(M)
 
 copyaddons:
 	docker cp botserver-app/addons/custom_slot_types.py rasachatbot-rasa-production-1:/app/addons/
