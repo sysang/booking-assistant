@@ -85,20 +85,27 @@ class bot_let_action_emerges(Action):
         return "bot_let_action_emerges"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        THRESHOLD = 10
+        THRESHOLD = 1
         parse_data = {
             "intent": {
                 "name": "bot_embodies_intention",
                 "confidence": 1.0,
-            }
+            },
+            'entities': [
+                {
+                    'entity': 'botmind_state',
+                    'value': 'transitioning',
+                    'confidence_entity': 1.0,
+                }
+            ]
         }
 
         logs_fallback_loop_history = tracker.slots.get('logs_fallback_loop_history', [])
         events = [
-            BOTMIND_STATE_SLOT['TRANSITIONING'],
-            UserUttered(text="/bot_embodies_intention", parse_data=parse_data),
-            FollowupAction(name="pseudo_action"),
             SlotSet('logs_fallback_loop_history', logs_fallback_loop_history + [datetime.now().timestamp()]),
+            UserUttered(text="/bot_embodies_intention", parse_data=parse_data),
+            BOTMIND_STATE_SLOT['TRANSITIONING'],
+            FollowupAction(name="pseudo_action"),
         ]
 
         if len(logs_fallback_loop_history) == 0:
@@ -222,10 +229,6 @@ class botacts_search_hotel_rooms(Action):
         events.append(SlotSet('search_result_flag', 'available'))
         events.append(SlotSet('notes_bkinfo', bkinfo))
 
-        # Reset bkinfo_revised
-        for field in FSMBotmemeBookingProgress.FORM_SCHEMA:
-            events.append(SlotSet(f'{field}_revised', None))
-
         return events
 
 
@@ -338,7 +341,14 @@ class botacts_utter_revised_bkinfo(Action):
         schema = FSMBotmemeBookingProgress.FORM_SCHEMA
         slots = tracker.slots
         search_result_flag = slots.get('search_result_flag')
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
 
+        """
+        Results:
+            - reflex the changes to bkinfo
+            - reset the revised bkinfo
+            - inform user
+        """
         for slot_name in schema:
             slot_name_revised = f"{slot_name}_revised"
             slot_value_revised = slots.get(slot_name_revised, None)
@@ -347,10 +357,14 @@ class botacts_utter_revised_bkinfo(Action):
                 response = f'utter_revised_{slot_name}'
                 dispatcher.utter_message(response=response)
                 events.append(SlotSet(slot_name, slot_value_revised))
+                events.append(SlotSet(slot_name_revised, None))
 
         if search_result_flag == 'room_showing':
-            events.append(SlotSet('botmemo_booking_progress', 'done_information_collecting'))
+            events.append(SlotSet('search_result_flag', 'updating'))
+        else:
             events.append(SlotSet('search_result_flag', 'waiting'))
+
+        events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
 
         return events
 
@@ -379,3 +393,14 @@ class action_bkinfo_status_slot_mapping(Action):
             return [SlotSet('botmemo_bkinfo_status', None)]
 
         return [SlotSet('botmemo_bkinfo_status', slot_value)]
+
+
+class action_botmind_state_mapping(Action):
+
+    def name(self) -> Text:
+        return "action_botmind_state_mapping"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # return {'botmind_state': 'transitioning'}
+        return []

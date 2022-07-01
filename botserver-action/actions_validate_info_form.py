@@ -82,6 +82,8 @@ class ValidateBkinfoForm(FormValidationAction):
         slot_name = 'bkinfo_checkin_time'
         result = parse_checkin_time(expression=slot_value)
 
+        logger.info('[DEV] parsing %s slot_value, result: %s', slot_value, result)
+
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_inform_invalid_info')
             return {slot_name: self.old_slot_value(tracker, slot_name)}

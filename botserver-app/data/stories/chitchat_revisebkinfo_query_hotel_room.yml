@@ -18,14 +18,19 @@ stories:
     - area: 'hawaii'
   - slot_was_set:
     - bkinfo_area_revised: 'hawaii'
+    - botmemo_booking_progress: information_revising
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
   - action: botacts_utter_revised_bkinfo
+  - slot_was_set:
+    - bkinfo_area_revised: null
+    - botmemo_booking_progress: information_collecting
   - action: bkinfo_form
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_checkin_time
+    - botmemo_bkinfo_status: ['hawaii',null,null,null,null]
 
 - story: when information is being collected, bkinfo_duration, revise bkinfo_checkin_time
   steps:
@@ -45,14 +50,19 @@ stories:
     - time: '2022-09-05T00:00:00.000-07:00'
   - slot_was_set:
     - bkinfo_checkin_time_revised: '2022-09-05T00:00:00.000-07:00'
+    - botmemo_booking_progress: information_revising
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
   - action: botacts_utter_revised_bkinfo
+  - slot_was_set:
+    - bkinfo_checkin_time_revised: null
+    - botmemo_booking_progress: information_collecting
   - action: bkinfo_form
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_duration
+    - botmemo_bkinfo_status: ['bkinfo_area','2022-09-05T00:00:00.000-07:00',null,null,null]
 
 - story: when information is being collected, bkinfo_bed_type, revise bkinfo_duration
   steps:
@@ -72,14 +82,19 @@ stories:
     - duration: 3
   - slot_was_set:
     - bkinfo_duration_revised: 3
+    - botmemo_booking_progress: information_revising
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
   - action: botacts_utter_revised_bkinfo
+  - slot_was_set:
+    - bkinfo_duration_revised: null
+    - botmemo_booking_progress: information_collecting
   - action: bkinfo_form
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_bed_type
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',3,null,null]
 
 - story: when information is being collected, bkinfo_price, revise bkinfo_bed_type
   steps:
@@ -96,17 +111,22 @@ stories:
     - requested_slot: bkinfo_price
   - intent: revise_bed_type
     entities:
-    - bed_type: 'single'
+    - bed_type: 'queen'
   - slot_was_set:
-    - bkinfo_bed_type_revised: 'single'
+    - bkinfo_bed_type_revised: 'queen'
+    - botmemo_booking_progress: information_revising
   - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
   - action: botacts_utter_revised_bkinfo
+  - slot_was_set:
+    - bkinfo_bed_type_revised: null
+    - botmemo_booking_progress: information_collecting
   - action: bkinfo_form
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_price
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time','duration','queen',null]
 
 - story: when information has been collected completely, available, bkinfo_area
   steps:
@@ -116,20 +136,17 @@ stories:
     - area: 'hawaii'
   - slot_was_set:
     - bkinfo_area_revised: 'hawaii'
-    - botmemo_bkinfo_status: ['hawaii', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
+    - botmemo_booking_progress: information_revising
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
+    - bkinfo_area_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+    - botmemo_bkinfo_status: ['hawaii', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - bkinfo_area_revised: null
-    - bkinfo_checkin_time_revised: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
   - action: action_listen
 
 - story: when information has been collected completely, bkinfo_checkin_time
@@ -140,20 +157,17 @@ stories:
     - time: '2022-09-05T00:00:00.000-07:00'
   - slot_was_set:
     - bkinfo_checkin_time_revised: '2022-09-05T00:00:00.000-07:00'
-    - botmemo_bkinfo_status: ['bkinfo_area', '2022-09-05T00:00:00.000-07:00', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
+    - botmemo_booking_progress: information_revising
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
+    - bkinfo_checkin_time_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+    - botmemo_bkinfo_status: ['bkinfo_area', '2022-09-05T00:00:00.000-07:00', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - bkinfo_area_revised: null
-    - bkinfo_checkin_time_revised: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
   - action: action_listen
 
 - story: when information has been collected completely, bkinfo_duration
@@ -164,20 +178,17 @@ stories:
     - duration: 3
   - slot_was_set:
     - bkinfo_duration_revised: 3
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 3, 'bkinfo_bed_type', 'bkinfo_price']
+    - botmemo_booking_progress: information_revising
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
+    - bkinfo_duration_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 3, 'bkinfo_bed_type', 'bkinfo_price']
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - bkinfo_area_revised: null
-    - bkinfo_checkin_time_revised: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
   - action: action_listen
 
 - story: when information has been collected completely, bkinfo_bed_type
@@ -185,23 +196,20 @@ stories:
   - checkpoint: checkpoint_room_showing_available
   - intent: revise_bed_type
     entities:
-    - bed_type: 'single'
+    - bed_type: 'queen'
   - slot_was_set:
-    - bkinfo_bed_type_revised: 'single'
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'single', 'bkinfo_price']
+    - bkinfo_bed_type_revised: 'queen'
+    - botmemo_booking_progress: information_revising
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
+    - bkinfo_bed_type_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'queen', 'bkinfo_price']
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - bkinfo_area_revised: null
-    - bkinfo_checkin_time_revised: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
   - action: action_listen
 
 - story: when information has been collected completely, bkinfo_price
@@ -212,18 +220,15 @@ stories:
     - amount-of-money: '200 USD'
   - slot_was_set:
     - bkinfo_price_revised: '200 USD'
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
+    - botmemo_booking_progress: information_revising
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
+    - bkinfo_price_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - bkinfo_area_revised: null
-    - bkinfo_checkin_time_revised: null
-    - bkinfo_duration: null
-    - bkinfo_bed_type: null
-    - bkinfo_price: null
   - action: action_listen

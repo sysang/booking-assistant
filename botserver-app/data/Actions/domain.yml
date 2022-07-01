@@ -10,9 +10,9 @@ actions:
   - action_old_slot_mapping
   - action_bkinfo_status_slot_mapping
   - action_botmemo_booking_progress_mapping
+  - action_botmind_state_mapping
   - bot_relieves_imposition_to_think
   - bot_switchto_thinking
-  - bot_transitioning
   - bot_let_action_emerges
   - botacts_start_conversation
   - botacts_express_bot_job_to_support_booking

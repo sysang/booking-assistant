@@ -9,4 +9,5 @@ entities:
   - duration
   - bed_type
   - amount-of-money
+  - botmind_state
 

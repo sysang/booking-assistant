@@ -41,3 +41,6 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 - replace base image in rasa-3.2.1/docker/Dockerfile.base by sysang/tf-2.7.3-source-build:latest
 - replace rasa-3.2.1/Dockerfile by Dockerfile-rasa-3.2.1, use Dockerfile-rasa-3.2.1 to build rasa:localdev
 - (replace peotry.lock by peotry-rasa-3.2.1.lock which is resolved by pyproject.toml after exclude tensorflow section and set numpy===1.21.4)
+
+# To make nlu training cache has chane to happen -> terminate `rasa train` when it come train core
+(a trick to overcome a tricky bug, it caches nlu part for combining just only for curren  process, not for reusing in other process)

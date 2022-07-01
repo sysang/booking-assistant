@@ -157,6 +157,10 @@ def __test__parse_checkin_time():
     print('\n[TEST] expression: ', expression)
     print(parse_checkin_time(expression))
 
+    expression = 'june 1st 2022'
+    print('\n[TEST] expression: ', expression)
+    print(parse_checkin_time(expression))
+
     expression = 'february 2023'
     print('\n[TEST] expression: ', expression)
     print(parse_checkin_time(expression))
@@ -164,7 +168,6 @@ def __test__parse_checkin_time():
     expression = 'tomorrow'
     print('\n[TEST] expression: ', expression)
     print(parse_checkin_time(expression))
-
 
 def __test__parse_bkinfo_duration():
 
@@ -227,8 +230,8 @@ def __test__():
 
     print('\n', ''.join(['-']*150))
 
-    # __test__parse_checkin_time()
+    __test__parse_checkin_time()
     # __test__parse_bkinfo_duration()
-    __test__parse_bkinfo_price()
+    # __test__parse_bkinfo_price()
 
     print(''.join(['-']*150), '\n')

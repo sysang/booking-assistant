@@ -23,6 +23,9 @@ class ValidatePredefinedSlots(ValidationAction):
         slots = tracker.slots.get('old', {})
         return slots.get(slot_name, None)
 
+    def if_changed_by_botacts_utter_revised_bkinfo(self, tracker):
+        return tracker.latest_action_name == 'botacts_utter_revised_bkinfo'
+
     def validate_bkinfo_area_revised(
         self,
         slot_value: Any,
@@ -32,18 +35,24 @@ class ValidatePredefinedSlots(ValidationAction):
 
         slot_name = 'bkinfo_area_revised'
 
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
+
         return {slot_name: slot_value}
 
 
-    def validate_bkinfo_checkin_time(
+    def validate_bkinfo_checkin_time_revised(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: DomainDict,) -> Dict[Text, Any]:
 
-        slot_name = 'bkinfo_checkin_time'
+        slot_name = 'bkinfo_checkin_time_revised'
         result = parse_checkin_time(expression=slot_value)
+
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_inform_invalid_info')
@@ -55,14 +64,18 @@ class ValidatePredefinedSlots(ValidationAction):
 
         return {slot_name: slot_value}
 
-    def validate_bkinfo_duration(
+    def validate_bkinfo_duration_revised(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: DomainDict,) -> Dict[Text, Any]:
 
-        slot_name = 'bkinfo_duration'
+        slot_name = 'bkinfo_duration_revised'
+
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
+
         result = parse_bkinfo_duration(expression=slot_value)
 
         if result.if_error('failed'):
@@ -75,25 +88,32 @@ class ValidatePredefinedSlots(ValidationAction):
 
         return {slot_name: slot_value}
 
-    def validate_bkinfo_bed_type(
+    def validate_bkinfo_bed_type_revised(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: DomainDict,) -> Dict[Text, Any]:
 
-        slot_name = 'bkinfo_bed_type'
+        slot_name = 'bkinfo_bed_type_revised'
+
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
 
         return {slot_name: slot_value}
 
-    def validate_bkinfo_price(
+    def validate_bkinfo_price_revised(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: DomainDict,) -> Dict[Text, Any]:
 
-        slot_name = 'bkinfo_price'
+        slot_name = 'bkinfo_price_revised'
+
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
+
         result = parse_bkinfo_price(expression=slot_value)
 
         if result.if_error('failed'):

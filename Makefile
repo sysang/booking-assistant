@@ -58,3 +58,6 @@ copyaddons:
 
 test_actions_fsm_botmemo_booking_progress:
 	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.fsm_botmemo_booking_progress import __test__; __test__();"'
+
+test_actions_duckling_service:
+	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.duckling_service import __test__; __test__();"'

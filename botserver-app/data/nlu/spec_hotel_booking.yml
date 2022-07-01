@@ -41,12 +41,23 @@ nlu:
   examples: |
     - book it from [sunday](time)
     - i need it on [saturday](time)
+    - i need it on [next saturday](time)
     - i need it on [october 10th](time)
     - i need it booked on [january 23th](time)
     - i need it starting from [june 10th](time)
     - my stay will start on [tuesday](time)
     - we will be arriving on [monday](time)
     - i would like to book a room for [friday](time)
+    - book it from [10/10/2023](time)
+    - book it from [2023-01-01](time)
+    - book it from [2022/06/20](time)
+    - i need it on [october 10th 2022](time)
+    - i need it booked on [january 23th 2030](time)
+    - i need it starting from [june 10th 2025](time)
+    - my stay will start on [next tuesday](time)
+    - we will be arriving on [next monday](time)
+    - i would like to book a room on [this friday](time)
+    - i would like to book a room on [tomorrow](time)
 - intent: request_bed_type
   examples: |
     - i’ll be traveling alone, so a room with a [king-size](bed_type) bed will be fine

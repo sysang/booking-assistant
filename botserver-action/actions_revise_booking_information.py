@@ -22,22 +22,11 @@ from .entity_preprocessing_rules import mapping_table
 from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
 from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
-
-logger = logging.getLogger(__name__)
-
-BOTMIND_STATE_SLOT = {
-    'ATTENTIVE': SlotSet('botmind_state', 'attentive'),
-    'TRANSITIONING': SlotSet('botmind_state', 'transitioning'),
-    'THINKINGx1': SlotSet('botmind_state', 'thinking_boostX1'),
-    'THINKINGx2': SlotSet('botmind_state', 'thinking_boostX2'),
-    'PRIMEx1': SlotSet('botmind_state', 'prime_boostX1'),
-    'PRIMEx2': SlotSet('botmind_state', 'prime_boostX2'),
-}
-
-DATE_FORMAT = 'MMMM Do YYYY'
-
 from .actions_set_booking_information import ActionSetBookingInformation
 
+
+logger = logging.getLogger(__name__)
+DATE_FORMAT = 'MMMM Do YYYY'
 
 class ActionReviseBookingInformation(ActionSetBookingInformation):
 

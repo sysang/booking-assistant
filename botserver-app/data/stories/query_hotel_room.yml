@@ -30,7 +30,6 @@ stories:
         - area: hawaii
   - slot_was_set:
     - botmemo_booking_progress: information_collecting
-  - slot_was_set:
     - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
   - action: bkinfo_form
   - slot_was_set:
@@ -81,7 +80,6 @@ stories:
         - amount-of-money: 200 USD
   - slot_was_set:
     - botmemo_booking_progress: done_information_collecting
-  - slot_was_set:
     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: bkinfo_form
   - slot_was_set:
