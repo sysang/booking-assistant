@@ -96,10 +96,10 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.65
+    tolerance: 0.71
     max_history: 2
     learning_rate: 6.66e-5  # default 1e-3
-    epochs: 501
+    epochs: 701
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [16, 16]  # default [32, 256]
@@ -139,7 +139,7 @@ policies:
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [16, 16]  # default [32, 256]
-    connection_density: 0.41  # default 0.2
+    connection_density: 0.37  # default 0.2
     dense_dimension:
       text: 128  # default 128
       intent: 32  # default 20
@@ -164,11 +164,14 @@ policies:
       action_text: 2
       label_action_text: 2  # default 1
     number_of_attention_heads: 8
-    embedding_dimension: 8  # default 20
-    drop_rate_dialogue: 0.0  # default 0.1
-    drop_rate_label: 0.0  # default 0.0
-    drop_rate_attention: 0.0 # default 0.0
+    embedding_dimension: 12  # default 20
+    drop_rate_dialogue: 0.1  # default 0.1
+    drop_rate_label: 0.1  # default 0.0
+    drop_rate_attention: 0.1 # default 0.0
     renormalize_confidences: True  # default False
-    number_of_negative_examples: 37  # default 20
-    tensorboard_log_directory: 'tensorboard'
+    number_of_negative_examples: 50  # default 20
+    tensorboard_log_directory: './tensorboard/current'
+    tensorboard_log_level: "epoch"
+    evaluate_on_number_of_examples: 0
+    evaluate_every_number_of_epochs: 5
 

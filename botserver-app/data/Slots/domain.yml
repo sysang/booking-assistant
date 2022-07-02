@@ -29,21 +29,6 @@ slots:
     mappings:
       - type: custom
         action: action_botmemo_booking_progress_mapping
-      - type: from_intent
-        intent: revise_area
-        value: information_revising
-      - type: from_intent
-        intent: revise_checkin_time
-        value: information_revising
-      - type: from_intent
-        intent: revise_room_reservation_duration
-        value: information_revising
-      - type: from_intent
-        intent: revise_bed_type
-        value: information_revising
-      - type: from_intent
-        intent: revise_price
-        value: information_revising
     influence_conversation: true
     initial_value: null
     values:
@@ -52,7 +37,7 @@ slots:
       - done_information_collecting
       - room_showing
       - room_selected
-      - information_revising
+      - information_revised
   botmemo_booking_failure:
     type: categorical
     mappings:

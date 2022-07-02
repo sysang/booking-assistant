@@ -227,7 +227,7 @@ class botacts_search_hotel_rooms(Action):
             logger.info("[INFO] buttons: %s", buttons)
 
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional={'search_result_flag': 'available'})
-        events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
+        events.append(botmemo_booking_progress.SlotSetEvent)
         events.append(SlotSet('search_result_flag', 'available'))
         events.append(SlotSet('notes_bkinfo', bkinfo))
 
@@ -290,7 +290,7 @@ class botacts_express_bot_job_to_support_booking(Action):
         events = [
             SlotSet('botmind_context', 'workingonbooking'),
             SlotSet('search_result_flag', 'waiting'),
-            SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state),
+            botmemo_booking_progress.SlotSetEvent,
             SlotSet('botmemo_bkinfo_status', [None] * len(FSMBotmemeBookingProgress.FORM_SCHEMA)),
         ]
 
@@ -312,6 +312,9 @@ class action_botmemo_booking_progress_mapping(Action):
         botmemo_booking_progress = FSMBotmemeBookingProgress(tracker.slots, additional=mapped_slots)
 
         logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form)
+
+        if tracker.latest_action_name == 'botacts_utter_revised_bkinfo':
+            return []
 
         return [botmemo_booking_progress.SlotSetEvent]
 
@@ -343,7 +346,7 @@ class botacts_utter_revised_bkinfo(Action):
         schema = FSMBotmemeBookingProgress.FORM_SCHEMA
         slots = tracker.slots
         search_result_flag = slots.get('search_result_flag')
-        botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
+        additional = {}
 
         """
         Results:
@@ -358,15 +361,21 @@ class botacts_utter_revised_bkinfo(Action):
             if slot_value_revised and slot_value_revised != slot_value_current:
                 response = f'utter_revised_{slot_name}'
                 dispatcher.utter_message(response=response)
-                events.append(SlotSet(slot_name, slot_value_revised))
-                events.append(SlotSet(slot_name_revised, None))
 
-        if search_result_flag == 'room_showing':
+                events.append(SlotSet(slot_name, slot_value_revised))
+
+                events.append(SlotSet(slot_name_revised, None))
+                additional[slot_name_revised] = None
+
+        if search_result_flag == 'available':
             events.append(SlotSet('search_result_flag', 'updating'))
+            additional['search_result_flag'] = ['updating']
         else:
             events.append(SlotSet('search_result_flag', 'waiting'))
+            additional['search_result_flag'] = ['waiting']
 
-        events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=additional)
+        events.append(botmemo_booking_progress.SlotSetEvent)
 
         return events
 
@@ -388,7 +397,6 @@ class action_bkinfo_status_slot_mapping(Action):
         intent = tracker.latest_message['intent']
         mapped_slots = self.slots_for_entities(entities, intent, domain)
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=mapped_slots)
-        logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form.values())
         slot_value = list(botmemo_booking_progress.form.values())
 
         if not botmemo_bkinfo_status:

@@ -6,12 +6,15 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
     - search_result_flag: available
     - bkinfo_area_revised: true
   steps:
     - intent: revise_area
+    - slot_was_set:
+      - bkinfo_area_revised: 'bkinfo_area'
+      - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
 
 - rule: revise_checkin_time, bot utter revised bkinfo
@@ -19,12 +22,15 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_area_revised: true
+    - bkinfo_checkin_time_revised: true
   steps:
     - intent: revise_checkin_time
+    - slot_was_set:
+      - bkinfo_checkin_time_revised: 'bkinfo_checkin_time'
+      - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
 
 - rule: revise_room_reservation_duration, bot utter revised bkinfo
@@ -32,12 +38,15 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_area_revised: true
+    - bkinfo_duration_revised: true
   steps:
     - intent: revise_room_reservation_duration
+    - slot_was_set:
+      - bkinfo_duration_revised: 'bkinfo_duration'
+      - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
 
 - rule: revise_bed_type, bot utter revised bkinfo
@@ -45,12 +54,15 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_area_revised: true
+    - bkinfo_bed_type_revised: true
   steps:
     - intent: revise_bed_type
+    - slot_was_set:
+      - bkinfo_bed_type: 'bkinfo_bed_type'
+      - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
 
 - rule: revise_price, bot utter revised bkinfo
@@ -58,11 +70,14 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_area_revised: true
+    - bkinfo_price_revised: true
   steps:
     - intent: revise_price
+    - slot_was_set:
+      - bkinfo_price_revised: 'bkinfo_price'
+      - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
 

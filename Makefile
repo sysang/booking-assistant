@@ -11,6 +11,7 @@ testrasachatbot:
 	docker exec ailab zsh -c 'TIMESTAMP="$(shell date +%Y%m%d\[\]%H%M%S)" && cd /workspace/rasachatbot/botserver-app && rasa test core --out="results/$$TIMESTAMP"'
 
 trainrasachatbot:
+	mv botserver-app/tensorboard/current botserver-app/tensorboard/$(shell date +%Y%m%d-%H%M%S)
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v'
 
 restartcontainers:
@@ -64,6 +65,10 @@ query_hotel_room_donecollecting_revisebkinfo_test:
 	export testfile=query_hotel_room_donecollecting_revisebkinfo; \
 	make test testfile=$$testfile model=$(M)
 
+query_hotel_room_revise_invalid_bkinfo_test:
+	export testfile=query_hotel_room_revise_invalid_bkinfo; \
+	make test testfile=$$testfile model=$(M)
+
 copyaddons:
 	docker cp botserver-app/addons/custom_slot_types.py rasachatbot-rasa-production-1:/app/addons/
 
@@ -72,3 +77,6 @@ test_actions_fsm_botmemo_booking_progress:
 
 test_actions_duckling_service:
 	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.duckling_service import __test__; __test__();"'
+
+tensorboard:
+	./tensorboard.sh

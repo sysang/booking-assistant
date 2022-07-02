@@ -11,7 +11,10 @@ This makes rules (were not declare condition) mostly uneffective in runtime beca
 - Try to minimize consecutive actions if there is not significant changes in systems' states.  
 - This (perhasp) cuold be mitigated by increase number_of_negative_examples configuration (TED policy) but training's convergence will be severely affected.  
 
-# Branching of scinario
+# Branching of scenario
 - Branching makes less confidence, them more branches the more confused.
 - Branching is very sensitive to quantity of sample, a few more sample (unbalance of same level branches) may easily cause wrong prediction (wrong confidence -> wrong choice)
 (** There is no evidence showing that the algorithm's inteligence, haha! **)
+
+# Algorithm architecture (via TED policy configurations) does take vital influence
+- number_of_negative_examples, batch_size, connection_density does help -> mitigate negative effect of bias and shadow of slot.  
