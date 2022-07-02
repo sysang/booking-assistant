@@ -1,0 +1,20 @@
+version: "3.1"
+
+rules:
+- rule: bye
+  steps:
+  - intent: bye
+  - action: utter_bye
+
+- rule: bkinfo_form, bye
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: null
+  - active_loop: bkinfo_form
+  steps:
+  - intent: bye
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_bye

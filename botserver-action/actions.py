@@ -226,6 +226,8 @@ class botacts_search_hotel_rooms(Action):
 
             logger.info("[INFO] buttons: %s", buttons)
 
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional={'search_result_flag': 'available'})
+        events.append(SlotSet('botmemo_booking_progress', botmemo_booking_progress.next_state))
         events.append(SlotSet('search_result_flag', 'available'))
         events.append(SlotSet('notes_bkinfo', bkinfo))
 
@@ -401,6 +403,4 @@ class action_botmind_state_mapping(Action):
         return "action_botmind_state_mapping"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # return {'botmind_state': 'transitioning'}
         return []

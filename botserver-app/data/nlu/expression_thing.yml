@@ -73,7 +73,7 @@ nlu:
     - [20/12/2022](time)
     - [2022/1/10](time)
     - [1991/20/11](time)
-    - [198620/12/](time)
+    - [1986/20/12](time)
 - intent: express_length_of_time
   examples: |
     - [1 day](duration)
@@ -99,7 +99,7 @@ nlu:
 - intent: express_bed_type
   examples: |
     - a [twin](bed_type) room
-    - a [twin] bed
+    - a [twin](bed_type) bed
     - a [double](bed_type) room
     - a [double](bed_type) bed room
     - a [king size](bed_type) room

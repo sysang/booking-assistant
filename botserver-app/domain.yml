@@ -63,6 +63,11 @@ responses:
   utter_greet:
     - text: "Hi! I am virtual booking assistant. How may I help you?"
 
+  utter_bye:
+    - text: "Goodbye!"
+    - text: "Bye!"
+    - text: "Bye, was nice talking to you!"
+
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."
 
@@ -495,3 +500,6 @@ responses:
 
   utter_smalltalk/explain_price:
     - text: "Search result always included rooms that have price lower the provided price."
+
+  utter_smalltalk/explain_currecy_code:
+    - text: "The three-letter alphabetic codes that represent the various currencies used throughout the world. Refer to https://www.iban.com/currency-codes to determine code of your using currency."

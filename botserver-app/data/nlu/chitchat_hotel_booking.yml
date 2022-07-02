@@ -35,4 +35,12 @@ nlu:
     - how does price affect search
     - is price neccessary for search
 
-
+- intent: smalltalk/explain_currecy_code
+  examples: |
+    - what is currency code
+    - please tell me about currency code
+    - please exlain about currency code
+    - i do not know currency code
+    - i am confused about currency code
+    - currency code makes me confused
+    - currency code is puzzle
