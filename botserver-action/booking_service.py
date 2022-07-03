@@ -160,6 +160,7 @@ def curate_room_info(hotel, block, ref_rooms):
         'nearest_beach_name': hotel.get('nearest_beach_name', None),
         'review_score': float(hotel['review_score']),
         'min_price': float(block['min_price']['price']),
+        'price_currency': block['min_price']['currency'],
         'max_occupancy': int(block['max_occupancy']),
         'name_without_policy': block['name_without_policy'],
         'room_id': room_id,

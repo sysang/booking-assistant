@@ -50,7 +50,10 @@ responses:
     - text: "Please provide valid information."
 
   utter_about_to_show_hotel_list:
-    - text: "We found these rooms for you: "
+    - text: "We found {room_num} room(s) for you:"
+
+  utter_instruct_to_choose_room:
+    - text: "To choose your room please click on respective room."
 
   utter_room_not_available:
     - text: "I'm not finding anything matching your query."

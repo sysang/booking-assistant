@@ -44,7 +44,7 @@ BOTMIND_STATE_SLOT = {
 
 DATE_FORMAT = 'MMMM Do YYYY'
 
-TEST_EVN = False
+TEST_ENV = False
 
 
 class custom_action_fallback(Action):
@@ -190,11 +190,11 @@ class botacts_search_hotel_rooms(Action):
                 FollowupAction('botacts_confirm_room_selection'),
             ]
 
-        if TEST_EVN:
+        if TEST_ENV:
             hotels = query_available_rooms(**bkinfo)
         else:
             hotels = search_rooms(**bkinfo)
-            logger.info('[DEV] search result: %s', hotels.keys())
+            events.append(SlotSet('notes_search_result', hotels))
 
         assert isinstance(hotels, dict), "search_rooms returns wrong data type."
 
@@ -205,22 +205,52 @@ class botacts_search_hotel_rooms(Action):
             events.append(SlotSet('notes_search_result', []))
 
         else:
+
+            room_num = sum([len(rooms) for rooms in hotels.values()])
+            dispatcher.utter_message(response="utter_about_to_show_hotel_list", room_num=room_num)
+
             buttons = []
+            counter = 0
             for rooms in hotels.values():
                 for room in rooms:
-                    params = { 'room_id': room['room_id'] }
-                    params = json.dumps(params)
+                    counter += 1
+                    bed_type = extract_bed_type(room['bed_configurations'])
+                    photos = [ photo['url_original'] for photo in room['photos']]
+                    photos = ' - ' + '\n - '.join(photos)
 
-                    # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
-                    buttons.append({
-                        "title": "%s, price: $%s" % (room["hotel_name_trans"], room['min_price']),
-                        "payload": "/user_click_to_select_hotel%s" % (params)
-                    })
-            dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
+                    room_title = "Room #%s: %s, %s, %s %s" % (counter, room["name_without_policy"], bed_type['name'], room['min_price'], room['price_currency'])
+                    data = {
+                        'hotel_name': room['hotel_name_trans'],
+                        'address': room['address_trans'],
+                        'city': room['city_trans'],
+                        'country': room['country_trans'],
+                        'review_score': room['review_score'],
+                        'is_beach_front': 'beach front,' if room['is_beach_front'] else '',
+                        'nearest_beach_name': room['nearest_beach_name'] if room['is_beach_front'] else '',
+                        'room_title': room_title,
+                        'photos': photos,
+                    }
 
-            events.append(SlotSet('notes_search_result', hotels))
+                    # IMPORTANT: the json format of params is very strict, use \' instead of \" will yield silently no effect
+                    payload = { 'room_id': room['room_id'] }
+                    btn_payload = "/user_click_to_select_hotel%s" % (json.dumps(payload))
 
-            logger.info("[INFO] buttons: %s", buttons)
+
+                    buttons.append({ "title": room_title, "payload": btn_payload})
+
+                    dispatcher.utter_message(image=room['hotel_photo_url'])
+
+                    hotel_descrition = "{hotel_name}, {address}, {city}, {country}. Review score: {review_score}; {is_beach_front} near {nearest_beach_name}" . format(**data)
+                    room_description = "{room_title}" . format(**data)
+                    room_photos = "Room's photos:\n{photos}" . format(**data)
+
+                    dispatcher.utter_message(text=room_description)
+                    dispatcher.utter_message(text=hotel_descrition)
+                    dispatcher.utter_message(text=room_photos, buttons=buttons)
+
+                    logger.info("[INFO] buttons: %s", buttons)
+
+            dispatcher.utter_message(response="utter_instruct_to_choose_room")
 
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional={'search_result_flag': 'available'})
         events.append(botmemo_booking_progress.SlotSetEvent)

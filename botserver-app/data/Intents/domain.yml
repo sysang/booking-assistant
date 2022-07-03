@@ -1,6 +1,7 @@
 version: "3.1"
 
 intents:
+  - test_development
   - bot_intents_to_think
   - bot_embodies_intention
   - user_click_to_select_hotel

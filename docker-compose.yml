@@ -27,7 +27,7 @@ x-nginx-host-variables: &nginx-host-variables
   RASA_X_HOST: "rasa-x:5002"
   RASA_USER_APP: "action-server:5055"
   RASA_PRODUCTION_HOST: "rasa-production:5005"
-  BOT_FRONTEND_HOST: "botfrontend:5005"
+  BOT_FRONTEND_HOST: "botfrontend:8000"
 
 x-rasax-credentials: &rasax-credentials
   RASA_X_HOST: "http://rasa-x:5002"

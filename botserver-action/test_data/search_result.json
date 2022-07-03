@@ -1,0 +1,42 @@
+{
+  "47772": [
+    {
+      "hotel_id": 47772,
+      "hotel_name_trans": "Kaimana Beach Hotel",
+      "address_trans": "2863 Kalakaua Avenue",
+      "hotel_photo_url": "https://cf.bstatic.com/xdata/images/hotel/1440x1440/278752522.jpg?k=c82bd475f3dcccb041a9ae102d1dd893b34e78593be1cda26cfe3a16432de4b9&o=",
+      "city_trans": "Honolulu",
+      "city_name_en": "Honolulu (Oahu, Hawaii)",
+      "country_trans": "United States",
+      "is_beach_front": 1,
+      "nearest_beach_name": "Kaimana Beach",
+      "review_score": 8.1,
+      "min_price": 842.59,
+      "price_currency": "USD",
+      "max_occupancy": 2,
+      "name_without_policy": "City View",
+      "room_id": "4777201",
+      "bed_configurations": [
+        {
+          "bed_types": [
+            {
+              "count": 2,
+              "name_with_count": "2 single beds",
+              "description_localized": null,
+              "description": "90-130 cm wide",
+              "description_imperial": "35-51 inches wide",
+              "name": "Single bed(s)", "bed_type": 1
+            }
+          ]
+        }
+      ],
+      "facilities": [{"name": "Safety deposit box", "facilitytype_name": "Room Amenities", "facilitytype_id": 4, "alt_facilitytype_name": "General", "id": 6, "alt_facilitytype_id": 1}, {"facilitytype_name": "Media & Technology", "name": "TV", "facilitytype_id": 6, "alt_facilitytype_name": "Media & Technology", "id": 8, "alt_facilitytype_id": 6}, {"alt_facilitytype_name": "Outdoors", "facilitytype_name": "Outdoor & View", "name": "Balcony", "facilitytype_id": 9, "alt_facilitytype_id": 13, "id": 17}, {"facilitytype_name": "Food & Drink", "name": "Refrigerator", "facilitytype_id": 7, "alt_facilitytype_name": "Kitchen", "id": 22, "alt_facilitytype_id": 12}, {"alt_facilitytype_name": "Bathroom", "facilitytype_name": "Bathroom", "facilitytype_id": 5, "name": "Free toiletries", "alt_facilitytype_id": 5, "id": 27}],
+      "description": "This air-conditioned room features a private balcony and a flat-screen TV. A safe and a mini-fridge are at guests' disposal. Free toiletries are also provided.",
+      "photos": [
+        {"ratio": 1.5, "url_max300": "https://cf.bstatic.com/xdata/images/hotel/max300/59318240.jpg?k=d061a95ea66e128b60480ae31cb4a969b6c626a9f5fd6d21978dc9c8eeede599&o=", "url_original": "https://cf.bstatic.com/xdata/images/hotel/max500/59318240.jpg?k=d061a95ea66e128b60480ae31cb4a969b6c626a9f5fd6d21978dc9c8eeede599&o=", "url_640x200": "https://cf.bstatic.com/xdata/images/hotel/640x200/59318240.jpg?k=d061a95ea66e128b60480ae31cb4a969b6c626a9f5fd6d21978dc9c8eeede599&o=", "url_square60": "https://cf.bstatic.com/xdata/images/hotel/square60/59318240.jpg?k=d061a95ea66e128b60480ae31cb4a969b6c626a9f5fd6d21978dc9c8eeede599&o=", "photo_id": 59318240, "new_order": 0},
+        {"url_original": "https://cf.bstatic.com/xdata/images/hotel/max500/59319966.jpg?k=6fc7c55a20726a79800bae0a230284d917a40a0c727aded98bdda9a56a659815&o=", "url_640x200": "https://cf.bstatic.com/xdata/images/hotel/640x200/59319966.jpg?k=6fc7c55a20726a79800bae0a230284d917a40a0c727aded98bdda9a56a659815&o=", "url_max300": "https://cf.bstatic.com/xdata/images/hotel/max300/59319966.jpg?k=6fc7c55a20726a79800bae0a230284d917a40a0c727aded98bdda9a56a659815&o=", "ratio": 0.666666666666667, "url_square60": "https://cf.bstatic.com/xdata/images/hotel/square60/59319966.jpg?k=6fc7c55a20726a79800bae0a230284d917a40a0c727aded98bdda9a56a659815&o=", "photo_id": 59319966, "new_order": 1},
+        {"url_square60": "https://cf.bstatic.com/xdata/images/hotel/square60/78457237.jpg?k=d85b5e316484c5717cece509be45fa7de446a5b50d0b8787162ad79f35f5da18&o=", "url_640x200": "https://cf.bstatic.com/xdata/images/hotel/640x200/78457237.jpg?k=d85b5e316484c5717cece509be45fa7de446a5b50d0b8787162ad79f35f5da18&o=", "url_original": "https://cf.bstatic.com/xdata/images/hotel/max500/78457237.jpg?k=d85b5e316484c5717cece509be45fa7de446a5b50d0b8787162ad79f35f5da18&o=", "ratio": 1.5, "url_max300": "https://cf.bstatic.com/xdata/images/hotel/max300/78457237.jpg?k=d85b5e316484c5717cece509be45fa7de446a5b50d0b8787162ad79f35f5da18&o=", "new_order": 2, "photo_id": 78457237}
+      ]
+    }
+  ]
+}
