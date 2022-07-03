@@ -85,19 +85,26 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price
     counter = 0
     for hotel in hotels:
         room_list = get_room_list_by_hotel(hotel_id=hotel['hotel_id'], checkin_date=checkin_date, checkout_date=checkout_date, currency=max_price.unit)
-        logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel['hotel_id'], len(room_list))
+        logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel['hotel_id'], sum(len(item['block']) for item in room_list))
         for item in room_list:
             blocks = item['block']
             ref_rooms = item['rooms']
             for block in blocks:
                 room = curate_room_info(hotel=hotel, block=block, ref_rooms=ref_rooms)
-                if verifyif_room_in_price_range(room=room, price=max_price.value) and verifyif_room_has_bed_type(room=room, bed_type=bkinfo_bed_type):
-                    hotel_id = room['hotel_id']
-                    if rooms_indexed_by_hote_id.get(hotel_id, None):
-                        rooms_indexed_by_hote_id[hotel_id].append(room)
-                    else:
-                        rooms_indexed_by_hote_id[hotel_id] = [room]
-                    counter += 1
+
+                if not verifyif_room_in_price_range(room=room, price=max_price.value):
+                    logger.info('[INFO] room, %s, does not match price', room['room_id'])
+                    continue
+                if not verifyif_room_has_bed_type(room=room, bed_type=bkinfo_bed_type):
+                    logger.info('[INFO] room, %s, does not match bed type', room['room_id'])
+                    continue
+
+                hotel_id = room['hotel_id']
+                if rooms_indexed_by_hote_id.get(hotel_id, None):
+                    rooms_indexed_by_hote_id[hotel_id].append(room)
+                else:
+                    rooms_indexed_by_hote_id[hotel_id] = [room]
+                counter += 1
 
         if counter >= HOTEL_RESULT_LIMIT:
             break

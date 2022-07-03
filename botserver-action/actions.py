@@ -28,7 +28,7 @@ from .data_struture import BookingInfo
 from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
 from .actions_validate_predefined_slots import ValidatePredefinedSlots
 from .actions_validate_info_form import ValidateBkinfoForm
-from .utils import slots_for_entities
+from .utils import slots_for_entities, get_room_by_id
 from .booking_service import search_rooms
 
 logger = logging.getLogger(__name__)
@@ -190,15 +190,15 @@ class botacts_search_hotel_rooms(Action):
                 FollowupAction('botacts_confirm_room_selection'),
             ]
 
-        dispatcher.utter_message('Hold on. I am looking for suitable hotels...')
-
         if TEST_EVN:
-            rooms = query_available_rooms(**bkinfo)
+            hotels = query_available_rooms(**bkinfo)
         else:
-            rooms = search_rooms(**bkinfo)
-            logger.info('[DEV] search result: %s', rooms)
+            hotels = search_rooms(**bkinfo)
+            logger.info('[DEV] search result: %s', hotels.keys())
 
-        if rooms is None or len(rooms) == 0:
+        assert isinstance(hotels, dict), "search_rooms returns wrong data type."
+
+        if hotels is None or len(hotels.keys()) == 0:
             dispatcher.utter_message(response="utter_room_not_available")
             dispatcher.utter_message(response="utter_asking_revise_booking_information")
 
@@ -206,17 +206,19 @@ class botacts_search_hotel_rooms(Action):
 
         else:
             buttons = []
-            for room in rooms:
-                params = { 'room_id': room['id'] }
-                params = json.dumps(params)
+            for rooms in hotels.values():
+                for room in rooms:
+                    params = { 'room_id': room['room_id'] }
+                    params = json.dumps(params)
 
-                buttons.append({
-                    "title": "%s, price: $%s" % (room["hotel"], room['price']),
-                    "payload": "/user_click_to_select_hotel%s" % (params)  # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
-                })
+                    # IMPORTANT the json format of params is very strict, use \' instead of \" will yield silently no effect
+                    buttons.append({
+                        "title": "%s, price: $%s" % (room["hotel_name_trans"], room['min_price']),
+                        "payload": "/user_click_to_select_hotel%s" % (params)
+                    })
             dispatcher.utter_message(response="utter_about_to_show_hotel_list", buttons=buttons)
 
-            events.append(SlotSet('notes_search_result', rooms))
+            events.append(SlotSet('notes_search_result', hotels))
 
             logger.info("[INFO] buttons: %s", buttons)
 
@@ -245,8 +247,9 @@ class botacts_confirm_room_selection(Action):
                 FollowupAction('bot_let_action_emerges'),
             ]
 
-    room = query_room_by_id(room_id)
-    hotel_name = room['hotel']
+    search_result = slots.get('notes_search_result')
+    room = get_room_by_id(room_id=room_id, search_result=search_result)
+    hotel_name = room['hotel_name_trans']
 
     dispatcher.utter_message(response="utter_room_selection", hotel_name=hotel_name)
 

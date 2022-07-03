@@ -41,5 +41,15 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
     return mapped_slots
 
 
+def get_room_by_id(room_id, search_result):
+
+    for rooms in search_result.values():
+        for room in rooms:
+            if room['room_id'] == room_id:
+                return room
+
+    raise Exception("Data is broken or clicking room handling logic is mistaken.")
+
+
 def __test__():
     __test__parse_date_range()
