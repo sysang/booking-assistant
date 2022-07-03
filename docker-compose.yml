@@ -165,6 +165,9 @@ services:
       - "5055"
     environment:
       <<: *duckling-credentials
+      <<: *redis-credentials
+    depends_on:
+      - redis
 
   db:
     restart: on-failure:5

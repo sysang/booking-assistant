@@ -1,2 +1,4 @@
 tinydb~=4.7.0
 arrow~=1.2.2
+cachecontrol[redis]~=0.12.11
+cachetools~=5.2.0

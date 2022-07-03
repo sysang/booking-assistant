@@ -7,6 +7,9 @@ help:
 	echo "- test"
 	echo "- dryrun"
 
+tensorboard:
+	./tensorboard.sh
+
 testrasachatbot:
 	docker exec ailab zsh -c 'TIMESTAMP="$(shell date +%Y%m%d\[\]%H%M%S)" && cd /workspace/rasachatbot/botserver-app && rasa test core --out="results/$$TIMESTAMP"'
 
@@ -78,5 +81,6 @@ test_actions_fsm_botmemo_booking_progress:
 test_actions_duckling_service:
 	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.duckling_service import __test__; __test__();"'
 
-tensorboard:
-	./tensorboard.sh
+test_actions_booking_service:
+	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(tfunc) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/booking_service.py | tail -n 1)"'
+

@@ -1,11 +1,21 @@
 import logging
-from functools import lru_cache
-
-from requests import get
+import redis
+import requests
 import arrow
+
 from arrow import Arrow
+from requests import get
+from cachetools import cached, TTLCache
+from cachecontrol import CacheControl
+from cachecontrol.caches.redis_cache import RedisCache
 
 from .utils import parse_date_range
+
+from .duckling_service import (
+    parse_checkin_time,
+    parse_bkinfo_duration,
+    parse_bkinfo_price,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -18,15 +28,20 @@ UNITS = 'metric'
 
 PRICE_MARGIN = 0.07
 
-HOTEL_RESULT_LIMIT = 5
+HOTEL_RESULT_LIMIT = 1
 
 headers = {
     "X-RapidAPI-Key": "6ddab563a2mshfe98ce973810751p137295jsnd9d1bea86c0e",
     "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
 }
 
-# @lru_cache
-def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_price, bkinfo_bed_type):
+pool = redis.ConnectionPool(host='redis', port=6379, db=0,  password='qwer1234')
+r = redis.Redis(connection_pool=pool)
+requests_sess = CacheControl(requests.Session(), RedisCache(r))
+
+
+@cached(cache=TTLCache(maxsize=128, ttl=60))
+def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price, bkinfo_bed_type):
     """
         search_locations
         search_hotel
@@ -36,18 +51,23 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_p
         - sort by price, sort by rating
         - filter by bed_type
     """
-    logger.info('[INFO] searching parameters(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price): (%s, %s, %s, %s)',
-        bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_price, bkinfo_bed_type)
+    logger.info('[INFO] searching parameters(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price): (%s, %s, %s, %s, %s)',
+        bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price)
 
     locations = search_locations(name=bkinfo_area)
     locations = index_location_by_dest_type(data=locations)
     destination = choose_location(data=locations)
 
+    logger.info('[INFO] search_rooms, found %s locations that are suitable with bkinfo_area: %s', len(locations), bkinfo_area)
+    logger.info('[INFO] will look for hotels in this destination: %s', destination)
+
     checkin_date = parse_checkin_time(expression=bkinfo_checkin_time)
     duration = parse_bkinfo_duration(expression=bkinfo_duration)
     checkin_date, checkout_date = parse_date_range(from_time=checkin_date.value, duration=duration.value)
+    logger.info('[INFO] will look for hotels from %s to %s', checkin_date, checkout_date)
 
-    max_price = parse_bkinfo_price(expression=bkinfo_max_price)
+    max_price = parse_bkinfo_price(expression=bkinfo_price)
+    logger.info('[INFO] will look for hotels in price below %s', max_price)
 
     hotels = search_hotel(
         dest_id=destination['dest_id'],
@@ -59,10 +79,13 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_p
     hotels = hotels['result']
     hotels = sort_hotel_by_review_score(hotels)
 
+    logger.info('[INFO] search_hotel, found %s results.', len(hotels))
+
     rooms_indexed_by_hote_id = {}
     counter = 0
     for hotel in hotels:
         room_list = get_room_list_by_hotel(hotel_id=hotel['hotel_id'], checkin_date=checkin_date, checkout_date=checkout_date, currency=max_price.unit)
+        logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel['hotel_id'], len(room_list))
         for item in room_list:
             blocks = item['block']
             ref_rooms = item['rooms']
@@ -74,9 +97,9 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_max_p
                         rooms_indexed_by_hote_id[hotel_id].append(room)
                     else:
                         rooms_indexed_by_hote_id[hotel_id] = [room]
-                        counter += 1
+                    counter += 1
 
-        if counter >= 5:
+        if counter >= HOTEL_RESULT_LIMIT:
             break
 
     sorted_room = {}
@@ -93,11 +116,19 @@ def sort_hotel_by_review_score(hotels):
 def verifyif_room_has_bed_type(room, bed_type):
     if not len(room['bed_configurations']):
         return False
+
     room_bed_types = room['bed_configurations'][0]['bed_types']
+
     if not len(room_bed_types):
         return False
-    room_bed_type = room_bed_types[0]
-    return room_bed_type['name'].find(bed_type) != -1
+
+    for room_bed_type in room_bed_types:
+        name = room_bed_type.get('name', '')
+        name = name.lower()
+        if name.find(bed_type) != -1:
+            return True
+
+    return False
 
 
 def verifyif_room_in_price_range(room, price):
@@ -132,7 +163,6 @@ def curate_room_info(hotel, block, ref_rooms):
     }
 
 
-@lru_cache
 def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> rooms = response.json()
@@ -159,14 +189,12 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
         "units": UNITS,
     }
 
-
     response = get(url, headers=headers, params=querystring)
     response.raise_for_status()
 
     return response.json()
 
 
-@lru_cache
 def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> hotels = response.json()
@@ -209,12 +237,11 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRE
     }
 
 
-    response = get(url, headers=headers, params=querystring)
+    response = requests_sess.get(url, headers=headers, params=querystring)
     response.raise_for_status()
 
     return response.json()
 
-@lru_cache
 def search_locations(name):
     """
     >>> locations = response.json()
@@ -229,10 +256,10 @@ def search_locations(name):
         "locale": LOCALE,
     }
 
+    response = requests_sess.get(url, headers=headers, params=querystring)
+    logger.info('[INFO] search_locations, final url %s', response.url)
 
-    response = get(url, headers=headers, params=querystring)
     response.raise_for_status()
-
 
     return response.json()
 
@@ -263,13 +290,18 @@ def choose_location(data):
         raise  NotImplementedError(f'There is dest_type has not recognized to retrieve. Info: %s' % (str(data.keys())))
 
 
-def __test__():
+def __test__search_locations():
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
 
-    # locations = search_locations(name='hawaii')
-    # locations = index_location_by_dest_type(data=locations)
-    # pp.pprint(locations)
+    locations = search_locations(name='hawaii')
+    locations = index_location_by_dest_type(data=locations)
+    pp.pprint(locations)
+
+
+def __test__curate_room_info():
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
 
     from .test_data.hotel import sample as hotel
     from .test_data.block import sample as block
@@ -277,3 +309,38 @@ def __test__():
 
     room_info = curate_room_info(hotel=hotel, block=block, ref_rooms=rooms)
     pp.pprint(room_info)
+
+
+def __test__search_rooms():
+    args = {
+        'bkinfo_area': 'hawaii',
+        'bkinfo_checkin_time': 'september 5th',
+        'bkinfo_duration': '3 days',
+        'bkinfo_bed_type': 'double',
+        'bkinfo_price': '700 usd',
+    }
+    hotels = search_rooms(**args)
+    print(hotels.keys())
+
+
+def __test__(tfunc):
+    import sys
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setLevel(logging.INFO)
+    stdout_handler.setFormatter(formatter)
+
+    logger.addHandler(stdout_handler)
+
+    __test__fn = f'__test__{tfunc}'
+    eval(__test__fn)()
+
+"""
+__pytest__
+import os;from actions.booking_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
+"""

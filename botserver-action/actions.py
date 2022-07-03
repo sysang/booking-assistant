@@ -29,6 +29,7 @@ from .fsm_botmemo_booking_progress import FSMBotmemeBookingProgress
 from .actions_validate_predefined_slots import ValidatePredefinedSlots
 from .actions_validate_info_form import ValidateBkinfoForm
 from .utils import slots_for_entities
+from .booking_service import search_rooms
 
 logger = logging.getLogger(__name__)
 
@@ -43,20 +44,7 @@ BOTMIND_STATE_SLOT = {
 
 DATE_FORMAT = 'MMMM Do YYYY'
 
-
-from .actions_set_booking_information import (
-    set_booking_information__area__,
-    set_booking_information__checkin_time__,
-    set_booking_information__duration__,
-    set_booking_information__bed_type__,
-    set_booking_information__room_id__,
-)
-from .actions_revise_booking_information import (
-    revise_booking_information__area__,
-    revise_booking_information__checkin_time__,
-    revise_booking_information__duration__,
-    revise_booking_information__bed_type__,
-)
+TEST_EVN = False
 
 
 class custom_action_fallback(Action):
@@ -202,7 +190,13 @@ class botacts_search_hotel_rooms(Action):
                 FollowupAction('botacts_confirm_room_selection'),
             ]
 
-        rooms = query_available_rooms(**bkinfo)
+        dispatcher.utter_message('Hold on. I am looking for suitable hotels...')
+
+        if TEST_EVN:
+            rooms = query_available_rooms(**bkinfo)
+        else:
+            rooms = search_rooms(**bkinfo)
+            logger.info('[DEV] search result: %s', rooms)
 
         if rooms is None or len(rooms) == 0:
             dispatcher.utter_message(response="utter_room_not_available")
