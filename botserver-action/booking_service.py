@@ -41,7 +41,7 @@ r = redis.Redis(connection_pool=pool)
 requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuristic=ExpiresAfter(minutes=REQUESTS_CACHE_MINS))
 
 
-@cached(cache=TTLCache(maxsize=128, ttl=60))
+# @cached(cache=TTLCache(maxsize=128, ttl=60))
 def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price, bkinfo_bed_type):
     """
         search_locations

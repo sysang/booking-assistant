@@ -226,7 +226,7 @@ class botacts_search_hotel_rooms(Action):
                         'country': room['country_trans'],
                         'review_score': room['review_score'],
                         'is_beach_front': 'beach front,' if room['is_beach_front'] else '',
-                        'nearest_beach_name': room['nearest_beach_name'] if room['is_beach_front'] else '',
+                        'nearest_beach_name': 'near ' + room['nearest_beach_name'] if room['is_beach_front'] else '',
                         'room_title': room_title,
                         'photos': photos,
                     }
@@ -240,7 +240,7 @@ class botacts_search_hotel_rooms(Action):
 
                     dispatcher.utter_message(image=room['hotel_photo_url'])
 
-                    hotel_descrition = "{hotel_name}, {address}, {city}, {country}. Review score: {review_score}; {is_beach_front} near {nearest_beach_name}" . format(**data)
+                    hotel_descrition = "{hotel_name}, {address}, {city}, {country}. Review score: {review_score}; {is_beach_front}, {nearest_beach_name}" . format(**data)
                     room_description = "{room_title}" . format(**data)
                     room_photos = "Room's photos:\n{photos}" . format(**data)
 
