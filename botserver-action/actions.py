@@ -214,7 +214,7 @@ class botacts_search_hotel_rooms(Action):
             for rooms in hotels.values():
                 for room in rooms:
                     counter += 1
-                    bed_type = extract_bed_type(room['bed_configurations'])
+                    bed_type = room['bed_type']
                     photos = [ photo['url_original'] for photo in room['photos']]
                     photos = ' - ' + '\n - '.join(photos)
 

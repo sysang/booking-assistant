@@ -7,7 +7,9 @@ from arrow import Arrow
 from requests import get
 from cachetools import cached, TTLCache
 from cachecontrol import CacheControl
+from cachecontrol import CacheControlAdapter
 from cachecontrol.caches.redis_cache import RedisCache
+from cachecontrol.heuristics import ExpiresAfter
 
 from .utils import parse_date_range
 
@@ -21,14 +23,13 @@ from .duckling_service import (
 logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://booking-com.p.rapidapi.com/v1'
-
 CURRENCY = 'USD'
 LOCALE = 'en-gb'
 UNITS = 'metric'
-
 PRICE_MARGIN = 0.07
-
 HOTEL_RESULT_LIMIT = 1
+REQUESTS_CACHE_MINS = 60
+
 
 headers = {
     "X-RapidAPI-Key": "6ddab563a2mshfe98ce973810751p137295jsnd9d1bea86c0e",
@@ -37,7 +38,7 @@ headers = {
 
 pool = redis.ConnectionPool(host='redis', port=6379, db=0,  password='qwer1234')
 r = redis.Redis(connection_pool=pool)
-requests_sess = CacheControl(requests.Session(), RedisCache(r))
+requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuristic=ExpiresAfter(minutes=REQUESTS_CACHE_MINS))
 
 
 @cached(cache=TTLCache(maxsize=128, ttl=60))
@@ -95,7 +96,7 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price
                 if not verifyif_room_in_price_range(room=room, price=max_price.value):
                     logger.info('[INFO] room, %s, does not match price', room['room_id'])
                     continue
-                if not verifyif_room_has_bed_type(room=room, bed_type=bkinfo_bed_type):
+                if not verifyif_room_has_bed_type(room_bed_type=room['bed_type'], bed_type=bkinfo_bed_type):
                     logger.info('[INFO] room, %s, does not match bed type', room['room_id'])
                     continue
 
@@ -120,22 +121,10 @@ def sort_hotel_by_review_score(hotels):
     return sorted(hotels, key=lambda x: x['review_score'], reverse=True)
 
 
-def verifyif_room_has_bed_type(room, bed_type):
-    if not len(room['bed_configurations']):
-        return False
-
-    room_bed_types = room['bed_configurations'][0]['bed_types']
-
-    if not len(room_bed_types):
-        return False
-
-    for room_bed_type in room_bed_types:
-        name = room_bed_type.get('name', '')
-        name = name.lower()
-        if name.find(bed_type) != -1:
-            return True
-
-    return False
+def verifyif_room_has_bed_type(room_bed_type, bed_type):
+    name = room_bed_type.get('name', '')
+    name = name.lower()
+    return name.find(bed_type) != -1
 
 
 def verifyif_room_in_price_range(room, price):
@@ -164,11 +153,22 @@ def curate_room_info(hotel, block, ref_rooms):
         'max_occupancy': int(block['max_occupancy']),
         'name_without_policy': block['name_without_policy'],
         'room_id': room_id,
-        'bed_configurations': room['bed_configurations'],
+        'bed_type': extract_bed_type(room['bed_configurations']),
         'facilities': room['facilities'],
         'description': room['description'],
         'photos': room['photos'],
     }
+
+
+def extract_bed_type(bed_configurations):
+    if len(bed_configurations) == 0:
+        return ''
+
+    bed_types = bed_configurations[0]['bed_types']
+    if len(bed_types) == 0:
+        return ''
+
+    return bed_types[0]
 
 
 def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
@@ -197,7 +197,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
         "units": UNITS,
     }
 
-    response = get(url, headers=headers, params=querystring)
+    response = requests_sess.get(url, headers=headers, params=querystring)
     response.raise_for_status()
 
     return response.json()
