@@ -13,4 +13,4 @@ stories:
     - 'what is bed type'
     - '200 USD'
     - 'what is bed type'
-    - '/user_click_to_select_hotel{"room_id": 1}'
+    - '/user_click_to_select_room{"room_id": 1}'

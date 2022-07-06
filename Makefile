@@ -13,8 +13,11 @@ tensorboard:
 testrasachatbot:
 	docker exec ailab zsh -c 'TIMESTAMP="$(shell date +%Y%m%d\[\]%H%M%S)" && cd /workspace/rasachatbot/botserver-app && rasa test core --out="results/$$TIMESTAMP"'
 
+tensorboard_dir := botserver-app/tensorboard/current
+log_dir = botserver-app/tensorboard/$(shell date +%Y%m%d-%H%M%S)/
 trainrasachatbot:
-	mv botserver-app/tensorboard/current botserver-app/tensorboard/$(shell date +%Y%m%d-%H%M%S)
+	test -d $(tensorboard_dir) && mv $(tensorboard_dir) $(log_dir) || echo 'Do not need to move current dir.'
+	mkdir -p $(tensorboard_dir) && chmod 777 $(tensorboard_dir)
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v'
 
 restartcontainers:
@@ -84,3 +87,12 @@ test_actions_duckling_service:
 test_actions_booking_service:
 	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(tfunc) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/booking_service.py | tail -n 1)"'
 
+# files := file1 file2
+# some_file: $(files)
+# 	echo "Look at this variable: " $(files)
+# 	touch some_file
+
+# file1:
+# 	touch file1
+# file2:
+# 	touch file2

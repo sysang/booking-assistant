@@ -1,0 +1,84 @@
+version: "3.1"
+
+rules:
+- rule: to select room
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+  steps:
+    - intent: user_click_to_select_room
+      entities:
+        - room_id: 1
+    - slot_was_set:
+      - bkinfo_room_id: 1
+      - botmemo_booking_progress: room_selected
+    - action: botacts_confirm_room_selection
+  wait_for_user_input: false
+
+- rule: to sort search result by popularity
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+    - bkinfo_orderby: null
+  steps:
+    - intent: sort_room_by_popularity
+    - slot_was_set:
+      - bkinfo_orderby: popularity
+    - action: botacts_search_hotel_rooms
+  wait_for_user_input: false
+
+- rule: to sort search result by review_score
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+    - bkinfo_orderby: null
+  steps:
+    - intent: sort_room_by_review_score
+    - slot_was_set:
+      - bkinfo_orderby: review_score
+    - action: botacts_search_hotel_rooms
+  wait_for_user_input: false
+
+- rule: to sort search result by price
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+    - bkinfo_orderby: null
+  steps:
+    - intent: sort_room_by_price
+    - slot_was_set:
+      - bkinfo_orderby: price
+    - action: botacts_search_hotel_rooms
+  wait_for_user_input: false
+
+- rule: to paginate search result
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+    - search_result_query: null
+  steps:
+    - intent: user_click_to_navigate_search_result
+    - slot_was_set:
+      - search_result_query: true
+    - action: botacts_search_hotel_rooms
+  wait_for_user_input: false

@@ -13,4 +13,4 @@ stories:
     - 'Wie fange ich mit Rasa an?'
     - '200 USD'
     - 'Wie fange ich mit Rasa an?'
-    - '/user_click_to_select_hotel{"room_id": 1}'
+    - '/user_click_to_select_room{"room_id": 1}'

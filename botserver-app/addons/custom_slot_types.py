@@ -26,7 +26,7 @@ class BkinfoStatus(Slot):
         if value is None or len(value) == 0:
             return r
 
-        assert isinstance(value, list), "BkinfoStatus value must be an instance of list"
+        assert isinstance(value, list), "BkinfoStatus value, %s, must be an instance of list, actual type: %s" % (value, type(value))
 
         if len(value) > status_num:
             logging.warning('[WARNING, FATAL] Slot value is incorrectly represented, %s > %s (len(value) > status_num), value: %s', len(value), status_num, str(value))

@@ -13,4 +13,4 @@ stories:
     - 'Hi can you please lorem ipsum dolor sit amet i you me want'
     - '200 USD'
     - 'Hi can you please lorem ipsum dolor sit amet i you me want'
-    - '/user_click_to_select_hotel{"room_id": 1}'
+    - '/user_click_to_select_room{"room_id": 1}'

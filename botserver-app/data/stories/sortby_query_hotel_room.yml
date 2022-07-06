@@ -1,0 +1,44 @@
+version: "3.1"
+
+stories:
+- story: when information has been collected completely, sort search result by popularity
+  steps:
+  - checkpoint: checkpoint_room_showing_available
+  - intent: sort_room_by_popularity
+  - slot_was_set:
+    - bkinfo_orderby: popularity
+  - action: botacts_search_hotel_rooms
+  - slot_was_set:
+    - bkinfo_orderby: null
+    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
+  - action: action_listen
+
+- story: when information has been collected completely, sort search result by review_score
+  steps:
+  - checkpoint: checkpoint_room_showing_available
+  - intent: sort_room_by_review_score
+  - slot_was_set:
+    - bkinfo_orderby: review_score
+  - action: botacts_search_hotel_rooms
+  - slot_was_set:
+    - bkinfo_orderby: null
+    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
+  - action: action_listen
+
+- story: when information has been collected completely, sort search result by price
+  steps:
+  - checkpoint: checkpoint_room_showing_available
+  - intent: sort_room_by_price
+  - slot_was_set:
+    - bkinfo_orderby: price
+  - action: botacts_search_hotel_rooms
+  - slot_was_set:
+    - bkinfo_orderby: null
+    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
+  - action: action_listen

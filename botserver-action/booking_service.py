@@ -2,6 +2,8 @@ import logging
 import redis
 import requests
 import arrow
+import asyncio
+import math
 
 from arrow import Arrow
 from requests import get
@@ -12,6 +14,7 @@ from cachecontrol.caches.redis_cache import RedisCache
 from cachecontrol.heuristics import ExpiresAfter
 
 from .utils import parse_date_range
+from .utils import SORTBY_POPULARITY, SORTBY_REVIEW_SCORE, SORTBY_PRICE
 
 from .duckling_service import (
     parse_checkin_time,
@@ -27,7 +30,6 @@ CURRENCY = 'USD'
 LOCALE = 'en-gb'
 UNITS = 'metric'
 PRICE_MARGIN = 0.07
-HOTEL_RESULT_LIMIT = 1
 REQUESTS_CACHE_MINS = 60
 
 
@@ -42,18 +44,18 @@ requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuri
 
 
 # @cached(cache=TTLCache(maxsize=128, ttl=60))
-def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price, bkinfo_bed_type):
+async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby):
     """
         search_locations
         search_hotel
         get_room_list_by_hotel
         filter by price, adult_number
         ADVANCES:
-        - sort by price, sort by rating
+        - sort by price, sort by review_score
         - filter by bed_type
     """
-    logger.info('[INFO] searching parameters(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price): (%s, %s, %s, %s, %s)',
-        bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price)
+    logger.info('[INFO] searching parameters: (bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby) -> (%s, %s, %s, %s, %s, %s)',
+        bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby)
 
     locations = search_locations(name=bkinfo_area)
     locations = index_location_by_dest_type(data=locations)
@@ -75,46 +77,76 @@ def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_price
         dest_type=destination['dest_type'],
         checkin_date=checkin_date,
         checkout_date=checkout_date,
+        order_by=bkinfo_orderby,
         currency=max_price.unit,
     )
     hotels = hotels['result']
-    hotels = sort_hotel_by_review_score(hotels)
-
     logger.info('[INFO] search_hotel, found %s results.', len(hotels))
 
-    rooms_indexed_by_hote_id = {}
-    counter = 0
-    for hotel in hotels:
-        room_list = get_room_list_by_hotel(hotel_id=hotel['hotel_id'], checkin_date=checkin_date, checkout_date=checkout_date, currency=max_price.unit)
-        logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel['hotel_id'], sum(len(item['block']) for item in room_list))
-        for item in room_list:
-            blocks = item['block']
-            ref_rooms = item['rooms']
-            for block in blocks:
-                room = curate_room_info(hotel=hotel, block=block, ref_rooms=ref_rooms)
+    if bkinfo_orderby == SORTBY_REVIEW_SCORE:
+        hotels = sort_hotel_by_review_score(hotels)
 
-                if not verifyif_room_in_price_range(room=room, price=max_price.value):
-                    logger.info('[INFO] room, %s, does not match price', room['room_id'])
-                    continue
-                if not verifyif_room_has_bed_type(room_bed_type=room['bed_type'], bed_type=bkinfo_bed_type):
-                    logger.info('[INFO] room, %s, does not match bed type', room['room_id'])
-                    continue
+    hotels = { hotel['hotel_id']:hotel for hotel in hotels }
+    hotel_id_list = list(hotels.keys())
 
-                hotel_id = room['hotel_id']
-                if rooms_indexed_by_hote_id.get(hotel_id, None):
-                    rooms_indexed_by_hote_id[hotel_id].append(room)
-                else:
-                    rooms_indexed_by_hote_id[hotel_id] = [room]
-                counter += 1
+    room_list = await get_room_list(hotel_id_list, checkin_date=checkin_date, checkout_date=checkout_date, currency=max_price.unit)
+    logger.info('[INFO] query room by hotels %s, found %s rooms', hotel_id_list, len(room_list))
 
-        if counter >= HOTEL_RESULT_LIMIT:
-            break
+    rooms_groupby_hotel_id = {}
+    for item in room_list:
+        blocks = item.get('block', None)
+        if not blocks:
+            continue
 
-    sorted_room = {}
-    for hotel_id, rooms in rooms_indexed_by_hote_id.items():
-        sorted_room[hotel_id] = sorted(rooms, key=lambda x: x['min_price'])
+        hotel_id = item.get('hotel_id', None)
+        if not hotel_id:
+            continue
+        hotel = hotels[hotel_id]
+        ref_rooms = item['rooms']
+        for block in blocks:
+            room = curate_room_info(hotel=hotel, block=block, ref_rooms=ref_rooms)
 
-    return sorted_room
+            if not verifyif_room_in_price_range(room=room, price=max_price.value):
+                logger.info('[INFO] room, %s, does not match price', room['room_id'])
+                continue
+            if not verifyif_room_has_bed_type(room_bed_type=room['bed_type'], bed_type=bkinfo_bed_type):
+                logger.info('[INFO] room, %s, does not match bed type', room['room_id'])
+                continue
+
+            hotel_id = room['hotel_id']
+            if rooms_groupby_hotel_id.get(hotel_id, None):
+                rooms_groupby_hotel_id[hotel_id].append(room)
+            else:
+                rooms_groupby_hotel_id[hotel_id] = [room]
+
+    if bkinfo_orderby == SORTBY_PRICE:
+        rooms_groupby_hotel_id = sort_hotel_by_min_room_price(rooms_groupby_hotel_id)
+
+    # Regardless of sorting way rooms in a group are alwasys ascendently sorted by price
+    sorted_rooms = sort_rooms_by_price(rooms_groupby_hotel_id)
+
+    return sorted_rooms
+
+
+def sort_rooms_by_price(rooms):
+    result = {}
+    for hotel_id, rooms in rooms.items():
+        result[hotel_id] = sorted(rooms, key=lambda x: x['min_price'])
+
+    return result
+
+
+def sort_hotel_by_min_room_price(rooms_groupby_hotel_id):
+    tmp = {}
+
+    for hotel_id, rooms in rooms_groupby_hotel_id.items():
+        lowest_room = min(rooms, key=lambda room: room['min_price'])
+        tmp[hotel_id] = lowest_room['min_price']
+
+    sorted_hotels = sorted(tmp, key=tmp.get)
+    result = {hotel_id:rooms_groupby_hotel_id[hotel_id] for hotel_id in sorted_hotels}
+
+    return result
 
 
 def sort_hotel_by_review_score(hotels):
@@ -147,28 +179,55 @@ def curate_room_info(hotel, block, ref_rooms):
         'country_trans': hotel['country_trans'],
         'is_beach_front': hotel['is_beach_front'],
         'nearest_beach_name': hotel.get('nearest_beach_name', None),
-        'review_score': float(hotel['review_score']),
-        'min_price': float(block['min_price']['price']),
-        'price_currency': block['min_price']['currency'],
+        'review_score': float(hotel.get('review_score')) if hotel.get('review_score') else -1.0,
+        'min_price': float(block['product_price_breakdown']['gross_amount_per_night']['value']),
+        'price_currency': block['product_price_breakdown']['gross_amount_per_night']['currency'],
         'max_occupancy': int(block['max_occupancy']),
         'name_without_policy': block['name_without_policy'],
         'room_id': room_id,
-        'bed_type': extract_bed_type(room['bed_configurations']),
+        'bed_type': extract_bed_type(room),
         'facilities': room['facilities'],
         'description': room['description'],
         'photos': room['photos'],
     }
 
 
-def extract_bed_type(bed_configurations):
+def extract_bed_type(room):
+    bed_configurations = room.get('bed_configurations', None)
+    if not bed_configurations:
+        return {}
+
     if len(bed_configurations) == 0:
-        return ''
+        return {}
 
     bed_types = bed_configurations[0]['bed_types']
     if len(bed_types) == 0:
-        return ''
+        return {}
 
     return bed_types[0]
+
+async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CURRENCY):
+    total_num = len(hotel_id_list)
+    reqnum_limit = 4
+    total_page = math.ceil(total_num / reqnum_limit)
+    schedule = []
+    for idx in range(total_page):
+        start = idx * reqnum_limit
+        end = start + reqnum_limit
+        schedule.append(hotel_id_list[start:end])
+
+    loop = asyncio.get_running_loop()
+
+    result = []
+    for tasks in schedule:
+        futures = []
+        for hotel_id in tasks:
+            futures.append(loop.run_in_executor( None, get_room_list_by_hotel, hotel_id, checkin_date, checkout_date, currency))
+        for response in await asyncio.gather(*futures):
+            for item in response:
+                result.append(item)
+
+    return result
 
 
 def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
@@ -198,12 +257,19 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
     }
 
     response = requests_sess.get(url, headers=headers, params=querystring)
-    response.raise_for_status()
+    logger.info('[INFO] get_room_list_by_hotel, API url: %s', response.url)
 
-    return response.json()
+    if not response.ok:
+        return []
+
+    result = response.json()
+
+    # logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel_id, sum(len(item['block']) for item in result))
+
+    return result
 
 
-def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRENCY):
+def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, currency=CURRENCY):
     """
     >>> hotels = response.json()
     >>> hotels.keys()
@@ -227,7 +293,6 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRE
     """
 
     url = f"{BASE_URL}/hotels/search"
-    order_by = 'popularity'
     number_of_occupancy = 2
     number_of_room = 1
 
@@ -246,6 +311,8 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, currency=CURRE
 
 
     response = requests_sess.get(url, headers=headers, params=querystring)
+    logger.info('[INFO] search_hotel, API url: %s', response.url)
+
     response.raise_for_status()
 
     return response.json()
@@ -265,7 +332,7 @@ def search_locations(name):
     }
 
     response = requests_sess.get(url, headers=headers, params=querystring)
-    logger.info('[INFO] search_locations, final url %s', response.url)
+    logger.info('[INFO] search_locations, API url: %s', response.url)
 
     response.raise_for_status()
 
@@ -296,6 +363,30 @@ def choose_location(data):
         return data.get(HOTEL)
     else:
         raise  NotImplementedError(f'There is dest_type has not recognized to retrieve. Info: %s' % (str(data.keys())))
+
+
+"""
+__pytest__
+import os;from actions.booking_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
+"""
+
+
+def __test__(tfunc):
+    import sys
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setLevel(logging.INFO)
+    stdout_handler.setFormatter(formatter)
+
+    logger.addHandler(stdout_handler)
+
+    __test__fn = f'__test__{tfunc}'
+    eval(__test__fn)()
 
 
 def __test__search_locations():
@@ -331,24 +422,54 @@ def __test__search_rooms():
     print(hotels.keys())
 
 
-def __test__(tfunc):
-    import sys
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
+def __test__sort_rooms_by_price():
+    rooms = {
+        '1': [
+            {'room_id': 3, 'min_price': 100},
+            {'room_id': 4, 'min_price': 125},
+            {'room_id': 1, 'min_price': 50},
+            {'room_id': 2, 'min_price': 75},
+        ],
+        '2': [
+            {'room_id': 2, 'min_price': 75},
+            {'room_id': 3, 'min_price': 100},
+            {'room_id': 4, 'min_price': 125},
+            {'room_id': 1, 'min_price': 50},
+        ]
+    }
 
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
+    print(sort_rooms_by_price(rooms))
 
-    stdout_handler = logging.StreamHandler(sys.stdout)
-    stdout_handler.setLevel(logging.INFO)
-    stdout_handler.setFormatter(formatter)
 
-    logger.addHandler(stdout_handler)
+def __test__sort_hotel_by_min_price():
+    rooms = {
+        '1': [
+            {'room_id': 1, 'min_price': 25},
+        ],
+        '4': [
+            {'room_id': 2, 'min_price': 75},
+            {'room_id': 3, 'min_price': 100},
+        ],
+        '3': [
+            {'room_id': 4, 'min_price': 125},
+            {'room_id': 5, 'min_price': 50},
+        ],
+        '2': [
+            {'room_id': 4, 'min_price': 125},
+            {'room_id': 5, 'min_price': 50},
+        ],
+    }
 
-    __test__fn = f'__test__{tfunc}'
-    eval(__test__fn)()
+    print(sort_hotel_by_min_room_price(rooms))
 
-"""
-__pytest__
-import os;from actions.booking_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
-"""
+
+def __test__sort_hotel_by_review_score():
+    hotels = [
+        {'hotel_id': 2, 'review_score': 7.0},
+        {'hotel_id': 5, 'review_score': 8.8},
+        {'hotel_id': 4, 'review_score': 8.7},
+        {'hotel_id': 1, 'review_score': 6.7},
+        {'hotel_id': 3, 'review_score': 7.7},
+    ]
+
+    print(sort_hotel_by_review_score(hotels))

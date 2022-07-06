@@ -4,7 +4,8 @@ intents:
   - test_development
   - bot_intents_to_think
   - bot_embodies_intention
-  - user_click_to_select_hotel
+  - user_click_to_select_room
+  - user_click_to_navigate_search_result
   - request_listing_hotel_by_area
   - request_searching_hotel
   - request_checkin_time
@@ -30,3 +31,6 @@ intents:
   - react_positive
   - react_negative
   - agent_ready
+  - sort_room_by_popularity
+  - sort_room_by_review_score
+  - sort_room_by_price

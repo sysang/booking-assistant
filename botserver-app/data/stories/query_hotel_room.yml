@@ -9,7 +9,9 @@ stories:
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
+    - bkinfo_orderby: null
     - search_result_flag: null
+    - search_result_query: true
   - intent: request_searching_hotel
   - action: botacts_express_bot_job_to_support_booking
   - slot_was_set:
@@ -90,7 +92,7 @@ stories:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
   - checkpoint: checkpoint_room_showing_available
-  - intent: user_click_to_select_hotel
+  - intent: user_click_to_select_room
     entities:
       - room_id: 1
   - slot_was_set:

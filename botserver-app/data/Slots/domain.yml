@@ -52,7 +52,7 @@ slots:
     type: float
     mappings:
       - type: from_entity
-        intent: user_click_to_select_hotel
+        intent: user_click_to_select_room
         entity: room_id
   bkinfo_area:
     influence_conversation: false
@@ -253,3 +253,28 @@ slots:
     mappings:
       - type: custom
     initial_value: null
+  bkinfo_orderby:
+    type: categorical
+    mappings:
+      - type: from_intent
+        value: popularity
+        intent: sort_room_by_popularity
+      - type: from_intent
+        value: review_score
+        intent: sort_room_by_review_score
+      - type: from_intent
+        value: price
+        intent: sort_room_by_price
+    influence_conversation: true
+    initial_value: null
+    values:
+      - popularity
+      - review_score
+      - price
+  search_result_query:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: from_text
+        intent: user_click_to_navigate_search_result

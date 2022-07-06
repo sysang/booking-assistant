@@ -2,22 +2,22 @@ stories:
 - name: Form is filled, then show room list
   steps:
     - 'Could you help me search for a hotel?'
-    - 'hawaii'
-    - 'september 5th'
+    - 'i need to book a hotel for a trip to bangkok'
+    - 'october 5th'
     - '3 days'
-    - 'I want a single bed room'
-    - '200 USD'
-    - '/user_click_to_select_hotel{"room_id": 1}'
+    - 'I want a double bed room'
+    - '850 USD'
+    # - '/user_click_to_select_room{"room_id": 1}'
 
-- name: Form is filled after validating wrong inputs, then show room list
-  steps:
-    - 'Could you help me search for a hotel?'
-    - 'hawaii'
-    - '01/06/2022'
-    - 'september 5th'
-    - '1 hour'
-    - '3 days'
-    - 'I want a single bed room'
-    - '200 USA'
-    - '200 USD'
-    - '/user_click_to_select_hotel{"room_id": 1}'
+# - name: Form is filled after validating wrong inputs, then show room list
+#   steps:
+#     - 'Could you help me search for a hotel?'
+#     - 'hawaii'
+#     - '01/06/2022'
+#     - 'september 5th'
+#     - '1 hour'
+#     - '3 days'
+#     - 'I want a single bed room'
+#     - '200 USA'
+#     - '200 USD'
+#     - '/user_click_to_select_room{"room_id": 1}'

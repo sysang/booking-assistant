@@ -34,8 +34,8 @@ responses:
     - text: "Which bed type would you like?"
 
   utter_ask_bkinfo_price:
-    - text: "what price you are looking for?"
-    - text: "what price you would you take?"
+    - text: "what price per night you are looking for?"
+    - text: "what price per night you would you prefer?"
 
   utter_ask_valid_bkinfo_checkin_time:
     - text: "Please provide check-in time that is equal or later than today."
@@ -49,8 +49,14 @@ responses:
   utter_inform_invalid_info:
     - text: "Please provide valid information."
 
-  utter_about_to_show_hotel_list:
-    - text: "We found {room_num} room(s) for you:"
+  utter_about_to_show_hotel_list_by_popularity:
+    - text: "I've found {room_num} room(s) ranked by popularity for you:"
+
+  utter_about_to_show_hotel_list_by_price:
+    - text: "I've found {room_num} room(s) ranked by price for you:"
+
+  utter_about_to_show_hotel_list_by_review_score:
+    - text: "I've found {room_num} room(s) ranked by review_score for you:"
 
   utter_instruct_to_choose_room:
     - text: "To choose your room please click on respective room."
@@ -62,6 +68,9 @@ responses:
 
   utter_room_selection:
     - text: "You've selected a {bkinfo_bed_type} bed(s) room in {bkinfo_duration}, checkin at {bkinfo_checkin_time}, {hotel_name}."
+
+  utter_aware_checkin_date:
+    - text: "Please be aware about the check-in date, it is after {checkin_distance} days."
 
   utter_greet:
     - text: "Hi! I am virtual booking assistant. How may I help you?"

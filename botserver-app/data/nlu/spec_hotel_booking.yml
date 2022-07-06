@@ -37,6 +37,8 @@ nlu:
     - i am looking for an average priced place in [san diago](area). thankyou.
     - i'm looking for a hotel to stay in during my visit to [florida](area)
     - i need a hotel room in [florida](area), could you help
+    - i am going to travel to [ho chi minh city](area), vietnam
+    - i want to visit [bangkok](area)
 - intent: request_checkin_time
   examples: |
     - book it from [sunday](time)
@@ -145,11 +147,12 @@ nlu:
 - intent: revise_bed_type
   examples: |
     - could you change bed type to [king-size](bed_type)
-    - could you change type to [single](bed_type)
+    - could you change bed to [single](bed_type)
     - i want change room type to [single](bed_type)
     - sorry, my mistake i acctually want [double](bed_type) room
     - sorry, it is wrong one, i want a [queen](bed_type)
     - sorry, could you change bed type to [double](bed_type)
+    - change bed to [double](bed_type)
 - intent: revise_price
   examples: |
     - could i change price to [700 JPY](amount-of-money)
@@ -162,6 +165,56 @@ nlu:
     - plase revise price to [301 ins](amount-of-money)
     - my mistake, i actually want a price around [101 gpp](amount-of-money)
     - sorry, my mistake, what i acctually is [201 uss](amount-of-money)
+- intent: sort_room_by_popularity
+  examples: |
+    - how about the most popular hotels
+    - what are the most popular hotels
+    - list hotels by popularity
+    - please rank hotel by popularity
+    - please sort hotel by popularity
+    - please list most popular hotels
+    - i want most popular hotels
+    - i am looking for most popular ones
+    - i am looking for most popular hotels
+    - i am interested in most popular hotels
+- intent: sort_room_by_review_score
+  examples: |
+    - how about the highest rating hotels
+    - what are the highest rating hotels
+    - what are the highest review score hotels
+    - what are the best score hotels
+    - list hotels by rating score
+    - list hotels by review score
+    - please rank hotel by rating
+    - please sort hotel by review score
+    - please list hightest rating hotels
+    - i want highest rating hotels
+    - i want highest review score hotels
+    - i want highest score hotels
+    - i want to see highest rating hotels first
+    - i like to see highest rating hotels first
+    - i am looking for highest rating score
+    - i am looking for hightest score hotels
+    - i am interested in ones with highest rating
+- intent: sort_room_by_price
+  examples: |
+    - how about the cheapest hotels
+    - what are the cheapest hotels
+    - i want cheap hotels
+    - i prefer lower price
+    - i prefer affordable hotel
+    - i want cheap hotels
+    - i want cheapest hotels
+    - list hotels by price
+    - please rank hotel by price
+    - please sort hotel by price
+    - please list hotel by price
+    - i want to see cheap hotels first
+    - i like see cheap hotels first
+    - i am looking for affordable hotels
+    - i am looking for cheap hotels
+    - i am interested in ones with good price
+    - i am interested in ones with low price
 - synonym: king
   examples: |
     - king size

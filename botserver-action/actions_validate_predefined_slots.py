@@ -14,6 +14,9 @@ from .duckling_service import (
     parse_bkinfo_price,
 )
 
+from .utils import calc_time_distance_in_days
+from .utils import SUSPICIOUS_CHECKIN_DISTANCE
+
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +88,11 @@ class ValidatePredefinedSlots(ValidationAction):
         if result.if_error('invalid_bkinfo_duration'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
             return {slot_name: None}
+
+        distance = calc_time_distance_in_days(result.value)
+        if distance > SUSPICIOUS_CHECKIN_DISTANCE:
+            dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
+
 
         return {slot_name: slot_value}
 
