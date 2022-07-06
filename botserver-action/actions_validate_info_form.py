@@ -93,9 +93,13 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
-        distance = calc_time_distance_in_days(result.value)
-        if distance > SUSPICIOUS_CHECKIN_DISTANCE:
-            dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
+        old_bkinfo_checkin_time = self.old_slot_value(tracker=tracker, slot_name=slot_name)
+        if old_bkinfo_checkin_time != slot_value:
+            distance = calc_time_distance_in_days(result.value)
+            if distance > SUSPICIOUS_CHECKIN_DISTANCE:
+                logger.info('[DEBUG] slot_value: %s', slot_value)
+                logger.info('[DEBUG] old_slot_value[bkinfo_checkin_time]: %s', self.old_slot_value(tracker, 'bkinfo_checkin_time'))
+                dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
 
         return {slot_name: slot_value}
 
