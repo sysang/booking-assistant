@@ -171,6 +171,10 @@ class FSMBotmemeBookingProgress():
         # ready <- fallback state
         return self.STATES[3]
 
+    @property
+    def bkinfo_status(self):
+        return list(self.form.values())
+
 
 def __test__():
     class DummyValidator():

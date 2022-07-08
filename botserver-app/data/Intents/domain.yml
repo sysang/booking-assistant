@@ -18,6 +18,7 @@ intents:
   - revise_price
   - request_checkin_time+request_room_reservation_duration
   - request_listing_hotel_by_area+request_checkin_time
+  - request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   - express_area
   - express_time
   - express_length_of_time
@@ -25,6 +26,7 @@ intents:
   - express_mountof_money
   - express_expected_mountof_money
   - greet
+  - bye
   - thank
   - affirm
   - deny

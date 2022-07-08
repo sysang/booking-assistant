@@ -1,9 +1,10 @@
 import os
 import logging
-from requests import post
-
-from tinydb import Query
 import arrow
+
+from cachetools import cached, TTLCache
+from tinydb import Query
+from requests import post
 from arrow import Arrow
 
 from .dbconnector import db
@@ -29,10 +30,11 @@ class ParseResult:
         'invalid_bkinfo_duration': 'invalid_bkinfo_duration',
     }
 
-    def __init__(self, value, unit='', parsed=None, error=None):
+    def __init__(self, value, unit='', value_type='', parsed=None, error=None):
         self.error = error
         self.value = value
         self.unit = unit
+        self.value_type = value_type
         self.parsed = parsed
         assert self.error in self.error_names.keys(), "error %s is not listed." % (self.error)
 
@@ -44,9 +46,10 @@ class ParseResult:
         return not self.error
 
     def __str__(self):
-        return '<ParseResult> error: %s, value: %s, unit: %s' % (self.error, self.value, self.unit)
+        return '<ParseResult> error: %s, value: %s, unit: %s, type: %s' % (self.error, self.value, self.unit, self.value_type)
 
 
+@cached(cache=TTLCache(maxsize=128, ttl=60))
 def duckling_parse(expression, dims, locale='en_US'):
     """
     r = post('http://duckling:8000/parse', data={"locale": "en_GB", "dims": "duration", "text": "3 days"})
@@ -80,42 +83,68 @@ def parse_checkin_time(expression):
 
     if parsed_dim != dim:
         error = ParseResult.error_names['failed']
-        return ParseResult(error=error, value=None)
+        return ParseResult(error=error, value=None, parsed=parsed)
 
-    parsed_val = parsed['value']['value']
+    """
+    parsed format is various depending on expression, cases:
+    - normal value such as: september 5th
+    - embedded value (duration) such as: from march 3rd to march 4th
+    check value type to determine which case, 'value' -> normal, 'interval' -> embedded
+    """
+    parsed_value = parsed['value']
+    val_type = parsed_value['type']
+    if val_type == 'interval':
+        value = parsed_value['from']['value']
+    else:
+        value = parsed_value['value']
     today_arw = arrow.now().replace(hour=0, minute=0, second=1)
-    checkin_time_arw = arrow.get(parsed_val).shift(minutes=1)
+    checkin_time_arw = arrow.get(value).shift(minutes=1)
     if today_arw.timestamp() > checkin_time_arw.timestamp():
         error = ParseResult.error_names['invalid_checkin_time']
         return ParseResult(error=error, value=None)
 
-    return ParseResult(value=parsed_val, parsed=parsed, error=None)
+    return ParseResult(value=value, value_type=val_type, parsed=parsed, error=None)
 
 
 def parse_bkinfo_duration(expression):
     dim = DIM_DURATION
+    dim_time = DIM_TIME
     units = [UNIT_DAY, UNIT_WEEK]
 
     parsed = duckling_parse(expression=expression, dims=dim)
 
+    """
+    parsed format is various depending on expression, cases:
+    - normal value such as: september 5th
+    - 'from exp1 to exp2' (duration) such as: from march 3rd to march 4th
+    check value type to determine which case, 'value' -> normal, 'from', 'to' -> 'from exps to exp2'
+    """
     if not parsed:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
 
     parsed_dim = parsed['dim']
+    parsed_value = parsed['value']
 
-    if parsed_dim != dim:
+    if parsed_dim == dim:
+        value = parsed_value['value']
+        parsed_unit = parsed_value['unit']
+    elif parsed_dim == dim_time and parsed_value.get('from') and parsed_value.get('to'):
+        parsed_unit = UNIT_DAY
+        time_from = parsed_value.get('from')
+        time_to = parsed_value.get('to')
+        time_delta = arrow.get(time_to.get('value')) - arrow.get(time_from.get('value'))
+        # NOTE: check-out date must be exclued when calculate staying duration
+        value = time_delta.days - 1
+    else:
         error = ParseResult.error_names['failed']
-        return ParseResult(error=error, value=None)
+        return ParseResult(error=error, value=None, parsed=parsed)
 
-    parsed_unit = parsed['value']['unit']
     if parsed_unit not in units:
         error = ParseResult.error_names['invalid_bkinfo_duration']
-        return ParseResult(error=error, value=None)
+        return ParseResult(error=error, value=None, parsed=parsed)
 
-    parsed_val = parsed['value']['value']
-
-    return ParseResult(value=parsed_val, unit=parsed_unit, parsed=parsed, error=None)
+    return ParseResult(value=value, unit=parsed_unit, parsed=parsed, error=None)
 
 
 def parse_bkinfo_price(expression):
@@ -133,14 +162,15 @@ def parse_bkinfo_price(expression):
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
 
-    parsed_val = parsed['value']['value']
-    if not parsed_val:
+    parsed_value = parsed['value']
+    value = parsed_value['value']
+    if not value:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
 
-    parsed_unit = parsed['value']['unit']
+    parsed_unit = parsed_value['unit']
 
-    return ParseResult(value=parsed_val, unit=parsed_unit, parsed=parsed, error=None)
+    return ParseResult(value=value, unit=parsed_unit, parsed=parsed, error=None)
 
 
 def __test__parse_checkin_time():

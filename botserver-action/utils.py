@@ -20,18 +20,6 @@ def parse_date_range(from_time, duration, format=DATE_FORMAT):
   return (arrobj_checkin.format(format), arrobj_checkout.format(format))
 
 
-def __test__parse_date_range():
-    from_time, to_time = parse_date_range('2022-01-01', 3)
-    assert from_time == '2022-01-01', "from_time is incorrect."
-    assert to_time == '2022-01-04', "to_time is incorrect."
-
-    from_time, to_time = parse_date_range('2022-01-01', 32)
-    assert from_time == '2022-01-01', "from_time is incorrect."
-    assert to_time == '2022-02-02', "to_time is incorrect."
-
-    print('Success.')
-
-
 def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
     mapped_slots = {}
     for slot_name, slot_conf in domain['slots'].items():
@@ -114,6 +102,18 @@ def picklize_search_result(data):
         return pickle.loads(bytes.fromhex(data))
 
     return None
+
+
+def __test__parse_date_range():
+    from_time, to_time = parse_date_range('2022-01-01', 3)
+    assert from_time == '2022-01-01', "from_time is incorrect."
+    assert to_time == '2022-01-04', "to_time is incorrect."
+
+    from_time, to_time = parse_date_range('2022-01-01', 32)
+    assert from_time == '2022-01-01', "from_time is incorrect."
+    assert to_time == '2022-02-02', "to_time is incorrect."
+
+    print('Success.')
 
 
 def __test__():

@@ -96,6 +96,32 @@ nlu:
     - [2 weeks](duration)
     - [200 years](duration)
     - [two days three hourse 1 minute](duration)
+- intent: express_time+express_length_of_time
+  examples: |
+    - [from monday to sunday](duration)
+    - [from monday to wednesday](duration)
+    - [from monday to thursday](duration)
+    - [from tuesday to thursday](duration)
+    - [from tuesday to friday](duration)
+    - [from thursday to friday](duration)
+    - [from friday to saturday](duration)
+    - [from saturday to sunday](duration)
+    - [from june 1st to june 2nd](duration)
+    - [from january 1st to february 10th](duration)
+    - [from february 5th to february 20th](duration)
+    - [from march 3rd to march 4th](duration)
+    - [from april 8th to april 30th](duration)
+    - [from may 29th to june 1st](duration)
+    - [from june 28th to july 2nd](duration)
+    - [from july 25th to october 3rd](duration)
+    - [from november 1st to december 1st](duration)
+    - [from 25/7/2022 to 3/10/2022](duration)
+    - [from 1/6/2022 to 2/6/2022](duration)
+    - [from 26/6/2022 to 2/07/2022](duration)
+    - [from 1/11/2022 to 1/12/2022](duration)
+    - [from february 3rd 2020 to february 4th 2021](duration)
+    - [from 5th to 7th this month](duration)
+    - [from 1st to 5th november](duration)
 - intent: express_bed_type
   examples: |
     - a [twin](bed_type) room

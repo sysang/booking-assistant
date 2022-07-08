@@ -24,6 +24,19 @@ slots:
       - idle
       - workingonbooking
       - chitchat #  in waiting user's request
+  botmind_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - terminate_session
+    mappings:
+      - type: from_intent
+        value: terminate_session
+        intent: bye
+      - type: from_intent
+        value: terminate_session
+        intent: stop_doing
   botmemo_booking_progress:  # working memory
     type: categorical
     mappings:
@@ -76,6 +89,14 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
   bkinfo_checkin_time:
     influence_conversation: false
     type: text
@@ -97,10 +118,32 @@ slots:
         entity: time
         conditions:
         - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
       - type: from_entity
         intent: request_checkin_time+request_room_reservation_duration
         entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_checkin_time+request_room_reservation_duration
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent:
+        - request_checkin_time+request_room_reservation_duration
+        - express_time+express_length_of_time
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+        entity: duration
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
@@ -121,7 +164,23 @@ slots:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
       - type: from_entity
-        intent: request_checkin_time+request_room_reservation_duration
+        intent:
+        - request_checkin_time+request_room_reservation_duration
+        - express_time+express_length_of_time
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent:
+        - request_checkin_time+request_room_reservation_duration
+        - express_time+express_length_of_time
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
         entity: duration
         conditions:
         - active_loop: bkinfo_form

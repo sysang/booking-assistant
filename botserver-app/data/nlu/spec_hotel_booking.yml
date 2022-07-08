@@ -58,6 +58,7 @@ nlu:
     - i need it starting from [june 10th 2025](time)
     - my stay will start on [next tuesday](time)
     - we will be arriving on [next monday](time)
+    - i need a room [today](time)
     - i would like to book a room on [this friday](time)
     - i would like to book a room on [tomorrow](time)
 - intent: request_bed_type
@@ -103,6 +104,15 @@ nlu:
     - i need it on [saturday](time), [3 nights](duration) stay
     - we will be staying on [monday](time) and staying [5 nights](duration)
     - i would like to book a room for [friday](time) for [four nights](duration)
+    - i’ll be staying for [from monday to sunday](duration)
+    - book it for [from saturday to sunday](duration)
+    - i will be there for [from june 1st to june 2nd](duration)
+    - i will need a room for [from february 5th to february 20th](duration)
+    - can i book that for [from march 3rd to march 4th](duration)
+    - i would like to book a room for [from november 1st to december 1st](duration)
+    - i would like to book a room for [from 1/11/2022 to 1/12/2022](duration)
+    - i’ll be staying for [from 25/7/2022 to 3/10/2022](duration)
+    - book it for [from 1/6/2022 to 2/6/2022](duration)
 - intent: request_listing_hotel_by_area+request_checkin_time
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](time)
@@ -110,6 +120,25 @@ nlu:
     - i'm looking for a hotel in [florida](area) on [september 5th](time)
     - can you tell us if there is a hotel in [san diego](area) on [monday](time)
     - i am looking for an average priced place in [san diago](area) on [june 29th](time). thankyou.
+- intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  examples: |
+    - i need to book a hotel for a trip to [los angeles](area) starting [from friday to sunday](duration)
+    - i need to book a hotel in [bangkok](area) from [from november 1st to december 1st](duration)
+    - can you find me an place to stay that is located in [nha trang city](area) [from october 3rd to october 4th](duration)
+    - i'm looking for a hotel in [austin](area) [from september 5th to september 20th](time)
+    - can you tell us if there is a hotel in [tokyo](area) [from 1/6/2023 to 2/6/2023](duration)
+    - i am looking for an average priced place in [san diago](area) [from 25/7/2022 to 3/10/2022](duration)
+    - can you find me an place to stay that is located in [fort lauderdale beach](area)
+    - i'm looking for a hotel in [florida](area) [from 1/6/2022 to 2/6/2022](duration)
+    - i'm searching for a hotel in [florida](area) [from 2/6/2022 to 4/6/2022](duration)
+    - i'm searching for a hotel in [da dang](area), vietnam [from 10/7/2022 to 13/7/2022](duration)
+    - hi! can you help me find a hotel somewhere on [hawaii](area) please [from 1/11/2022 to 2/11/2022](duration)
+    - can you tell us if there is a hotel in [san diego](area) [from 1/6/2022 to 2/6/2022](duration)
+    - i am looking for an average priced place in [san diago](area). thankyou. [from 1/1/2022 to 10/1/2023](duration)
+    - i'm looking for a hotel to stay in during my visit to [florida](area) [from 1/7/2022 to 2/6/2022](duration)
+    - i need a hotel room in [florida](area), could you help [from january 3rd 2020 to january 4th 2021](duration)
+    - i am going to travel to [ho chi minh city](area), vietnam [from 15th to 17th this month](duration)
+    - i want to visit [bangkok](area) [from 1st to 4th november](duration)
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)

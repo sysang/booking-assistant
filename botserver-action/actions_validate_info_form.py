@@ -36,24 +36,6 @@ class ValidateBkinfoForm(FormValidationAction):
     def is_slot_requested(self, tracker, slot_name):
         return tracker.slots.get('requested_slot', None) == slot_name
 
-    def utter_if_revised_bkinfo(self, tracker, dispatcher, domain, slot_name):
-
-        entities = tracker.latest_message['entities']
-        intent = tracker.latest_message['intent']
-        mapped_slots = self.slots_for_entities(entities, domain)
-
-        if intent['name'] == 'nlu_fallback':
-            return True
-
-        if self.is_slot_requested(tracker, slot_name):
-            return True
-
-        if slot_name not in mapped_slots.keys():
-            return True
-
-        response = f"utter_revised_{slot_name}"
-        dispatcher.utter_message(response=response)
-
     def validate_bkinfo_area(
         self,
         slot_value: Any,
@@ -63,14 +45,7 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slot_name = 'bkinfo_area'
 
-        # self.utter_if_revised_bkinfo(
-        #     dispatcher=dispatcher,
-        #     tracker=tracker,
-        #     domain=domain,
-        #     slot_name=slot_name,
-        # )
-
-        return {}
+        return {slot_name: slot_value}
 
 
     def validate_bkinfo_checkin_time(
@@ -101,7 +76,24 @@ class ValidateBkinfoForm(FormValidationAction):
                 logger.info('[DEBUG] old_slot_value[bkinfo_checkin_time]: %s', self.old_slot_value(tracker, 'bkinfo_checkin_time'))
                 dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
 
-        return {slot_name: slot_value}
+        current_slot = {slot_name: slot_value}
+
+        entities = [ entity['entity'] for entity in tracker.latest_message['entities'] ]
+        # 'time', 'duration' are entity, duration is mapped to bkinfo_checkin_time when:
+        # - text: alike 'from exp1 to exp2'
+        # - text: request_checkin_time+request_room_reservation_duration
+        if 'time' not in entities and 'duration' in entities:
+            extension_slot = self.validate_bkinfo_duration(
+                slot_value=slot_value,
+                dispatcher=dispatcher,
+                tracker=tracker,
+                domain=domain,
+            )
+
+            # TODO: be cautious at this hacking -> using validation of one field to manipulate value's other field
+            return {**current_slot, **extension_slot}
+
+        return current_slot
 
     def validate_bkinfo_duration(
         self,
@@ -121,7 +113,7 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
-        return {}
+        return {slot_name: slot_value}
 
     def validate_bkinfo_bed_type(
         self,
@@ -132,7 +124,7 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slot_name = 'bkinfo_bed_type'
 
-        return {}
+        return {slot_name: slot_value}
 
     def validate_bkinfo_price(
         self,
@@ -148,4 +140,4 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_price')
             return {slot_name: self.old_slot_value(tracker, slot_name)}
 
-        return {}
+        return {slot_name: slot_value}

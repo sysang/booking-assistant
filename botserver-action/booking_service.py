@@ -107,10 +107,10 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
             room = curate_room_info(hotel=hotel, block=block, ref_rooms=ref_rooms)
 
             if not verifyif_room_in_price_range(room=room, price=max_price.value):
-                logger.info('[INFO] room, %s, does not match price', room['room_id'])
+                logger.info('[INFO] room, %s, does not match price, room_min_price: %s, max_price: %s', room['room_id'], room['min_price'], max_price.value)
                 continue
             if not verifyif_room_has_bed_type(room_bed_type=room['bed_type'], bed_type=bkinfo_bed_type):
-                logger.info('[INFO] room, %s, does not match bed type', room['room_id'])
+                logger.info('[INFO] room, %s, does not match bed type, room_bed_type: %s, bkinfo_bed_type: %s', room['room_id'], room['bed_type'].get('name'), bkinfo_bed_type)
                 continue
 
             hotel_id = room['hotel_id']
@@ -170,25 +170,25 @@ def curate_room_info(hotel, block, ref_rooms):
     room = ref_rooms[room_id]
 
     return {
-        'hotel_id': hotel['hotel_id'],
-        'hotel_name_trans': hotel['hotel_name_trans'],
-        'address_trans': hotel['address_trans'],
-        'hotel_photo_url': hotel['max_1440_photo_url'],
-        'city_trans': hotel['city_trans'],
+        'hotel_id': hotel.get('hotel_id', ''),
+        'hotel_name_trans': hotel.get('hotel_name_trans', ''),
+        'address_trans': hotel.get('address_trans', ''),
+        'hotel_photo_url': hotel.get('max_1440_photo_url', ''),
+        'city_trans': hotel.get('city_trans', ''),
         'city_name_en': hotel.get('city_name_en', None),
-        'country_trans': hotel['country_trans'],
-        'is_beach_front': hotel['is_beach_front'],
-        'nearest_beach_name': hotel.get('nearest_beach_name', None),
+        'country_trans': hotel.get('country_trans', ''),
+        'is_beach_front': hotel.get('is_beach_front', False),
+        'nearest_beach_name': hotel.get('nearest_beach_name', ''),
         'review_score': float(hotel.get('review_score')) if hotel.get('review_score') else -1.0,
-        'min_price': float(block['product_price_breakdown']['gross_amount_per_night']['value']),
-        'price_currency': block['product_price_breakdown']['gross_amount_per_night']['currency'],
-        'max_occupancy': int(block['max_occupancy']),
-        'name_without_policy': block['name_without_policy'],
+        'min_price': float(block.get('product_price_breakdown', {}).get('gross_amount_per_night', {}).get('value', -1.0)),
+        'price_currency': block.get('product_price_breakdown', {}).get('gross_amount_per_night', {}).get('currency', 'unknown'),
+        'max_occupancy': int(block.get('max_occupancy', 2)),
+        'name_without_policy': block.get('name_without_policy', ''),
         'room_id': room_id,
         'bed_type': extract_bed_type(room),
-        'facilities': room['facilities'],
-        'description': room['description'],
-        'photos': room['photos'],
+        'facilities': room.get('facilities', []),
+        'description': room.get('description', ''),
+        'photos': room.get('photos', []),
     }
 
 

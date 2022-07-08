@@ -42,6 +42,13 @@ from .utils import (
     picklize_search_result,
 )
 from .utils import SORTBY_POPULARITY, SORTBY_REVIEW_SCORE, SORTBY_PRICE
+from .utils import parse_date_range
+
+from .duckling_service import (
+    parse_checkin_time,
+    parse_bkinfo_duration,
+    parse_bkinfo_price,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -264,12 +271,11 @@ class botacts_search_hotel_rooms(Action):
             for room in total_rooms[start:end]:
 
                 counter += 1
-                bed_type = room['bed_type']
-                photos = [ photo['url_original'] for photo in room['photos']]
+                room_bed_type = room.get('bed_type', {}).get('name', 'unknown')
+                photos = [ photo.get('url_original', '') for photo in room.get('photos', [])]
                 photos = photos[0:5]
                 photos = ' - ' + '\n - '.join(photos)
 
-                room_title = "Room #%s: %s, %s, %.2f %s" % (counter, room["name_without_policy"], bed_type['name'], room['min_price'], room['price_currency'])
                 data = {
                     'hotel_name': room['hotel_name_trans'],
                     'address': room['address_trans'],
@@ -277,25 +283,26 @@ class botacts_search_hotel_rooms(Action):
                     'country': room['country_trans'],
                     'review_score': room['review_score'],
                     'nearest_beach_name': 'near ' + room['nearest_beach_name'] if room['is_beach_front'] else '',
-                    'room_title': room_title,
                     'photos': photos,
+                    'room_display_index': counter,
+                    'room_name': room['name_without_policy'],
+                    'room_bed_type': room.get('bed_type', {}).get('name', 'unknown'),
+                    'room_min_price': room['min_price'],
+                    'room_price_currency': room['price_currency'],
                 }
+
+                room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}, {hotel_name}" . format(**data)
+                room_photos = "Room's photos:\n{photos}" . format(**data)
+                hotel_descrition = "{hotel_name}, address: {address}, {city}, {country}. Review score: {review_score}; {nearest_beach_name}" . format(**data)
 
                 # IMPORTANT: the json format of params is very strict, use \' instead of \" will yield silently no effect
                 payload = { 'room_id': room['room_id'] }
                 btn_payload = "/user_click_to_select_room%s" % (json.dumps(payload))
 
-                buttons.append({ "title": room_title, "payload": btn_payload})
-
-                dispatcher.utter_message(image=room['hotel_photo_url'])
-
-                hotel_descrition = "{hotel_name}, address: {address}, {city}, {country}. Review score: {review_score}; {nearest_beach_name}" . format(**data)
-                room_description = "{room_title}" . format(**data)
-                room_photos = "Room's photos:\n{photos}" . format(**data)
-
                 dispatcher.utter_message(text=room_description)
-                dispatcher.utter_message(text=hotel_descrition)
                 dispatcher.utter_message(text=room_photos)
+                dispatcher.utter_message(image=room['hotel_photo_url'], text=hotel_descrition)
+                buttons.append({ "title": room_description, "payload": btn_payload})
                 # logger.info("[INFO] buttons: %s", buttons)
 
             query = {
@@ -350,10 +357,27 @@ class botacts_confirm_room_selection(Action):
                 SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
                 FollowupAction(name='action_listen'),
             ]
-
+    checkin_time = parse_checkin_time(expression=slots.get('bkinfo_checkin_time'))
+    duration = parse_bkinfo_duration(expression=slots.get('bkinfo_duration'))
+    checkin_date, checkout_date = parse_date_range(from_time=checkin_time.value, duration=duration.value, format='MMM DD YYYY')
 
     hotel_name = room['hotel_name_trans']
-    dispatcher.utter_message(response="utter_room_selection", hotel_name=hotel_name)
+    data = {
+        'room_name': room['name_without_policy'],
+        'room_bed_type': room.get('bed_type', {}).get('name', 'unknown'),
+        'room_min_price': room['min_price'],
+        'room_price_currency': room['price_currency'],
+    }
+    room_description = "Room details: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+
+    dispatcher.utter_message(
+        response="utter_room_selection",
+        hotel_name=hotel_name,
+        duration=duration.value,
+        checkin_date=checkin_date,
+        checkout_date=checkout_date,
+        room_description=room_description,
+    )
 
     events = [AllSlotsReset()]
 
@@ -373,6 +397,53 @@ class botacts_start_conversation(Action):
         return events
 
 
+class botacts_utter_bye(Action):
+
+    def name(self) -> Text:
+        return "botacts_utter_bye"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(response='utter_bye')
+
+        return [Restarted()]
+
+
+class botacts_start_booking_progress(Action):
+
+    def name(self) -> Text:
+        return "botacts_start_booking_progress"
+
+    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        return slots_for_entities(entities, intent, domain)
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        logger.info('[DEBUG] entities: %s', entities)
+        intent = tracker.latest_message['intent']
+        mapped_slots = self.slots_for_entities(entities, intent, domain)
+
+        search_result_flag = 'waiting'
+        botmind_context = 'workingonbooking'
+
+        additional= {'botmind_context': botmind_context, 'search_result_flag': search_result_flag}
+        botmemo_booking_progress = FSMBotmemeBookingProgress(
+            slots=tracker.slots,
+            additional={**mapped_slots, **additional},
+        )
+        events = [
+            SlotSet('botmind_context', botmind_context),
+            botmemo_booking_progress.SlotSetEvent,
+            SlotSet('botmemo_bkinfo_status', botmemo_booking_progress.bkinfo_status),
+            SlotSet('search_result_flag', search_result_flag),
+        ]
+
+        for slot_name, slot_value in mapped_slots.items():
+            events.append(SlotSet(slot_name, slot_value))
+
+        return events
+
+
 class botacts_express_bot_job_to_support_booking(Action):
 
     def name(self) -> Text:
@@ -382,15 +453,18 @@ class botacts_express_bot_job_to_support_booking(Action):
 
         dispatcher.utter_message(response='utter_bot_job_to_support_booking')
 
+        search_result_flag = 'waiting'
+        botmind_context = 'workingonbooking'
+
         botmemo_booking_progress = FSMBotmemeBookingProgress(
             slots=tracker.slots,
-            additional={'botmind_context': 'workingonbooking', 'search_result_flag': 'waiting'},
+            additional={'botmind_context': botmind_context, 'search_result_flag': search_result_flag},
         )
         events = [
-            SlotSet('botmind_context', 'workingonbooking'),
-            SlotSet('search_result_flag', 'waiting'),
+            SlotSet('botmind_context', botmind_context),
             botmemo_booking_progress.SlotSetEvent,
-            SlotSet('botmemo_bkinfo_status', [None] * len(FSMBotmemeBookingProgress.FORM_SCHEMA)),
+            SlotSet('botmemo_bkinfo_status', botmemo_booking_progress.bkinfo_status),
+            SlotSet('search_result_flag', search_result_flag),
         ]
 
         return events
@@ -498,7 +572,7 @@ class action_bkinfo_status_slot_mapping(Action):
         intent = tracker.latest_message['intent']
         mapped_slots = self.slots_for_entities(entities, intent, domain)
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=mapped_slots)
-        slot_value = list(botmemo_booking_progress.form.values())
+        slot_value = botmemo_booking_progress.bkinfo_status
 
         if not botmemo_bkinfo_status:
             return [SlotSet('botmemo_bkinfo_status', None)]

@@ -67,7 +67,7 @@ responses:
     - text: "I'm so sorry, but I couldn't find anything fitting your specifications."
 
   utter_room_selection:
-    - text: "You've selected a {bkinfo_bed_type} bed(s) room in {bkinfo_duration}, checkin at {bkinfo_checkin_time}, {hotel_name}."
+    - text: "You've booked a room of {hotel_name} for {duration} day(s), from {checkin_date} to {checkout_date}. {room_description}."
 
   utter_aware_checkin_date:
     - text: "Please be aware about the check-in date, it is after {checkin_distance} days."
@@ -79,6 +79,9 @@ responses:
     - text: "Goodbye!"
     - text: "Bye!"
     - text: "Bye, was nice talking to you!"
+
+  utter_asking_confirm_stop_booking:
+    - text: "I will forget things we've don so far, are you sure want to stop booking?"
 
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."

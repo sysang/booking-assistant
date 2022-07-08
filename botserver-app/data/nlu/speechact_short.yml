@@ -679,6 +679,29 @@ nlu:
     - That tool here isnt good
     - boring
 
+- intent: stop_doing
+  examples: |
+    - stop working on it
+    - stop doing it
+    - stop doing that
+    - stop it
+    - please stop
+    - stop it
+    - stop it
+    - terminate it
+    - cease it
+    - please cease it
+    - i no long want to do that
+    - i have to go
+    - i do not want to do it
+    - i do not have time to do it
+    - i quit
+    - don't do it
+    - please don't
+    - we should stop
+    - could you stop
+    - this does not work
+
 - intent: agent_ready
   examples: |
     - are you ready

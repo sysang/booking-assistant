@@ -4,17 +4,82 @@ rules:
 - rule: bye
   steps:
   - intent: bye
-  - action: utter_bye
+  - action: botacts_utter_bye
 
-- rule: bkinfo_form, bye
+- rule: bkinfo_form, bye, affirm
   condition:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
+    - botmind_intention: null
     - botmemo_booking_progress: null
   - active_loop: bkinfo_form
   steps:
   - intent: bye
+  - slot_was_set:
+    - botmind_intention: terminate_session
+  - action: action_execution_rejected
   - action: action_deactivate_loop
   - active_loop: null
-  - action: utter_bye
+  - action: utter_asking_confirm_stop_booking
+  - intent: affirm
+  - action: botacts_utter_bye
+
+- rule: bkinfo_form, stop_doing, affirm
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmind_intention: null
+    - botmemo_booking_progress: null
+  - active_loop: bkinfo_form
+  steps:
+  - intent: stop_doing
+  - slot_was_set:
+    - botmind_intention: terminate_session
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_asking_confirm_stop_booking
+  - intent: affirm
+  - action: botacts_utter_bye
+
+- rule: bkinfo_form, bye, deny
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmind_intention: null
+    - botmemo_booking_progress: null
+  - active_loop: bkinfo_form
+  steps:
+  - intent: bye
+  - slot_was_set:
+    - botmind_intention: terminate_session
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_asking_confirm_stop_booking
+  - intent: deny
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+
+- rule: bkinfo_form, stop_doing, deny
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmind_intention: null
+    - botmemo_booking_progress: null
+  - active_loop: bkinfo_form
+  steps:
+  - intent: stop_doing
+  - slot_was_set:
+    - botmind_intention: terminate_session
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_asking_confirm_stop_booking
+  - intent: deny
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
