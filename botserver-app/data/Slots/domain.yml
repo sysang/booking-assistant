@@ -29,14 +29,12 @@ slots:
     influence_conversation: true
     initial_value: null
     values:
-      - terminate_session
+      - engage_interrogative
+      - engage_affirmative
+      - engage_negative
     mappings:
-      - type: from_intent
-        value: terminate_session
-        intent: bye
-      - type: from_intent
-        value: terminate_session
-        intent: stop_doing
+      - type: custom
+        action: action_botmind_intention_mappings
   botmemo_booking_progress:  # working memory
     type: categorical
     mappings:
@@ -60,6 +58,15 @@ slots:
     values:
       - missing_booking_info
       - missing_room_id
+  interlocutor_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - terminate_session
+    mappings:
+      - type: custom
+        action: action_interlocutor_intention_mappings
   bkinfo_room_id:
     influence_conversation: true
     type: float

@@ -701,6 +701,68 @@ nlu:
     - we should stop
     - could you stop
     - this does not work
+    - cancel
+    - abort
+    - annul
+    - cancel it
+    - cancel request
+    - cancelled
+    - dismiss
+    - dismissed
+    - disregard
+    - disregard that
+    - skip
+    - skip it
+    - cancel everything
+    - cancel all
+    - forget about it
+    - forget
+    - don't do that
+    - stop
+    - just forget it
+    - forget that
+    - discard
+    - forget this
+    - just forget about it
+    - forget about that
+    - i said cancel
+    - just cancel it
+    - nothing cancel
+    - just stop it
+    - no cancel cancel
+    - no just cancel
+    - cancel my request
+    - can you cancel that
+    - cancel all that
+    - cancel this request
+    - no cancel this
+    - no cancel everything
+    - no stop
+    - just forget
+    - i want to cancel
+    - nevermind forget about it
+    - no just cancel it
+    - nothing just forget it
+    - i said cancel it
+    - cancel the whole thing
+    - can you cancel it
+    - so cancel
+    - i said forget it
+    - cancel all this
+    - forget it nevermind
+    - stop it
+    - i want to cancel it
+    - i would like to cancel
+    - now cancel
+    - cancel now
+    - sorry cancel
+    - cancel that one
+    - skip skip skip
+    - cancel it cancel it
+    - cancel that cancel that
+    - do nothing
+    - I said cancel cancel
+    - but can you cancel it
 
 - intent: agent_ready
   examples: |

@@ -14,6 +14,7 @@ from .duckling_service import (
     parse_bkinfo_duration,
     parse_bkinfo_price,
 )
+from .booking_service import search_locations
 
 from .utils import slots_for_entities, calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
@@ -45,6 +46,11 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slot_name = 'bkinfo_area'
 
+        candidates = search_locations(name=slot_value)
+        if len(candidates) == 0:
+            dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
+            return {slot_name: None}
+
         return {slot_name: slot_value}
 
 
@@ -62,18 +68,17 @@ class ValidateBkinfoForm(FormValidationAction):
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_inform_invalid_info')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         if result.if_error('invalid_checkin_time'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
+        # detect change in checkin_time, only issue alert after a new change
         old_bkinfo_checkin_time = self.old_slot_value(tracker=tracker, slot_name=slot_name)
         if old_bkinfo_checkin_time != slot_value:
             distance = calc_time_distance_in_days(result.value)
             if distance > SUSPICIOUS_CHECKIN_DISTANCE:
-                logger.info('[DEBUG] slot_value: %s', slot_value)
-                logger.info('[DEBUG] old_slot_value[bkinfo_checkin_time]: %s', self.old_slot_value(tracker, 'bkinfo_checkin_time'))
                 dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
 
         current_slot = {slot_name: slot_value}
@@ -107,11 +112,11 @@ class ValidateBkinfoForm(FormValidationAction):
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_inform_invalid_info')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         if result.if_error('invalid_bkinfo_duration'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         return {slot_name: slot_value}
 
@@ -138,6 +143,6 @@ class ValidateBkinfoForm(FormValidationAction):
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_price')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         return {slot_name: slot_value}

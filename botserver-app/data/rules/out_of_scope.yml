@@ -7,6 +7,7 @@ rules:
     - botmind_state: attentive
     - botmind_context: idle
     - botmemo_booking_progress: null
+  - active_loop: null
   steps:
   - intent: out_of_scope
   - action: utter_out_of_scope
@@ -17,7 +18,7 @@ rules:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: room_showing
-    - requested_slot: null
+  - active_loop: null
   steps:
   - intent: out_of_scope
   - action: utter_out_of_scope
@@ -37,6 +38,7 @@ rules:
   - action: utter_out_of_scope
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false
 
 - rule: form execution, response to out_of_scope
   condition:
@@ -53,3 +55,4 @@ rules:
   - action: utter_out_of_scope
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false

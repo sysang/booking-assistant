@@ -1,0 +1,23 @@
+stories:
+- name: request to search hotel by provide area
+  steps:
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+
+stories:
+- name: request to search hotel by provide area, time
+  steps:
+    - 'i need to book a hotel for a trip to {area} starting from {time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+
+stories:
+- name: request to search hotel by provide area, time_duration
+  steps:
+    - 'i need to book a hotel for a trip to {area} starting {time_duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'

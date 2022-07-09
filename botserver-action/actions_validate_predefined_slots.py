@@ -13,6 +13,7 @@ from .duckling_service import (
     parse_bkinfo_duration,
     parse_bkinfo_price,
 )
+from .booking_service import search_locations
 
 from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
@@ -38,6 +39,13 @@ class ValidatePredefinedSlots(ValidationAction):
 
         slot_name = 'bkinfo_area_revised'
 
+        candidates = search_locations(name=slot_value)
+        if len(candidates) == 0:
+            dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
+            return {slot_name: None}
+
+        # hacking, to work around problem gave by validating action
+        # it recovers old value from being update by SlotSet event
         if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
             return {slot_name: None}
 

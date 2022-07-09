@@ -12,6 +12,8 @@ actions:
   - action_bkinfo_status_slot_mapping
   - action_botmemo_booking_progress_mapping
   - action_botmind_state_mapping
+  - action_botmind_intention_mappings
+  - action_interlocutor_intention_mappings
   - bot_relieves_imposition_to_think
   - bot_switchto_thinking
   - bot_let_action_emerges
@@ -22,3 +24,4 @@ actions:
   - botacts_confirm_room_selection
   - botacts_utter_revised_bkinfo
   - botacts_start_booking_progress
+  - botacts_utter_asking_confirm_stop_booking

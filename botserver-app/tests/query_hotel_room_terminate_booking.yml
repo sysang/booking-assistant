@@ -1,0 +1,61 @@
+stories:
+- name: say bye at the very beginning
+  steps:
+    - 'bye'
+
+- name: say bye after say hi
+  steps:
+    - 'hi'
+    - 'bye'
+
+- name: say bye after initialized
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'bye'
+
+- name: say bye after initialized
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'bye'
+
+- name: say bye after provide bed type, deny
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - 'bye'
+    - 'no'
+
+- name: say bye after provide bed type, affirm
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - 'bye'
+    - 'yes'
+
+- name: say bye at room_showing, deny
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+    - 'bye'
+    - 'no'
+
+- name: say bye at room_showing, affirm
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+    - 'bye'
+    - 'yes'

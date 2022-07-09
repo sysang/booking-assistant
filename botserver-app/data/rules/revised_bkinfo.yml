@@ -9,13 +9,14 @@ rules:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_area_revised: true
+    - bkinfo_area_revised: null
   steps:
     - intent: revise_area
     - slot_was_set:
-      - bkinfo_area_revised: 'bkinfo_area'
+      - bkinfo_area_revised: 'hawaii'
       - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
+  wait_for_user_input: false
 
 - rule: revise_checkin_time, bot utter revised bkinfo
   condition:
@@ -25,13 +26,14 @@ rules:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_checkin_time_revised: true
+    - bkinfo_checkin_time_revised: null
   steps:
     - intent: revise_checkin_time
     - slot_was_set:
-      - bkinfo_checkin_time_revised: 'bkinfo_checkin_time'
+      - bkinfo_checkin_time_revised: 'september 5th'
       - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
+  wait_for_user_input: false
 
 - rule: revise_room_reservation_duration, bot utter revised bkinfo
   condition:
@@ -41,13 +43,14 @@ rules:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_duration_revised: true
+    - bkinfo_duration_revised: null
   steps:
     - intent: revise_room_reservation_duration
     - slot_was_set:
-      - bkinfo_duration_revised: 'bkinfo_duration'
+      - bkinfo_duration_revised: '5 days'
       - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
+  wait_for_user_input: false
 
 - rule: revise_bed_type, bot utter revised bkinfo
   condition:
@@ -57,13 +60,14 @@ rules:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_bed_type_revised: true
+    - bkinfo_bed_type_revised: null
   steps:
     - intent: revise_bed_type
     - slot_was_set:
-      - bkinfo_bed_type: 'bkinfo_bed_type'
+      - bkinfo_bed_type: 'single'
       - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
+  wait_for_user_input: false
 
 - rule: revise_price, bot utter revised bkinfo
   condition:
@@ -73,11 +77,12 @@ rules:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
     - search_result_flag: available
-    - bkinfo_price_revised: true
+    - bkinfo_price_revised: null
   steps:
     - intent: revise_price
     - slot_was_set:
-      - bkinfo_price_revised: 'bkinfo_price'
+      - bkinfo_price_revised: '200 usd'
       - botmemo_booking_progress: information_revised
     - action: botacts_utter_revised_bkinfo
+  wait_for_user_input: false
 

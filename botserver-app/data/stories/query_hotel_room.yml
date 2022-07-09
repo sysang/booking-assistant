@@ -6,12 +6,14 @@ stories:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: idle
+    - botmind_intention: null
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - bkinfo_orderby: null
     - search_result_flag: null
-    - search_result_query: true
+    - search_result_query: null
+    - interlocutor_intention: null
   - intent: request_searching_hotel
   - action: botacts_express_bot_job_to_support_booking
   - slot_was_set:
@@ -23,13 +25,16 @@ stories:
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_area
-  - or:
-    - intent: request_listing_hotel_by_area
-      entities:
-        - area: hawaii
-    - intent: express_area
-      entities:
-        - area: hawaii
+  # - or:
+  #   - intent: request_listing_hotel_by_area
+  #     entities:
+  #       - area: hawaii
+  #   - intent: express_area
+  #     entities:
+  #       - area: hawaii
+  - intent: express_area
+    entities:
+      - area: hawaii
   - slot_was_set:
     - botmemo_booking_progress: information_collecting
     - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]

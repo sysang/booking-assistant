@@ -406,7 +406,24 @@ class botacts_utter_bye(Action):
 
         dispatcher.utter_message(response='utter_bye')
 
-        return [Restarted()]
+        return [AllSlotsReset()]
+
+
+class botacts_utter_asking_confirm_stop_booking(Action):
+
+    def name(self) -> Text:
+        return "botacts_utter_asking_confirm_stop_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        botmemo_booking_progress = tracker.slots.get('botmemo_booking_progress')
+        not_working_conditions = [None, 'initialized']
+
+        if botmemo_booking_progress in not_working_conditions:
+            return [FollowupAction(name='botacts_utter_bye')]
+
+        dispatcher.utter_message(response='utter_asking_confirm_stop_booking')
+
+        return []
 
 
 class botacts_start_booking_progress(Action):
@@ -419,7 +436,7 @@ class botacts_start_booking_progress(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
-        logger.info('[DEBUG] entities: %s', entities)
+        logger.info('[INFO] entities: %s', entities)
         intent = tracker.latest_message['intent']
         mapped_slots = self.slots_for_entities(entities, intent, domain)
 
@@ -450,8 +467,11 @@ class botacts_express_bot_job_to_support_booking(Action):
         return "botacts_express_bot_job_to_support_booking"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(response='utter_bot_job_to_support_booking')
+        intent = tracker.latest_message['intent']['name']
+        if intent == 'request_searching_hotel'
+            dispatcher.utter_message(response='utter_bot_job_to_support_booking')
+        else:
+            dispatcher.utter_message(response='utter_bot_guess_to_booking')
 
         search_result_flag = 'waiting'
         botmind_context = 'workingonbooking'
@@ -587,3 +607,43 @@ class action_botmind_state_mapping(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         return []
+
+
+class action_botmind_intention_mappings(Action):
+
+    def name(self) -> Text:
+        return "action_botmind_intention_mappings"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        intent = tracker.latest_message['intent']['name']
+
+        slot_name = 'botmind_intention'
+        mind_map = {
+            'bye': 'engage_interrogative',
+            'stop_doing': 'engage_interrogative',
+            'affirm': 'engage_affirmative',
+            'deny': 'engage_negative',
+        }
+
+        slot_value = mind_map.get(intent, None)
+
+        return [SlotSet(slot_name, slot_value)]
+
+class action_interlocutor_intention_mappings(Action):
+
+    def name(self) -> Text:
+        return "action_interlocutor_intention_mappings"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        intent = tracker.latest_message['intent']['name']
+
+        slot_name = 'interlocutor_intention'
+        mind_map = {
+            'bye': 'terminate_session',
+            'stop_doing': 'terminate_session',
+        }
+
+        slot_value = mind_map.get(intent, None)
+
+        return [SlotSet(slot_name, slot_value)]
+

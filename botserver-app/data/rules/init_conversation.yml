@@ -41,6 +41,7 @@ rules:
     - botmemo_booking_progress: initialized
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false
 
 - rule: idle then start conversing on booking
   condition:
@@ -56,3 +57,4 @@ rules:
     - botmemo_booking_progress: initialized
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false

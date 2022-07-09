@@ -1,0 +1,158 @@
+version: "3.1"
+
+stories:
+- story: bkinfo_form, bye, deny
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: initialized
+    - botmemo_bkinfo_status: [null,null,null,null,null]
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+    - botmind_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+
+- story: bkinfo_form, bye, deny
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: ['bkinfo_checkin_time',null,null,null,null]
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+    - botmind_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+
+- story: bkinfo_form, bye, affirm
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,'bkinfo_checkin_time',null,null,null]
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: affirm
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_affirmative
+  - action: botacts_utter_bye
+
+- story: bkinfo_form, bye, deny
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,null,'bkinfo_duration',null,null]
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+
+- story: bkinfo_form, bye, affirm
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,null,null,'bkinfo_bed_type',null]
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: affirm
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_affirmative
+  - action: botacts_utter_bye
+
+- story: bkinfo_form, bye, affirm
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,null,null,null,'bkinfo_price']
+    - search_result_flag: waiting
+    - interlocutor_intention: null
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+

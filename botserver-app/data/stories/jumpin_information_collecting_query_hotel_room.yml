@@ -10,6 +10,10 @@ stories:
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
   - intent: request_listing_hotel_by_area
     entities:
       - area: hawaii
@@ -33,6 +37,10 @@ stories:
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
   - intent: request_listing_hotel_by_area+request_checkin_time
     entities:
       - area: hawaii
@@ -57,6 +65,10 @@ stories:
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
   - intent: request_checkin_time+request_room_reservation_duration
     entities:
       - time: september 5th
@@ -81,6 +93,10 @@ stories:
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
   - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
     entities:
       - area: hawaii

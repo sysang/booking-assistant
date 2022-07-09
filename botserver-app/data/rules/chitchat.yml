@@ -7,6 +7,7 @@ rules:
     - botmind_state: attentive
     - botmind_context: idle
     - botmemo_booking_progress: null
+  - active_loop: null
   steps:
   - intent: smalltalk
   - action: utter_smalltalk
@@ -17,7 +18,7 @@ rules:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: room_showing
-    - requested_slot: null
+  - active_loop: null
   steps:
   - intent: smalltalk
   - action: utter_smalltalk
@@ -37,6 +38,7 @@ rules:
   - action: utter_smalltalk
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false
 
 - rule: form execution, perform chitchat
   condition:
@@ -53,3 +55,35 @@ rules:
   - action: utter_smalltalk
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false
+
+- rule: bye, idle
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
+  - active_loop: null
+  steps:
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_confirm_room_selection
+  wait_for_user_input: false
+
+- rule: bye, idle
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+  - active_loop: null
+  steps:
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_confirm_room_selection
+  wait_for_user_input: false
+

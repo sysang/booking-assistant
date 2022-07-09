@@ -37,6 +37,9 @@ responses:
     - text: "what price per night you are looking for?"
     - text: "what price per night you would you prefer?"
 
+  utter_ask_valid_bkinfo_area:
+    - text: "I could not find any possible location, please provide more precise information."
+
   utter_ask_valid_bkinfo_checkin_time:
     - text: "Please provide check-in time that is equal or later than today."
 
@@ -77,7 +80,7 @@ responses:
 
   utter_bye:
     - text: "Goodbye!"
-    - text: "Bye!"
+    - text: "See you soon!"
     - text: "Bye, was nice talking to you!"
 
   utter_asking_confirm_stop_booking:
@@ -85,6 +88,9 @@ responses:
 
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."
+
+  utter_bot_guess_to_booking:
+    - text: "I though you're about to book a hotel."
 
   utter_asking_revise_booking_information:
     - text: "You should try with other options."
@@ -203,11 +209,6 @@ responses:
     - text: "That's my job."
     - text: "Of course I am."
 
-  utter_smalltalk/confirmation_yes:
-    - text: "Great!"
-    - text: "All right!"
-    - text: "Good!"
-
   utter_smalltalk/agent_sure:
     - text: "Yes."
     - text: "Of course."
@@ -249,18 +250,6 @@ responses:
   utter_smalltalk/appraisal_well_done:
     - text: "My pleasure."
     - text: "Glad I could help."
-
-  utter_smalltalk/confirmation_cancel:
-    - text: "That's forgotten. What next?"
-    - text: "Okay, cancelled. What next?"
-    - text: "Cancelled! What would you like to do next?"
-
-  utter_smalltalk/confirmation_no:
-    - text: "Understood."
-    - text: "Okay."
-    - text: "I see."
-    - text: "I understand."
-    - text: "Okay then."
 
   utter_smalltalk/dialog_hold_on:
     - text: "I can wait."

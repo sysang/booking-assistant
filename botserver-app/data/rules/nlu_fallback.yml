@@ -37,6 +37,7 @@ rules:
   - action: utter_please_rephrase
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false
 
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking, bkinfo_form, information_collecting
   condition:
@@ -53,3 +54,4 @@ rules:
   - action: utter_please_rephrase
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  wait_for_user_input: false

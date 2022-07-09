@@ -42,6 +42,19 @@ def load_data(testfile):
 
 endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
 
+testing_data = {
+    'area': 'bangkok',
+    'time': 'september 5th',
+    'duration': '3 days',
+    'time_duration': 'from september 5th to september 8th'
+    'bed_type': 'single',
+    'amount-of-money': '500 usd',
+    'time_invalid': '01/06/2022',
+    'duration_invalid': '23 hours',
+    'amount-of-money_invalid': '500 usa',
+
+}
+
 if __name__ == '__main__':
     stories = load_data(testfile)
     model_name = model.replace('.tar.gz', '')
@@ -61,12 +74,13 @@ if __name__ == '__main__':
         logger.info("- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---\n")
 
         for step in story['steps']:
-            payload = {'sender': tester, 'message': step}
-
+            message = step .format(**testing_data)
+            payload = {'sender': tester, 'message': message}
             r = requests.post(endpoind, data=json.dumps(payload))
             r.raise_for_status()
             body = r.json()
-            utter = "\n(USER)  %s" % (step)
+
+            utter = "\n(USER)  %s" % (message)
             logs = [ "(BOT)   -> %s" % (item.get('text', item.get('image', item.get('buttons')))) for item in body ]
             message = '\n'.join(logs) if len(logs) > 0 else '(BOT)   <<< error >>> '
             is_passed = is_passed and len(logs) > 0
@@ -74,6 +88,7 @@ if __name__ == '__main__':
             logger.info(utter)
             logger.info(message)
             time.sleep(0.1)
+
         result = 'passed' if is_passed else 'ERROR'
         logger.info(f"\n__________________________________________________________________  {result}  _________\n")
 
