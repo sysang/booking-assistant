@@ -90,7 +90,7 @@ query_hotel_room_terminate_booking_test:
 	make test testfile=$$testfile model=$(M)
 
 copyaddons:
-	docker cp botserver-app/addons/custom_slot_types.py rasachatbot-rasa-production-1:/app/addons/
+	docker cp botserver-app/addons rasachatbot-rasa-production-1:/app
 
 test_actions_fsm_botmemo_booking_progress:
 	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.fsm_botmemo_booking_progress import __test__; __test__();"'

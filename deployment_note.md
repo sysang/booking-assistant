@@ -4,7 +4,6 @@ wget -O -  https://get.acme.sh | sh -s email="sysangtiger@gmail.com" --install -
 /etc/certbot/acme.sh --install-cert -d dsysang.site --cert-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/
 
 # To inspect training dataset
-
 ```python
 from rasa.core.training import load_data
 from rasa.shared.core.domain import Domain
@@ -34,13 +33,15 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 `sudo service docker restart`
 
 # Build rasa:localdev for old processor which does not support new computing instruction set
-## rasa-3.2.1, tensorflow-2.7.3
-- `wget https://github.com/RasaHQ/rasa/archive/refs/tags/3.2.1.tar.gz`
-- `wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.7.3.tar.gz`
-- use Dockerfile-tf-v2.7.3 to build image -> sysang/tf-2.7.3-source-build
-- replace base image in rasa-3.2.1/docker/Dockerfile.base by sysang/tf-2.7.3-source-build:latest
-- replace rasa-3.2.1/Dockerfile by Dockerfile-rasa-3.2.1, use Dockerfile-rasa-3.2.1 to build rasa:localdev
-- (replace peotry.lock by peotry-rasa-3.2.1.lock which is resolved by pyproject.toml after exclude tensorflow section and set numpy===1.21.4)
++ rasa-3.2.1, tensorflow-2.7.3
+  - `wget https://github.com/RasaHQ/rasa/archive/refs/tags/3.2.1.tar.gz`
+  - `wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.7.3.tar.gz`
+  - use Dockerfile-tf-v2.7.3 to build image -> sysang/tf-2.7.3-source-build
+  - replace base image in rasa-3.2.1/docker/Dockerfile.base by sysang/tf-2.7.3-source-build:latest
+  - replace rasa-3.2.1/Dockerfile by Dockerfile-rasa-3.2.1, use Dockerfile-rasa-3.2.1 to build rasa:localdev
+  - (replace peotry.lock by peotry-rasa-3.2.1.lock which is resolved by pyproject.toml after exclude tensorflow section and set numpy===1.21.4)
 
 # To make nlu training cache has chane to happen -> terminate `rasa train` when it come train core
 (a trick to overcome a tricky bug, it caches nlu part for combining just only for curren  process, not for reusing in other process)
+
+# IMPOTANT: remember to run `make copyaddons`

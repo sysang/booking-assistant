@@ -6,9 +6,10 @@ upstream docker-rasax-api {
   server ${RASA_X_HOST} max_fails=0;
 }
 
-upstream docker-bot-frontend {
-  server ${BOT_FRONTEND_HOST} max_fails=0;
-}
+# failure
+# upstream docker-bot-frontend {
+#   server ${BOT_FRONTEND_HOST} max_fails=0;
+# }
 
 server {
 # listen            8080;
@@ -96,7 +97,7 @@ server {
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host $host;
-    proxy_pass http://docker-bot-frontend/;
+    proxy_pass http://botfrontend:8000;
   }
 
   location /nginx_status {

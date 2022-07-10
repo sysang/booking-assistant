@@ -13,7 +13,7 @@ from .duckling_service import (
     parse_bkinfo_duration,
     parse_bkinfo_price,
 )
-from .booking_service import search_locations
+from .booking_service import choose_location
 
 from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
@@ -39,8 +39,8 @@ class ValidatePredefinedSlots(ValidationAction):
 
         slot_name = 'bkinfo_area_revised'
 
-        candidates = search_locations(name=slot_value)
-        if len(candidates) == 0:
+        location = choose_location(name=slot_value)
+        if not location:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
             return {slot_name: None}
 

@@ -57,11 +57,11 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
     logger.info('[INFO] searching parameters: (bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby) -> (%s, %s, %s, %s, %s, %s)',
         bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby)
 
-    locations = search_locations(name=bkinfo_area)
-    locations = index_location_by_dest_type(data=locations)
-    destination = choose_location(data=locations)
+    destination = choose_location(name=bkinfo_area)
 
-    logger.info('[INFO] search_rooms, found %s locations that are suitable with bkinfo_area: %s', len(locations), bkinfo_area)
+    if not destination:
+        return {}
+
     logger.info('[INFO] will look for hotels in this destination: %s', destination)
 
     checkin_date = parse_checkin_time(expression=bkinfo_checkin_time)
@@ -339,9 +339,9 @@ def search_locations(name):
     return response.json()
 
 
-def index_location_by_dest_type(data):
+def index_location_by_dest_type(locations):
     result = {}
-    for item in data:
+    for item in locations:
         dest_type = item['dest_type']
         if result.get(dest_type, None):
             result[dest_type].append(item)
@@ -350,19 +350,25 @@ def index_location_by_dest_type(data):
 
     return result
 
-def choose_location(data):
+def choose_location(name):
     CITY = 'city'
-    REGION = 'REGION'
-    HOTEL = 'HOTEL'
+    REGION = 'region'
+    HOTEL = 'hotel'
+    # and something else...
 
-    if data.get(CITY, None):
-        return data.get(CITY)[0]
-    if data.get( REGION, None):
-        return data.get(REGION)[0]
-    if data.get(HOTEL):
-        return data.get(HOTEL)
-    else:
-        raise  NotImplementedError(f'There is dest_type has not recognized to retrieve. Info: %s' % (str(data.keys())))
+    locations = search_locations(name=name)
+    if len(locations) == 0:
+        return None
+    logger.info('[INFO] search_locations, found %s locations that are close to area: %s', len(locations), name)
+
+    indexed = index_location_by_dest_type(locations=locations)
+    if indexed.get(CITY, None):
+        return indexed.get(CITY)[0]
+    if indexed.get( REGION, None):
+        return indexed.get(REGION)[0]
+    logger.info('[WARNING] There is dest_type that can not recognized, indexed.keys(): %s', list(indexed.keys()))
+
+    return None
 
 
 """
