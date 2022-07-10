@@ -45,8 +45,8 @@ testall:
 	make query_hotel_room_chitchat_revisebkinfo_test model=$(M)
 	make query_hotel_room_chitchat_smalltalk_test model=$(M)
 	make query_hotel_room_donecollecting_revisebkinfo_test model=$(M)
-	make query_hotel_room_sorting model=$(M)
-	make query_hotel_room_terminate_booking model=$(M)
+	make query_hotel_room_sorting_test model=$(M)
+	make query_hotel_room_terminate_booking_test model=$(M)
 
 query_hotel_room_schema_test:
 	export testfile=query_hotel_room_schema; \

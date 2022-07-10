@@ -46,7 +46,7 @@ testing_data = {
     'area': 'bangkok',
     'time': 'september 5th',
     'duration': '3 days',
-    'time_duration': 'from september 5th to september 8th'
+    'time_duration': 'from september 5th to september 8th',
     'bed_type': 'single',
     'amount-of-money': '500 usd',
     'time_invalid': '01/06/2022',

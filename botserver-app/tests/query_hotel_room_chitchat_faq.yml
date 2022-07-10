@@ -11,7 +11,6 @@ stories:
     - 'what is bed type'
     - 'I want a {bed_type} bed room'
     - 'what is bed type'
-    - '200 USD'
     - '{amount-of-money}'
     - 'what is bed type'
     # - '/user_click_to_select_room{"room_id": 1}'

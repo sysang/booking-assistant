@@ -84,7 +84,7 @@ responses:
     - text: "Bye, was nice talking to you!"
 
   utter_asking_confirm_stop_booking:
-    - text: "I will forget things we've don so far, are you sure want to stop booking?"
+    - text: "I will forget things we've done so far, are you sure want to stop booking?"
 
   utter_bot_job_to_support_booking:
     - text: "My job is to help you to quickly find a suitable hotel."
