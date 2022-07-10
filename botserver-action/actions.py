@@ -123,8 +123,8 @@ class bot_let_action_emerges(Action):
         if duration.seconds < THRESHOLD:
             dispatcher.utter_message(response='utter_looping_fallback')
             return [
+                FollowupAction(name='action_listen'),
                 AllSlotsReset(),
-                FollowupAction(name='action_listen')
             ]
 
         return events
@@ -347,7 +347,6 @@ class botacts_confirm_room_selection(Action):
         return [
                 SlotSet('botmemo_booking_failure', 'missing_room_id'),
                 SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
-                FollowupAction(name='bot_let_action_emerges'),
             ]
 
     search_result = slots.get('notes_search_result')
@@ -358,7 +357,7 @@ class botacts_confirm_room_selection(Action):
         return [
                 SlotSet('botmemo_booking_failure', 'missing_room_id'),
                 SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
-                FollowupAction(name='action_listen'),
+                FollowupAction(name='bot_let_action_emerges'),
             ]
     checkin_time = parse_checkin_time(expression=slots.get('bkinfo_checkin_time'))
     duration = parse_bkinfo_duration(expression=slots.get('bkinfo_duration'))
@@ -383,8 +382,8 @@ class botacts_confirm_room_selection(Action):
     )
 
     events = [
-        AllSlotsReset(),
         FollowupAction(name='action_listen'),
+        AllSlotsReset(),
     ]
 
     return events
@@ -413,8 +412,8 @@ class botacts_utter_bye(Action):
         dispatcher.utter_message(response='utter_bye')
 
         return [
-            AllSlotsReset(),
             FollowupAction(name='action_listen'),
+            AllSlotsReset(),
         ]
 
 
