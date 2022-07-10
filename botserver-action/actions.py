@@ -122,7 +122,10 @@ class bot_let_action_emerges(Action):
         duration = datetime.now() - last
         if duration.seconds < THRESHOLD:
             dispatcher.utter_message(response='utter_looping_fallback')
-            return [AllSlotsReset()]
+            return [
+                AllSlotsReset(),
+                FollowupAction(name='action_listen')
+            ]
 
         return events
 
@@ -379,7 +382,10 @@ class botacts_confirm_room_selection(Action):
         room_description=room_description,
     )
 
-    events = [AllSlotsReset()]
+    events = [
+        AllSlotsReset(),
+        FollowupAction(name='action_listen'),
+    ]
 
     return events
 
@@ -406,7 +412,10 @@ class botacts_utter_bye(Action):
 
         dispatcher.utter_message(response='utter_bye')
 
-        return [AllSlotsReset()]
+        return [
+            AllSlotsReset(),
+            FollowupAction(name='action_listen'),
+        ]
 
 
 class botacts_utter_asking_confirm_stop_booking(Action):
@@ -468,7 +477,7 @@ class botacts_express_bot_job_to_support_booking(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         intent = tracker.latest_message['intent']['name']
-        if intent == 'request_searching_hotel'
+        if intent == 'request_searching_hotel':
             dispatcher.utter_message(response='utter_bot_job_to_support_booking')
         else:
             dispatcher.utter_message(response='utter_bot_guess_to_booking')

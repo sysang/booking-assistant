@@ -1,0 +1,21 @@
+stories:
+- name: Show room list, sort search result by score review
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+    - 'i like to see highest rating hotels first'
+
+- name: Show room list, sort search result by price
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '{amount-of-money}'
+    - 'what are the cheapest hotels'
+

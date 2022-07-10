@@ -159,7 +159,7 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 3.33e-5  # default 1e-3
-    epochs: 2043
+    epochs: 1201
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [8, 32]  # default [32, 256]

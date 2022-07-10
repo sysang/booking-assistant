@@ -69,7 +69,7 @@ rules:
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
-  - action: botacts_confirm_room_selection
+  - action: botacts_utter_asking_confirm_stop_booking
   wait_for_user_input: false
 
 - rule: bye, idle
@@ -84,6 +84,6 @@ rules:
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
-  - action: botacts_confirm_room_selection
+  - action: botacts_utter_asking_confirm_stop_booking
   wait_for_user_input: false
 
