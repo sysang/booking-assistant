@@ -13,12 +13,15 @@ tensorboard:
 testrasachatbot:
 	docker exec ailab zsh -c 'TIMESTAMP="$(shell date +%Y%m%d\[\]%H%M%S)" && cd /workspace/rasachatbot/botserver-app && rasa test core --out="results/$$TIMESTAMP"'
 
-tensorboard_dir := botserver-app/tensorboard/current
-log_dir = botserver-app/tensorboard/$(shell date +%Y%m%d-%H%M%S)/
 trainrasachatbot:
+	make archive_trainrasachabot
+	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v'
+
+tensorboard_dir := botserver-app/tensorboard/current
+log_dir = botserver-app/tensorboard/$(shell cd botserver-app/models/ && ls -td *.tar.gz | head -1)/
+archive_trainrasachabot:
 	test -d $(tensorboard_dir) && mv $(tensorboard_dir) $(log_dir) || echo 'Do not need to move current dir.'
 	mkdir -p $(tensorboard_dir) && chmod 777 $(tensorboard_dir)
-	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v'
 
 restartcontainers:
 	docker restart rasachatbot-rasa-x-1 && docker restart rasachatbot-action-server-1
@@ -42,6 +45,8 @@ testall:
 	make query_hotel_room_chitchat_revisebkinfo_test model=$(M)
 	make query_hotel_room_chitchat_smalltalk_test model=$(M)
 	make query_hotel_room_donecollecting_revisebkinfo_test model=$(M)
+	make query_hotel_room_sorting model=$(M)
+	make query_hotel_room_terminate_booking model=$(M)
 
 query_hotel_room_schema_test:
 	export testfile=query_hotel_room_schema; \
@@ -73,6 +78,14 @@ query_hotel_room_donecollecting_revisebkinfo_test:
 
 query_hotel_room_revise_invalid_bkinfo_test:
 	export testfile=query_hotel_room_revise_invalid_bkinfo; \
+	make test testfile=$$testfile model=$(M)
+
+query_hotel_room_sorting_test:
+	export testfile=query_hotel_room_sorting; \
+	make test testfile=$$testfile model=$(M)
+
+query_hotel_room_terminate_booking_test:
+	export testfile=query_hotel_room_terminate_booking; \
 	make test testfile=$$testfile model=$(M)
 
 copyaddons:

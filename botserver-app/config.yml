@@ -176,7 +176,7 @@ policies:
       text: 128
       action_text: 128
       label_action_text: 128  # default 128
-    encoding_dimension: 64
+    encoding_dimension: 32
     transformer_size:
       text: 128
       dialogue: 128
