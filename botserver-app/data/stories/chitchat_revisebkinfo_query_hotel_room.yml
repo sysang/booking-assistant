@@ -177,19 +177,19 @@ stories:
   - checkpoint: checkpoint_room_showing_available
   - intent: revise_room_reservation_duration
     entities:
-    - duration: 3
+    - duration: '3 days'
   - slot_was_set:
-    - bkinfo_duration_revised: 3
+    - bkinfo_duration_revised: '3 days'
     - botmemo_booking_progress: information_revised
   - action: botacts_utter_revised_bkinfo
   - slot_was_set:
-    - bkinfo_duration: 3
+    - bkinfo_duration: '3 days'
     - bkinfo_duration_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
   - action: botacts_search_hotel_rooms
   - slot_was_set:
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 3, 'bkinfo_bed_type', 'bkinfo_price']
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', '3 days', 'bkinfo_bed_type', 'bkinfo_price']
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
   - action: action_listen

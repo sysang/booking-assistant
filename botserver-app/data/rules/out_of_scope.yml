@@ -17,7 +17,9 @@ rules:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
+    - search_result_flag: available
   - active_loop: null
   steps:
   - intent: out_of_scope

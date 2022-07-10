@@ -11,12 +11,14 @@ rules:
   - intent: nlu_fallback
   - action: utter_please_rephrase
 
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking, room_showing
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, working on booking, showing room
   condition:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
     - botmemo_booking_progress: room_showing
+    - search_result_flag: available
     - requested_slot: null
   steps:
   - intent: nlu_fallback

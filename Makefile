@@ -38,6 +38,7 @@ test:
 	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
 
 testall:
+	rm -f botserver-app/tests/reports/*
 	make query_hotel_room_schema_test model=$(M)
 	make query_hotel_room_chitchat_faq_test model=$(M)
 	make query_hotel_room_chitchat_nlufallback_test model=$(M)

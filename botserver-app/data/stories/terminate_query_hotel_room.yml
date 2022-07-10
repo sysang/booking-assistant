@@ -79,6 +79,8 @@ stories:
     - interlocutor_intention: null
     - botmind_intention: engage_affirmative
   - action: botacts_utter_bye
+  - slot_was_set:
+    - botmind_intention: null
 
 - story: bkinfo_form, bye, deny
   steps:
@@ -129,8 +131,10 @@ stories:
     - interlocutor_intention: null
     - botmind_intention: engage_affirmative
   - action: botacts_utter_bye
+  - slot_was_set:
+    - botmind_intention: null
 
-- story: bkinfo_form, bye, affirm
+- story: bkinfo_form, bye, deny
   steps:
   - slot_was_set:
     - botmind_state: attentive
@@ -156,3 +160,50 @@ stories:
   - action: bkinfo_form
   - active_loop: bkinfo_form
 
+- story: form is completed, showing room, bye, deny
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - search_result_flag: available
+    - interlocutor_intention: null
+    - botmind_intention: null
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: botacts_search_hotel_rooms
+  - slot_was_set:
+    - botmind_intention: null
+    - search_result_flag: available
+    - botmemo_booking_progress: room_showing
+
+- story: form is completed, showing room, bye, affirm
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - search_result_flag: available
+    - interlocutor_intention: null
+    - botmind_intention: null
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  - intent: affirm
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_affirmative
+  - action: botacts_utter_bye
+  - slot_was_set:
+    - botmind_intention: null

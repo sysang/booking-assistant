@@ -645,8 +645,12 @@ class action_interlocutor_intention_mappings(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         intent = tracker.latest_message['intent']['name']
-
         slot_name = 'interlocutor_intention'
+        ignored_intents = ['bot_embodies_intention']
+        if intent in ignored_intents:
+            logger.info('[INFO] skip mapping due to intent: %s', intent)
+            return []
+
         mind_map = {
             'bye': 'terminate_session',
             'stop_doing': 'terminate_session',
