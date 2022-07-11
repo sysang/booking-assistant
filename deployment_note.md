@@ -1,7 +1,7 @@
 # SSL Setup using acme.sh
 wget -O -  https://get.acme.sh | sh -s email="sysangtiger@gmail.com" --install --force --home /etc/certbot  
 /etc/certbot/acme.sh --issue -d dsysang.site --nginx /etc/nginx/conf.d/rasax.nginx --home /etc/certbot/ --server buypass --force  
-/etc/certbot/acme.sh --install-cert -d dsysang.site --cert-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/
+/etc/certbot/acme.sh --install-cert -d dsysang.site --fullchain-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/
 
 # To inspect training dataset
 ```python
@@ -45,3 +45,13 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 (a trick to overcome a tricky bug, it caches nlu part for combining just only for curren  process, not for reusing in other process)
 
 # IMPOTANT: remember to run `make copyaddons`
+
+# Facebook Messenger Chanell
+- Reference: https://developers.facebook.com/docs/messenger-platform/webhooks
+- Reference: https://developers.facebook.com/docs/graph-api/reference/v14.0/app/subscriptions#readperms
+- Reference: https://developers.facebook.com/docs/facebook-login/guides/access-tokens#apptokens
+- Reference: https://rasa.com/docs/rasa/connectors/facebook-messenger
+- Go to https://developers.facebook.com/ -> [create app] -> (Business) -> [Messenger]
+- Go to Settings -> Basic -> use: App ID, App Secret
+- Go to Messenger -> Setting -> add page, add callback url, copy page access token to `page-access-token`
+- Go to Messenger -> Setting (Webhooks) to subsribe `message` filed for webhook
