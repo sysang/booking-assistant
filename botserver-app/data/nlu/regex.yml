@@ -1,0 +1,10 @@
+version: "3.1"
+
+language: en
+nlu:
+- regex: time
+  examples: |
+    - \d\d\/\d\d\/\d\d
+    - \d\d\/\d\d\/\d\d\d\d
+    - \d\d\-\d\d\-\d\d\d\d
+    - \d\d\d\d\-\d\d\-\d\d

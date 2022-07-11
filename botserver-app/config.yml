@@ -48,6 +48,15 @@ pipeline:
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
+  - name: RegexEntityExtractor
+    # text will be processed with case insensitive as default
+    case_sensitive: False
+    # use lookup tables to extract entities
+    use_lookup_tables: True
+    # use regexes to extract entities
+    use_regexes: True
+    # use match word boundaries for lookup table
+    use_word_boundaries: True
   - name: DIETClassifier
     intent_classification: True
     entity_recognition: True
@@ -161,7 +170,7 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 3.33e-5  # default 1e-3
-    epochs: 3091
+    epochs: 2043
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [8, 16]  # default [32, 256]
