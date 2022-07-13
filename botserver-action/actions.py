@@ -418,6 +418,16 @@ class botacts_start_conversation(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         events = [
             SlotSet('botmind_context', 'chitchat'),
+            # default values
+            SlotSet('botmind_state', 'attentive'),
+            SlotSet('botmind_intention', None),
+            SlotSet('botmemo_booking_progress', None),
+            SlotSet('botmemo_bkinfo_status', None),
+            SlotSet('bkinfo_room_id', None),
+            SlotSet('bkinfo_orderby', None),
+            SlotSet('search_result_flag', None),
+            SlotSet('search_result_query', None),
+            SlotSet('interlocutor_intention', None),
         ]
 
         return events
@@ -482,6 +492,13 @@ class botacts_start_booking_progress(Action):
             botmemo_booking_progress.SlotSetEvent,
             SlotSet('botmemo_bkinfo_status', botmemo_booking_progress.bkinfo_status),
             SlotSet('search_result_flag', search_result_flag),
+            # default values
+            SlotSet('botmind_state', 'attentive'),
+            SlotSet('botmind_intention', None),
+            SlotSet('botmemo_bkinfo_status', None),
+            SlotSet('bkinfo_orderby', None),
+            SlotSet('search_result_query', None),
+            SlotSet('interlocutor_intention', None),
         ]
 
         for slot_name, slot_value in mapped_slots.items():
