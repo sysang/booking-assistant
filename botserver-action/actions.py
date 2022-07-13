@@ -92,7 +92,7 @@ class bot_let_action_emerges(Action):
         return "bot_let_action_emerges"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        THRESHOLD = 1
+        THRESHOLD = 10
         parse_data = {
             "intent": {
                 "name": "bot_embodies_intention",
@@ -190,6 +190,7 @@ class botacts_search_hotel_rooms(Action):
 
         events = []
         slots = tracker.slots
+        channel = tracker.get_latest_input_channel()
         pagination_intent = 'user_click_to_navigate_search_result'
         LIMIT_NUM = 3
         notes_bkinfo = slots.get('notes_bkinfo')
@@ -225,31 +226,31 @@ class botacts_search_hotel_rooms(Action):
                 FollowupAction(name='botacts_confirm_room_selection'),
             ]
 
-        if TEST_ENV:
-            hashed_query = hash_bkinfo(bkinfo_orderby=bkinfo_orderby, **bkinfo)
-            hotels = query_available_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+        # if TEST_ENV:
+        # hashed_query = hash_bkinfo(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+        # hotels = query_available_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+
+        hashed_query = hash_bkinfo(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+        if notes_search_result and notes_search_result.get('hashed_query', None) == hashed_query:
+            hotels = notes_search_result.get('hotels', {})
+            hotels = picklize_search_result(data=hotels)
+            logger.info('[INFO] Retrieve hotels from notes_search_result slot.')
         else:
-            hashed_query = hash_bkinfo(bkinfo_orderby=bkinfo_orderby, **bkinfo)
-            if notes_search_result and notes_search_result.get('hashed_query', None) == hashed_query:
-                hotels = notes_search_result.get('hotels', {})
-                hotels = picklize_search_result(data=hotels)
-                logger.info('[INFO] Retrieve hotels from notes_search_result slot.')
-            else:
-                hotels = await search_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
-                events.append(SlotSet('notes_search_result', {
-                    'hashed_query': hashed_query,
-                    'hotels': picklize_search_result(data=hotels),
-                }))
+            hotels = await search_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+            events.append(SlotSet('notes_search_result', {
+                'hashed_query': hashed_query,
+                'hotels': picklize_search_result(data=hotels),
+            }))
 
-                if not isinstance(hotels, dict):
-                    error_message = '[ERROR] in botacts_search_hotel_rooms action, search_rooms returns wrong data type: %s.' % (type(hotels))
-                    return [
-                        SlotSet('botmemo_booking_failure', 'missing_booking_info'),
-                        SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
-                        FollowupAction(name='bot_let_action_emerges'),
-                    ]
+            if not isinstance(hotels, dict):
+                error_message = '[ERROR] in botacts_search_hotel_rooms action, search_rooms returns wrong data type: %s.' % (type(hotels))
+                return [
+                    SlotSet('botmemo_booking_failure', 'missing_booking_info'),
+                    SlotSet('logs_debugging_info', slots['logs_debugging_info'] + [error_message]),
+                    FollowupAction(name='bot_let_action_emerges'),
+                ]
 
-                logger.info('[INFO] request to booking_service, hotels: %s', hotels.keys())
+            logger.info('[INFO] request to booking_service, hotels: %s', hotels.keys())
 
         if len(hotels.keys()) == 0:
             dispatcher.utter_message(response="utter_room_not_available")
@@ -269,7 +270,7 @@ class botacts_search_hotel_rooms(Action):
             start, end, remains = paginate(index=page_number, limit=LIMIT_NUM, total=room_num)
             logger.info('[INFO] paginating search result by index=%s, limit=%s, total=%s -> (%s, %s, %s)', page_number, LIMIT_NUM, room_num, start, end, remains)
 
-            buttons = []
+            fb_elements = []
             counter = start
             for room in total_rooms[start:end]:
 
@@ -294,19 +295,36 @@ class botacts_search_hotel_rooms(Action):
                     'room_price_currency': room['price_currency'],
                 }
 
-                room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}, {hotel_name}" . format(**data)
-                room_photos = "Room's photos:\n{photos}" . format(**data)
+                room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}, {hotel_name}. Room's photos:\n{photos}" . format(**data)
+                # room_photos = "Room's photos:\n{photos}" . format(**data)
                 hotel_descrition = "{hotel_name}, address: {address}, {city}, {country}. Review score: {review_score}; {nearest_beach_name}" . format(**data)
 
                 # IMPORTANT: the json format of params is very strict, use \' instead of \" will yield silently no effect
                 payload = { 'room_id': room['room_id'] }
                 btn_payload = "/user_click_to_select_room%s" % (json.dumps(payload))
+                if channel == 'facebook':
+                    fb_button = 'Room #{room_display_index}'.format(**data)
+                    fb_elements.append({
+                        'title': hotel_descrition,
+                        'subtitle': room_description,
+                        'buttons': [
+                            {
+                                'title': fb_button,
+                                "type":"postback",
+                                'payload': btn_payload,
+                            }
+                        ]
+                    })
+                else:
+                    logger.info("[INFO] channel: %s", channel)
+                    btn_title = 'Room #{room_display_index}: {room_min_price} {room_price_currency}'.format(**data)
+                    button = { "title": btn_title, "payload": btn_payload}
 
-                dispatcher.utter_message(text=room_description)
-                dispatcher.utter_message(text=room_photos)
-                dispatcher.utter_message(image=room['hotel_photo_url'], text=hotel_descrition)
-                buttons.append({ "title": room_description, "payload": btn_payload})
-                # logger.info("[INFO] buttons: %s", buttons)
+                    dispatcher.utter_message(text=room_description, buttons=[button])
+                    dispatcher.utter_message(image=room['hotel_photo_url'], text=hotel_descrition)
+
+            if channel == 'facebook':
+                dispatcher.utter_message(elements=fb_elements, template_type="generic")
 
             query = {
                 'next': json.dumps({'page_number': page_number + 1, 'order_by': bkinfo_orderby}),
@@ -315,13 +333,16 @@ class botacts_search_hotel_rooms(Action):
                 'limit_num': LIMIT_NUM,
             }
 
+            buttons = []
             if page_number > 1:
                 query['prev'] = json.dumps({'page_number': page_number - 1, 'order_by': bkinfo_orderby})
-                buttons.append({'title': 'back {limit_num} rooms'.format(**query), 'payload': '/{intent}{prev}'.format(**query)})
+                # buttons.append({'title': 'back {limit_num} rooms'.format(**query), 'payload': '/{intent}{prev}'.format(**query)})
             if remains != 0:
-                buttons.append({'title': 'see more {remains} room(s)'.format(**query), 'payload': '/{intent}{next}'.format(**query)})
+                pass
+                # buttons.append({'title': 'see more {remains} room(s)'.format(**query), 'payload': '/{intent}{next}'.format(**query)})
 
-            dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
+            # dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
+            dispatcher.utter_message(response="utter_instruct_to_choose_room")
 
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional={'search_result_flag': 'available'})
         events.append(botmemo_booking_progress.SlotSetEvent)
