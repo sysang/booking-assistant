@@ -8,6 +8,6 @@ def index(request):
     return response
 
 def room_photos(request):
-    response = TemplateResponse(request, 'chatroom/room_photos.html', {})
+    images = request.GET.values()
 
-    return response
+    return TemplateResponse(request, 'chatroom/room_photos.html', {'images': images})

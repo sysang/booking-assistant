@@ -7,37 +7,59 @@
 
     <title>Room Photos</title>
 
-    <link rel="stylesheet" href="{% static 'room_photos/css/flickity.css' %}" />
-    <link rel="stylesheet" href="{% static 'room_photos/css/sandbox.css' %}" />
+    <link rel="stylesheet" href="{% static 'room_photos/css/flickity.min.css' %}" />
+    <style>
+        body {
+            background: #353935;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container{
+            position: relative;
+            top: 45%;
+            transform: translateY(-50%);
+            max-width: 928px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 5px;
+            background-color: linen;
+            border-radius: 5px;
+        }
+        #full-width{
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #full-width img {
+            width: 100%;
+            height: auto;
+            display: inline;
+        }
+    </style>
 
 </head>
 <body>
-
-    <div id="full-width" class="container">
-        <img src="https://cf.bstatic.com/xdata/images/hotel/max500/164573947.jpg?k=59ccbb639600f337dc7c4cba94f5fe64286f5c3f364c73f116c3a89c420918d6&o=" alt="..."/>
-        <img src="https://cf.bstatic.com/xdata/images/hotel/max500/130597254.jpg?k=30d5e5a103f935cd199454b6a30a9e3ab9307ad02e9f7d54cd393f8b99e4488b&o=" alt="..."/>
-        <img src="https://cf.bstatic.com/xdata/images/hotel/max500/130598905.jpg?k=86cf79ff311ff2391775579f32aa6f7136b572fa4d68c00a44e042620be542d4&o=" alt="..."/>
-        <img src="https://cf.bstatic.com/xdata/images/hotel/max500/130598901.jpg?k=f28969170b4486dadcddc457141bd0eb3273b046302e43771f7427386b05a2ce&o=" alt="..."/>
-        <img src="https://cf.bstatic.com/xdata/images/hotel/max500/164574015.jpg?k=84039c1234b426ba46d2fbd26989e6fda728bbe797281a9b4daa6a449e5b1749&o=" alt="..."/>
+    <div class="container">
+        <div id="full-width">
+            {% for img_src in images %}
+                <img src="{{ img_src }}" alt="..."/>
+            {% endfor %}
+        </div>
     </div>
 
-    <script src="{% static 'room_photos/js/get-size.js' %}"></script>
-    <script src="{% static 'room_photos/js/ev-emitter.js' %}"></script>
-    <script src="{% static 'room_photos/js/unidragger.js' %}"></script>
-    <script src="{% static 'room_photos/js/utils.js' %}"></script>
+    <script src="{% static 'room_photos/js/flickity.pkgd.min.js' %}"></script>
 
-    <script src="{% static 'room_photos/js/cell.js' %}"></script>
-    <script src="{% static 'room_photos/js/slide.js' %}"></script>
-    <script src="{% static 'room_photos/js/animate.js' %}"></script>
-    <script src="{% static 'room_photos/js/core.js' %}"></script>
-    <script src="{% static 'room_photos/js/drag.js' %}"></script>
-    <script src="{% static 'room_photos/js/prev-next-button.js' %}"></script>
-    <script src="{% static 'room_photos/js/page-dots.js' %}"></script>
-    <script src="{% static 'room_photos/js/player.js' %}"></script>
-    <script src="{% static 'room_photos/js/add-remove-cell.js' %}"></script>
-    <script src="{% static 'room_photos/js/lazyload.js' %}"></script>
-
-    <script src="{% static 'room_photos/js/button_url.js' %}"></script>
+    <script>
+        let flky = window.flky = new Flickity('#full-width', {
+            draggable: '>1',
+            freeScroll: true,
+            contain: true,
+            // disable previous & next buttons and dots
+            prevNextButtons: true,
+            pageDots: false,
+        });
+    </script>
 
 </body>
 </html>
