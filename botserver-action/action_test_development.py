@@ -34,7 +34,4 @@ class action_test_development(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        with open('actions/test_data/search_result.json', 'r') as f:
-            hotels = json.load(f)
-
-        return []
+        return [Restarted()]
