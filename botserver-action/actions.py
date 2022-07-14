@@ -5,6 +5,7 @@ import random
 import copy
 
 import arrow
+import requests
 
 from typing import Any, Dict, List, Text, Optional, Tuple
 from datetime import datetime
@@ -36,12 +37,12 @@ from .booking_service import search_rooms
 from .utils import (
     slots_for_entities,
     get_room_by_id,
-    extract_page_number_payload,
+    paginate_button_payload,
     paginate,
     hash_bkinfo,
     picklize_search_result,
 )
-from .utils import SORTBY_POPULARITY, SORTBY_REVIEW_SCORE, SORTBY_PRICE
+from .utils import SortbyDictionary
 from .utils import parse_date_range
 
 from .duckling_service import (
@@ -194,20 +195,21 @@ class botacts_search_hotel_rooms(Action):
         pagination_intent = 'user_click_to_navigate_search_result'
         notes_bkinfo = slots.get('notes_bkinfo')
         bkinfo_orderby = slots.get('bkinfo_orderby', None)
-        querystr = slots.get('search_result_query', '')
+        query_payload = slots.get('search_result_query', '')
         notes_search_result = slots.get('notes_search_result', {})
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
         bkinfo = botmemo_booking_progress.form
 
-        limit_num = 5 if channel == 'facebook' else 3
+        limit_num = 5 if channel == 'facebook' else 3 if channel == 'socketio' else 1
+
 
         if bkinfo_orderby:
             page_number = 1
-        elif querystr:
-            page_number, bkinfo_orderby = extract_page_number_payload(querystr)
+        elif query_payload:
+            page_number, bkinfo_orderby = paginate_button_payload(payload=query_payload)
 
         if not bkinfo_orderby:
-            bkinfo_orderby = SORTBY_POPULARITY
+            bkinfo_orderby = SortbyDictionary.SORTBY_POPULARITY
             page_number = 1
 
         logger.info('[INFO] navigation, bkinfo_orderby: %s, page_number: %s', bkinfo_orderby, page_number)
@@ -261,9 +263,9 @@ class botacts_search_hotel_rooms(Action):
             total_rooms = reduce(lambda x, y: x+y, hotels.values())
             room_num = len(total_rooms)
 
-            if SORTBY_REVIEW_SCORE== bkinfo_orderby:
+            if SortbyDictionary.SORTBY_REVIEW_SCORE == bkinfo_orderby:
                 dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_review_score", room_num=room_num)
-            elif SORTBY_PRICE == bkinfo_orderby:
+            elif SortbyDictionary.SORTBY_PRICE == bkinfo_orderby:
                 dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_price", room_num=room_num)
             else:
                 dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_popularity", room_num=room_num)
@@ -307,11 +309,14 @@ class botacts_search_hotel_rooms(Action):
                 # IMPORTANT: the json format of params is very strict, use \' instead of \" will yield silently no effect
                 payload = { 'room_id': room['room_id'] }
                 btn_payload = "/user_click_to_select_room%s" % (json.dumps(payload))
+                btn_payload = btn_payload.replace(' ', '')
 
                 logger.info("[INFO] channel: %s", channel)
 
+                fb_buttons = []
+                teleg_buttons = []
+
                 if channel == 'facebook':
-                    fb_buttons = []
 
                     if photos_presentation_url:
                         fb_buttons.append({
@@ -331,7 +336,8 @@ class botacts_search_hotel_rooms(Action):
                         'subtitle': '{hotel_name}. Score: {review_score}. Address: {address}, {nearest_beach_name}'.format(**data),
                         'buttons': fb_buttons,
                     })
-                else:
+
+                elif channel == 'socketio':
                     room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
                     room_photos = "Photos: \n{photos_url}" . format(**data)
                     hotel_descrition = "Hotel: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
@@ -341,24 +347,70 @@ class botacts_search_hotel_rooms(Action):
                     dispatcher.utter_message(text=hotel_descrition, image=room['hotel_photo_url'])
                     dispatcher.utter_message(text=room_photos)
 
+                elif channel=='telegram':
+                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+                    hotel_descrition = "Hotel: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+
+                    button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
+                    teleg_buttons.append(button)
+
+                    room_image_url = images[-1]
+                    r = requests.get(room_image_url)
+                    if len(images) != 0 and r.status_code == 200:
+                        dispatcher.utter_message(text=room_description, image=room_image_url)
+                    else:
+                        dispatcher.utter_message(text=room_description)
+
+                    hotel_image_url = room['hotel_photo_url']
+                    r = requests.get(hotel_image_url)
+                    if room.get('hotel_photo_url') and r.status_code == 200:
+                        dispatcher.utter_message(text=hotel_descrition, image=hotel_image_url)
+                    else:
+                        dispatcher.utter_message(text=hotel_descrition)
+
+            # End of `for room in total_rooms[start:end]:`
+
+            next_page = page_number + 1
+            prev_page = page_number - 1
             query = {
-                'next': json.dumps({'page_number': page_number + 1, 'order_by': bkinfo_orderby}),
                 'intent': pagination_intent,
                 'remains': remains,
                 'limit_num': limit_num,
+                'next': paginate_button_payload(page_number=next_page, bkinfo_orderby=bkinfo_orderby) if remains != 0 else None,
+                'prev': paginate_button_payload(page_number=prev_page, bkinfo_orderby=bkinfo_orderby) if page_number > 1 else None,
             }
+            prev_button_title = 'back {limit_num} rooms'.format(**query)
+            prev_button_payload = '/{intent}{prev}'.format(**query)
+            next_button_title = 'see more {remains} room(s)'.format(**query)
+            next_button_payload = '/{intent}{next}'.format(**query)
 
             if channel == 'facebook':
+                fb_buttons = []
                 dispatcher.utter_message(elements=fb_elements, template_type="generic")
 
-            buttons = []
-            if page_number > 1:
-                query['prev'] = json.dumps({'page_number': page_number - 1, 'order_by': bkinfo_orderby})
-                buttons.append({'title': 'back {limit_num} rooms'.format(**query), 'type': 'postback', 'payload': '/{intent}{prev}'.format(**query)})
-            if remains != 0:
-                buttons.append({'title': 'see more {remains} room(s)'.format(**query), 'type': 'postback', 'payload': '/{intent}{next}'.format(**query)})
+                if query.get('prev'):
+                    fb_buttons.append({'title': prev_button_title, 'payload': prev_button_payload, 'type': 'postback'})
+                if query.get('next'):
+                    fb_buttons.append({'title': next_button_title, 'payload': next_button_payload, 'type': 'postback'})
+                dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=fb_buttons)
 
-            dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
+            elif channel == 'socketio':
+                buttons = []
+                if query.get('prev'):
+                    buttons.append({'title': prev_button_title, 'payload': prev_button_payload})
+                if query.get('next'):
+                    buttons.append({'title': next_button_title, 'payload': next_button_payload})
+                dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
+
+            elif channel == 'telegram':
+                if query.get('prev'):
+                    teleg_buttons.append({'title': prev_button_title, 'payload':  prev_button_payload})
+                if query.get('next'):
+                    teleg_buttons.append({'title': next_button_title, 'payload': next_button_payload})
+                logger.info("[INFO] button: %s", teleg_buttons)
+                dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=teleg_buttons, button_type='vertical')
+
+        # End of `if len(hotels.keys()) == 0:`
 
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional={'search_result_flag': 'available'})
         events.append(botmemo_booking_progress.SlotSetEvent)

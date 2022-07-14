@@ -14,7 +14,7 @@ from cachecontrol.caches.redis_cache import RedisCache
 from cachecontrol.heuristics import ExpiresAfter
 
 from .utils import parse_date_range
-from .utils import SORTBY_POPULARITY, SORTBY_REVIEW_SCORE, SORTBY_PRICE
+from .utils import SortbyDictionary
 
 from .duckling_service import (
     parse_checkin_time,
@@ -83,7 +83,7 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
     hotels = hotels['result']
     logger.info('[INFO] search_hotel, found %s results.', len(hotels))
 
-    if bkinfo_orderby == SORTBY_REVIEW_SCORE:
+    if bkinfo_orderby == SortbyDictionary.SORTBY_REVIEW_SCORE:
         hotels = sort_hotel_by_review_score(hotels)
 
     hotels = { hotel['hotel_id']:hotel for hotel in hotels }
@@ -119,7 +119,7 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
             else:
                 rooms_groupby_hotel_id[hotel_id] = [room]
 
-    if bkinfo_orderby == SORTBY_PRICE:
+    if bkinfo_orderby == SortbyDictionary.SORTBY_PRICE:
         rooms_groupby_hotel_id = sort_hotel_by_min_room_price(rooms_groupby_hotel_id)
 
     # Regardless of sorting way rooms in a group are alwasys ascendently sorted by price

@@ -8,9 +8,31 @@ from typing import Any, Dict, List, Text, Optional, Tuple
 
 DATE_FORMAT = 'YYYY-MM-DD'
 SUSPICIOUS_CHECKIN_DISTANCE = 60
-SORTBY_POPULARITY = 'popularity'
-SORTBY_REVIEW_SCORE = 'review_score'
-SORTBY_PRICE = 'price'
+
+
+class SortbyDictionary():
+    SORTBY_POPULARITY = 'popularity'
+    SORTBY_REVIEW_SCORE = 'review_score'
+    SORTBY_PRICE = 'price'
+
+    vocab_index = {
+        0: SORTBY_POPULARITY,
+        1: SORTBY_REVIEW_SCORE,
+        2: SORTBY_PRICE,
+    }
+
+    @classmethod
+    def get_index(self, sortby):
+        for idx, name in self.vocab_index.items():
+            if name == sortby:
+                return idx
+
+        return 0
+
+    @classmethod
+    def get_sorby_name(self, idx):
+        return self.vocab_index.get(idx, self.SORTBY_POPULARITY)
+
 
 def parse_date_range(from_time, duration, format=DATE_FORMAT):
   arrobj_now = arrow.now()
@@ -60,17 +82,27 @@ def calc_time_distance_in_days(checkin_time):
     return delta.days
 
 
-def extract_page_number_payload(query: str):
-    matched = re.search(r'\{.+\}', query)
+def paginate_button_payload(payload=None, page_number=None, bkinfo_orderby=None):
+    page_number_field = 'p'
+    order_by_field = 'o'
 
-    if not matched:
-        return None, None
+    if payload:
+        matched = re.search(r'\{.+\}', payload)
 
-    data = json.loads(matched.group(0))
-    if not isinstance(data, dict):
-        return None, None
+        if not matched:
+            return None, None
 
-    return data.get('page_number', None), data.get('order_by', None)
+        data = json.loads(matched.group(0))
+        if not isinstance(data, dict):
+            return None, None
+
+        return data.get(page_number_field, None), data.get(order_by_field, None)
+
+    query = {page_number_field: page_number, order_by_field: bkinfo_orderby}
+    jsonstr = json.dumps(query)
+    jsonstr = jsonstr.replace(' ', '')
+
+    return jsonstr
 
 
 def paginate(index, limit, total):
