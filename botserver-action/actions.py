@@ -50,6 +50,7 @@ from .duckling_service import (
     parse_bkinfo_duration,
     parse_bkinfo_price,
 )
+from .redis_service import set_cache, get_cache
 
 logger = logging.getLogger(__name__)
 
@@ -196,11 +197,11 @@ class botacts_search_hotel_rooms(Action):
         notes_bkinfo = slots.get('notes_bkinfo')
         bkinfo_orderby = slots.get('bkinfo_orderby', None)
         query_payload = slots.get('search_result_query', '')
-        notes_search_result = slots.get('notes_search_result', {})
+        notes_search_result = slots.get('notes_search_result', None)
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
         bkinfo = botmemo_booking_progress.form
 
-        limit_num = 5 if channel == 'facebook' else 3 if channel == 'socketio' else 1
+        limit_num = 5 if channel == 'facebook' else 2 if channel in ['socketio', 'rasa'] else 1
 
 
         if bkinfo_orderby:
@@ -234,16 +235,11 @@ class botacts_search_hotel_rooms(Action):
         # hotels = query_available_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
 
         hashed_query = hash_bkinfo(bkinfo_orderby=bkinfo_orderby, **bkinfo)
-        if notes_search_result and notes_search_result.get('hashed_query', None) == hashed_query:
-            hotels = notes_search_result.get('hotels', {})
-            hotels = picklize_search_result(data=hotels)
-            logger.info('[INFO] Retrieve hotels from notes_search_result slot.')
+        if notes_search_result == hashed_query:
+            hotels = picklize_search_result(get_cache(notes_search_result))
+            logger.info('[INFO] Retrieve hotels from redis cache, key: notes_search_result.')
         else:
             hotels = await search_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
-            events.append(SlotSet('notes_search_result', {
-                'hashed_query': hashed_query,
-                'hotels': picklize_search_result(data=hotels),
-            }))
 
             if not isinstance(hotels, dict):
                 error_message = '[ERROR] in botacts_search_hotel_rooms action, search_rooms returns wrong data type: %s.' % (type(hotels))
@@ -253,9 +249,12 @@ class botacts_search_hotel_rooms(Action):
                     FollowupAction(name='bot_let_action_emerges'),
                 ]
 
+            set_cache(hashed_query, picklize_search_result(hotels))
+            events.append(SlotSet('notes_search_result', hashed_query))
+
             logger.info('[INFO] request to booking_service, hotels: %s', hotels.keys())
 
-        if len(hotels.keys()) == 0:
+        if not hotels or len(hotels.keys()) == 0:
             dispatcher.utter_message(response="utter_room_not_available")
             dispatcher.utter_message(response="utter_asking_revise_booking_information")
 
@@ -337,7 +336,7 @@ class botacts_search_hotel_rooms(Action):
                         'buttons': fb_buttons,
                     })
 
-                elif channel == 'socketio':
+                elif channel in ['socketio', 'rasa']:
                     room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
                     room_photos = "Photos: \n{photos_url}" . format(**data)
                     hotel_descrition = "Hotel: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
@@ -394,7 +393,7 @@ class botacts_search_hotel_rooms(Action):
                     fb_buttons.append({'title': next_button_title, 'payload': next_button_payload, 'type': 'postback'})
                 dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=fb_buttons)
 
-            elif channel == 'socketio':
+            elif channel in ['socketio', 'rasa']:
                 buttons = []
                 if query.get('prev'):
                     buttons.append({'title': prev_button_title, 'payload': prev_button_payload})

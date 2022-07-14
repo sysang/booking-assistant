@@ -128,10 +128,10 @@ def hash_bkinfo(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_ty
 
 def picklize_search_result(data):
     if isinstance(data, dict):
-        return pickle.dumps(data).hex()
+        return pickle.dumps(data)
 
-    if isinstance(data, str):
-        return pickle.loads(bytes.fromhex(data))
+    if isinstance(data, bytes):
+        return pickle.loads(data)
 
     return None
 
