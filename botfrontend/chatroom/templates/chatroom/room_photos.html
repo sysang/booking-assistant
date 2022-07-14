@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width" />
-
     <title>Room Photos</title>
-
     <link rel="stylesheet" href="{% static 'room_photos/css/flickity.min.css' %}" />
+    <script src="{% static 'room_photos/js/flickity.pkgd.min.js' %}"></script>
+
     <style>
         body {
             background: #353935;
@@ -20,6 +20,7 @@
             top: 45%;
             transform: translateY(-50%);
             max-width: 928px;
+            min-width: 350px;
             margin-left: auto;
             margin-right: auto;
             padding: 5px;
@@ -39,8 +40,22 @@
         }
     </style>
 
+    <script>
+        console.log('start')
+        function myFunction(){
+            console.log('onload')
+            let flky = window.flky = new Flickity('#full-width', {
+                draggable: '>1',
+                freeScroll: true,
+                contain: true,
+                // disable previous & next buttons and dots
+                prevNextButtons: true,
+                pageDots: false,
+            });
+        }
+    </script>
 </head>
-<body>
+<body onload="myFunction()">
     <div class="container">
         <div id="full-width">
             {% for img_src in images %}
@@ -48,19 +63,5 @@
             {% endfor %}
         </div>
     </div>
-
-    <script src="{% static 'room_photos/js/flickity.pkgd.min.js' %}"></script>
-
-    <script>
-        let flky = window.flky = new Flickity('#full-width', {
-            draggable: '>1',
-            freeScroll: true,
-            contain: true,
-            // disable previous & next buttons and dots
-            prevNextButtons: true,
-            pageDots: false,
-        });
-    </script>
-
 </body>
 </html>
