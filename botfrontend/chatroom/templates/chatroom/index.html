@@ -17,13 +17,13 @@
         let e = document.createElement("script"),
             t = document.head || document.getElementsByTagName("head")[0];
 
-        (e.src = "{% static 'chatroom/js/rasa-webchat.js' %}"),
+        (e.src = "{% static 'chatroom/js/rasa-webchat.min.js' %}"),
         (e.async = !0),
         (e.onload = () => {
           window.WebChat.default(
             {
               customData: { language: "en" },
-              socketUrl: "https://dsysang.site/",
+              socketUrl: "{{ socketUrl }}",
               // socketUrl: "http://rasachatbot.sysang/",
               // add other props here
             },
@@ -35,7 +35,7 @@
     </script>
     <div id="page" style="height: 100%;">
         <div class="header-container" style="height: 100%;">
-            <header id="header" style="background-image:url({% static 'chatroom/asset/hotel_header_image.jpg'%}); height: 100%;">
+            <header id="header" style="background-image:url({% static 'chatroom/asset/hotel_header_image.png'%}); height: 100%;">
                 <div class="container">
                     <div class="row">
                         <div id="header_logo" class="col-xs-4">
@@ -67,10 +67,8 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-                                        <p class="header-desc-welcome">Welcome To</p>
-                                        <hr class="heasder-desc-hr-first">
                                         <div class="header-desc-inner-wrapper">
-                                            <h1 class="header-hotel-name">Hotel Mountain View</h1>
+                                            <h1 class="header-hotel-name">Find your next stay</h1>
                                             <p class="header-hotel-desc">
                                                 Tofu helvetica leggings tattooed. Skateboard blue bottle green juice, brooklyn cardigan kitsch fap narwhal organic flexitarian.
                                             </p>
@@ -363,7 +361,7 @@
                     </div>
                 </div>
             </div>
-            <div id="hotelRoomsBlock" class="container home_block_container hidden-xs hidden-sm">
+            <div id="hotelRoomsBlock" class="container home_block_container hidden-xs hidden-sm" style="background: #FFFFF7">
                 <div class="row home_block_desc_wrapper">
                     <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
                         <p class="home_block_heading">Our Rooms</p>

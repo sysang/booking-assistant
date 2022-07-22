@@ -12,5 +12,6 @@ botserver-app/git/
 botserver-app/logs/
 botserver-app/models/
 botfrontend/static/
+botfrontend/botfrontend/local.py
 
 .env

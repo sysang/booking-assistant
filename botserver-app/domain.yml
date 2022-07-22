@@ -40,17 +40,20 @@ responses:
   utter_ask_valid_bkinfo_area:
     - text: "I could not find any possible location, please provide more precise information."
 
+  utter_ask_rephrase_checkin_time:
+    - text: "I'm not so sure about the time, could you rephrase it?"
+
   utter_ask_valid_bkinfo_checkin_time:
     - text: "Please provide check-in time that is equal or later than today."
+
+  utter_ask_rephrase_duration:
+    - text: "I'm not so sure about the staying duration, could you rephrase it?"
 
   utter_ask_valid_bkinfo_duration:
     - text: "Please provide reservation duration length in day or week."
 
   utter_ask_valid_bkinfo_price:
     - text: "Please provide positive number and correct currency code. If you're not sure you can take this reference: https://www.iban.com/currency-codes"
-
-  utter_inform_invalid_info:
-    - text: "Please provide valid information."
 
   utter_about_to_show_hotel_list_by_popularity:
     - text: "I've found {room_num} room(s) ranked by popularity for you:"
@@ -507,3 +510,6 @@ responses:
 
   utter_smalltalk/explain_currecy_code:
     - text: "The three-letter alphabetic codes that represent the various currencies used throughout the world. Refer to https://www.iban.com/currency-codes to determine code of your using currency."
+
+  utter_smalltalk/explain_supported_areas:
+    - text: "I can help you seach hotel by areas such as city, famous beach."

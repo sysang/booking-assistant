@@ -4,6 +4,7 @@ import requests
 import arrow
 import asyncio
 import math
+import time
 
 from arrow import Arrow
 from requests import get
@@ -244,6 +245,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
     url = f"{BASE_URL}/hotels/room-list"
     number_of_occupancy = 2
     number_of_room = 1
+    currency_code = convert_currency_symbol_to_code(currency)
 
     querystring = {
         "checkin_date": checkin_date,
@@ -251,7 +253,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
         "hotel_id": hotel_id,
         "adults_number_by_rooms": number_of_occupancy,
         "room_number": number_of_room,
-        "currency": currency,
+        "currency": currency_code,
         "locale": LOCALE,
         "units": UNITS,
     }
@@ -295,6 +297,7 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, curr
     url = f"{BASE_URL}/hotels/search"
     number_of_occupancy = 2
     number_of_room = 1
+    currency_code = convert_currency_symbol_to_code(currency)
 
     querystring = {
         "order_by": order_by,
@@ -304,18 +307,26 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, curr
         "dest_type": dest_type,
         "adults_number": number_of_occupancy,
         "room_number": number_of_room,
-        "filter_by_currency": currency,
+        "filter_by_currency": currency_code,
         "locale": LOCALE,
         "units": UNITS,
     }
 
+    for i in range(3):
+        try:
+            response = requests_sess.get(url, headers=headers, params=querystring)
+            response.raise_for_status()
 
-    response = requests_sess.get(url, headers=headers, params=querystring)
-    logger.info('[INFO] search_hotel, API url: %s', response.url)
+            logger.info('[INFO] search_hotel, API url: %s', response.url)
 
-    response.raise_for_status()
+            return response.json()
 
-    return response.json()
+        except:
+            logger.info('[INFO] try to search_hotel, API url: %s, error: %s', response.url, i)
+            time.sleep(0.1)
+
+    return {}
+
 
 def search_locations(name):
     """
@@ -369,6 +380,19 @@ def choose_location(name):
     logger.info('[WARNING] There is dest_type that can not recognized, indexed.keys(): %s', list(indexed.keys()))
 
     return None
+
+
+def convert_currency_symbol_to_code(symbol):
+    table = {
+        '$': 'USD',
+        '£': 'GBP',
+        '₫': 'VND',
+        '₩': 'KRW',
+        '¥': 'JPY',
+        '€': 'EUR',
+    }
+
+    return table.get(symbol, symbol)
 
 
 """

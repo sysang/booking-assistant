@@ -44,3 +44,14 @@ nlu:
     - i am confused about currency code
     - currency code makes me confused
     - currency code is puzzle
+
+- intent: smalltalk/explain_supported_areas
+  examples: |
+    - what area do you support?
+    - what area do you have?
+    - what does area mean?
+    - please explain about area
+    - i do not know what area mean
+    - what is area?
+    - i am confused about area
+    - area makes me puzzled

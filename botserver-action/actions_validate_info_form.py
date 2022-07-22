@@ -65,7 +65,7 @@ class ValidateBkinfoForm(FormValidationAction):
         result = parse_checkin_time(expression=slot_value)
 
         if result.if_error('failed'):
-            dispatcher.utter_message(response='utter_inform_invalid_info')
+            dispatcher.utter_message(response='utter_ask_rephrase_checkin_time')
             return {slot_name: None}
 
         if result.if_error('invalid_checkin_time'):
@@ -109,7 +109,7 @@ class ValidateBkinfoForm(FormValidationAction):
         result = parse_bkinfo_duration(expression=slot_value)
 
         if result.if_error('failed'):
-            dispatcher.utter_message(response='utter_inform_invalid_info')
+            dispatcher.utter_message(response='utter_ask_rephrase_duration')
             return {slot_name: None}
 
         if result.if_error('invalid_bkinfo_duration'):

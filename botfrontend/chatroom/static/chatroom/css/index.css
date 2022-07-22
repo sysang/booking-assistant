@@ -9783,13 +9783,14 @@ div.star.star_hover:after {
 }
 
 .home_block_container {
-  padding-top: 45px;
-  padding-bottom: 60px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
   position: relative;
 }
 .home_block_desc_wrapper {
   text-align: center;
-  margin-bottom: 50px;
+  padding: 54px 0;
+  background: #FFFFF9;
 }
 .home_block_heading {
   font-size: 42px;
@@ -10006,13 +10007,16 @@ hr.theme-text-underline {
 	font-size: 55px;
 	font-weight: 400;
 	margin-top: 5px;
-    margin-bottom: 25px;
+  margin-bottom: 25px;
+  text-shadow: 4px 3px 30px darkorchid;
 }
 
 .header-hotel-desc {
-	font-size: 400;
-	font-size: 18px;
-    line-height: 24px;
+	font-weight: 200;
+	font-size: 23px;
+  line-height: 35px;
+  letter-spacing: 1px;
+  text-shadow: 4px 3px 30px darkorchid;
 }
 
 .heasder-desc-hr-second {

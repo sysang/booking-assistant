@@ -1,11 +1,12 @@
 import re
 
+from django.conf import settings
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 
 
 def index(request):
-    response = TemplateResponse(request, 'chatroom/index.html', {})
+    response = TemplateResponse(request, 'chatroom/index.html', {'socketUrl': settings.BASE_DOMAIN_URL})
 
     return response
 

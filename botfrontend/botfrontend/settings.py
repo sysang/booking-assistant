@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-bbl)&w+(eixt@dqa&c025!te!)5%duu-fd5p9-w$&a@8w0h-6-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'dsysang.site',
+    'rasachatbot.sysang',
+]
 
+BASE_DOMAIN_URL = 'https://dsysang.site'
 
 # Application definition
 
@@ -129,3 +133,8 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from .local import *
+except ImportError:
+    pass
