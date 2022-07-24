@@ -79,24 +79,7 @@ class ValidateBkinfoForm(FormValidationAction):
             if distance > SUSPICIOUS_CHECKIN_DISTANCE:
                 dispatcher.utter_message(response='utter_aware_checkin_date', checkin_distance=distance)
 
-        current_slot = {slot_name: slot_value}
-
-        entities = [ entity['entity'] for entity in tracker.latest_message['entities'] ]
-        # 'time', 'duration' are entity, duration is mapped to bkinfo_checkin_time when:
-        # - text: alike 'from exp1 to exp2'
-        # - text: request_checkin_time+request_room_reservation_duration
-        if 'time' not in entities and 'duration' in entities:
-            extension_slot = self.validate_bkinfo_duration(
-                slot_value=slot_value,
-                dispatcher=dispatcher,
-                tracker=tracker,
-                domain=domain,
-            )
-
-            # TODO: be cautious at this hacking -> using validation of one field to manipulate value's other field
-            return {**current_slot, **extension_slot}
-
-        return current_slot
+        return {slot_name: slot_value}
 
     def validate_bkinfo_duration(
         self,
@@ -116,7 +99,26 @@ class ValidateBkinfoForm(FormValidationAction):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
             return {slot_name: None}
 
-        return {slot_name: slot_value}
+        current_slot = {slot_name: slot_value}
+
+        """
+         'time', 'duration' are entity, duration is mapped to bkinfo_checkin_time when:
+         + text -> alike 'from exp1 to exp2'
+         + text -> request_checkin_time+request_room_reservation_duration
+        """
+        entities = [ entity['entity'] for entity in tracker.latest_message['entities'] ]
+        if 'time' not in entities and result.value_type == 'interval':
+            extension_slot = self.validate_bkinfo_checkin_time(
+                slot_value=slot_value,
+                dispatcher=dispatcher,
+                tracker=tracker,
+                domain=domain,
+            )
+
+            # TODO: be cautious at this hacking -> using validation of one field to manipulate value's other field
+            return {**current_slot, **extension_slot}
+
+        return current_slot
 
     def validate_bkinfo_bed_type(
         self,

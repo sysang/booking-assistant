@@ -1,4 +1,5 @@
 stories:
+
 - name: say bye at the very beginning
   steps:
     - 'bye'

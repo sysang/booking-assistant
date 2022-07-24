@@ -1,4 +1,5 @@
 stories:
+
 - name: Show room list, sort search result by score review
   steps:
     - 'Could you help me search for a hotel?'

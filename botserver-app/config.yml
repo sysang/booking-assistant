@@ -48,15 +48,15 @@ pipeline:
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
-  - name: RegexEntityExtractor
-    # text will be processed with case insensitive as default
-    case_sensitive: False
-    # use lookup tables to extract entities
-    use_lookup_tables: True
-    # use regexes to extract entities
-    use_regexes: True
-    # use match word boundaries for lookup table
-    use_word_boundaries: True
+  # - name: RegexEntityExtractor
+  #   # text will be processed with case insensitive as default
+  #   case_sensitive: False
+  #   # use lookup tables to extract entities
+  #   use_lookup_tables: True
+  #   # use regexes to extract entities
+  #   use_regexes: True
+  #   # use match word boundaries for lookup table
+  #   use_word_boundaries: True
   - name: DIETClassifier
     intent_classification: True
     entity_recognition: True
@@ -127,7 +127,7 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.63
+    tolerance: 0.71
     max_history: 2
     learning_rate: 3.33e-5  # default 1e-3
     epochs: 701
@@ -170,11 +170,12 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 3.33e-5  # default 1e-3
-    epochs: 2043
+    epochs: 1523
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [8, 16]  # default [32, 256]
-    connection_density: 0.63  # default 0.2
+    # batch_size: [8, 16]  # default [32, 256]
+    batch_size: [16, 64]
+    connection_density: 0.67  # default 0.2
     dense_dimension:
       text: 128  # default 128
       intent: 24  # default 20
@@ -199,12 +200,12 @@ policies:
       action_text: 2
       label_action_text: 2  # default 1
     number_of_attention_heads: 16
-    embedding_dimension: 12  # default 20
+    embedding_dimension: 20  # default 20
     drop_rate_dialogue: 0.0  # default 0.1
     drop_rate_label: 0.0  # default 0.0
     drop_rate_attention: 0.0 # default 0.0
     renormalize_confidences: True  # default False
-    number_of_negative_examples: 103  # default 20
+    number_of_negative_examples: 151  # default 20
     maximum_positive_similarity: 0.75  # default 0.8
     maximum_negative_similarity: -0.12  # default -0.2
     tensorboard_log_directory: './tensorboard/current'

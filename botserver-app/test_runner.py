@@ -40,8 +40,8 @@ def load_data(testfile):
 
     return stories
 
-# endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
-endpoind = 'https://dsysang.site/webhooks/rest/webhook'
+endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
+# endpoind = 'https://dsysang.site/webhooks/rest/webhook'
 
 testing_data = {
     'area': 'bangkok',
@@ -90,7 +90,7 @@ if __name__ == '__main__':
             logger.info(message)
             time.sleep(0.1)
 
-        result = 'passed' if is_passed else 'ERROR'
+        result = 'passed' if is_passed else ' E r r o r '
         logger.info(f"\n__________________________________________________________________  {result}  _________\n")
 
     with open(reportfile, 'r') as reader:

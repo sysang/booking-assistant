@@ -46,8 +46,10 @@ testall:
 	make query_hotel_room_chitchat_revisebkinfo_test model=$(M)
 	make query_hotel_room_chitchat_smalltalk_test model=$(M)
 	make query_hotel_room_donecollecting_revisebkinfo_test model=$(M)
+	make query_hotel_room_revise_invalid_bkinfo_test model=$(M)
 	make query_hotel_room_sorting_test model=$(M)
 	make query_hotel_room_terminate_booking_test model=$(M)
+	make query_hotel_room_jumpin_information_collecting_test model=$(M)
 
 query_hotel_room_schema_test:
 	export testfile=query_hotel_room_schema; \
@@ -89,6 +91,10 @@ query_hotel_room_terminate_booking_test:
 	export testfile=query_hotel_room_terminate_booking; \
 	make test testfile=$$testfile model=$(M)
 
+query_hotel_room_jumpin_information_collecting_test:
+	export testfile=query_hotel_room_jumpin_information_collecting; \
+	make test testfile=$$testfile model=$(M)
+
 copyaddons:
 	docker cp botserver-app/addons rasachatbot-rasa-production-1:/app
 
@@ -96,10 +102,10 @@ test_actions_fsm_botmemo_booking_progress:
 	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.fsm_botmemo_booking_progress import __test__; __test__();"'
 
 test_actions_duckling_service:
-	docker exec rasachatbot-action-server-1 bash -c 'python -c "from actions.duckling_service import __test__; __test__();"'
+	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(uit) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/duckling_service.py | tail -n 1)"'
 
 test_actions_booking_service:
-	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(tfunc) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/booking_service.py | tail -n 1)"'
+	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(uit) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/booking_service.py | tail -n 1)"'
 
 # files := file1 file2
 # some_file: $(files)

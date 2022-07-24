@@ -1,5 +1,6 @@
 import os
 import logging
+import pprint
 import arrow
 
 from cachetools import cached, TTLCache
@@ -10,6 +11,7 @@ from arrow import Arrow
 from .dbconnector import db
 
 
+pp = pprint.PrettyPrinter(indent=4)
 logger = logging.getLogger(__name__)
 
 DUCKLING_BASE_URL = os.environ['RASA_DUCKLING_HTTP_URL']
@@ -49,7 +51,7 @@ class ParseResult:
         return '<ParseResult> error: %s, value: %s, unit: %s, type: %s' % (self.error, self.value, self.unit, self.value_type)
 
 
-@cached(cache=TTLCache(maxsize=128, ttl=60))
+@cached(cache=TTLCache(maxsize=256, ttl=60))
 def duckling_parse(expression, dims, locale='en_US'):
     """
     r = post('http://duckling:8000/parse', data={"locale": "en_GB", "dims": "duration", "text": "3 days"})
@@ -68,20 +70,25 @@ def duckling_parse(expression, dims, locale='en_US'):
 
     parsed = r.json()
 
-    return r.json()[0] if len(parsed) else None
+    return r.json()
 
 
 def parse_checkin_time(expression):
     dim = DIM_TIME
-    parsed = duckling_parse(expression=expression, dims=dim)
+    result = duckling_parse(expression=expression, dims=dim)
+    parsed = None
+    parsed_dim = None
 
-    if not parsed:
+    if len(result) == 0:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
 
-    parsed_dim = parsed['dim']
+    for item in result:
+        if item['dim'] == dim:
+            parsed = item
+            parsed_dim =item['dim']
 
-    if parsed_dim != dim:
+    if not parsed:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None, parsed=parsed)
 
@@ -92,8 +99,8 @@ def parse_checkin_time(expression):
     check value type to determine which case, 'value' -> normal, 'interval' -> embedded
     """
     parsed_value = parsed['value']
-    val_type = parsed_value['type']
-    if val_type == 'interval':
+    parsed_type = parsed_value['type']
+    if parsed_type == 'interval':
         value = parsed_value['from']['value']
     else:
         value = parsed_value['value']
@@ -101,17 +108,23 @@ def parse_checkin_time(expression):
     checkin_time_arw = arrow.get(value).shift(minutes=1)
     if today_arw.timestamp() > checkin_time_arw.timestamp():
         error = ParseResult.error_names['invalid_checkin_time']
-        return ParseResult(error=error, value=None)
+        return ParseResult(error=error, value=value, parsed=parsed)
 
-    return ParseResult(value=value, value_type=val_type, parsed=parsed, error=None)
+    return ParseResult(value=value, value_type=parsed_type, parsed=parsed, error=None)
 
 
 def parse_bkinfo_duration(expression):
-    dim = DIM_DURATION
+    dim_duration = DIM_DURATION
     dim_time = DIM_TIME
     units = [UNIT_DAY, UNIT_WEEK]
 
-    parsed = duckling_parse(expression=expression, dims=dim)
+    result = duckling_parse(expression=expression, dims=dim_duration)
+    parsed = None
+    parsed_dim = None
+
+    if len(result) == 0:
+        error = ParseResult.error_names['failed']
+        return ParseResult(error=error, value=None)
 
     """
     parsed format is various depending on expression, cases:
@@ -119,14 +132,20 @@ def parse_bkinfo_duration(expression):
     - 'from exp1 to exp2' (duration) such as: from march 3rd to march 4th
     check value type to determine which case, 'value' -> normal, 'from', 'to' -> 'from exps to exp2'
     """
+
+    for item in result:
+        if item['dim'] in [dim_time, dim_duration]:
+            parsed = item
+            parsed_dim =item['dim']
+
     if not parsed:
         error = ParseResult.error_names['failed']
-        return ParseResult(error=error, value=None)
+        return ParseResult(error=error, value=None, parsed=parsed)
 
-    parsed_dim = parsed['dim']
     parsed_value = parsed['value']
+    parsed_type = parsed_value['type']
 
-    if parsed_dim == dim:
+    if parsed_dim == dim_duration:
         value = parsed_value['value']
         parsed_unit = parsed_value['unit']
     elif parsed_dim == dim_time and parsed_value.get('from') and parsed_value.get('to'):
@@ -144,19 +163,28 @@ def parse_bkinfo_duration(expression):
         error = ParseResult.error_names['invalid_bkinfo_duration']
         return ParseResult(error=error, value=None, parsed=parsed)
 
-    return ParseResult(value=value, unit=parsed_unit, parsed=parsed, error=None)
+    return ParseResult(value=value, value_type=parsed_type, unit=parsed_unit, parsed=parsed, error=None)
 
 
 def parse_bkinfo_price(expression):
     dim = DIM_AMOUNTOFMONEY
 
-    parsed = duckling_parse(expression=expression, dims=dim)
+    result = duckling_parse(expression=expression, dims=dim)
+    parsed = None
+    parsed_dim = None
+
+    if len(result) == 0:
+        error = ParseResult.error_names['failed']
+        return ParseResult(error=error, value=None)
+
+    for item in result:
+        if item['dim'] == dim:
+            parsed = item
+            parsed_dim =item['dim']
 
     if not parsed:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
-
-    parsed_dim = parsed['dim']
 
     if parsed_dim != dim:
         error = ParseResult.error_names['failed']
@@ -174,94 +202,131 @@ def parse_bkinfo_price(expression):
 
 
 def __test__parse_checkin_time():
-
     expression = 'some thing not a time expression'
-    print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    print('\n[TEST] invalid expression: ', expression)
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == 'failed'
 
     expression = '3 hours'
-    print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    print('\n[TEST] invalid expression: ', expression)
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == 'failed'
+
+    expression = '7/32'
+    print('\n[TEST] invalid expression: ', expression)
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == 'failed'
 
     expression = 'january 1st 1990'
-    print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    print('\n[TEST] invalid expression (past): ', expression)
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == 'invalid_checkin_time'
 
     expression = 'june 1st 2022'
-    print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    print('\n[TEST] invalid expression (past): ', expression)
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == 'invalid_checkin_time'
 
     expression = 'february 2023'
     print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == None
 
     expression = 'tomorrow'
     print('\n[TEST] expression: ', expression)
-    print(parse_checkin_time(expression))
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == None
 
-def __test__parse_bkinfo_duration():
-
-    expression = 'some thing not a time duration'
+    expression = '7/28'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
-
-    expression = 'september 5th'
-    print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
-
-    expression = '23 hours'
-    print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == None
 
     expression = 'from 1st to 4th january'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
+    result = parse_checkin_time(expression)
+    print(result)
+    assert result.error == None
+
+
+def __test__parse_bkinfo_duration():
+    expression = 'some thing not a time duration'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == 'failed'
+
+    expression = 'september 5th'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == 'failed'
+
+    expression = '23 hours'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == 'invalid_bkinfo_duration'
+
+    expression = 'from 1st to 4th january'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == None
 
     expression = '3 days'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == None
 
-    expression = '1 week'
+    expression = '2 weeks'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_duration(expression))
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == None
 
 
 def __test__parse_bkinfo_price():
 
     expression = 'some thing not an amount of money'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_price(expression))
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == 'failed'
 
     expression = 'a00 USD'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_price(expression))
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == 'failed'
 
     expression = '100 USC'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_price(expression))
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == 'failed'
 
     expression = '100 eur'
     print('\n[TEST] expression: ', expression)
-    print(parse_bkinfo_price(expression))
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None
 
-def __test__():
-    import sys
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
 
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
+"""
+__pytest__
+import os;from actions.duckling_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
+"""
 
-    stdout_handler = logging.StreamHandler(sys.stdout)
-    stdout_handler.setLevel(logging.INFO)
-    stdout_handler.setFormatter(formatter)
-
-    logger.addHandler(stdout_handler)
-
-    print('\n', ''.join(['-']*150))
-
-    __test__parse_checkin_time()
-    # __test__parse_bkinfo_duration()
-    # __test__parse_bkinfo_price()
-
-    print(''.join(['-']*150), '\n')
+def __test__(tfunc):
+    __test__fn = f'__test__{tfunc}'
+    eval(__test__fn)()

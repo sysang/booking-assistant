@@ -25,16 +25,13 @@ stories:
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_area
-  # - or:
-  #   - intent: request_listing_hotel_by_area
-  #     entities:
-  #       - area: hawaii
-  #   - intent: express_area
-  #     entities:
-  #       - area: hawaii
-  - intent: express_area
-    entities:
-      - area: hawaii
+  - or:
+    - intent: request_listing_hotel_by_area
+      entities:
+        - area: hawaii
+    - intent: express_area
+      entities:
+        - area: hawaii
   - slot_was_set:
     - botmemo_booking_progress: information_collecting
     - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]

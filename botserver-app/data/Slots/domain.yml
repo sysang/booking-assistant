@@ -104,6 +104,10 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
   bkinfo_checkin_time:
     influence_conversation: false
     type: text
@@ -134,26 +138,34 @@ slots:
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
-      - type: from_entity
-        intent: request_checkin_time+request_room_reservation_duration
-        entity: time
-        conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
       - type: from_entity
-        intent:
-        - request_checkin_time+request_room_reservation_duration
-        - express_time+express_length_of_time
-        entity: duration
+        intent: express_time+express_length_of_time
+        entity: time
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
       - type: from_entity
         intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
-        entity: duration
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_bed_type+request_checkin_time
+        entity: time
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
   bkinfo_duration:
     influence_conversation: false
     type: text  # unit: day
@@ -171,25 +183,29 @@ slots:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
       - type: from_entity
-        intent:
-        - request_checkin_time+request_room_reservation_duration
-        - express_time+express_length_of_time
+        intent: request_checkin_time+request_room_reservation_duration
         entity: duration
         conditions:
         - active_loop: bkinfo_form
           requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
       - type: from_entity
-        intent:
-        - request_checkin_time+request_room_reservation_duration
-        - express_time+express_length_of_time
+        intent: express_time+express_length_of_time
         entity: duration
         conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
       - type: from_entity
         intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
         entity: duration
         conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
         - active_loop: bkinfo_form
           requested_slot: bkinfo_duration
   bkinfo_bed_type:
@@ -212,6 +228,14 @@ slots:
         intent: request_bed_type
         entity: bed_type
         conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type+request_checkin_time
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
         - active_loop: bkinfo_form
           requested_slot: bkinfo_bed_type
   bkinfo_price:

@@ -1,4 +1,5 @@
 import logging
+import pprint
 import redis
 import requests
 import arrow
@@ -24,6 +25,7 @@ from .duckling_service import (
 )
 
 
+pp = pprint.PrettyPrinter(indent=4)
 logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://booking-com.p.rapidapi.com/v1'
@@ -402,36 +404,19 @@ import os;from actions.booking_service import __test__;__test__(tfunc=os.environ
 
 
 def __test__(tfunc):
-    import sys
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
-
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
-
-    stdout_handler = logging.StreamHandler(sys.stdout)
-    stdout_handler.setLevel(logging.INFO)
-    stdout_handler.setFormatter(formatter)
-
-    logger.addHandler(stdout_handler)
-
     __test__fn = f'__test__{tfunc}'
     eval(__test__fn)()
 
 
 def __test__search_locations():
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
-
+    global pp
     locations = search_locations(name='hawaii')
     locations = index_location_by_dest_type(data=locations)
     pp.pprint(locations)
 
 
 def __test__curate_room_info():
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
-
+    global pp
     from .test_data.hotel import sample as hotel
     from .test_data.block import sample as block
     from .test_data.rooms import sample as rooms

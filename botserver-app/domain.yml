@@ -18,6 +18,9 @@ responses:
   utter_please_rephrase:
     - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
 
+  utter_resonse_unlikely_intent:
+    - text: "I'm sorry, but I'm not so sure how to hanle your request. Could you rephrase?"
+
   utter_ask_bkinfo_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"
@@ -41,7 +44,7 @@ responses:
     - text: "I could not find any possible location, please provide more precise information."
 
   utter_ask_rephrase_checkin_time:
-    - text: "I'm not so sure about the time, could you rephrase it?"
+    - text: "I can not understand check-in time, could you rephrase it?"
 
   utter_ask_valid_bkinfo_checkin_time:
     - text: "Please provide check-in time that is equal or later than today."

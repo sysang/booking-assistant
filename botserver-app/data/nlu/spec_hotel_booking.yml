@@ -153,8 +153,11 @@ nlu:
     - i want [queen size](bed_type)
     - i want [king-size](bed_type)
     - i want [king size](bed_type)
-    - single bed should be finde
+    - single bed should be find
     - i need room with twin beds
+    - need a [double](bed_type) room
+    - want a [single](bed_type) room
+    - i prefer [single](bed_type) room
 - intent: request_room_reservation_duration
   examples: |
     - i’ll be staying for [one night](duration)
@@ -173,7 +176,13 @@ nlu:
     - book it for [86400 seconds](duration)
 - intent: request_checkin_time+request_room_reservation_duration
   examples: |
+    - i want to book a room for [2 days](duration) starting from [january 1st](time)
+    - i want to book a room for [two days](duration) starting from [february 10th](time)
+    - i want to book a room for [four days](duration) starting from [5 feb](time)
     - i want to book a room for [three nights](duration) starting from [sunday](time)
+    - i want to book a room for [2 days](duration) on [20 april](time)
+    - i want to book a room for [two days](duration) on [5 sep](time)
+    - i want to book a room for [four days](duration) on [11 nov](time)
     - book it for [2 nights](duration) from [friday](time)
     - book it for [4 nights](duration) in [july 19th](time)
     - our stay will start on [tuesday](time) for [4 nights](duration)
@@ -215,6 +224,12 @@ nlu:
     - i need a hotel room in [florida](area), could you help [from january 3rd 2020 to january 4th 2021](duration)
     - i am going to travel to [ho chi minh city](area), vietnam [from 15th to 17th this month](duration)
     - i want to visit [bangkok](area) [from 1st to 4th november](duration)
+- intent: request_bed_type+request_checkin_time
+  examples: |
+    - need a [double](bed_type) room on [7/15](time)
+    - i want a [single](bed_type) room starting from [sunday](time)
+    - i looking for [queen-size](bed_type) bed room on [september 1st](time)
+    - please booked [single] room on [january 23th](time)
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)

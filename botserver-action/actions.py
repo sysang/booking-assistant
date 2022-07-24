@@ -84,9 +84,8 @@ class action_unlikely_intent(Action):
         return "action_unlikely_intent"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        return [
-            FollowupAction(name='bot_let_action_emerges'),
-        ]
+        dispatcher.utter_message(response='utter_resonse_unlikely_intent')
+        return []
 
 class bot_let_action_emerges(Action):
 

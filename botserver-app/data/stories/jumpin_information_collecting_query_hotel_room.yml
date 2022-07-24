@@ -1,7 +1,7 @@
 version: "3.1"
 
 stories:
-- story: user start conversation by request_listing_hotel_by_area
+- story: user starts by request_listing_hotel_by_area
   steps:
   - slot_was_set:
     - botmind_state: attentive
@@ -28,11 +28,11 @@ stories:
   - slot_was_set:
     - requested_slot: bkinfo_checkin_time
 
-- story: user start conversation by request_listing_hotel_by_area+request_checkin_time
+- story: chitchat, user starts by request_listing_hotel_by_area+request_checkin_time
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -56,7 +56,7 @@ stories:
   - slot_was_set:
     - requested_slot: bkinfo_duration
 
-- story: user start conversation by request_checkin_time+request_room_reservation_duration
+- story: user starts by request_checkin_time+request_room_reservation_duration
   steps:
   - slot_was_set:
     - botmind_state: attentive
@@ -84,11 +84,11 @@ stories:
   - slot_was_set:
     - requested_slot: bkinfo_checkin_time
 
-- story: user start conversation by request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+- story: chitchat, user starts by request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -112,3 +112,31 @@ stories:
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_bed_type
+
+- story: user starts by request_bed_type+request_checkin_time
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: null
+    - bkinfo_room_id: null
+    - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
+  - intent: request_bed_type+request_checkin_time
+    entities:
+      - time: september 5th
+      - bed_type: single
+  - action: botacts_start_booking_progress
+  - slot_was_set:
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,'bkinfo_checkin_time',null,'bkinfo_bed_type',null]
+    - search_result_flag: waiting
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area

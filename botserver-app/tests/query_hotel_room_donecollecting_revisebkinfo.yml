@@ -35,12 +35,13 @@ stories:
     - 'i need to book a hotel for a trip to {area}'
     - '{time}'
     - '{duration}'
-    - 'I want a queen bed room'
+    - 'I want a double bed room'
     - '{amount-of-money}'
     - 'sorry, could you change bed type to {bed_type}'
 
 - name: Form is filled, rooms are shown, revise bkinfo_price
   steps:
+    - 'Could you help me search for a hotel?'
     - 'i need to book a hotel for a trip to {area}'
     - '{time}'
     - '{duration}'
