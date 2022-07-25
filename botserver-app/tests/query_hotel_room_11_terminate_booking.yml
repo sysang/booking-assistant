@@ -14,11 +14,6 @@ stories:
     - 'Could you help me search for a hotel?'
     - 'bye'
 
-- name: say bye after initialized
-  steps:
-    - 'Could you help me search for a hotel?'
-    - 'bye'
-
 - name: say bye after provide bed type, deny
   steps:
     - 'Could you help me search for a hotel?'

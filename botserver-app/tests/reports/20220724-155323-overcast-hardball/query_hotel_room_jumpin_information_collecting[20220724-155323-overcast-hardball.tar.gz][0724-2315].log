@@ -1,0 +1,116 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area
+Identity: ST1-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Hi! I am virtual booking assistant. How may I help you?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area, time
+Identity: ST2-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  i need to book a hotel for a trip to bangkok starting from september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide duration, time
+Identity: ST3-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Hi! I am virtual booking assistant. How may I help you?
+
+(USER)  i want to book a room for 3 days starting from september 5th
+(BOT)   -> What area would you like to stay in?
+
+(USER)  bangkok
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area, time_duration
+Identity: ST4-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  i need to book a hotel for a trip to bangkok starting from september 5th to september 8th
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide bed_tye, time
+Identity: ST5-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  need a single room on september 5th
+(BOT)   -> What area are you interested in?
+
+(USER)  bangkok
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+

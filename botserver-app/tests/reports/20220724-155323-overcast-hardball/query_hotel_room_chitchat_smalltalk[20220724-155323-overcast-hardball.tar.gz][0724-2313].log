@@ -1,0 +1,52 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, smalltalk
+Identity: ST1-query_hotel_room_chitchat_smalltalk[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+(USER)  are you bot??
+(BOT)   -> That's me. I chat, therefore I am.
+
+__________________________________________________________________  passed  _________
+

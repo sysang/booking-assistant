@@ -1,0 +1,45 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, revise bkinfo
+Identity: ST1-query_hotel_room_chitchat_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area are you interested in?
+
+(USER)  i need to book a hotel for a trip to hamburg
+(BOT)   -> When will you need the accommodations?
+
+(USER)  please change the place to bangkok
+(BOT)   -> Booking area has been changed to bangkok.
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 6th
+(BOT)   -> How long will you be staying?
+
+(USER)  please change check in time to september 5th
+(BOT)   -> Check-in time has been changed to september 5th.
+(BOT)   -> How long will you be staying?
+
+(USER)  1 day
+(BOT)   -> Which bed type would you like?
+
+(USER)  my mistake i actually want to stay in 3 days
+(BOT)   -> Reservation duration has been changed to 3 days.
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a queen bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  sorry, could you change bed type to single
+(BOT)   -> Bed type has been changed to single.
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+

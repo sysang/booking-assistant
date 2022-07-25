@@ -1,0 +1,165 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_area
+Identity: ST1-query_hotel_room_donecollecting_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to hamburg
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 114 room(s) ranked by popularity for you:
+
+(USER)  please change the place to bangkok
+(BOT)   -> Booking area has been changed to bangkok.
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_checkin_time
+Identity: ST2-query_hotel_room_donecollecting_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 6th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 94 room(s) ranked by popularity for you:
+
+(USER)  please change check in time to september 5th
+(BOT)   -> Check-in time has been changed to september 5th.
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_duration
+Identity: ST3-query_hotel_room_donecollecting_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  1 day
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 91 room(s) ranked by popularity for you:
+
+(USER)  my mistake i actually want to stay in 3 days
+(BOT)   -> Reservation duration has been changed to 3 days.
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_bed_type
+Identity: ST4-query_hotel_room_donecollecting_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a double bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 96 room(s) ranked by popularity for you:
+
+(USER)  sorry, could you change bed type to single
+(BOT)   -> Bed type has been changed to single.
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_price
+Identity: ST5-query_hotel_room_donecollecting_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  50 usd
+(BOT)   -> I've found 49 room(s) ranked by popularity for you:
+
+(USER)  could i change price to 500 usd
+(BOT)   -> Room price been changed to 500 usd.
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+

@@ -1,0 +1,52 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, out_of_scope
+Identity: ST1-query_hotel_room_chitchat_outofscope[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area are you interested in?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> What area are you interested in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what day would you like to stay on?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+
+__________________________________________________________________  passed  _________
+

@@ -1,0 +1,52 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, nlu_fallback
+Identity: ST1-query_hotel_room_chitchat_nlufallback[20220724-155323-overcast-hardball][0724-2313]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what day would you like to stay on?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+
+__________________________________________________________________  passed  _________
+

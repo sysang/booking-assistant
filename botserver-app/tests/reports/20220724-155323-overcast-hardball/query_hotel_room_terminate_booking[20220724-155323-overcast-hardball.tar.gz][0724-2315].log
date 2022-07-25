@@ -1,0 +1,197 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at the very beginning
+Identity: ST1-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  bye
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after say hi
+Identity: ST2-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Hi! I am virtual booking assistant. How may I help you?
+
+(USER)  bye
+(BOT)   -> I'm sorry because of getting totally lost. It's quite embarrassing but if you don't mind let's start over again.
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after initialized
+Identity: ST3-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  bye
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after initialized
+Identity: ST4-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  bye
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after provide bed type, deny
+Identity: ST5-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area are you interested in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  no
+(BOT)   -> what price per night you are looking for?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after provide bed type, affirm
+Identity: ST6-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  yes
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at room_showing, deny
+Identity: ST7-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area are you interested in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  no
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at room_showing, affirm
+Identity: ST8-query_hotel_room_terminate_booking[20220724-155323-overcast-hardball][0724-2315]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What area would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  yes
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
