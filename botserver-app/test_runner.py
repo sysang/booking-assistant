@@ -63,6 +63,7 @@ if __name__ == '__main__':
 
     for story in stories['stories']:
         counter += 1
+        tracking_time = now.strftime(format='%m%d-%H%M')
         tester = f'ST{counter}-{testfile}[{model_name}][{tracking_time}]'
         name = story['name']
         steps = story['steps']
