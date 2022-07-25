@@ -3,7 +3,7 @@ version: "3.1"
 stories:
 - story: show search result, user click paginating button
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: user_click_to_navigate_search_result
   - slot_was_set:
     - search_result_query: true
@@ -12,5 +12,5 @@ stories:
     - search_result_query: false
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', '200 USD']
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
   - action: action_listen

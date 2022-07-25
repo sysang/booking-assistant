@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: User say hi, form is filled, then show room list
-Identity: ST1-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-2312]
+Identity: ST1-query_hotel_room_01_schema[20220725-151606-medium-monomer][0725-2235]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -11,10 +11,10 @@ Identity: ST1-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-23
 
 (USER)  Could you help me search for a hotel?
 (BOT)   -> My job is to help you to quickly find a suitable hotel.
-(BOT)   -> What area would you like to stay in?
+(BOT)   -> What area are you interested in?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what is the exact date of your arrival?
+(BOT)   -> what day would you like to stay on?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -26,7 +26,7 @@ Identity: ST1-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-23
 (BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -34,12 +34,12 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: Form is filled, then show room list
-Identity: ST2-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-2312]
+Identity: ST2-query_hotel_room_01_schema[20220725-151606-medium-monomer][0725-2235]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what is the exact date of your arrival?
+(BOT)   -> what day would you like to stay on?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -51,7 +51,7 @@ Identity: ST2-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-23
 (BOT)   -> what price per night you would you prefer?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -59,7 +59,7 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: Form is filled after validating wrong inputs, then show room list
-Identity: ST3-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-2312]
+Identity: ST3-query_hotel_room_01_schema[20220725-151606-medium-monomer][0725-2235]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -68,11 +68,11 @@ Identity: ST3-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-23
 (BOT)   -> What area are you interested in?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what day would you like to stay on?
+(BOT)   -> When will you need the accommodations?
 
 (USER)  01/06/2022
 (BOT)   -> Please provide check-in time that is equal or later than today.
-(BOT)   -> When will you need the accommodations?
+(BOT)   -> what is the exact date of your arrival?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -89,10 +89,10 @@ Identity: ST3-query_hotel_room_schema[20220724-155323-overcast-hardball][0724-23
 
 (USER)  500 usa
 (BOT)   -> Please provide positive number and correct currency code. If you're not sure you can take this reference: https://www.iban.com/currency-codes
-(BOT)   -> what price per night you are looking for?
+(BOT)   -> what price per night you would you prefer?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 

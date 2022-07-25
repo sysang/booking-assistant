@@ -22,8 +22,7 @@ assert testfile, "Parameter `testfile` is not valid."
 assert model_path.exists(), f'Path to model file, {model_path}, does not exists'
 
 now = datetime.now()
-tracking_time = now.strftime(format='%m%d-%H%M')
-reportfile = f"tests/reports/{testfile}[{model}][{tracking_time}].log"
+reportfile = f"tests/reports/current/{testfile}[{model}].log"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: when information is being collected, revise bkinfo
-Identity: ST1-query_hotel_room_chitchat_revisebkinfo[20220724-155323-overcast-hardball][0724-2313]
+Identity: ST1-query_hotel_room_03_chitchat_revisebkinfo[20220725-151606-medium-monomer][0725-2236]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -11,7 +11,7 @@ Identity: ST1-query_hotel_room_chitchat_revisebkinfo[20220724-155323-overcast-ha
 (BOT)   -> What area are you interested in?
 
 (USER)  i need to book a hotel for a trip to hamburg
-(BOT)   -> When will you need the accommodations?
+(BOT)   -> what day would you like to stay on?
 
 (USER)  please change the place to bangkok
 (BOT)   -> Booking area has been changed to bangkok.
@@ -32,14 +32,14 @@ Identity: ST1-query_hotel_room_chitchat_revisebkinfo[20220724-155323-overcast-ha
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a queen bed room
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  sorry, could you change bed type to single
 (BOT)   -> Bed type has been changed to single.
 (BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 

@@ -38,61 +38,66 @@ test:
 	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
 
 testall:
-	rm -f botserver-app/tests/reports/*
-	make query_hotel_room_schema_test model=$(M)
-	make query_hotel_room_chitchat_faq_test model=$(M)
-	make query_hotel_room_chitchat_nlufallback_test model=$(M)
-	make query_hotel_room_chitchat_outofscope_test model=$(M)
-	make query_hotel_room_chitchat_revisebkinfo_test model=$(M)
-	make query_hotel_room_chitchat_smalltalk_test model=$(M)
-	make query_hotel_room_donecollecting_revisebkinfo_test model=$(M)
-	make query_hotel_room_revise_invalid_bkinfo_test model=$(M)
-	make query_hotel_room_sorting_test model=$(M)
-	make query_hotel_room_terminate_booking_test model=$(M)
-	make query_hotel_room_jumpin_information_collecting_test model=$(M)
+	-rm -f botserver-app/tests/reports/current/*
+	make query_hotel_room_01_schema_test model=$(M)
+	make query_hotel_room_02_sorting_test model=$(M)
+	make query_hotel_room_03_chitchat_revisebkinfo_test model=$(M)
+	make query_hotel_room_04_revise_invalid_bkinfo_test model=$(M)
+	make query_hotel_room_05_donecollecting_revisebkinfo_test model=$(M)
+	make query_hotel_room_06_jumpin_information_collecting_test model=$(M)
+	make query_hotel_room_07_chitchat_faq_test model=$(M)
+	make query_hotel_room_08_chitchat_smalltalk_test model=$(M)
+	make query_hotel_room_09_chitchat_outofscope_test model=$(M)
+	make query_hotel_room_10_chitchat_nlufallback_test model=$(M)
+	make query_hotel_room_11_terminate_booking_test model=$(M)
+	make query_hotel_room_12_execution_rejectedof_bkinfo_form_test model=$(M)
 
-query_hotel_room_schema_test:
-	export testfile=query_hotel_room_schema; \
+query_hotel_room_01_schema_test:
+	export testfile=query_hotel_room_01_schema; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_chitchat_faq_test:
-	export testfile=query_hotel_room_chitchat_faq; \
+query_hotel_room_02_sorting_test:
+	export testfile=query_hotel_room_02_sorting; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_chitchat_nlufallback_test:
-	export testfile=query_hotel_room_chitchat_nlufallback; \
+query_hotel_room_03_chitchat_revisebkinfo_test:
+	export testfile=query_hotel_room_03_chitchat_revisebkinfo; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_chitchat_outofscope_test:
-	export testfile=query_hotel_room_chitchat_outofscope; \
+query_hotel_room_04_revise_invalid_bkinfo_test:
+	export testfile=query_hotel_room_04_revise_invalid_bkinfo; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_chitchat_revisebkinfo_test:
-	export testfile=query_hotel_room_chitchat_revisebkinfo; \
+query_hotel_room_05_donecollecting_revisebkinfo_test:
+	export testfile=query_hotel_room_05_donecollecting_revisebkinfo; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_chitchat_smalltalk_test:
-	export testfile=query_hotel_room_chitchat_smalltalk; \
+query_hotel_room_06_jumpin_information_collecting_test:
+	export testfile=query_hotel_room_06_jumpin_information_collecting; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_donecollecting_revisebkinfo_test:
-	export testfile=query_hotel_room_donecollecting_revisebkinfo; \
+query_hotel_room_07_chitchat_faq_test:
+	export testfile=query_hotel_room_07_chitchat_faq; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_revise_invalid_bkinfo_test:
-	export testfile=query_hotel_room_revise_invalid_bkinfo; \
+query_hotel_room_08_chitchat_smalltalk_test:
+	export testfile=query_hotel_room_08_chitchat_smalltalk; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_sorting_test:
-	export testfile=query_hotel_room_sorting; \
+query_hotel_room_09_chitchat_outofscope_test:
+	export testfile=query_hotel_room_09_chitchat_outofscope; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_terminate_booking_test:
-	export testfile=query_hotel_room_terminate_booking; \
+query_hotel_room_10_chitchat_nlufallback_test:
+	export testfile=query_hotel_room_10_chitchat_nlufallback; \
 	make test testfile=$$testfile model=$(M)
 
-query_hotel_room_jumpin_information_collecting_test:
-	export testfile=query_hotel_room_jumpin_information_collecting; \
+query_hotel_room_11_terminate_booking_test:
+	export testfile=query_hotel_room_11_terminate_booking; \
+	make test testfile=$$testfile model=$(M)
+
+query_hotel_room_12_execution_rejectedof_bkinfo_form_test:
+	export testfile=query_hotel_room_12_execution_rejectedof_bkinfo_form; \
 	make test testfile=$$testfile model=$(M)
 
 copyaddons:

@@ -3,7 +3,7 @@ version: "3.1"
 stories:
 - story: when information has been collected completely, sort search result by popularity
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: sort_room_by_popularity
   - slot_was_set:
     - bkinfo_orderby: popularity
@@ -17,7 +17,7 @@ stories:
 
 - story: when information has been collected completely, sort search result by review_score
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: sort_room_by_review_score
   - slot_was_set:
     - bkinfo_orderby: review_score
@@ -31,7 +31,7 @@ stories:
 
 - story: when information has been collected completely, sort search result by price
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: sort_room_by_price
   - slot_was_set:
     - bkinfo_orderby: price

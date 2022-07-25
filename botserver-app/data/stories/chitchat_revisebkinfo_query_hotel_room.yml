@@ -130,7 +130,7 @@ stories:
 
 - story: when information has been collected completely, available, bkinfo_area
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: revise_area
     entities:
     - area: 'hawaii'
@@ -152,7 +152,7 @@ stories:
 
 - story: when information has been collected completely, bkinfo_checkin_time
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: revise_checkin_time
     entities:
     - time: '2022-09-05T00:00:00.000-07:00'
@@ -174,7 +174,7 @@ stories:
 
 - story: when information has been collected completely, bkinfo_duration
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: revise_room_reservation_duration
     entities:
     - duration: '3 days'
@@ -196,7 +196,7 @@ stories:
 
 - story: when information has been collected completely, bkinfo_bed_type
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: revise_bed_type
     entities:
     - bed_type: 'queen'
@@ -218,7 +218,7 @@ stories:
 
 - story: when information has been collected completely, bkinfo_price
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: revise_price
     entities:
     - amount-of-money: '200 USD'

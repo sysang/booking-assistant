@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: when information is being collected, out_of_scope
-Identity: ST1-query_hotel_room_chitchat_outofscope[20220724-155323-overcast-hardball][0724-2313]
+Identity: ST1-query_hotel_room_09_chitchat_outofscope[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -15,11 +15,11 @@ Identity: ST1-query_hotel_room_chitchat_outofscope[20220724-155323-overcast-hard
 (BOT)   -> What area are you interested in?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what day would you like to stay on?
+(BOT)   -> what is the exact date of your arrival?
 
 (USER)  Wie fange ich mit Rasa an?
 (BOT)   -> I only understand English, I'm sorry.
-(BOT)   -> what is the exact date of your arrival?
+(BOT)   -> When will you need the accommodations?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -40,10 +40,10 @@ Identity: ST1-query_hotel_room_chitchat_outofscope[20220724-155323-overcast-hard
 
 (USER)  Wie fange ich mit Rasa an?
 (BOT)   -> I only understand English, I'm sorry.
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 (USER)  Wie fange ich mit Rasa an?
 (BOT)   -> I only understand English, I'm sorry.

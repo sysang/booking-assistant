@@ -28,64 +28,69 @@ stories:
   - or:
     - intent: request_listing_hotel_by_area
       entities:
-        - area: hawaii
+        - area: 'hawaii'
     - intent: express_area
       entities:
-        - area: hawaii
+        - area: 'hawaii'
   - slot_was_set:
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
+    - botmemo_bkinfo_status: ['hawaii',null,null,null,null]
   - action: bkinfo_form
+  - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_checkin_time
   - or:
     - intent: express_time
       entities:
-        - time: september 5th
+        - time: 'september 5th'
     - intent: request_checkin_time
       entities:
-        - time: september 5th
+        - time: 'september 5th'
   - slot_was_set:
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',null,null,null]
+    - botmemo_bkinfo_status: ['hawaii', 'september 5th',null,null,null]
   - action: bkinfo_form
+  - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_duration
   - or:
     - intent: express_length_of_time
       entities:
-        - duration: 1 day
+        - duration: 'five days'
     - intent: request_room_reservation_duration
       entities:
-        - duration: five days
+        - duration: 'five days'
   - slot_was_set:
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration',null,null]
+    - botmemo_bkinfo_status: ['hawaii', 'september 5th', 'five days',null,null]
   - action: bkinfo_form
+  - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_bed_type
   - or:
     - intent: request_bed_type
       entities:
-        - bed_type: single
+        - bed_type: 'single'
     - intent: express_bed_type
       entities:
-        - bed_type: single
+        - bed_type: 'single'
   - slot_was_set:
     - bkinfo_bed_type: single
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type',null]
+    - botmemo_bkinfo_status: ['hawaii', 'september 5th', 'five days','single',null]
   - action: bkinfo_form
+  - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_price
   - or:
     - intent: express_expected_mountof_money
       entities:
-        - amount-of-money: 200 USD
+        - amount-of-money: '200 USD'
     - intent: express_mountof_money
       entities:
-        - amount-of-money: 200 USD
+        - amount-of-money: '200 USD'
   - slot_was_set:
     - botmemo_booking_progress: done_information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
+    - botmemo_bkinfo_status: ['hawaii', 'september 5th', 'five days','single','200 USD']
   - action: bkinfo_form
+  - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
@@ -93,7 +98,7 @@ stories:
   - slot_was_set:
     - search_result_flag: available
     - botmemo_booking_progress: room_showing
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: user_click_to_select_room
     entities:
       - room_id: 1
@@ -107,4 +112,5 @@ stories:
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
     - search_result_flag: null
+    - search_result_query: null
   - action: action_listen

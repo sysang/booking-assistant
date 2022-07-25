@@ -67,6 +67,18 @@ slots:
     mappings:
       - type: custom
         action: action_interlocutor_intention_mappings
+  requested_slot:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+    values:
+      - bkinfo_area
+      - bkinfo_checkin_time
+      - bkinfo_duration
+      - bkinfo_bed_type
+      - bkinfo_price
   bkinfo_room_id:
     influence_conversation: true
     type: float

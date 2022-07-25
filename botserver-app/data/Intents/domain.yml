@@ -31,6 +31,7 @@ intents:
   - thank
   - affirm
   - deny
+  - stop_doing
   - react_positive
   - react_negative
   - agent_ready

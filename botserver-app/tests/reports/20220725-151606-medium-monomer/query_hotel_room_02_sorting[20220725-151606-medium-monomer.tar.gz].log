@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: Show room list, sort search result by score review
-Identity: ST1-query_hotel_room_sorting[20220724-155323-overcast-hardball][0724-2314]
+Identity: ST1-query_hotel_room_02_sorting[20220725-151606-medium-monomer][0725-2236]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -20,10 +20,10 @@ Identity: ST1-query_hotel_room_sorting[20220724-155323-overcast-hardball][0724-2
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a single bed room
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 (USER)  i like to see highest rating hotels first
 (BOT)   -> I've found 26 room(s) ranked by review_score for you:
@@ -34,16 +34,16 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: Show room list, sort search result by price
-Identity: ST2-query_hotel_room_sorting[20220724-155323-overcast-hardball][0724-2314]
+Identity: ST2-query_hotel_room_02_sorting[20220725-151606-medium-monomer][0725-2236]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
 (USER)  Could you help me search for a hotel?
 (BOT)   -> My job is to help you to quickly find a suitable hotel.
-(BOT)   -> What area would you like to stay in?
+(BOT)   -> What area are you interested in?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what day would you like to stay on?
+(BOT)   -> When will you need the accommodations?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -52,13 +52,13 @@ Identity: ST2-query_hotel_room_sorting[20220724-155323-overcast-hardball][0724-2
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a single bed room
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 (USER)  what are the cheapest hotels
-(BOT)   -> I've found 27 room(s) ranked by price for you:
+(BOT)   -> I've found 38 room(s) ranked by price for you:
 
 __________________________________________________________________  passed  _________
 

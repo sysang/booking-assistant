@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: request to search hotel by provide area
-Identity: ST1-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+Identity: ST1-query_hotel_room_06_jumpin_information_collecting[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -10,7 +10,7 @@ Identity: ST1-query_hotel_room_jumpin_information_collecting[20220724-155323-ove
 (BOT)   -> Hi! I am virtual booking assistant. How may I help you?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what is the exact date of your arrival?
+(BOT)   -> what day would you like to stay on?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
@@ -19,10 +19,10 @@ Identity: ST1-query_hotel_room_jumpin_information_collecting[20220724-155323-ove
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a single bed room
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -30,7 +30,7 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: request to search hotel by provide area, time
-Identity: ST2-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+Identity: ST2-query_hotel_room_06_jumpin_information_collecting[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -44,7 +44,7 @@ Identity: ST2-query_hotel_room_jumpin_information_collecting[20220724-155323-ove
 (BOT)   -> what price per night you would you prefer?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -52,7 +52,7 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: request to search hotel by provide duration, time
-Identity: ST3-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+Identity: ST3-query_hotel_room_06_jumpin_information_collecting[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -60,16 +60,16 @@ Identity: ST3-query_hotel_room_jumpin_information_collecting[20220724-155323-ove
 (BOT)   -> Hi! I am virtual booking assistant. How may I help you?
 
 (USER)  i want to book a room for 3 days starting from september 5th
-(BOT)   -> What area would you like to stay in?
+(BOT)   -> What area are you interested in?
 
-(USER)  bangkok
+(USER)  bangkok city
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a single bed room
-(BOT)   -> what price per night you would you prefer?
+(BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -77,7 +77,7 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: request to search hotel by provide area, time_duration
-Identity: ST4-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+Identity: ST4-query_hotel_room_06_jumpin_information_collecting[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -88,7 +88,7 @@ Identity: ST4-query_hotel_room_jumpin_information_collecting[20220724-155323-ove
 (BOT)   -> what price per night you would you prefer?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 
@@ -96,21 +96,21 @@ __________________________________________________________________  passed  ____
 _____  STORY  ______________________________________________________________________
 
 Name: request to search hotel by provide bed_tye, time
-Identity: ST5-query_hotel_room_jumpin_information_collecting[20220724-155323-overcast-hardball][0724-2315]
+Identity: ST5-query_hotel_room_06_jumpin_information_collecting[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
 (USER)  need a single room on september 5th
 (BOT)   -> What area are you interested in?
 
-(USER)  bangkok
+(USER)  bangkok city
 (BOT)   -> How long will you be staying?
 
 (USER)  3 days
 (BOT)   -> what price per night you are looking for?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 __________________________________________________________________  passed  _________
 

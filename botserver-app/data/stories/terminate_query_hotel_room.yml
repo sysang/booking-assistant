@@ -13,7 +13,9 @@ stories:
     - botmind_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -40,7 +42,9 @@ stories:
     - botmind_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -66,7 +70,9 @@ stories:
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -93,7 +99,9 @@ stories:
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
   - action: action_execution_rejected
@@ -118,7 +126,9 @@ stories:
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -145,7 +155,9 @@ stories:
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -170,7 +182,9 @@ stories:
     - search_result_flag: available
     - interlocutor_intention: null
     - botmind_intention: null
-  - intent: bye
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -187,15 +201,10 @@ stories:
 
 - story: form is completed, showing room, bye, affirm
   steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
-    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
-    - search_result_flag: available
-    - interlocutor_intention: null
-    - botmind_intention: null
-  - intent: bye
+  - checkpoint: checkpoint_show_result_of_searching_room
+  - or:
+    - intent: bye
+    - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative

@@ -59,7 +59,7 @@ rules:
   - active_loop: bkinfo_form
   wait_for_user_input: false
 
-- rule: bye, idle
+- rule: idle, bye
   condition:
   - slot_was_set:
     - botmind_state: attentive
@@ -68,6 +68,51 @@ rules:
   - active_loop: null
   steps:
   - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  wait_for_user_input: false
+
+- rule: idle, stop_doing
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: idle
+    - botmemo_booking_progress: null
+  - active_loop: null
+  steps:
+  - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  wait_for_user_input: false
+
+- rule: chitchat, bye
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
+    - botmemo_booking_progress: null
+  - active_loop: null
+  steps:
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  wait_for_user_input: false
+
+- rule: chitchat, stop_doing
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
+    - botmemo_booking_progress: null
+  - active_loop: null
+  steps:
+  - intent: stop_doing
   - slot_was_set:
     - interlocutor_intention: terminate_session
     - botmind_intention: engage_interrogative
@@ -91,3 +136,19 @@ rules:
   - action: botacts_utter_asking_confirm_stop_booking
   wait_for_user_input: false
 
+- rule: Showing room, stop_doing
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+  - active_loop: null
+  steps:
+  - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_booking
+  wait_for_user_input: false

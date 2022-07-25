@@ -21,6 +21,9 @@ responses:
   utter_resonse_unlikely_intent:
     - text: "I'm sorry, but I'm not so sure how to hanle your request. Could you rephrase?"
 
+  utter_express_confused_by_unlikely_bkinfo:
+    - text: "Oops! It makes me really confused..."
+
   utter_ask_bkinfo_area:
     - text: "What area would you like to stay in?"
     - text: "What area are you interested in?"

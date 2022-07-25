@@ -2,7 +2,7 @@
 _____  STORY  ______________________________________________________________________
 
 Name: when information is being collected, nlu_fallback
-Identity: ST1-query_hotel_room_chitchat_nlufallback[20220724-155323-overcast-hardball][0724-2313]
+Identity: ST1-query_hotel_room_10_chitchat_nlufallback[20220725-151606-medium-monomer][0725-2237]
 - - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
 
 
@@ -11,42 +11,42 @@ Identity: ST1-query_hotel_room_chitchat_nlufallback[20220724-155323-overcast-har
 (BOT)   -> What area would you like to stay in?
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> I can't help you with that, I'm sorry.
 (BOT)   -> What area would you like to stay in?
 
 (USER)  i need to book a hotel for a trip to bangkok
-(BOT)   -> what day would you like to stay on?
+(BOT)   -> When will you need the accommodations?
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
-(BOT)   -> what day would you like to stay on?
+(BOT)   -> I can't help you with that, I'm sorry.
+(BOT)   -> what is the exact date of your arrival?
 
 (USER)  september 5th
 (BOT)   -> How long will you be staying?
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> I can't help you with that, I'm sorry.
 (BOT)   -> How long will you be staying?
 
 (USER)  3 days
 (BOT)   -> Which bed type would you like?
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> I can't help you with that, I'm sorry.
 (BOT)   -> Which bed type would you like?
 
 (USER)  I want a single bed
 (BOT)   -> what price per night you would you prefer?
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> I can't help you with that, I'm sorry.
 (BOT)   -> what price per night you would you prefer?
 
 (USER)  500 usd
-(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
 
 (USER)  Hi can you please lorem ipsum dolor sit amet i you me want
-(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> I can't help you with that, I'm sorry.
 
 __________________________________________________________________  passed  _________
 

@@ -46,5 +46,15 @@ stories:
     - '{time}'
     - '{duration}'
     - 'I want a {bed_type} bed room'
-    - '50 usd'
+    - '100 usd'
+    - 'could i change price to {amount-of-money}'
+
+- name: Form is filled, search result is empty, revise bkinfo_price
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '1 usd'
     - 'could i change price to {amount-of-money}'

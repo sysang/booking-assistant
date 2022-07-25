@@ -118,6 +118,6 @@ stories:
 
 - story: when information has been collected completely, available, smalltalk
   steps:
-  - checkpoint: checkpoint_room_showing_available
+  - checkpoint: checkpoint_show_result_of_searching_room
   - intent: smalltalk
   - action: utter_smalltalk
