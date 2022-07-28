@@ -234,13 +234,13 @@ nlu:
     - can you tell us if there is a hotel in [haad rin](area), ko pha ngan on [monday](time)
     - i am looking for an average priced place in [da lat](area) [city] on [june 29th](time). thankyou.
     - i'm looking for a hotel in [district 1](district) [ho chi minh](area) starting from [saturday](time)
-    - i'm looking for a hotel in [go vap district](district) [ho chi minh](area) [city](area_type)  on [friday](time)
+    - i'm looking for a hotel in [go vap](district) district [ho chi minh](area) [city](area_type)  on [friday](time)
     - i'm looking for a hotel in [district 3](district) [ho chi minh](area)  on [september 6th](time)
-    - i'm looking for a hotel in [phu nhuan district](district) [ho chi minh](area) on [november 7th](time)
-    - i'm looking for a hotel in [ba dinh district](district) [hanoi](area) [city](area_type) on [7/28/2022](time)
-    - i'm looking for a hotel in [hai ba trung district](district) [hanoi](area) [city](area_type) starting from [1/1](time)
-    - i'm looking for a hotel in [mai tu liem district](district), [hanoi](area), [vietnam](country) on [2/3/22](time)
-    - i'm looking for a hotel in [downtown district](district) [San Francisco](area) [city](area_type), [california](state) starting from [29 june](time)
+    - i'm looking for a hotel in [phu nhuan](district) district [ho chi minh](area) on [november 7th](time)
+    - i'm looking for a hotel in [ba dinh](district) district [hanoi](area) [city](area_type) on [7/28/2022](time)
+    - i'm looking for a hotel in [hai ba trung](district) district [hanoi](area) [city](area_type) starting from [1/1](time)
+    - i'm looking for a hotel in [mai tu liem](district) district, [hanoi](area), [vietnam](country) on [2/3/22](time)
+    - i'm looking for a hotel in [downtown](district) district [San Francisco](area) [city](area_type), [california](state) starting from [29 june](time)
 - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting [from friday to sunday](duration)

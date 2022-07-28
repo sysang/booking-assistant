@@ -4,107 +4,107 @@ version: "3.1"
 nlu:
 - lookup: district
   examples: |
-    - district 1  # hcm districts
-    - district 2
-    - district 3
-    - district 4
-    - district 5
-    - district 6
-    - district 7
-    - district 8
-    - district 9
-    - district 10
-    - district 11
-    - district 12
-    - district go vap
-    - district phu nhuan
-    - district tan binh
-    - district binh tan
-    - district tan phu
-    - ba dinh district  # hanoi districts
-    - bac tu liem district
-    - hoang mai district
-    - dong da district
-    - nam tu liem district
-    - long bien district
-    - hai ba trung district
-    - cau giau district
-    - thanh xuan district
-    - hoan kiem district
-    - ha dong district
-    - tay ho district
-    - bolton borough  # england districts
-    - bury borough
-    - manchester borough
-    - oldham borough
-    - rochdale borough
-    - salford borough
-    - stockport borough
-    - tameside borough
-    - trafford borough
-    - wigan borough
-    - knowsley borough
-    - liverpool borough
-    - sefton borough
-    - st helens borough
-    - wirral borough
-    - barnsley borough
-    - doncaster borough
-    - rotherham borough
-    - sheffield borough
-    - gateshead borough
-    - newcastle upon tyne borough
-    - north tyneside borough
-    - south tyneside borough
-    - sunderland borough
-    - birmingham borough
-    - coventry borough
-    - dudley borough
-    - sandwell borough
-    - solihull borough
-    - walsall borough
-    - wolverhampton borough
-    - bradford borough
-    - calderdale borough
-    - kirklees borough
-    - leeds borough
-    - wakefield borough
-    - barking and dagenham borough
-    - barnet borough
-    - bexley borough
-    - brent borough
-    - bromley borough
-    - camden borough
-    - city of westminster borough
-    - croydon borough
-    - ealing borough
-    - enfield borough
-    - greenwich borough
-    - hackney borough
-    - hammersmith and fulham borough
-    - haringey borough
-    - harrow borough
-    - havering borough
-    - hillingdon borough
-    - hounslow borough
-    - islington borough
-    - kensington and chelsea borough
-    - kingston upon thames borough
-    - lambeth borough
-    - lewisham borough
-    - merton borough
-    - newham borough
-    - redbridge borough
-    - richmond upon thames borough
-    - southwark borough
-    - sutton borough
-    - tower hamlets borough
-    - waltham forest borough
-    - wandsworth borough
-    - central borough
-    - downtown borough
-    - richmond borough
-    - sunset borough
+    - 1  # hcm districts
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - go vap
+    - phu nhuan
+    - tan binh
+    - binh tan
+    - tan phu
+    - ba dinh  # hanoi districts
+    - bac tu liem
+    - hoang mai
+    - dong da
+    - nam tu liem
+    - long bien
+    - hai ba trung
+    - cau giau
+    - thanh xuan
+    - hoan kiem
+    - ha dong
+    - tay ho
+    - bolton  # england districts
+    - bury
+    - manchester
+    - oldham
+    - rochdale
+    - salford
+    - stockport
+    - tameside
+    - trafford
+    - wigan
+    - knowsley
+    - liverpool
+    - sefton
+    - st helens
+    - wirral
+    - barnsley
+    - doncaster
+    - rotherham
+    - sheffield
+    - gateshead
+    - newcastle upon tyne
+    - north tyneside
+    - south tyneside
+    - sunderland
+    - birmingham
+    - coventry
+    - dudley
+    - sandwell
+    - solihull
+    - walsall
+    - wolverhampton
+    - bradford
+    - calderdale
+    - kirklees
+    - leeds
+    - wakefield
+    - barking and dagenham
+    - barnet
+    - bexley
+    - brent
+    - bromley
+    - camden
+    - city of westminster
+    - croydon
+    - ealing
+    - enfield
+    - greenwich
+    - hackney
+    - hammersmith and fulham
+    - haringey
+    - harrow
+    - havering
+    - hillingdon
+    - hounslow
+    - islington
+    - kensington and chelsea
+    - kingston upon thames
+    - lambeth
+    - lewisham
+    - merton
+    - newham
+    - redbridge
+    - richmond upon thames
+    - southwark
+    - sutton
+    - tower hamlets
+    - waltham forest
+    - wandsworth
+    - central
+    - downtown
+    - richmond
+    - sunset
     - upper market
-    - bayview borough
-    - bernal heights borough
+    - bayview
+    - bernal heights
