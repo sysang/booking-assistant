@@ -1,13 +1,14 @@
 version: "3.1"
 
 entities:
-  - hotel
-  - room_id
-  - city
+  - country
+  - region
+  - district
+  - area_type
   - area
   - time
   - duration
   - bed_type
   - amount-of-money
-  - botmind_state
+  - room_id
 

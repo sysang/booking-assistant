@@ -16,12 +16,12 @@ stories:
     - interlocutor_intention: null
   - intent: request_listing_hotel_by_area
     entities:
-      - area: hawaii
+      - area: 'hawaii'
   - action: botacts_start_booking_progress
   - slot_was_set:
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
+    - botmemo_bkinfo_status: ['hawaii',null,null,null,null]
     - search_result_flag: waiting
   - action: bkinfo_form
   - active_loop: bkinfo_form
@@ -43,13 +43,13 @@ stories:
     - interlocutor_intention: null
   - intent: request_listing_hotel_by_area+request_checkin_time
     entities:
-      - area: hawaii
-      - time: september 5th
+      - area: 'hawaii'
+      - time: 'september 5th'
   - action: botacts_start_booking_progress
   - slot_was_set:
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time',null,null,null]
+    - botmemo_bkinfo_status: ['hawaii','september 5th',null,null,null]
     - search_result_flag: waiting
   - action: bkinfo_form
   - active_loop: bkinfo_form
@@ -71,13 +71,13 @@ stories:
     - interlocutor_intention: null
   - intent: request_checkin_time+request_room_reservation_duration
     entities:
-      - time: september 5th
-      - duration: 3 days
+      - time: 'september 5th'
+      - duration: '3 days'
   - action: botacts_start_booking_progress
   - slot_was_set:
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,'bkinfo_checkin_time','bkinfo_duration',null,null]
+    - botmemo_bkinfo_status: [null,'september 5th','3 days',null,null]
     - search_result_flag: waiting
   - action: bkinfo_form
   - active_loop: bkinfo_form
@@ -99,14 +99,14 @@ stories:
     - interlocutor_intention: null
   - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
     entities:
-      - area: hawaii
-      - time: september 5th
-      - duration: 3 days
+      - area: 'hawaii'
+      - time: 'september 5th'
+      - duration: '3 days'
   - action: botacts_start_booking_progress
   - slot_was_set:
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration',null,null]
+    - botmemo_bkinfo_status: ['hawaii','september 5th','3 days',null,null]
     - search_result_flag: waiting
   - action: bkinfo_form
   - active_loop: bkinfo_form
@@ -134,7 +134,35 @@ stories:
   - slot_was_set:
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,'bkinfo_checkin_time',null,'bkinfo_bed_type',null]
+    - botmemo_bkinfo_status: [null,'september 5th',null,'single',null]
+    - search_result_flag: waiting
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
+
+- story: user starts by request_bed_type+request_room_reservation_duration
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
+    - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: null
+    - bkinfo_room_id: null
+    - search_result_flag: null
+    - botmind_intention: null
+    - bkinfo_orderby: null
+    - search_result_query: null
+    - interlocutor_intention: null
+  - intent: request_bed_type+request_room_reservation_duration
+    entities:
+      - bed_type: 'single'
+      - duration: '3 days'
+  - action: botacts_start_booking_progress
+  - slot_was_set:
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: [null,null,'3 days','single',null]
     - search_result_flag: waiting
   - action: bkinfo_form
   - active_loop: bkinfo_form

@@ -202,6 +202,7 @@ nlu:
     - [11 USA](amount-of-money)
     - [201 uss](amount-of-money)
     - [302 GBR](amount-of-money)
+    - [£303](amount-of-money)
     - [301 gbb](amount-of-money)
     - [99 ABC](amount-of-money)
     - [101 cbd](amount-of-money)
@@ -209,6 +210,9 @@ nlu:
     - [502 sgdb](amount-of-money)
     - [1502 INS](amount-of-money)
     - [1502 ins](amount-of-money)
+    - [2000 KRW](amount-of-money)
+    - [2001 krw](amount-of-money)
+    - [₩4000](amount-of-money)
 - intent: express_expected_mountof_money
   examples: |
     - i think about [$150](amount-of-money)
@@ -216,12 +220,16 @@ nlu:
     - it should be around [251 eur](amount-of-money)
     - it should cost [100 EUR](amount-of-money)
     - it should cost [101 eur](amount-of-money)
-    - i wan a price of [150 GBP](amount-of-money)
-    - i wan a price of [151 gbp](amount-of-money)
+    - i want a price of [150 GBP](amount-of-money)
+    - i want a price of [151 gbp](amount-of-money)
     - less than [10000 INR](amount-of-money)
     - less than [10001 inr](amount-of-money)
+    - less than[2000 KRW](amount-of-money)
+    - no more than[2001 krw](amount-of-money)
+    - around [₩4000](amount-of-money)
     - no more than [5000 JPY](amount-of-money)
     - no more than [5001 jpy](amount-of-money)
+    - about [5001 jpy](amount-of-money)
     - [300 EUR](amount-of-money) would be affordable
     - [$500](amount-of-money) would be okay
     - [501 gbp](amount-of-money) would be okay

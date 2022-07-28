@@ -2,7 +2,7 @@ version: "3.1"
 nlu:
 - lookup: area
   examples: |
-    - alexander city
+    - alexander  # cities in US
     - andalusia
     - anniston
     - athens
@@ -30,7 +30,7 @@ nlu:
     - montgomery
     - opelika
     - ozark
-    - phenix city
+    - phenix
     - prichard
     - scottsboro
     - selma
@@ -69,7 +69,7 @@ nlu:
     - glendale
     - globe
     - kingman
-    - lake havasu city
+    - lake havasu
     - mesa
     - nogales
     - oraibi
@@ -94,7 +94,7 @@ nlu:
     - crossett
     - el dorado
     - fayetteville
-    - forrest city
+    - forrest
     - fort smith
     - harrison
     - helena
@@ -139,8 +139,8 @@ nlu:
     - corona
     - coronado
     - costa mesa
-    - culver city
-    - daly city
+    - culver
+    - daly
     - davis
     - downey
     - el centro
@@ -202,7 +202,7 @@ nlu:
     - redding
     - redlands
     - redondo beach
-    - redwood city
+    - redwood
     - richmond
     - riverside
     - roseville
@@ -251,15 +251,15 @@ nlu:
     - whittier
     - woodland
     - yorba linda
-    - yuba city
+    - yuba
     - alamosa
     - aspen
     - aurora
     - boulder
     - breckenridge
     - brighton
-    - canon city
-    - central city
+    - canon
+    - central
     - climax
     - colorado springs
     - cortez
@@ -384,7 +384,7 @@ nlu:
     - homestead
     - jacksonville
     - key west
-    - lake city
+    - lake
     - lake wales
     - lakeland
     - largo
@@ -397,9 +397,8 @@ nlu:
     - orlando
     - ormond beach
     - palatka
-    - palm bay
     - palm beach
-    - panama city
+    - panama
     - pensacola
     - pompano beach
     - saint augustine
@@ -468,7 +467,7 @@ nlu:
     - bonners ferry
     - caldwell
     - coeur d’alene
-    - idaho city
+    - idaho
     - idaho falls
     - kellogg
     - lewiston
@@ -489,7 +488,7 @@ nlu:
     - brookfield
     - cahokia
     - cairo
-    - calumet city
+    - calumet
     - canton
     - carbondale
     - carlinville
@@ -518,7 +517,7 @@ nlu:
     - galesburg
     - glen ellyn
     - glenview
-    - granite city
+    - granite
     - harrisburg
     - herrin
     - highland park
@@ -600,7 +599,7 @@ nlu:
     - lafayette
     - madison
     - marion
-    - michigan city
+    - michigan
     - mishawaka
     - muncie
     - nappanee
@@ -625,7 +624,7 @@ nlu:
     - burlington
     - cedar falls
     - cedar rapids
-    - charles city
+    - charles
     - cherokee
     - clinton
     - council bluffs
@@ -637,34 +636,34 @@ nlu:
     - fort dodge
     - grinnell
     - indianola
-    - iowa city
+    - iowa
     - keokuk
-    - mason city
+    - mason
     - mount pleasant
     - muscatine
     - newton
     - oskaloosa
     - ottumwa
-    - sioux city
+    - sioux
     - waterloo
-    - webster city
+    - webster
     - west des moines
     - abilene
-    - arkansas city
+    - arkansas
     - atchison
     - chanute
     - coffeyville
     - council grove
-    - dodge city
+    - dodge
     - emporia
     - fort scott
-    - garden city
+    - garden
     - great bend
     - hays
     - hutchinson
     - independence
-    - junction city
-    - kansas city
+    - junction
+    - kansas
     - lawrence
     - leavenworth
     - liberal
@@ -714,13 +713,13 @@ nlu:
     - bastrop
     - baton rouge
     - bogalusa
-    - bossier city
+    - bossier
     - gretna
     - houma
     - lafayette
     - lake charles
     - monroe
-    - morgan city
+    - morgan
     - natchitoches
     - new iberia
     - new orleans
@@ -780,9 +779,9 @@ nlu:
     - hyattsville
     - laurel
     - oakland
-    - ocean city
+    - ocean
     - rockville
-    - saint marys city
+    - saint marys
     - salisbury
     - silver spring
     - takoma park
@@ -894,7 +893,6 @@ nlu:
     - alma
     - ann arbor
     - battle creek
-    - bay city
     - benton harbor
     - bloomfield hills
     - cadillac
@@ -924,7 +922,7 @@ nlu:
     - lansing
     - livonia
     - ludington
-    - mackinaw city
+    - mackinaw
     - manistee
     - marquette
     - menominee
@@ -942,7 +940,7 @@ nlu:
     - saint ignace
     - saint joseph
     - sault sainte marie
-    - traverse city
+    - traverse
     - trenton
     - warren
     - wyandotte
@@ -980,7 +978,6 @@ nlu:
     - virginia
     - willmar
     - winona
-    - bay saint louis
     - biloxi
     - canton
     - clarksdale
@@ -1007,7 +1004,7 @@ nlu:
     - tupelo
     - vicksburg
     - west point
-    - yazoo city
+    - yazoo
     - boonville
     - branson
     - cape girardeau
@@ -1021,9 +1018,9 @@ nlu:
     - fulton
     - hannibal
     - independence
-    - jefferson city
+    - jefferson
     - joplin
-    - kansas city
+    - kansas
     - kirksville
     - lamar
     - lebanon
@@ -1056,9 +1053,9 @@ nlu:
     - kalispell
     - lewistown
     - livingston
-    - miles city
+    - miles
     - missoula
-    - virginia city
+    - virginia
     - beatrice
     - bellevue
     - boys town
@@ -1071,15 +1068,15 @@ nlu:
     - lincoln
     - mccook
     - minden
-    - nebraska city
+    - nebraska
     - norfolk
     - north platte
     - omaha
     - plattsmouth
     - red cloud
     - sidney
-    - boulder city
-    - carson city
+    - boulder
+    - carson
     - elko
     - ely
     - fallon
@@ -1090,7 +1087,7 @@ nlu:
     - north las vegas
     - reno
     - sparks
-    - virginia city
+    - virginia
     - winnemucca
     - berlin
     - claremont
@@ -1114,8 +1111,7 @@ nlu:
     - salem
     - somersworth
     - asbury park
-    - atlantic city
-    - bayonne
+    - atlantic
     - bloomfield
     - bordentown
     - bound brook
@@ -1136,7 +1132,7 @@ nlu:
     - haddonfield
     - hoboken
     - irvington
-    - jersey city
+    - jersey
     - lakehurst
     - lakewood
     - long beach
@@ -1151,7 +1147,7 @@ nlu:
     - new brunswick
     - new milford
     - newark
-    - ocean city
+    - ocean
     - orange
     - parsippany–troy hills
     - passaic
@@ -1168,7 +1164,7 @@ nlu:
     - totowa
     - trenton
     - union
-    - union city
+    - union
     - vineland
     - wayne
     - weehawken
@@ -1197,7 +1193,7 @@ nlu:
     - roswell
     - santa fe
     - shiprock
-    - silver city
+    - silver
     - socorro
     - taos
     - truth or consequences
@@ -1230,7 +1226,7 @@ nlu:
     - flushing
     - forest hills
     - fredonia
-    - garden city
+    - garden
     - geneva
     - glens falls
     - gloversville
@@ -1260,7 +1256,7 @@ nlu:
     - new paltz
     - new rochelle
     - new windsor
-    - new york city
+    - new york
     - newburgh
     - niagara falls
     - north hempstead
@@ -1271,7 +1267,6 @@ nlu:
     - oneonta
     - ossining
     - oswego
-    - oyster bay
     - palmyra
     - peekskill
     - plattsburgh
@@ -1318,7 +1313,7 @@ nlu:
     - concord
     - durham
     - edenton
-    - elizabeth city
+    - elizabeth
     - fayetteville
     - gastonia
     - goldsboro
@@ -1333,7 +1328,7 @@ nlu:
     - kinston
     - kitty hawk
     - lumberton
-    - morehead city
+    - morehead
     - morganton
     - nags head
     - new bern
@@ -1355,7 +1350,7 @@ nlu:
     - mandan
     - minot
     - rugby
-    - valley city
+    - valley
     - wahpeton
     - williston
     - akron
@@ -1441,7 +1436,7 @@ nlu:
     - durant
     - edmond
     - el reno
-    - elk city
+    - elk
     - enid
     - eufaula
     - frederick
@@ -1453,16 +1448,16 @@ nlu:
     - lawton
     - mcalester
     - miami
-    - midwest city
+    - midwest
     - moore
     - muskogee
     - norman
-    - oklahoma city
+    - oklahoma
     - okmulgee
     - pauls valley
     - pawhuska
     - perry
-    - ponca city
+    - ponca
     - pryor
     - sallisaw
     - sand springs
@@ -1479,12 +1474,11 @@ nlu:
     - albany
     - ashland
     - astoria
-    - baker city
+    - baker
     - beaverton
     - bend
     - brookings
     - burns
-    - coos bay
     - corvallis
     - eugene
     - grants pass
@@ -1501,7 +1495,7 @@ nlu:
     - newberg
     - newport
     - ontario
-    - oregon city
+    - oregon
     - pendleton
     - port orford
     - portland
@@ -1561,7 +1555,7 @@ nlu:
     - new hope
     - new kensington
     - norristown
-    - oil city
+    - oil
     - philadelphia
     - phoenixville
     - pittsburgh
@@ -1642,7 +1636,7 @@ nlu:
     - mitchell
     - mobridge
     - pierre
-    - rapid city
+    - rapid
     - sioux falls
     - spearfish
     - sturgis
@@ -1663,7 +1657,7 @@ nlu:
     - gatlinburg
     - greeneville
     - jackson
-    - johnson city
+    - johnson
     - jonesborough
     - kingsport
     - knoxville
@@ -1682,7 +1676,6 @@ nlu:
     - amarillo
     - arlington
     - austin
-    - baytown
     - beaumont
     - big spring
     - borger
@@ -1692,7 +1685,7 @@ nlu:
     - cleburne
     - college station
     - corpus christi
-    - crystal city
+    - crystal
     - dallas
     - del rio
     - denison
@@ -1710,7 +1703,7 @@ nlu:
     - houston
     - huntsville
     - irving
-    - johnson city
+    - johnson
     - kilgore
     - killeen
     - kingsville
@@ -1746,7 +1739,7 @@ nlu:
     - sweetwater
     - temple
     - texarkana
-    - texas city
+    - texas
     - tyler
     - uvalde
     - victoria
@@ -1757,13 +1750,13 @@ nlu:
     - alta
     - american fork
     - bountiful
-    - brigham city
-    - cedar city
+    - brigham
+    - cedar
     - clearfield
     - delta
     - fillmore
     - green river
-    - heber city
+    - heber
     - kanab
     - layton
     - lehi
@@ -1777,12 +1770,12 @@ nlu:
     - orderville
     - orem
     - panguitch
-    - park city
+    - park
     - payson
     - price
     - provo
     - saint george
-    - salt lake city
+    - salt lake
     - spanish fork
     - springville
     - tooele
@@ -1910,7 +1903,6 @@ nlu:
     - beloit
     - eau claire
     - fond du lac
-    - green bay
     - hayward
     - janesville
     - kenosha
@@ -1934,7 +1926,6 @@ nlu:
     - sheboygan
     - spring green
     - stevens point
-    - sturgeon bay
     - superior
     - waukesha
     - wausau
@@ -1962,8 +1953,8 @@ nlu:
     - ten sleep
     - thermopolis
     - torrington
-    - worland
-    - tokyo
+    - worland  # end
+    - tokyo  # cities all over the world
     - jakarta
     - delhi
     - manila
@@ -1971,7 +1962,7 @@ nlu:
     - seoul
     - mumbai
     - shanghai
-    - mexico city
+    - mexico
     - guangzhou
     - cairo
     - beijing
@@ -1988,7 +1979,7 @@ nlu:
     - kinshasa
     - shenzhen
     - bangalore
-    - ho chi minh city
+    - ho chi minh
     - tehran
     - los angeles
     - rio de janeiro
@@ -2217,14 +2208,14 @@ nlu:
     - brasília
     - mashhad
     - shaoguan
-    - kuwait city
+    - kuwait
     - shanwei
-    - quezon city
+    - quezon
     - minneapolis
     - kyiv
     - sanaa
     - meishan
-    - guatemala city
+    - guatemala
     - incheon
     - ningde
     - tampa
@@ -2386,7 +2377,7 @@ nlu:
     - shuyangzha
     - brussels
     - lusaka
-    - hyderabad city
+    - hyderabad
     - budapest
     - shuozhou
     - cleveland
@@ -2395,7 +2386,7 @@ nlu:
     - pittsburgh
     - patna
     - mosul
-    - caloocan city
+    - caloocan
     - austin
     - sanzhou
     - beihai
@@ -2408,7 +2399,7 @@ nlu:
     - recife
     - yushan
     - zhongli
-    - kansas city
+    - kansas
     - manhattan
     - bilāspur
     - semarang
@@ -2564,7 +2555,7 @@ nlu:
     - kigali
     - leiyang
     - yichun
-    - benin city
+    - benin
     - birmingham
     - xiantao
     - amritsar
@@ -2584,7 +2575,7 @@ nlu:
     - biên hòa
     - n’djamena
     - ikare
-    - salt lake city
+    - salt lake
     - bhilai
     - hāora
     - tamale
@@ -2670,7 +2661,7 @@ nlu:
     - vientiane
     - jerusalem
     - bangui
-    - panama city
+    - panama
     - amsterdam
     - lomé
     - libreville
@@ -2681,7 +2672,7 @@ nlu:
     - colombo
     - pretoria
     - winnipeg
-    - quebec city
+    - quebec
     - oslo
     - athens
     - bujumbura
@@ -2794,7 +2785,7 @@ nlu:
     - al quds
     - capitol hill
     - stanley
-    - vatican city
+    - vatican
     - alofi
     - basse-terre
     - hagåtña
@@ -2829,14 +2820,14 @@ nlu:
     - danyang
     - natal
     - nada
-    - zamboanga city
+    - zamboanga
     - kirkuk
     - naples
     - wuchuan
     - huilong
-    - oklahoma city
+    - oklahoma
     - morelia
-    - cebu city
+    - cebu
     - shaoxing
     - coimbatore
     - santo domingo este
@@ -2878,7 +2869,7 @@ nlu:
     - ad dammām
     - lhasa
     - jiaozhou
-    - taguig city
+    - taguig
     - mérida
     - yangchun
     - bucheon
@@ -2921,7 +2912,7 @@ nlu:
     - erbil
     - iguaçu
     - el paso
-    - pasig city
+    - pasig
     - denpasar
     - dehui
     - bhubaneshwar
@@ -3026,7 +3017,7 @@ nlu:
     - santo andré
     - xichang
     - bhiwandi
-    - city of parañaque
+    -
     - dasmariñas
     - chengxiang
     - sahāranpur
@@ -3095,7 +3086,7 @@ nlu:
     - durango
     - jalingo
     - bouaké
-    - sialkot city
+    - sialkot
     - san jose del monte
     - ansan
     - lingbao chengguanzhen
@@ -3133,7 +3124,7 @@ nlu:
     - jeonju
     - jin’e
     - barnaul
-    - makati city
+    - makati
     - stuttgart
     - rotterdam
     - changping
@@ -3158,7 +3149,7 @@ nlu:
     - bazhou
     - springfield
     - turpan
-    - las piñas city
+    - las piñas
     - meihekou
     - jurong
     - feira de santana
@@ -3270,7 +3261,7 @@ nlu:
     - cabinda
     - korla
     - huanghua
-    - muntinlupa city
+    - muntinlupa
     - londrina
     - tabūk
     - heroica matamoros
@@ -3283,7 +3274,7 @@ nlu:
     - ajmer
     - ghulja
     - tinnevelly
-    - city of calamba
+    -
     - xiangyang
     - fuding
     - an nāşirīyah
@@ -3359,9 +3350,8 @@ nlu:
     - matsuyama
     - jhānsi
     - kashgar
-    - palm bay
     - pingtung
-    - lapu-lapu city
+    - lapu-lapu
     - montería
     - ichikawa
     - imus
@@ -3443,12 +3433,12 @@ nlu:
     - shekhupura
     - des moines
     - piura
-    - mandaluyong city
+    - mandaluyong
     - jiaojiangcun
     - laohekou
     - kâğıthane
-    - angeles city
-    - pasay city
+    - angeles
+    - pasay
     - beian
     - fujin
     - leicester
@@ -3459,7 +3449,7 @@ nlu:
     - katsushika-ku
     - buraydah
     - gdańsk
-    - marikina city
+    - marikina
     - manado
     - campos
     - calabar
@@ -3591,7 +3581,7 @@ nlu:
     - mataram
     - chattanooga
     - kisumu
-    - jhang city
+    - jhang
     - nagqu
     - jayapura
     - rio branco
@@ -3668,7 +3658,7 @@ nlu:
     - aqtöbe
     - oxnard
     - oyo
-    - tarlac city
+    - tarlac
     - okazaki
     - cainta
     - ḩā’il
@@ -3697,20 +3687,20 @@ nlu:
     - youngstown
     - iquitos
     - helixi
-    - manukau city
+    - manukau
     - cumaná
     - rohtak
     - vinnytsia
     - lātūr
-    - lipa city
-    - mandaue city
+    - lipa
+    - mandaue
     - bello
     - khorramābād
     - ambon
     - butuan
     - keelung
     - toyohashi
-    - baguio city
+    - baguio
     - la florida
     - lengshuijiang
     - anguo
@@ -3885,7 +3875,7 @@ nlu:
     - taourirt
     - izmir
     - vũng tàu
-    - cabanatuan city
+    - cabanatuan
     - markham
     - saugor
     - pelotas
@@ -4058,7 +4048,6 @@ nlu:
     - pachuca
     - augsburg
     - bradford
-    - oyster bay
     - tagum
     - valparaíso
     - silang
@@ -4271,7 +4260,7 @@ nlu:
     - wollongong
     - bordeaux
     - nonthaburi
-    - jersey city
+    - jersey
     - marilao
     - venice
     - quảng ngãi
@@ -4357,7 +4346,6 @@ nlu:
     - aachen
     - rivne
     - galaţi
-    - al bayḑā’
     - kurmuk
     - shibuya-ku
     - thủ dầu một
@@ -4456,7 +4444,7 @@ nlu:
     - chishui
     - centurion
     - uluberiya
-    - atlantic city
+    - atlantic
     - pākdasht
     - shakhty
     - magdeburg
@@ -4466,7 +4454,6 @@ nlu:
     - bole
     - ganda
     - najafābād
-    - bayamo
     - puducherry
     - porbandar
     - kamianske
@@ -4640,7 +4627,7 @@ nlu:
     - petropavl
     - são leopoldo
     - marg‘ilon
-    - trece martires city
+    - trece martires
     - gangneung
     - san bernardino
     - cúa
@@ -4683,14 +4670,14 @@ nlu:
     - bila tserkva
     - isesaki
     - pamplona
-    - naga city
+    - naga
     - burgas
     - babylon
     - chungju
     - maracanaú
     - tunja
     - pagadian
-    - legazpi city
+    - legazpi
     - barrancabermeja
     - san-pédro
     - bukit mertajam
@@ -4710,7 +4697,7 @@ nlu:
     - pinghu
     - ich’ŏn
     - milton keynes
-    - marawi city
+    - marawi
     - puerto cabello
     - beersheba
     - huangyan
@@ -4728,7 +4715,6 @@ nlu:
     - monywa
     - dindigul
     - morogoro
-    - green bay
     - pingzhen
     - banī suwayf
     - cidade de nacala
@@ -4737,7 +4723,7 @@ nlu:
     - spring valley
     - linz
     - trieste
-    - san carlos city
+    - san carlos
     - kodaira
     - itami
     - phan thiết
@@ -4972,7 +4958,7 @@ nlu:
     - chaedŏk
     - jōetsu
     - sioux falls
-    - calbayog city
+    - calbayog
     - sultanbeyli
     - kairouan
     - cabo frio
@@ -5050,7 +5036,7 @@ nlu:
     - dam dam
     - jīma
     - lhokseumawe
-    - roxas city
+    - roxas
     - funtua
     - turbo
     - hinthada
@@ -5090,7 +5076,7 @@ nlu:
     - newport news
     - townsville
     - langsa
-    - dagupan city
+    - dagupan
     - teziutlan
     - şalālah
     - salatiga
@@ -5353,7 +5339,6 @@ nlu:
     - solingen
     - tacheng
     - villeurbanne
-    - bayamón
     - bragança paulista
     - zhengding
     - pindamonhangaba
@@ -5506,7 +5491,7 @@ nlu:
     - dahuaishu
     - shāntipur
     - moriguchi
-    - kansas city
+    - kansas
     - yilan
     - siem reap
     - golmeh
@@ -5586,83 +5571,91 @@ nlu:
     - west bromwich
     - centro habana
     - beidaihe
-    - little corn beaches
+    - little corn  # famous beaches
     - akajima
-    - panama city beach
-    - diani beach
+    - panama
+    - diani
     - tanjung rhu
-    - cavendish beach
-    - placencia beach
-    - southwestern beach
-    - patnem beach
+    - cavendish
+    - placencia
+    - southwestern
+    - patnem
     - porto da barra
     - nungwi
-    - trunk bay
-    - negril beach
-    - natadola beach
-    - canggu beach
-    - bondi beach
-    - west bay beach
-    - d-day beaches
-    - balos beach
-    - dominical beach
+    - negril
+    - natadola
+    - canggu
+    - bondi
+    - d-day
+    - balos
+    - dominical
     - margaret river
     - karekare
     - playa paraiso
     - bahia solano
-    - warwick long bay
     - cayo paraiso
-    - hanalei bay
-    - navagio beach
-    - sun island beach
+    - navagio
+    - sun island
     - grand anse
-    - crane beach
-    - sunrise beach
-    - juara beach
-    - long bay
-    - maya bay
-    - egremni beach
-    - nihiwatu beach
-    - boulders beach
+    - crane
+    - sunrise
+    - juara
+    - egremni
+    - nihiwatu
+    - boulders
     - the baths
     - rarotonga
     - pulau perhentian kecil
-    - gardner bay
-    - whitehaven beach
-    - luskentyre beach
-    - lover's beach
+    - whitehaven
+    - luskentyre
+    - lover's
     - el nido
     - bandon
-    - arashi beach
+    - arashi
     - tulum
-    - ffryes beach
+    - ffryes
     - palaui island
     - las salinas
-    - paradise beach
+    - paradise
     - unawatuna
-    - byron bay
-    - vilanculos beach
-    - an bang beach
-    - oludeniz beach
-    - puka beach
+    - vilanculos
+    - an bang
+    - oludeniz
+    - puka
     - la concha
-    - venice beach
+    - venice
     - cape maclear
     - laughing bird caye
-    - jeffreys bay
     - los roques
-    - flamenco beach
+    - flamenco
     - belle mare
     - capo sant'andrea
-    - isshiki beach
+    - isshiki
     - plage de piémanson
     - pulau derawan
     - punalu'u
     - essaouira
-    - kaiteriteri beach
-    - skagen beach
-    - na'ama bay
-    - radhanagar beach
-    - abaka bay
+    - kaiteriteri
+    - skagen
+    - radhanagar
     - haad rin
-    - phra nang beach
+    - phra nang
+    - hanalei  # famous bays
+    - warwick
+    - long
+    - maya
+    - gardner
+    - byron
+    - jeffreys
+    - na'ama
+    - abaka
+    - palm
+    - bay saint louis
+    - green bay
+    - sturgeon
+    - palm
+    - oyster bay
+    - al bayḑā’
+    - green bay
+    - west bay
+    - trunk  # end

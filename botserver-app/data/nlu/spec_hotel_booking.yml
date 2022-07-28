@@ -14,11 +14,12 @@ nlu:
     - i am about to find a hotel
     - please find me a hotel
     - i want to make booking
+    - i'm interested in booking a room
 - intent: request_listing_hotel_by_area
   examples: |
     - i need to book a hotel for a trip to [los angeles](area)
     - i need to book a hotel for a trip to [hanoi](area)
-    - i need to book a hotel for a trip to [ho chi minh](area) city
+    - i need to book a hotel for a trip to [ho chi minh](area) [city](area_type)
     - i need to book a hotel for a trip to [bangkok](area)
     - i need to book a hotel for a trip to [paris](area)
     - i need to book a hotel for a trip to [shanghai](area)
@@ -27,17 +28,17 @@ nlu:
     - i need to book a hotel for a trip to [singapore](area)
     - i need to book a hotel for a trip to [hongkong](area)
     - i need to book a hotel for a business surf trip to [hawaii](area)
-    - i need to book a hotel for a trip to [fort lauderdale beach](area)
-    - can you find me an place to stay that is located in [fort lauderdale beach](area)
-    - i'm looking for a hotel in [florida](area)
-    - i'm searching for a hotel in [florida](area)
-    - i'm searching for a hotel in [da dang](area), vietnam
-    - hi! can you help me find a hotel somewhere on [hawaii](area) please
+    - i need to book a hotel for a trip to [fort lauderdale](area) [beach](area_type)
+    - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type)
+    - i'm looking for a hotel in [palm](area) [beach](area_type) [florida](state)
+    - i'm searching for a hotel in [santa](area) [beach](area_type) [florida](state)
+    - i'm searching for a hotel in [da dang](area), [vietnam](country)
+    - hi! can you help me find a hotel somewhere on [hawaii](area)
     - can you tell us if there is a hotel in [san diego](area)
-    - i am looking for an average priced place in [san diago](area). thankyou.
+    - i am looking for an average priced place in [san diago](area), thankyou
     - i'm looking for a hotel to stay in during my visit to [florida](area)
-    - i need a hotel room in [florida](area), could you help
-    - i am going to travel to [ho chi minh city](area), vietnam
+    - i need a hotel room in [bangkok](area), could you help
+    - i am going to travel to [ho chi minh](area) [city](area_type), [vietnam](country)
     - i want to visit [bangkok](area)
     - i want to visit [tokyo](area)
     - i want to visit [jakarta](area)
@@ -108,13 +109,31 @@ nlu:
     - i'm looking for a hotel in [pulau derawan](area)
     - i'm looking for a hotel in [punalu'u](area)
     - i'm looking for a hotel in [essaouira](area)
-    - i'm looking for a hotel in [kaiteriteri beach](area)
-    - i'm looking for a hotel in [skagen beach](area)
-    - i'm looking for a hotel in [na'ama bay](area)
-    - i'm looking for a hotel in [radhanagar beach](area)
-    - i'm looking for a hotel in [abaka bay](area)
+    - i'm looking for a hotel in [kaiteriteri](area) [beach](area_type)
+    - i'm looking for a hotel in [skagen](area) [beach](area_type)
+    - i'm looking for a hotel in [na'ama](area) [bay](area_type)
+    - i'm looking for a hotel in [radhanagar](area) [beach](area_type)
+    - i'm looking for a hotel in [abaka](area) [bay](area_type)
     - i'm looking for a hotel in [haad rin](area)
-    - i'm looking for a hotel in [phra nang beach](area)
+    - i'm looking for a hotel in [phra nang](area) [beach](area_type)
+    - i want to book a room in [swissotel the stamford](area)
+    - i want to book a room in [four seasons](area) [hotel](area_type) [singapore](country)
+    - i want to book a room in [the fullerton bay hotel](area) [singapore](country)
+    - i want to book a room in [moana surfrider](area) [hotel](area_type)
+    - i want to book a room in [hilton hawaiian village waikiki beach resort](area)
+    - i want to book a room in [the laylow](area) [hotel](area_type)
+    - i want to book a room in [turtle bay resort](area)
+    - i want to book a room in [koloa landing resort](area)
+    - i want to book a room in [grand hyatt kauai resort spa](area)
+    - i’d like to make a reservation in [nirwana beach and resort](area)
+    - i’d like to make a reservation in [tonys villas and resort](area)
+    - i’d like to make a reservation in [merusaka nusa dua](area)
+    - i’d like to make a reservation in [nikhila seminyak](area)
+    - i’d like to make a reservation in [adhi jaya sunset road](area) [hotel](area_type)
+    - i’d like to make a reservation in [the fullerton](area) [hotel](area_type)
+    - i’d like to make a reservation in [singapore](country) [marriott tang plaza](area) [hotel](area_type)
+    - i’d like to make a reservation in [raffles](area) [singapore](area_type)
+    - i’d like to make a reservation in [marina bay sands](area) [hotel](area_type)
 - intent: request_checkin_time
   examples: |
     - check-in time is on [monday](time)
@@ -142,6 +161,9 @@ nlu:
     - i need a room [today](time)
     - i would like to book a room on [this friday](time)
     - i would like to book a room on [tomorrow](time)
+    - i was wondering if i can get a good suite for [the 12th of this month](time)
+    - i was wondering if i can get a good hotel room for [the 12th of this month](time)
+    - could i get a good hotel room for [the 12th of this month](time)
 - intent: request_bed_type
   examples: |
     - i’ll be traveling alone, so a room with a [king-size](bed_type) bed will be fine
@@ -179,6 +201,7 @@ nlu:
     - book it for [half day](duration)
     - book it for [four seconds](duration)
     - book it for [86400 seconds](duration)
+    - book a room for [one night](duration)
 - intent: request_checkin_time+request_room_reservation_duration
   examples: |
     - i want to book a room for [2 days](duration) starting from [january 1st](time)
@@ -206,28 +229,37 @@ nlu:
 - intent: request_listing_hotel_by_area+request_checkin_time
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](time)
-    - can you find me an place to stay that is located in [fort lauderdale beach](area) on [friday](time)
-    - i'm looking for a hotel in [florida](area) on [september 5th](time)
-    - can you tell us if there is a hotel in [san diego](area) on [monday](time)
-    - i am looking for an average priced place in [san diago](area) on [june 29th](time). thankyou.
+    - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type) on [friday](time)
+    - i'm looking for a hotel in [long](area) [bay](area_type), [saint-martin](country) on [september 5th](time)
+    - can you tell us if there is a hotel in [haad rin](area), ko pha ngan on [monday](time)
+    - i am looking for an average priced place in [da lat](area) [city] on [june 29th](time). thankyou.
+    - i'm looking for a hotel in [district 1](district) [ho chi minh](area) starting from [saturday](time)
+    - i'm looking for a hotel in [go vap district](district) [ho chi minh](area) [city](area_type)  on [friday](time)
+    - i'm looking for a hotel in [district 3](district) [ho chi minh](area)  on [september 6th](time)
+    - i'm looking for a hotel in [phu nhuan district](district) [ho chi minh](area) on [november 7th](time)
+    - i'm looking for a hotel in [ba dinh district](district) [hanoi](area) [city](area_type) on [7/28/2022](time)
+    - i'm looking for a hotel in [hai ba trung district](district) [hanoi](area) [city](area_type) starting from [1/1](time)
+    - i'm looking for a hotel in [mai tu liem district](district), [hanoi](area), [vietnam](country) on [2/3/22](time)
+    - i'm looking for a hotel in [downtown district](district) [San Francisco](area) [city](area_type), [california](state) starting from [29 june](time)
 - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting [from friday to sunday](duration)
     - i need to book a hotel in [bangkok](area) from [from november 1st to december 1st](duration)
-    - can you find me an place to stay that is located in [nha trang city](area) [from october 3rd to october 4th](duration)
+    - can you find me an place to stay that is located in [nha trang](area) [city](area_type) [from october 3rd to october 4th](duration)
     - i'm looking for a hotel in [austin](area) [from september 5th to september 20th](time)
     - can you tell us if there is a hotel in [tokyo](area) [from 1/6/2023 to 2/6/2023](duration)
-    - i am looking for an average priced place in [san diago](area) [from 25/7/2022 to 3/10/2022](duration)
-    - can you find me an place to stay that is located in [fort lauderdale beach](area)
-    - i'm looking for a hotel in [florida](area) [from 1/6/2022 to 2/6/2022](duration)
-    - i'm searching for a hotel in [florida](area) [from 2/6/2022 to 4/6/2022](duration)
-    - i'm searching for a hotel in [da dang](area), vietnam [from 10/7/2022 to 13/7/2022](duration)
-    - hi! can you help me find a hotel somewhere on [hawaii](area) please [from 1/11/2022 to 2/11/2022](duration)
+    - i am looking for an average priced place in [little corn](area) [beaches](area_type) [from 25/7/2022 to 3/10/2022](duration)
+    - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type)
+    - i'm looking for a hotel in [el nido](area), [palawan province](region) [from 1/6/2022 to 2/6/2022](duration)
+    - i'm searching for a hotel in [tulum](area) [from 2/6/2022 to 4/6/2022](duration)
+    - i'm searching for a hotel in [da dang](area), [vietnam](country) [from 10/7/2022 to 13/7/2022](duration)
+    - hi! can you help me find a hotel somewhere on [hawaii](area) [island](area_type) please [from 1/11/2022 to 2/11/2022](duration)
     - can you tell us if there is a hotel in [san diego](area) [from 1/6/2022 to 2/6/2022](duration)
     - i am looking for an average priced place in [san diago](area). thankyou. [from 1/1/2022 to 10/1/2023](duration)
-    - i'm looking for a hotel to stay in during my visit to [florida](area) [from 1/7/2022 to 2/6/2022](duration)
-    - i need a hotel room in [florida](area), could you help [from january 3rd 2020 to january 4th 2021](duration)
-    - i am going to travel to [ho chi minh city](area), vietnam [from 15th to 17th this month](duration)
+    - i'm looking for a hotel to stay in during my visit to [honolulu](area) [hawaii](state) [from 1/7/2022 to 2/6/2022](duration)
+    - i need a hotel room in [venice](area) [beach](area_type), [california](state), could you help, [from january 3rd 2020 to january 4th 2021](duration)
+    - i need a hotel room in [paradise](area) [beach](area_type), rab, [croatia](country), [from january 3rd 2020 to january 4th 2021](duration)
+    - i am going to travel to [ho chi minh](area) [city](area_type), [vietnam](country) [from 15th to 17th this month](duration)
     - i want to visit [bangkok](area) [from 1st to 4th november](duration)
 - intent: request_bed_type+request_checkin_time
   examples: |
@@ -237,19 +269,29 @@ nlu:
     - i looking for [queen-size](bed_type) bed room on [september 1st](time)
     - please booked [single](bed_type) room on [january 23th](time)
     - i am looking for room with [double](bed_type) bed on [12 december](time)
+    - i’d like to make a reservation for a [twin](bed_type) room for the night of [october 1](time), please.
+    - i’d like to make a reservation for a [single](bed_type) room for the night of [11 january](time), please.
+    - i’d like to make a booking for a [double](bed_type) room for the night of [20th](time), please.
+- intent: request_bed_type+request_room_reservation_duration
+  examples: |
+    - i’d like to book a [single](bed_type) room for [two nights](bed_type), please.
+    - i’d like to book a [double](bed_type) room for [3 days](bed_type), please.
+    - i’d like to make a [booking](bed_type) for a [double](bed_type) room for [one night](duration)
+    - i am looking for room with [double](bed_type) bed for [1 day](duration)
+  examples: |
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
-    - i want another place, it's [fort lauderdale beach](area)
+    - i want another place, it's [fort lauderdale](area) [beach](area_type)
     - i have change my mind, please select another place, it is [san diego](area)
     - can you change the area to [new york](area) please
     - could you change the city to [austin](area) please
     - change the area to [chicago](area)
-    - change the place to [hamburg](area), germany
+    - change the place to [hamburg](area), [germany](country)
     - please change the place to [hamburg](area)
-    - change the place to [stuttgart](area), germany
+    - change the place to [stuttgart](area), [germany](country)
     - please change the place to [stuttgart](area)
-    - please change the place to fort lauderdale beach
+    - please change the place to [downtown district](district) [San Francisco](area) [city](area_type)
 - intent: revise_checkin_time
   examples: |
     - could i change check in time to [sunday](time)
@@ -302,7 +344,9 @@ nlu:
     - what are the most popular hotels
     - list hotels by popularity
     - please rank hotel by popularity
+    - please rank room by popularity
     - please sort hotel by popularity
+    - please sort room by popularity
     - please list most popular hotels
     - i want most popular hotels
     - i am looking for most popular ones
@@ -317,7 +361,9 @@ nlu:
     - list hotels by rating score
     - list hotels by review score
     - please rank hotel by rating
+    - please rank room by rating
     - please sort hotel by review score
+    - please sort room by review score
     - please list hightest rating hotels
     - i want highest rating hotels
     - i want highest review score hotels
@@ -363,3 +409,25 @@ nlu:
   examples: |
     - small double
     - large double
+- synonym: bay
+  examples: |
+    - bays
+- synonym: beach
+  examples: |
+    - beaches
+- synonym: united states
+  examples: |
+    - united states of america
+    - us
+    - usa
+- lookup: area_type
+  examples: |
+    - city
+    - bay
+    - beach
+    - beaches
+    - island
+    - islands
+    - hotel
+    - cave
+    - bridge

@@ -2,8 +2,11 @@ import pickle
 import re
 import json
 import arrow
+
 from arrow import Arrow
 from typing import Any, Dict, List, Text, Optional, Tuple
+from difflib import SequenceMatcher as SM
+
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
@@ -134,6 +137,10 @@ def picklize_search_result(data):
         return pickle.loads(data)
 
     return None
+
+
+def make_fuzzy_string_comparison(str1, str2):
+    return SM(isjunk=None, a=str1, b=str2).ratio()
 
 
 def __test__parse_date_range():

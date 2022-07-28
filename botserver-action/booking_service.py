@@ -6,6 +6,7 @@ import arrow
 import asyncio
 import math
 import time
+import copy
 
 from arrow import Arrow
 from requests import get
@@ -17,6 +18,7 @@ from cachecontrol.heuristics import ExpiresAfter
 
 from .utils import parse_date_range
 from .utils import SortbyDictionary
+from .utils import make_fuzzy_string_comparison
 
 from .duckling_service import (
     parse_checkin_time,
@@ -35,6 +37,30 @@ UNITS = 'metric'
 PRICE_MARGIN = 0.07
 REQUESTS_CACHE_MINS = 60
 
+# comply to https://booking-com.p.rapidapi.com/v1/hotels/locations api's dest_type field
+DEST_TYPE_HOTEL = 'hotel'
+DEST_TYPE_LANDMARK = 'landmark'
+DEST_TYPE_CITY = 'city'
+DEST_TYPE_DISTRICT = 'district'
+DEST_TYPE_REGION = 'region'
+
+"""
+IMPOTANT:
+    - Mapping bkinfo_area_type to dest_type field
+    - Refer to https://booking-com.p.rapidapi.com/v1/hotels/locations
+    - Notes:
+        1) `region` slot and entity which are recognize by NLU have differenct mapping: 'state', 'province', 'county' -> region
+        2) 'island', 'islands', 'bay' are small, convenient region that are usaully used when searching for hotel
+        3) dest_type of 'district' is also complement info (but granted more priority because more specific than 'state', 'province', 'county')
+        4) dest_type of 'district' can not be mapped by bkinfo_area because in NLU sample it usually go allong with normal bkinfon_area expression, causes difficulty for annotation
+        5) standing-alone 'district' is usaully ambiguous
+"""
+AREA_DEST_TYPE = {
+    DEST_TYPE_HOTEL: ['hotel'],                                                 # assigned to hotel
+    DEST_TYPE_LANDMARK: ['beach', 'lake', 'cave', 'bridge'],                    # assigned to beach, lake
+    DEST_TYPE_CITY: ['city'],                                                   # assigned to city
+    DEST_TYPE_REGION: ['island', 'islands', 'bay'],                             # assigned to  island, islands, bay; 'state', 'province', 'county' are not bkinfo_area_type
+}
 
 headers = {
     "X-RapidAPI-Key": "6ddab563a2mshfe98ce973810751p137295jsnd9d1bea86c0e",
@@ -47,7 +73,12 @@ requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuri
 
 
 # @cached(cache=TTLCache(maxsize=128, ttl=60))
-async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby):
+async def search_rooms(
+        bkinfo_area, bkinfo_checkin_time, bkinfo_duration,
+        bkinfo_bed_type, bkinfo_price, bkinfo_orderby,
+        bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None,
+        bkinfo_country=None,
+    ):
     """
         search_locations
         search_hotel
@@ -57,10 +88,26 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
         - sort by price, sort by review_score
         - filter by bed_type
     """
-    logger.info('[INFO] searching parameters: (bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby) -> (%s, %s, %s, %s, %s, %s)',
-        bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo_bed_type, bkinfo_price, bkinfo_orderby)
+    info_msg = f"""
+        [INFO] searching parameters: (
+            bkinfo_area: {bkinfo_area},
+            bkinfo_area_type: {bkinfo_area_type},
+            bkinfo_district: {bkinfo_district},
+            bkinfo_region: {bkinfo_region},
+            bkinfo_country: {bkinfo_country},
+            bkinfo_checkin_time: {bkinfo_checkin_time},
+            bkinfo_duration: {bkinfo_duration},
+            bkinfo_bed_type: {bkinfo_bed_type},
+            bkinfo_price: {bkinfo_price},
+            bkinfo_orderby: {bkinfo_orderby},)
+    """
+    logger.info(info_msg)
 
-    destination = choose_location(name=bkinfo_area)
+    destination = choose_location(
+        bkinfo_area=bkinfo_area, bkinfo_area_type=bkinfo_area_type,
+        bkinfo_district=bkinfo_district, bkinfo_region=bkinfo_region,
+        bkinfo_country=bkinfo_country,
+    )
 
     if not destination:
         return {}
@@ -75,15 +122,20 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
     max_price = parse_bkinfo_price(expression=bkinfo_price)
     logger.info('[INFO] will look for hotels in price below %s', max_price)
 
-    hotels = search_hotel(
-        dest_id=destination['dest_id'],
-        dest_type=destination['dest_type'],
-        checkin_date=checkin_date,
-        checkout_date=checkout_date,
-        order_by=bkinfo_orderby,
-        currency=max_price.unit,
-    )
-    hotels = hotels['result']
+    if destination.get('dest_type') == DEST_TYPE_HOTEL:
+        hotel = search_hotel_data(hotel_id=destination.get('dest_id'))
+        # To solve the discrepancy of format of data of search_hotel and search_hotel_data
+        hotels = [uniformize_hotel_data(hotel)]
+    else:
+        hotels = search_hotel(
+            dest_id=destination['dest_id'],
+            dest_type=destination['dest_type'],
+            checkin_date=checkin_date,
+            checkout_date=checkout_date,
+            order_by=bkinfo_orderby,
+            currency=max_price.unit,
+        )
+        hotels = hotels['result']
     logger.info('[INFO] search_hotel, found %s results.', len(hotels))
 
     if bkinfo_orderby == SortbyDictionary.SORTBY_REVIEW_SCORE:
@@ -129,6 +181,27 @@ async def search_rooms(bkinfo_area, bkinfo_checkin_time, bkinfo_duration, bkinfo
     sorted_rooms = sort_rooms_by_price(rooms_groupby_hotel_id)
 
     return sorted_rooms
+
+
+def uniformize_hotel_data(hotel):
+    mappings = [
+        ('hotel_id', 'hotel_id'),
+        ('hotel_name_trans', 'name'),
+        ('address_trans', 'address'),
+        ('max_1440_photo_url', 'main_photo_url'),
+        ('city_trans', 'city')
+        ('city_name_en', 'city')
+        ('country_trans', 'country')
+        ('is_beach_front', 'unavailable')
+        ('nearest_beach_name', 'unavailable')
+        ('review_score', 'review_score')
+    ]
+
+    uniformized = copy.copy(hotel)
+    for pair in mappings:
+        uniformized[pair[0]] = uniformized.get(pair[1], '')
+
+    return uniformized
 
 
 def sort_rooms_by_price(rooms):
@@ -329,6 +402,32 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, curr
 
     return {}
 
+def search_hotel_data(hotel_id):
+    """
+    >>> details = response.json()
+    >>> type(details)
+    <class 'dict'>
+    >>> details.keys()
+    dict_keys(['ranking', 'countrycode', 'class', 'zip', 'name', 'main_photo_url', 'minrate', 'checkout', 'checkin', 'city', 'currencycode', 'hoteltype_id', 'hotel_facilities_filtered', 'review_score', 'class_is_estimated', 'is_single_unit_vr', 'is_vacation_rental', 'main_photo_id', 'district_id', 'languages_spoken', 'maxrate', 'booking_home', 'review_nr', 'country', 'hotel_id', 'location', 'hotel_facilities', 'address', 'city_id', 'url', 'email', 'description_translations', 'review_score_word', 'district', 'preferred_plus', 'preferred'])
+    """
+
+    global BASE_URL
+    global headers
+    global LOCALE
+
+    url = f"{BASE_URL}/hotels/data"
+    querystring = {
+        "hotel_id": hotel_id,
+        "locale": LOCALE,
+    }
+
+    response = requests_sess.get(url, headers=headers, params=querystring)
+    logger.info('[INFO] search_hotel_data, API url: %s', response.url)
+
+    response.raise_for_status()
+
+    return response.json()
+
 
 def search_locations(name):
     """
@@ -363,25 +462,155 @@ def index_location_by_dest_type(locations):
 
     return result
 
-def choose_location(name):
-    CITY = 'city'
-    REGION = 'region'
-    HOTEL = 'hotel'
-    # and something else...
 
+def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
+    # logic: include district into search if area_type is not hotel
+    if bkinfo_area_type not in ['hotel', 'hotels']:
+        name = f'{bkinfo_area} {bkinfo_district}'
+    else:
+        name = bkinfo_area
     locations = search_locations(name=name)
+    logger.info('[INFO] search_locations, found %s location(s) in respective to query: %s', len(locations), name)
+
     if len(locations) == 0:
         return None
-    logger.info('[INFO] search_locations, found %s locations that are close to area: %s', len(locations), name)
 
-    indexed = index_location_by_dest_type(locations=locations)
-    if indexed.get(CITY, None):
-        return indexed.get(CITY)[0]
-    if indexed.get( REGION, None):
-        return indexed.get(REGION)[0]
-    logger.info('[WARNING] There is dest_type that can not recognized, indexed.keys(): %s', list(indexed.keys()))
+    return find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type, bkinfo_region, bkinfo_country)
 
-    return None
+
+def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
+    """
+    Logic of priority:
+        1: explicit area_type -> dest_type
+        2: bkinfo_area and hotel_name are matched strictly
+        3: if bkinfo_district is present, take dest_type -> district
+        4: dest_type >> landmark >> city >> region >> hotel
+
+    Notes:
+        - It seems that the api is applying full text search on many fiels such as name, city_name, region, country, dest_type
+        - When complement information (area_type, district...) is absent, filter is applied by matching destination's name,
+        thus dest_types of landmark, city, region are preferred more than 'hotel' unless 93% matching
+    """
+    locations = index_location_by_dest_type(locations)
+    result = None
+
+    if bkinfo_area_type:
+        if bkinfo_area_type in AREA_DEST_TYPE['DEST_TYPE_HOTEL']:
+            result = find_hotel_locations(locations, bkinfo_area)
+        if bkinfo_area_type in AREA_DEST_TYPE['DEST_TYPE_LANDMARK']:
+            result = find_landmark_locations(locations, bkinfo_area)
+        if bkinfo_area_type in AREA_DEST_TYPE['DEST_TYPE_CITY']:
+            result = find_city_locations(locations, bkinfo_area)
+
+    if not result:
+        result = find_hotel_locations(locations, bkinfo_area, is_strict=True)
+
+    # finding with district is forced to compare bkinfo_area to city_name
+    # since matching of bkinfo_area and `name` is take care by many other mechanisms
+    if not result and bkinfo_district:
+        result = find_district_locations(locations, bkinfo_area)
+
+    if not result:
+        result = find_landmark_locations(locations, bkinfo_area)
+    if not result:
+        result = find_city_locations(locations, bkinfo_area)
+    if not result:
+        result = find_region_locations(locations, bkinfo_area)
+
+    return result
+
+
+def find_district_locations(locations, bkinfo_area):
+    destination_list = locations.get(DEST_TYPE_DISTRICT, None)
+    threshold = 0.85
+    result = None
+    best_score = 0.0
+
+    if not destination_list:
+        return None
+
+    for dest in destination_list:
+        total_score = -1.0
+
+        # compare bkinfo_district to destination name which is district name (in case of dest_type being district)
+        district_similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('name', ''))
+        # compare bkinfo_area to city name. Here we just handle very specific case, bkinfo_area is (implicitly) mentioned as city name
+        city_similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('city_name', ''))
+
+        if district_similarity_ratio > threshold and city_similarity_ratio > threshold:
+            total_score = district_similarity_ratio + city_similarity_ratio
+        if total_score > best_score:
+            best_score = total_score
+            result = dest
+
+    return result
+
+
+def find_hotel_locations(locations, bkinfo_area, is_strict=False):
+    """
+    if area_type is explicitly expressed as hotel, comparing will less strict
+    otherwise increase threshold to strict level: 0.93
+    """
+    if is_strict:
+        threshold = 0.93
+    else:
+        threshold = 0.55
+
+    destination_list = locations.get(DEST_TYPE_HOTEL, None)
+    result = None
+
+    if not destination_list:
+        return None
+
+    for dest in destination_list:
+        # compare to hotel name
+        similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('name', ''))
+        if similarity_ratio > threshold:
+            threshold = similarity_ratio
+            result = dest
+
+    return result
+
+
+def find_landmark_locations(locations, bkinfo_area):
+    return find_by_dest_type_and_complement_info(DEST_TYPE_LANDMARK, locations, bkinfo_area)
+
+
+def find_city_locations(locations, bkinfo_area):
+    return find_by_dest_type_and_complement_info(DEST_TYPE_CITY, LOcations, bkinfo_area)
+
+
+def find_region_locations(locations, bkinfo_area):
+    return find_by_dest_type_and_complement_info(DEST_TYPE_REGION, locations, bkinfo_area)
+
+
+def find_by_dest_type_and_complement_info(dest_type, locations, bkinfo_area, bkinfo_region, bkinfo_country, threshold=0.5, threshold2=0.55):
+    destination_list = locations.get(dest_type, None)
+
+    if not destination_list:
+        return None
+
+    # check if there is complement info, do not do that if comming from find_region_locations function
+    # if complement info is available take solely destinations that match
+    if bkinfo_region and dest_type != DEST_TYPE_REGION:
+        destination_list = filter(lambda dest: make_fuzzy_string_comparison(str1=bkinfo_region, str2=dest.get('region', '')) > threshold2, destination_list)
+    elif bkinfo_country:
+        destination_list = filter(lambda dest: make_fuzzy_string_comparison(str1=bkinfo_country, str2=dest.get('country', '')) > threshold2, destination_list)
+
+    # if complement info do not pick out any destination, normally compare bkinfo_area with destination name
+    if len(destination_list) == 0:
+        destination_list = locations.get(dest_type, None)
+
+    _threshold = threshold
+    result = None
+    for dest in destination_list:
+        # compare with general destination name, because dest_type could be landmark, city, region
+        similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('name', ''))
+        if similarity_ratio > _threshold:
+            _threshold = similarity_ratio
+            result = dest
+
+    return result
 
 
 def convert_currency_symbol_to_code(symbol):
@@ -488,3 +717,8 @@ def __test__sort_hotel_by_review_score():
     ]
 
     print(sort_hotel_by_review_score(hotels))
+
+def __test__find_most_likely_location():
+    from .test_data.locations import (
+        dest_type_city
+    )

@@ -4,106 +4,130 @@ nlu:
   examples: |
     - [hawaii](area)
     - it is [hawaii](area)
-    - [fort lauderdale beach](area)
-    - it's [fort lauderdale beach](area)
-    - [broward county](area)
-    - [broward county](area), florida
-    - it's [broward county](area)
-    - [florida](area)
-    - it is [florida](area)
-    - it's [florida](area)
-    - [Alexander City](area), Alabama
-    - [Andalusia](area), Alabama
-    - [Anniston](area), Alabama
-    - [Athens](area), Alabama
-    - [Atmore](area), Alabama
-    - [Auburn](area), Alabama
-    - [Bessemer](area), Alabama
-    - [Birmingham](area), Alabama
-    - [Chickasaw](area), Alabama
-    - [Clanton](area), Alabama
-    - [da lat city](area)
-    - [ho chi minh city](area)
-    - [hanoi city](area)
-    - [da nang city](area)
-    - [beidaihe](area), china
-    - [little corn beaches](area), nicaragua
-    - [akajima, okinawa](area), japan
-    - [panama city beach, florida](area), united states
-    - [diani beach](area), kenya
-    - [tanjung rhu, langkawi](area), malaysia
-    - [cavendish beach, prince edward island](area), canada
-    - [placencia beach](area), belize
-    - [southwestern beach, koh rong](area), cambodia
-    - [patnem beach, goa](area), india
-    - [porto da barra, salvador](area), brazil
-    - [nungwi, zanzibar](area), tanzania
-    - [trunk bay, st. john](area), u.s. virgin islands
-    - [negril beach](area), jamaica
-    - [natadola beach](area), fiji
-    - [canggu beach, bali](area), indonesia
-    - [bondi beach, sydney](area), australia
-    - [west bay beach, roatan](area), honduras
-    - [d-day beaches, normandy](area), france
-    - [balos beach](area), greece
-    - [dominical beach](area), costa rica
-    - [margaret river](area), australia
-    - [karekare, west auckland](area), new zealand
-    - [playa paraiso, cayo largo](area), cuba
-    - [bahia solano](area), colombia
+    - [fort lauderdale](area) [beach](area_type)
+    - it's [fort lauderdale](area) [beach](area_type)
+    - [broward](area) county
+    - [broward](area), [florida](region)
+    - it's [broward](area) county
+    - [alexander](area) [city](area_type), [alabama](region)
+    - [anniston](area), [alabama](region)
+    - [athens](area) [alabama](region)
+    - [atmore](area), [alabama](region)
+    - [auburn](area), [alabama](region)
+    - [bessemer](area), [alabama](region)
+    - [birmingham](area) [alabama](region)
+    - [chickasaw](area) [alabama](region)
+    - [clanton](area)
+    - [da lat](area) [city](area_type)
+    - [ho chi minh](area) [city](area_type)
+    - [hanoi](area) [city](area_type)
+    - [da nang](area) [city](area_type)
+    - [ha long](area) [bay](area_type)
+    - [marina](area) [bay](area_type)
+    - [beidaihe](area), [china](country)
+    - [little corn](area) [beaches](area_type), [nicaragua](country)
+    - [akajima](area), [okinawa](region), [japan](country)
+    - [akajima](area), [okinawa province](region), [japan](country)
+    - [diani](area) [beach](area_type), [kenya](country)
+    - [tanjung rhu](area), langkawi, [malaysia](country)
+    - [cavendish](area) [beach](area_type), [canada](country)
+    - [prince edward](area) [island](area_type), [canada](country)
+    - [placencia](area) [beach](area_type), [belize](country)
+    - [southwestern](area) [beach](area_type), koh rong, [cambodia](country)
+    - [patnem](area) [beach](area_type), [goa](region), [india](country)
+    - [porto da barra](area), salvador, [brazil](country)
+    - [trunk bay](area), st. john, virgin islands
+    - [negril](area) [beach](area_type), [jamaica](country)
+    - [natadola](area) [beach](area_type), [fiji](country)
+    - [canggu](area) [beach](area_type), bali, [indonesia](country)
+    - [bondi](area) [beach](area_type), sydney, [australia](country)
+    - [west bay](area) [beach](area_type), roatan, [honduras](country)
+    - [d-day](area) [beaches](area_type), normandy, [france](country)
+    - [balos](area) [beach](area_type), [greece](country)
+    - [dominical](area) [beach](area_type), [costa rica](country)
+    - [playa paraiso](area), cayo largo, [cuba](country)
+    - [bahia solano](area), [colombia](country)
     - [warwick long bay](area), bermuda
-    - [cayo paraiso](area), dominican republic
-    - [hanalei bay, hawaii](area), united states
-    - [navagio beach](area), greece
-    - [sun island beach](area), maldives
-    - [grand anse](area), grenada
-    - [crane beach](area), barbados
-    - [sunrise beach, koh lipe](area), thailand
-    - [juara beach, tioman island](area), malaysia
-    - [long bay](area), saint-martin
-    - [maya bay, ko phi phi](area), thailand
-    - [egremni beach](area), greece
-    - [nihiwatu beach, sumba](area), indonesia
-    - [boulders beach](area), cape town
-    - [the baths, virgin gorda](area), british virgin islands
+    - [cayo paraiso](area), [dominican republic](country)
+    - [hanalei](area) [bay](area_type), hawaii, [united states](country)
+    - [navagio](area) [beach](area_type), [greece](country)
+    - [sun island](area) [beach](area_type), [maldives](country)
+    - [grand anse](area), [grenada](country)
+    - [crane](area) [beach](area_type), [barbados](country)
+    - [sunrise](area) [beach](area_type), koh lipe, [thailand](country)
+    - [juara](area) [beach](area_type), tioman island, [malaysia](country)
+    - [long](area) [bay](area_type), [saint-martin](country)
+    - [maya](area) [bay](area_type), ko phi phi, [thailand](country)
+    - [egremni](area) [beach](area_type), [greece](country)
+    - [nihiwatu](area) [beach](area_type), sumba, [indonesia](country)
+    - [boulders](area) [beach](area_type), cape town
+    - [the baths](area), virgin gorda, british virgin islands
     - [rarotonga](area), cook islands
-    - [pulau perhentian kecil](area), malaysia
-    - [gardner bay, espanola island](area), ecuador
-    - [whitehaven beach, queensland](area), australia
-    - [luskentyre beach](area), scotland
-    - [lover's beach, baja california sur](area), mexico
-    - [el nido, palawan](area), philippines
-    - [bandon, oregon](area), united states
-    - [arashi beach](area), aruba
-    - [tulum](area), mexico
-    - [ffryes beach](area), antigua
-    - [palaui island, cagayan valley](area), philippines
-    - [las salinas, ibiza](area), spain
-    - [paradise beach, rab](area), croatia
-    - [unawatuna](area), sri lanka
-    - [byron bay](area), australia
-    - [vilanculos beach](area), mozambique
-    - [an bang beach, hoi an](area), vietnam
-    - [oludeniz beach](area), turkey
-    - [puka beach, boracay](area), philippines
-    - [la concha](area), spain
-    - [venice beach, california](area), united states
-    - [cape maclear](area), malawi
-    - [laughing bird caye](area), belize
-    - [jeffreys bay](area), south africa
-    - [los roques](area), venezuela
-    - [flamenco beach](area), puerto rico
-    - [belle mare](area), mauritius
-    - [capo sant'andrea, elba](area), italy
-    - [isshiki beach, hayama](area), japan
-    - [plage de piémanson](area), france
-    - [pulau derawan](area), indonesia
-    - [punalu'u, hawaii](area), united states
-    - [essaouira](area), morocco
-    - [kaiteriteri beach, nelson](area), new zealand
-    - [skagen beach](area), denmark
-    - [na'ama bay, sharm el sheikh](area), egypt
-    - [radhanagar beach, andaman islands](area), india
-    - [abaka bay](area), haiti
-    - [haad rin, ko pha ngan](area), thailand
-    - [phra nang beach, railay](area), thailand
+    - [pulau perhentian kecil](area), [malaysia](country)
+    - [gardner](area) [bay](area_type), espanola island, [ecuador](country)
+    - [whitehaven](area) [beach](area_type), queensland, [australia](country)
+    - [luskentyre](area) [beach](area_type), [scotland](country)
+    - [el nido](area), [palawan province](region), [philippines](country)
+    - [bandon](area), [oregon](region), [united states](country)
+    - [arashi](area) [beach](area_type), aruba
+    - [tulum](area), [mexico](country)
+    - [ffryes](area) [beach](area_type), [antigua and barbuda](country)
+    - [las salinas](area), ibiza, [spain](country)
+    - [paradise](area) [beach](area_type), rab, [croatia](country)
+    - [unawatuna](area), [sri lanka](country)
+    - [byron](area) [bay](area_type), [australia](country)
+    - [vilanculos](area) [beach](area_type), [mozambique](country)
+    - [an bang](area) [beach](area_type), hoi an, [vietnam](country)
+    - [oludeniz](area) [beach](area_type), [turkey](country)
+    - [puka](area) [beach](area_type), boracay, [philippines](country)
+    - [la concha](area), [spain](country)
+    - [venice](area) [beach](area_type), [california](region), [us](country)
+    - [jeffreys](area) [bay](area_type), [south africa](country)
+    - [los roques](area), [venezuela](country)
+    - [flamenco](area) [beach](area_type), [puerto rico](country)
+    - [belle mare](area), [mauritius](country)
+    - [capo sant'andrea](area), elba, [italy](country)
+    - [elba](area) [islands](area_type), [italy](country)
+    - [isshiki](area) [beach](area_type), hayama, [japan](country)
+    - [plage de piémanson](area), [france](country)
+    - [pulau derawan](area), [indonesia](country)
+    - [punalu'u](area), [hawaii](region), [us](country)
+    - [essaouira](area), [morocco](country)
+    - [kaiteriteri](area) [beach](area_type), nelson, [new zealand](country)
+    - [skagen](area) [beach](area_type), [denmark](country)
+    - [na'ama](area) [bay](area_type), sharm el sheikh, [egypt](country)
+    - [radhanagar](area) [beach](area_type), andaman islands, [india](country)
+    - [andaman](area) [islands](area_type), [india](country)
+    - [abaka](area) [bay](area_type), [haiti](country)
+    - [haad rin](area), ko pha ngan, [thailand](country)
+    - [phra nang](area) [beach](area_type), railay, [thailand](country)
+    - [karekare](area), west auckland, [new zealand](country)
+    - [prama sanur beach bali](area) [hotel](area_type)
+    - [nirwana beach and resort](area)
+    - [tonys villas and resort](area)
+    - [merusaka nusa dua](area)
+    - [nikhila seminyak](area)
+    - [adhi jaya sunset road](area) [hotel](area_type)
+    - [the fullerton](area) [hotel](area_type)
+    - [singapore](country) [marriott tang plaza](area) [hotel](area_type)
+    - [raffles](area) [singapore](area_type)
+    - [marina bay sands](area) [hotel](area_type)
+    - [shangri-la](area) [hotel](area_type) [singapore](country)
+    - [intercontinental](area) [singapore](country)
+    - [swissotel the stamford](area)
+    - [four seasons](area) [hotel](area_type) [singapore](country)
+    - [the fullerton bay hotel](area) [singapore](country)
+    - [moana surfrider](area) [hotel](area_type)
+    - [hilton hawaiian village waikiki beach resort](area)
+    - [the laylow](area) [hotel](area_type)
+    - [turtle bay resort](area)
+    - [koloa landing resort](area)
+    - [grand hyatt kauai resort spa](area)
+    - [district 1](district) [ho chi minh](area)
+    - [go vap district](district) [ho chi minh](area) [city](area_type)
+    - [district 3](district) [ho chi minh](area)
+    - [phu nhuan district](district) [ho chi minh](area)
+    - [ba dinh district](district) [hanoi](area) [city](area_type)
+    - [hai ba trung district](district) [hanoi](area) [city](area_type)
+    - [mai tu liem district](district), [hanoi](area), [vietnam](country)
+    - [downtown district](district) [San Francisco](area) [city](area_type), [california](region)

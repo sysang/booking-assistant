@@ -1,0 +1,203 @@
+version: "3.1"
+nlu:
+- lookup: country
+  examples: |
+    - afghanistan
+    - albania
+    - algeria
+    - andorra
+    - angola
+    - antigua and barbuda
+    - argentina
+    - armenia
+    - australia
+    - austria
+    - azerbaijan
+    - bahamas
+    - bahrain
+    - bangladesh
+    - barbados
+    - belarus
+    - belgium
+    - belize
+    - benin
+    - bhutan
+    - bolivia
+    - bosnia and herzegovina
+    - botswana
+    - brazil
+    - brunei
+    - bulgaria
+    - burkina
+    - burundi
+    - côte
+    - cabo
+    - cambodia
+    - cameroon
+    - canada
+    - central african republic
+    - chad
+    - chile
+    - china
+    - colombia
+    - comoros
+    - congo
+    - costa
+    - croatia
+    - cuba
+    - cyprus
+    - czechia
+    - democratic republic of the congo
+    - denmark
+    - djibouti
+    - dominica
+    - dominican
+    - ecuador
+    - egypt
+    - el salvador
+    - equatorial
+    - eritrea
+    - estonia
+    - eswatini
+    - ethiopia
+    - fiji
+    - finland
+    - france
+    - gabon
+    - gambia
+    - georgia
+    - germany
+    - ghana
+    - greece
+    - grenada
+    - guatemala
+    - guinea
+    - guinea-bissau
+    - guyana
+    - haiti
+    - holy
+    - honduras
+    - hungary
+    - iceland
+    - india
+    - indonesia
+    - iran
+    - iraq
+    - ireland
+    - israel
+    - italy
+    - jamaica
+    - japan
+    - jordan
+    - kazakhstan
+    - kenya
+    - kiribati
+    - kuwait
+    - kyrgyzstan
+    - laos
+    - latvia
+    - lebanon
+    - lesotho
+    - liberia
+    - libya
+    - liechtenstein
+    - lithuania
+    - luxembourg
+    - madagascar
+    - malawi
+    - malaysia
+    - maldives
+    - mali
+    - malta
+    - marshall
+    - mauritania
+    - mauritius
+    - mexico
+    - micronesia
+    - moldova
+    - monaco
+    - mongolia
+    - montenegro
+    - morocco
+    - mozambique
+    - myanmar
+    - namibia
+    - nauru
+    - nepal
+    - netherlands
+    - new
+    - nicaragua
+    - niger
+    - nigeria
+    - north korea
+    - north macedonia
+    - norway
+    - oman
+    - pakistan
+    - palau
+    - palestine
+    - panama
+    - papua new guinea
+    - paraguay
+    - peru
+    - philippines
+    - poland
+    - portugal
+    - qatar
+    - romania
+    - russia
+    - rwanda
+    - saint kitts and nevis
+    - saint lucia
+    - saint vincent and the grenadines
+    - samoa
+    - san marino
+    - sao tome and principe
+    - saudi arabia
+    - senegal
+    - serbia
+    - seychelles
+    - sierra leone
+    - singapore
+    - slovakia
+    - slovenia
+    - solomon islands
+    - somalia
+    - south africa
+    - south korea
+    - south sudan
+    - spain
+    - sri lanka
+    - sudan
+    - suriname
+    - sweden
+    - switzerland
+    - syria
+    - tajikistan
+    - tanzania
+    - thailand
+    - timor-leste
+    - togo
+    - tonga
+    - trinidad and tobago
+    - tunisia
+    - turkey
+    - turkmenistan
+    - tuvalu
+    - uganda
+    - ukraine
+    - united arab emirates
+    - uae
+    - united kingdom
+    - uk
+    - united states of america
+    - usa
+    - us
+    - uruguay
+    - uzbekistan
+    - vanuatu
+    - venezuela
+    - vietnam
+    - yemen
+    - zambia
+    - zimbabwe

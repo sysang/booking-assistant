@@ -1,0 +1,85 @@
+{
+  "hotel_facilities": "4,8,13,16,22,23,25,28,43,47,48,51,64,78,80,81,91,96,107,108,109,124,158,163,204,305,420,421,422,423,425,449,450,451,453,454,455,456,457,458,459,460,461,462,464,467,468,485,486",
+  "description_translations": [
+    {
+      "languagecode": "en-gb",
+      "descriptiontype_id": 6,
+      "description": "This charming hotel is housed in a magnificent 17th-century building, only a 5-minute walk from the famous Louvre and the beautiful Opéra Garnier.\n\nAll rooms are soundproofed and feature air conditioning. Free WiFi is offered as well as a minibar with drinks and snacks that are free of charge for guests.\n\nA Buffet breakfast is served every morning.\n\nThe Hôtel Paris Louvre Opera is located in an elegant district of Paris, and is surrounded by chic cafes and luxury boutiques. You can reach many of Paris’s main attractions on foot, and there are numerous Metro stations surrounding the hotel."
+    },
+    {
+      "descriptiontype_id": 6,
+      "description": "This charming hotel is housed in a magnificent 17th-century building, only a 5-minute walk from the famous Louver and the beautiful Opéra Garnier.\n\nAll rooms are soundproofed and feature air conditioning. Free WiFi is offered as well as a mini-bar with drinks and snacks that are free of charge for guests.\n\nA Buffet breakfast is served every morning.\n\nThe Hôtel Paris Louver Opera is located in an elegant district of Paris, and is surrounded by chic cafes and luxury boutiques. You can reach many of Paris’s main attractions on foot, and there are numerous Metro stations surrounding the hotel.",
+      "languagecode": "en-us"
+    },
+    {
+      "languagecode": "en-gb",
+      "description": "Guests are required to show a credit card on their arrival. The details of this card must match the ones of the reservation's holder, otherwise the property may refuse to proceed to check-in.\n\nPlease note that an ID can be required. If the guest refuse, the property reserves the right to refuse the access to the room. Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply. In response to Coronavirus (COVID-19), additional safety and sanitation measures are currently in effect at this property. Due to Coronavirus (COVID-19), this property is taking steps to help protect the safety of guests and staff. Certain services and amenities may be reduced or unavailable as a result. In accordance with government guidelines to minimise transmission of the Coronavirus (COVID-19), this property may request additional documentation from guests to validate identity, travel itinerary and other relevant information, during dates where such guidelines exist. Due to Coronavirus (COVID-19), this property adheres to strict physical distancing measures. Due to Coronavirus (COVID-19), please ensure that you are only booking this property following the local government guidelines of the destination, including but not limited to the purpose of travel, and maximum allowed group size. Due to Coronavirus (COVID-19), wearing a face mask is mandatory in all indoor common areas.",
+      "descriptiontype_id": 7
+    },
+    {
+      "languagecode": "en-us",
+      "description": "Guests are required to show a credit card on their arrival. The details of this card must match the ones of the reservation's holder, otherwise the property may refuse to proceed to check-in.\n\nPlease note that an ID can be required. If the guest refuse, the property reserves the right to refuse the access to the room. Guests are required to show a photo ID and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply. In response to the coronavirus (COVID-19), additional safety and sanitation measures are currently in effect at this property. Due to the coronavirus (COVID-19), this property is taking steps to protect the safety of guests and staff. Certain services and amenities may be reduced or unavailable as a result. In accordance with government guidelines to minimize transmission of the coronavirus (COVID-19), this property may request additional documentation from guests to validate identity, travel itinerary, and other relevant info on dates where such guidelines exist. Due to coronavirus (COVID-19), this property adheres to strict physical distancing measures. Due to the coronavirus (COVID-19), make sure you're booking this property in accordance with the destination's local government guidelines, including (but not limited to) the purpose of travel and maximum group size. Due to the coronavirus (COVID-19), wearing a face mask is mandatory in all indoor common areas.",
+      "descriptiontype_id": 7
+    }
+  ],
+  "checkin": {
+    "from": "14:00",
+    "24_hour_available": 0,
+    "to": ""
+  },
+  "review_nr": 590,
+  "location": {
+    "latitude": 48.8666000541805,
+    "longitude": 2.33502991497517
+  },
+  "is_vacation_rental": 0,
+  "city_id": -1456928,
+  "currencycode": "EUR",
+  "hoteltype_id": 204,
+  "checkout": {
+    "from": "",
+    "24_hour_available": 0,
+    "to": "12:00"
+  },
+  "zip": "75001",
+  "booking_home": {
+    "is_single_type_property": 0,
+    "is_booking_home": 0,
+    "quality_class": null,
+    "is_single_unit_property": 0,
+    "is_aparthotel": 0,
+    "is_vacation_rental": 0,
+    "group": "hotels_and_others",
+    "segment": 0
+  },
+  "address": "4 rue des Moulins",
+  "countrycode": "fr",
+  "email": "",
+  "preferred": 1,
+  "maxrate": 515,
+  "hotel_id": 51352,
+  "country": "France",
+  "class": 3,
+  "main_photo_url": "https://cf.bstatic.com/images/hotel/square60/139/139012875.jpg",
+  "url": "https://www.booking.com/hotel/fr/bestwesternparislouvreopera.html",
+  "ranking": 8238846,
+  "is_single_unit_vr": 0,
+  "preferred_plus": 0,
+  "review_score_word": "Very Good",
+  "district": null,
+  "minrate": 144,
+  "city": "Paris",
+  "hotel_facilities_filtered": "8,13,16,22,23,25,28,43,48,51,64,78,80,81,91,108,109,124,158,163,204,305,420,421,422,423,425,449,450,451,453,454,455,456,457,458,459,460,461,462,464,467,468,485,486",
+  "review_score": "8.0",
+  "name": "Hôtel Paris Louvre Opéra",
+  "languages_spoken": {
+    "languagecode": [
+      "en-gb",
+      "es",
+      "fr"
+    ]
+  },
+  "main_photo_id": 139012875,
+  "class_is_estimated": 0,
+  "district_id": 9580
+}

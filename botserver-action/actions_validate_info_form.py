@@ -46,8 +46,13 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slot_name = 'bkinfo_area'
 
-        location = choose_location(name=slot_value)
-        if not location:
+        slots = tracker.slots
+        destination = choose_location(
+            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'),
+            bkinfo_district=slots.get('bkinfo_district'), bkinfo_county=slots.get('bkinfo_county'),
+            bkinfo_state=slots.get('bkinfo_state'), bkinfo_country=slots.get('bkinfo_country'),
+        )
+        if not destination:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
             return {slot_name: None}
 
