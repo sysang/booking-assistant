@@ -141,6 +141,7 @@ def picklize_search_result(data):
 
 
 def make_fuzzy_string_comparison(querystr, keystr, excluded: List[Text] = [], threshold=None):
+    factor = 0.01
     str1 = str(querystr).lower().strip()
     str1 = unidecode(str1)
 
@@ -151,6 +152,7 @@ def make_fuzzy_string_comparison(querystr, keystr, excluded: List[Text] = [], th
 
     # similarity_ratio = SM(isjunk=None, a=str1, b=str2).ratio()
     similarity_ratio = fuzz.ratio(str1, str2)
+    similarity_ratio = similarity_ratio * factor
 
     if threshold:
         return similarity_ratio > threshold

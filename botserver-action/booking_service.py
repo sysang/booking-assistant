@@ -467,11 +467,14 @@ def index_location_by_dest_type(locations):
 
 
 def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
-    # logic: include district into search if area_type is not hotel
-    if bkinfo_area_type not in ['hotel', 'hotels']:
-        name = f'{bkinfo_area} {bkinfo_district}'
-    else:
+    if not bkinfo_area_type or not bkinfo_district:
         name = bkinfo_area
+    if bkinfo_area_type in ['hotel', 'hotels']:
+        name = f'{bkinfo_area} {bkinfo_area_type}'
+    else:
+        # logic: include district into search if area_type is not hotel
+        name = f'{bkinfo_area} {bkinfo_area_type} {bkinfo_district}'
+
     locations = search_locations(name=name)
     logger.info('[INFO] search_locations, found %s location(s) in respective to query: %s', len(locations), name)
 
@@ -499,11 +502,12 @@ def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bk
 
     if bkinfo_area_type:
         if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_HOTEL]:
-            result = find_hotel_locations(locations, bkinfo_area)
+            result = find_by_dest_type(DEST_TYPE_HOTEL, locations, bkinfo_area)
         if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_LANDMARK]:
-            result = find_landmark_locations(locations, bkinfo_area)
+            result = find_by_dest_type(DEST_TYPE_LANDMARK, locations, bkinfo_area)
         if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_CITY]:
-            result = find_city_locations(locations, bkinfo_area)
+            result = find_by_dest_type(DEST_TYPE_CITY, locations, bkinfo_area)
+
     # finding with district is forced to compare bkinfo_area to city_name
     # since matching of bkinfo_area and `name` is take care by many other mechanisms
     if not result and bkinfo_district:
@@ -513,20 +517,19 @@ def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bk
         result = find_exact_location_name(locations, bkinfo_area)
 
     if not result:
-        result = find_landmark_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
-    if not result:
-        result = find_city_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
-    if not result:
-        result = find_region_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
-    if not result:
-        result = find_hotel_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
+        result = choose_destination_over_dest_types(
+            locations=locations,
+            bkinfo_area=bkinfo_area,
+            bkinfo_region=bkinfo_region,
+            bkinfo_country=bkinfo_country,
+        )
 
     return result
 
 
 def find_district_locations(locations, bkinfo_area, bkinfo_district):
-    district_threshold = 0.25
-    city_threshold = 0.85
+    district_threshold = 0.20
+    city_threshold = 0.80
     destination_list = locations.get(DEST_TYPE_DISTRICT, None)
 
     if not destination_list:
@@ -551,7 +554,7 @@ def find_district_locations(locations, bkinfo_area, bkinfo_district):
     return result
 
 
-def find_exact_location_name(locations, bkinfo_area):
+def find_exact_location_name(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
     """
     if area_type is explicitly expressed as hotel, comparing will less strict
     otherwise increase threshold to strict level: 0.93
@@ -563,35 +566,40 @@ def find_exact_location_name(locations, bkinfo_area):
 
     excluded = reduce(lambda x, y: x+y, AREA_DEST_TYPE.values())
 
-    result = None
-    threshold = 0.93
+    best_matched = []
+    threshold = 0.80
     for dest in destination_list:
         dest_name = dest.get('name', '')
         similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest_name, excluded=excluded)
         if similarity_ratio > threshold:
-            threshold = similarity_ratio
-            result = dest
+            best_matched.append(dest)
 
-    return result
+    if len(best_matched) == 0:
+        return None
 
+    if len(best_matched) == 1:
+        return best_matched[0]
 
-def find_hotel_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type(DEST_TYPE_HOTEL, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    result = choose_destination_over_dest_types(
+        locations=index_location_by_dest_type(best_matched),
+        bkinfo_area=bkinfo_area,
+        bkinfo_region=bkinfo_region,
+        bkinfo_country=bkinfo_country,
+    )
 
-
-def find_landmark_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type(DEST_TYPE_LANDMARK, locations, bkinfo_area, bkinfo_region, bkinfo_country)
-
-
-def find_city_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type(DEST_TYPE_CITY, locations, bkinfo_area, bkinfo_region, bkinfo_country)
-
-
-def find_region_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type(DEST_TYPE_REGION, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    return None
 
 
-def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None, threshold=0.3, threshold2=0.55):
+def choose_destination_over_dest_types(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
+    for dest_type in [DEST_TYPE_LANDMARK, DEST_TYPE_CITY, DEST_TYPE_REGION, DEST_TYPE_HOTEL]:
+        result = find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+        if result:
+            return result
+
+    return None
+
+
+def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None, threshold=0.25, threshold2=0.75):
     destination_list = locations.get(dest_type, None)
 
     excluded = AREA_DEST_TYPE[dest_type]
@@ -604,15 +612,15 @@ def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bki
     # check if there is complement info, do not do that if comming from find_region_locations function
     # if complement info is available take solely destinations that match
     if bkinfo_region and dest_type != DEST_TYPE_REGION:
-        destination_list = filter(
+        destination_list = list(filter(
             lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_region, keystr=dest.get('region', ''), threshold=threshold2),
             destination_list
-        )
+        ))
     elif bkinfo_country:
-        destination_list = filter(
+        destination_list = list(filter(
             lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_country, keystr=dest.get('country', ''), threshold=threshold2),
             destination_list,
-        )
+        ))
 
     # if complement info do not pick out any destination, normally compare bkinfo_area with destination name
     if len(destination_list) == 0:
@@ -738,7 +746,9 @@ def __test__sort_hotel_by_review_score():
 def __test__find_most_likely_location():
     from .test_data.locations import (
         area_type_hotel, area_type_city, area_type_landmark,
-        area_district, area_exact,
+        area_district, area_exact, area_country,
+        area_region, area_notype_notexact_landmark,
+        area_notype_notexact_hotel, area_notype_notexact_region,
     )
 
     print('[Case 1] when bkinfo_area_type -> hotel')
@@ -762,6 +772,12 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
+    locations = area_type_city['search_location_result_little_corn']
+    expected_dest_id = '900051838'
+    destination = find_most_likely_locations(locations, bkinfo_area='little corn', bkinfo_area_type='city')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
     print('[Case 4] when bkinfo_district -> north')
     locations = area_district['search_location_result_san_francisco_north']
     expected_dest_id = '1432'
@@ -773,6 +789,41 @@ def __test__find_most_likely_location():
     locations = area_exact['search_location_result_rocky_mountain_resort']
     expected_dest_id = '185458'
     destination = find_most_likely_locations(locations, bkinfo_area='rocky mountain resort')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 6] when bkinfo_area -> exact, bkinfo_country -> united states')
+    locations = area_country['search_location_result_essex']
+    expected_dest_id = '20018793'
+    destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_country='united states')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 7] when bkinfo_area -> exact, bkinfo_region -> vermont')
+    locations = area_region['search_location_result_essex']
+    expected_dest_id = '20134745'
+    destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_region='vermont')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 8] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> landmark')
+    locations = area_notype_notexact_landmark['search_location_result_phra_nang']
+    expected_dest_id = '20414'
+    destination = find_most_likely_locations(locations, bkinfo_area='phra nang')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 9] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> region')
+    locations = area_notype_notexact_region['search_location_result_tameside']
+    expected_dest_id = '2439'
+    destination = find_most_likely_locations(locations, bkinfo_area='tameside')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 10] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> hotel')
+    locations = area_notype_notexact_hotel['search_location_result_san_francisco_north']
+    expected_dest_id = '6494652'
+    destination = find_most_likely_locations(locations, bkinfo_area='san francisco north')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
