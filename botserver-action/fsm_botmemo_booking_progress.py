@@ -176,7 +176,7 @@ class FSMBotmemeBookingProgress():
         return list(self.form.values())
 
 
-def __test__():
+def eval_test():
     class DummyValidator():
         def default_validating_func(self, field):
             return True

@@ -15,6 +15,7 @@ from cachecontrol import CacheControl
 from cachecontrol import CacheControlAdapter
 from cachecontrol.caches.redis_cache import RedisCache
 from cachecontrol.heuristics import ExpiresAfter
+from functools import reduce
 
 from .utils import parse_date_range
 from .utils import SortbyDictionary
@@ -43,6 +44,7 @@ DEST_TYPE_LANDMARK = 'landmark'
 DEST_TYPE_CITY = 'city'
 DEST_TYPE_DISTRICT = 'district'
 DEST_TYPE_REGION = 'region'
+DEST_TYPE_REGION_EXC = 'region_exc'
 
 """
 IMPOTANT:
@@ -59,7 +61,8 @@ AREA_DEST_TYPE = {
     DEST_TYPE_HOTEL: ['hotel'],                                                 # assigned to hotel
     DEST_TYPE_LANDMARK: ['beach', 'lake', 'cave', 'bridge'],                    # assigned to beach, lake
     DEST_TYPE_CITY: ['city'],                                                   # assigned to city
-    DEST_TYPE_REGION: ['island', 'islands', 'bay'],                             # assigned to  island, islands, bay; 'state', 'province', 'county' are not bkinfo_area_type
+    DEST_TYPE_REGION: ['island', 'islands', 'bay'],                             # assigned to  island, islands, bay
+    DEST_TYPE_REGION_EXC: ['state', 'province', 'county'],                             # 'state', 'province', 'county' are not bkinfo_area_type
 }
 
 headers = {
@@ -501,14 +504,13 @@ def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bk
             result = find_landmark_locations(locations, bkinfo_area)
         if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_CITY]:
             result = find_city_locations(locations, bkinfo_area)
-
-    if not result:
-        result = find_hotel_locations(locations, bkinfo_area, is_strict=True)
-
     # finding with district is forced to compare bkinfo_area to city_name
     # since matching of bkinfo_area and `name` is take care by many other mechanisms
     if not result and bkinfo_district:
         result = find_district_locations(locations, bkinfo_area, bkinfo_district)
+
+    if not result:
+        result = find_exact_location_name(locations, bkinfo_area)
 
     if not result:
         result = find_landmark_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
@@ -516,28 +518,31 @@ def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bk
         result = find_city_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
     if not result:
         result = find_region_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    if not result:
+        result = find_hotel_locations(locations, bkinfo_area, bkinfo_region, bkinfo_country)
 
     return result
 
 
 def find_district_locations(locations, bkinfo_area, bkinfo_district):
+    district_threshold = 0.25
+    city_threshold = 0.85
     destination_list = locations.get(DEST_TYPE_DISTRICT, None)
-    threshold = 0.85
-    result = None
-    best_score = 0.0
 
     if not destination_list:
         return None
 
+    result = None
+    best_score = 0.0
     for dest in destination_list:
         total_score = -1.0
 
         # compare bkinfo_district to destination name which is district name (in case of dest_type being district)
-        district_similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_district, str2=dest.get('name', ''))
+        district_similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_district, keystr=dest.get('name', ''))
         # compare bkinfo_area to city name. Here we just handle very specific case, bkinfo_area is (implicitly) mentioned as city name
-        city_similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('city_name', ''))
+        city_similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest.get('city_name', ''))
 
-        if district_similarity_ratio > threshold and city_similarity_ratio > threshold:
+        if district_similarity_ratio > district_threshold and city_similarity_ratio > city_threshold:
             total_score = district_similarity_ratio + city_similarity_ratio
         if total_score > best_score:
             best_score = total_score
@@ -546,25 +551,23 @@ def find_district_locations(locations, bkinfo_area, bkinfo_district):
     return result
 
 
-def find_hotel_locations(locations, bkinfo_area, is_strict=False):
+def find_exact_location_name(locations, bkinfo_area):
     """
     if area_type is explicitly expressed as hotel, comparing will less strict
     otherwise increase threshold to strict level: 0.93
     """
-    if is_strict:
-        threshold = 0.93
-    else:
-        threshold = 0.35
-
-    destination_list = locations.get(DEST_TYPE_HOTEL, None)
-    result = None
+    destination_list = reduce(lambda x, y: x+y, locations.values())
 
     if not destination_list:
         return None
 
+    excluded = reduce(lambda x, y: x+y, AREA_DEST_TYPE.values())
+
+    result = None
+    threshold = 0.93
     for dest in destination_list:
-        # compare to hotel name becasue in this case dest_type is hotel
-        similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('name', ''))
+        dest_name = dest.get('name', '')
+        similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest_name, excluded=excluded)
         if similarity_ratio > threshold:
             threshold = similarity_ratio
             result = dest
@@ -572,20 +575,28 @@ def find_hotel_locations(locations, bkinfo_area, is_strict=False):
     return result
 
 
+def find_hotel_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
+    return find_by_dest_type(DEST_TYPE_HOTEL, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+
+
 def find_landmark_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type_and_complement_info(DEST_TYPE_LANDMARK, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    return find_by_dest_type(DEST_TYPE_LANDMARK, locations, bkinfo_area, bkinfo_region, bkinfo_country)
 
 
 def find_city_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type_and_complement_info(DEST_TYPE_CITY, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    return find_by_dest_type(DEST_TYPE_CITY, locations, bkinfo_area, bkinfo_region, bkinfo_country)
 
 
 def find_region_locations(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    return find_by_dest_type_and_complement_info(DEST_TYPE_REGION, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+    return find_by_dest_type(DEST_TYPE_REGION, locations, bkinfo_area, bkinfo_region, bkinfo_country)
 
 
-def find_by_dest_type_and_complement_info(dest_type, locations, bkinfo_area, bkinfo_region, bkinfo_country, threshold=0.3, threshold2=0.55):
+def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None, threshold=0.3, threshold2=0.55):
     destination_list = locations.get(dest_type, None)
+
+    excluded = AREA_DEST_TYPE[dest_type]
+    if dest_type == DEST_TYPE_REGION:
+        excluded = excluded + AREA_DEST_TYPE[DEST_TYPE_REGION_EXC]
 
     if not destination_list:
         return None
@@ -593,9 +604,15 @@ def find_by_dest_type_and_complement_info(dest_type, locations, bkinfo_area, bki
     # check if there is complement info, do not do that if comming from find_region_locations function
     # if complement info is available take solely destinations that match
     if bkinfo_region and dest_type != DEST_TYPE_REGION:
-        destination_list = filter(lambda dest: make_fuzzy_string_comparison(str1=bkinfo_region, str2=dest.get('region', '')) > threshold2, destination_list)
+        destination_list = filter(
+            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_region, keystr=dest.get('region', ''), threshold=threshold2),
+            destination_list
+        )
     elif bkinfo_country:
-        destination_list = filter(lambda dest: make_fuzzy_string_comparison(str1=bkinfo_country, str2=dest.get('country', '')) > threshold2, destination_list)
+        destination_list = filter(
+            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_country, keystr=dest.get('country', ''), threshold=threshold2),
+            destination_list,
+        )
 
     # if complement info do not pick out any destination, normally compare bkinfo_area with destination name
     if len(destination_list) == 0:
@@ -605,7 +622,7 @@ def find_by_dest_type_and_complement_info(dest_type, locations, bkinfo_area, bki
     result = None
     for dest in destination_list:
         # compare with general destination name, because dest_type could be landmark, city, region
-        similarity_ratio = make_fuzzy_string_comparison(str1=bkinfo_area, str2=dest.get('name', ''))
+        similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest.get('name', ''), excluded=excluded)
         if similarity_ratio > _threshold:
             _threshold = similarity_ratio
             result = dest
@@ -628,11 +645,11 @@ def convert_currency_symbol_to_code(symbol):
 
 """
 __pytest__
-import os;from actions.booking_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
+import os;from actions.booking_service import eval_test;eval_test(tfunc=os.environ.get('TEST_FUNC', None));
 """
 
 
-def __test__(tfunc):
+def eval_test(tfunc):
     __test__fn = f'__test__{tfunc}'
     eval(__test__fn)()
 
@@ -721,35 +738,42 @@ def __test__sort_hotel_by_review_score():
 def __test__find_most_likely_location():
     from .test_data.locations import (
         area_type_hotel, area_type_city, area_type_landmark,
-        area_district,
+        area_district, area_exact,
     )
 
-    print('[Case 1] bkinfo_area_type = hotel')
+    print('[Case 1] when bkinfo_area_type -> hotel')
     locations = area_type_hotel['search_location_result_essex']
     expected_dest_id = '55777'
     destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_area_type='hotel')
     actual = destination['dest_id']
-    assert actual == expected_dest_id, f'actual: {actual}'
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 2] bkinfo_area_type = landmark')
+    print('[Case 2] when bkinfo_area_type -> landmark')
     locations = area_type_landmark['search_location_result_bullock']
     expected_dest_id = '21283'
     destination = find_most_likely_locations(locations, bkinfo_area='bullock', bkinfo_area_type='cave')
     actual = destination['dest_id']
-    assert actual == expected_dest_id, f'actual: {actual}'
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 3] bkinfo_area_type = city')
+    print('[Case 3] when bkinfo_area_type -> city')
     locations = area_type_city['search_location_result_essex']
     expected_dest_id = '20018793'
     destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_area_type='city')
     actual = destination['dest_id']
-    assert actual == expected_dest_id, f'actual: {actual}'
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 4] district = north')
+    print('[Case 4] when bkinfo_district -> north')
     locations = area_district['search_location_result_san_francisco_north']
     expected_dest_id = '1432'
     destination = find_most_likely_locations(locations, bkinfo_area='san francisco', bkinfo_district='north')
     actual = destination['dest_id']
-    assert actual == expected_dest_id, f'actual: {actual}'
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 5] when bkinfo_area -> exact')
+    locations = area_exact['search_location_result_rocky_mountain_resort']
+    expected_dest_id = '185458'
+    destination = find_most_likely_locations(locations, bkinfo_area='rocky mountain resort')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
     print('All done.')

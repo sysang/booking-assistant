@@ -6,7 +6,8 @@ import arrow
 from arrow import Arrow
 from typing import Any, Dict, List, Text, Optional, Tuple
 from difflib import SequenceMatcher as SM
-
+from fuzzywuzzy import fuzz
+from unidecode import unidecode
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
@@ -139,8 +140,23 @@ def picklize_search_result(data):
     return None
 
 
-def make_fuzzy_string_comparison(str1, str2):
-    return SM(isjunk=None, a=str1, b=str2).ratio()
+def make_fuzzy_string_comparison(querystr, keystr, excluded: List[Text] = [], threshold=None):
+    str1 = str(querystr).lower().strip()
+    str1 = unidecode(str1)
+
+    str2 = str(keystr).lower().strip()
+    str2 = unidecode(str2)
+    for item in excluded:
+        str2 = str2.replace(item, '').strip()
+
+    # similarity_ratio = SM(isjunk=None, a=str1, b=str2).ratio()
+    similarity_ratio = fuzz.ratio(str1, str2)
+
+    if threshold:
+        return similarity_ratio > threshold
+
+    return similarity_ratio
+
 
 
 def __test__parse_date_range():
@@ -155,5 +171,5 @@ def __test__parse_date_range():
     print('Success.')
 
 
-def __test__():
+def eval_test():
     __test__parse_date_range()

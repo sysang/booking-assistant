@@ -324,9 +324,9 @@ def __test__parse_bkinfo_price():
 
 """
 __pytest__
-import os;from actions.duckling_service import __test__;__test__(tfunc=os.environ.get('TEST_FUNC', None));
+import os;from actions.duckling_service import eval_test;eval_test(tfunc=os.environ.get('TEST_FUNC', None));
 """
 
-def __test__(tfunc):
+def eval_test(tfunc):
     __test__fn = f'__test__{tfunc}'
     eval(__test__fn)()

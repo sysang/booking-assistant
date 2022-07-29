@@ -1,0 +1,161 @@
+[
+  {
+    "rtl": 0,
+    "latitude": 51.19999,
+    "country": "Canada",
+    "city_name": "Banff",
+    "name": "Banff Rocky Mountain Resort",
+    "longitude": -115.5361,
+    "image_url": "https://cf.bstatic.com/xdata/images/hotel/150x150/254614804.jpg?k=01fc87913f8c882dc95524ddf4b0d574eb62d800a54f70e7ca380e1ff9361d3b&o=",
+    "region": "Alberta",
+    "nr_hotels": 1,
+    "city_ufi": -560592,
+    "timezone": "America/Yellowknife",
+    "dest_type": "hotel",
+    "label": "Banff Rocky Mountain Resort, Banff, Alberta, Canada",
+    "b_max_los_data": {
+      "max_allowed_los": 45,
+      "default_los": 45,
+      "extended_los": 90,
+      "is_fullon": 0,
+      "has_extended_los": 1,
+      "experiment": "long_stays_android_extend_los_2"
+    },
+    "type": "ho",
+    "dest_id": "185458",
+    "cc1": "ca",
+    "hotels": 1,
+    "lc": "en"
+  },
+  {
+    "b_max_los_data": {
+      "is_fullon": 0,
+      "has_extended_los": 1,
+      "experiment": "long_stays_android_extend_los_2",
+      "default_los": 45,
+      "max_allowed_los": 45,
+      "extended_los": 90
+    },
+    "type": "ho",
+    "cc1": "us",
+    "dest_id": "6380819",
+    "hotels": 1,
+    "lc": "en",
+    "nr_hotels": 1,
+    "timezone": "America/Denver",
+    "city_ufi": 20017437,
+    "label": "Sunnyside Knoll by Rocky Mountain Resorts, Estes Park, Colorado, United States",
+    "dest_type": "hotel",
+    "country": "United States",
+    "city_name": "Estes Park",
+    "name": "Sunnyside Knoll by Rocky Mountain Resorts",
+    "region": "Colorado",
+    "longitude": -105.553444,
+    "image_url": "https://cf.bstatic.com/xdata/images/hotel/150x150/250572122.jpg?k=bc505dab8eca37b9ae87fe479af2fbda160a8a90ab0ad23321cc4a02a08e42f8&o=",
+    "rtl": 0,
+    "latitude": 40.382893
+  },
+  {
+    "dest_type": "hotel",
+    "label": "Mountain Masterpiece by Rocky Mountain Resorts, Allenspark, Colorado, United States",
+    "city_ufi": 20017012,
+    "timezone": "America/Denver",
+    "nr_hotels": 1,
+    "lc": "en",
+    "hotels": 1,
+    "dest_id": "6380793",
+    "cc1": "us",
+    "type": "ho",
+    "b_max_los_data": {
+      "extended_los": 90,
+      "default_los": 45,
+      "max_allowed_los": 45,
+      "experiment": "long_stays_android_extend_los_2",
+      "is_fullon": 0,
+      "has_extended_los": 1
+    },
+    "latitude": 40.2187,
+    "rtl": 0,
+    "longitude": -105.53426,
+    "image_url": "https://cf.bstatic.com/xdata/images/hotel/150x150/250570984.jpg?k=b3642d40a5b54dff7c12c5af991bf0992f874202cdd2520b4356ea84873b4ad4&o=",
+    "region": "Colorado",
+    "name": "Mountain Masterpiece by Rocky Mountain Resorts",
+    "country": "United States",
+    "city_name": "Allenspark"
+  },
+  {
+    "city_ufi": null,
+    "label": "Rocky Mountain National Park, United States",
+    "dest_type": "region",
+    "nr_hotels": 681,
+    "dest_id": "6543",
+    "cc1": "us",
+    "hotels": 681,
+    "lc": "en",
+    "b_max_los_data": {
+      "experiment": "long_stays_android_extend_los_2",
+      "has_extended_los": 1,
+      "is_fullon": 0,
+      "extended_los": 90,
+      "max_allowed_los": 45,
+      "default_los": 45
+    },
+    "type": "re",
+    "t_meta": "SwAAAPAUeyJtbSI6W3siaXNfc2VlZGVkIjowLCJ0eXBlIjoiaG90ZWwMAPAVX25ldyIsInRleHQiOiJSZXNvcnRzIiwiaWQiOiIyMDYifV19",
+    "rtl": 0,
+    "latitude": 40.265728,
+    "_t": "SwAAAPAUeyJtbSI6W3siaXNfc2VlZGVkIjowLCJ0eXBlIjoiaG90ZWwMAPAVX25ldyIsInRleHQiOiJSZXNvcnRzIiwiaWQiOiIyMDYifV19",
+    "name": "Rocky Mountain National Park",
+    "image_url": "https://cf.bstatic.com/xdata/images/region/150x150/60071.jpg?k=73b887bdf043929461b638efb0f8cc5af1063943aec9153ed9d3fdb516161609&o=",
+    "longitude": -105.638084,
+    "region": "Rocky Mountain National Park",
+    "meta_matches": [
+      {
+        "is_seeded": 0,
+        "type": "hoteltype_new",
+        "text": "Resorts",
+        "id": "206"
+      }
+    ],
+    "city_name": "",
+    "country": "United States"
+  },
+  {
+    "hotels": 9,
+    "lc": "en",
+    "cc1": "ca",
+    "dest_id": "-572408",
+    "type": "ci",
+    "t_meta": "SwAAAPAGeyJtbSI6W3sidHlwZSI6ImhvdGVsDADwI19uZXciLCJpc19zZWVkZWQiOjAsImlkIjoiMjA2IiwidGV4dCI6IlJlc29ydHMifV19",
+    "b_max_los_data": {
+      "extended_los": 90,
+      "default_los": 45,
+      "max_allowed_los": 45,
+      "experiment": "long_stays_android_extend_los_2",
+      "is_fullon": 0,
+      "has_extended_los": 1
+    },
+    "label": "Rocky Mountain House, Alberta, Canada",
+    "dest_type": "city",
+    "timezone": "America/Edmonton",
+    "city_ufi": null,
+    "nr_hotels": 9,
+    "region": "Alberta",
+    "meta_matches": [
+      {
+        "type": "hoteltype_new",
+        "is_seeded": 0,
+        "id": "206",
+        "text": "Resorts"
+      }
+    ],
+    "image_url": "https://cf.bstatic.com/xdata/images/city/150x150/947217.jpg?k=68fc48444801eecf53db3a6818da991eb8262b9e5d1b56cd94fb3b95e8beb8c8&o=",
+    "longitude": -114.9184,
+    "name": "Rocky Mountain House",
+    "country": "Canada",
+    "city_name": "Rocky Mountain House",
+    "latitude": 52.37688,
+    "rtl": 0,
+    "_t": "SwAAAPAGeyJtbSI6W3sidHlwZSI6ImhvdGVsDADwI19uZXciLCJpc19zZWVkZWQiOjAsImlkIjoiMjA2IiwidGV4dCI6IlJlc29ydHMifV19"
+  }
+]
