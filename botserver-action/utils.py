@@ -5,8 +5,8 @@ import arrow
 
 from arrow import Arrow
 from typing import Any, Dict, List, Text, Optional, Tuple
-from difflib import SequenceMatcher as SM
-from fuzzywuzzy import fuzz
+# from difflib import SequenceMatcher as SM
+from thefuzz import fuzz
 from unidecode import unidecode
 
 
@@ -150,7 +150,6 @@ def make_fuzzy_string_comparison(querystr, keystr, excluded: List[Text] = [], th
     for item in excluded:
         str2 = str2.replace(item, '').strip()
 
-    # similarity_ratio = SM(isjunk=None, a=str1, b=str2).ratio()
     similarity_ratio = fuzz.ratio(str1, str2)
     similarity_ratio = similarity_ratio * factor
 

@@ -58,11 +58,16 @@ IMPOTANT:
         5) standing-alone 'district' is usaully ambiguous
 """
 AREA_DEST_TYPE = {
-    DEST_TYPE_HOTEL: ['hotel'],                                                 # assigned to hotel
-    DEST_TYPE_LANDMARK: ['beach', 'lake', 'cave', 'bridge'],                    # assigned to beach, lake
-    DEST_TYPE_CITY: ['city'],                                                   # assigned to city
-    DEST_TYPE_REGION: ['island', 'islands', 'bay'],                             # assigned to  island, islands, bay
-    DEST_TYPE_REGION_EXC: ['state', 'province', 'county'],                             # 'state', 'province', 'county' are not bkinfo_area_type
+    # assigned to hotel
+    DEST_TYPE_HOTEL: ['hotel', 'hotels'],
+    # assigned to beach, lake, cave, bridge
+    DEST_TYPE_LANDMARK: ['beach', 'beaches', 'lake', 'lakes', 'cave', 'caves', 'bridge', 'bridges'],
+    # assigned to city
+    DEST_TYPE_CITY: ['city', 'cities'],
+    # assigned to  island, bay
+    DEST_TYPE_REGION: ['island', 'islands', 'bay', 'bays'],
+    # 'state', 'province', 'county' are not bkinfo_area_type
+    DEST_TYPE_REGION_EXC: ['state', 'province', 'county'],
 }
 
 headers = {
@@ -467,10 +472,12 @@ def index_location_by_dest_type(locations):
 
 
 def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
-    if not bkinfo_area_type or not bkinfo_district:
+    if not bkinfo_area_type and not bkinfo_district:
         name = bkinfo_area
-    if bkinfo_area_type in ['hotel', 'hotels']:
+    if not bkinfo_district or bkinfo_area_type in ['hotel', 'hotels']:
         name = f'{bkinfo_area} {bkinfo_area_type}'
+    if not bkinfo_area_type:
+        name = f'{bkinfo_area} {bkinfo_district}'
     else:
         # logic: include district into search if area_type is not hotel
         name = f'{bkinfo_area} {bkinfo_area_type} {bkinfo_district}'

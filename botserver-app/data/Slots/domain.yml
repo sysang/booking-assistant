@@ -108,15 +108,22 @@ slots:
     influence_conversation: false
     type: categorical
     values:
-      - city
       - hotel
-      - bay
+      - hotels
       - beach
       - beaches
+      - lake
+      - lakes
+      - cave
+      - caves
+      - bridge
+      - bridges
+      - city
+      - cities
       - island
       - islands
-      - cave
-      - bridge
+      - bay
+      - bays
     mappings:
       - type: from_entity
         entity: area_type

@@ -409,12 +409,6 @@ nlu:
   examples: |
     - small double
     - large double
-- synonym: bay
-  examples: |
-    - bays
-- synonym: beach
-  examples: |
-    - beaches
 - synonym: united states
   examples: |
     - united states of america
@@ -422,12 +416,19 @@ nlu:
     - usa
 - lookup: area_type
   examples: |
-    - city
-    - bay
+    - hotel
+    - hotels
     - beach
     - beaches
+    - lake
+    - lakes
+    - cave
+    - caves
+    - bridge
+    - bridges
+    - city
+    - cities
     - island
     - islands
-    - hotel
-    - cave
-    - bridge
+    - bay
+    - bays

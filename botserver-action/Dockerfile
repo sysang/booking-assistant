@@ -7,11 +7,8 @@ FROM ${RASA_SDK_IMAGE}
 USER root
 
 # To install system dependencies
-RUN apt-get update -qq && apt-get dist-upgrade -y --no-install-recommends
-
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+RUN apt-get update -qq && apt-get dist-upgrade -y --no-install-recommends \
+    && install -y gcc
 # To install packages from PyPI
 # RUN pip install -U --no-cache-dir mailchimp3~=3.0.2 \
 #                             oauth2client~=4.1.2 \
@@ -30,6 +27,10 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && rm -rf /pip_pkg \
     && rm -rf /tmp/* \
     && rm -rf /root/.cache
+
+RUN apt-get autoremove gcc \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Use subdirectory as working directory
 WORKDIR /app
