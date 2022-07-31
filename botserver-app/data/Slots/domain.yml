@@ -81,6 +81,7 @@ slots:
       - bkinfo_price
   bkinfo_room_id:
     influence_conversation: true
+    initial_value: null
     type: float
     mappings:
       - type: from_entity
@@ -92,18 +93,48 @@ slots:
     mappings:
       - type: from_entity
         entity: country
+        intent: express_area
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   bkinfo_region:
     influence_conversation: false
     type: text
     mappings:
       - type: from_entity
+        entity: country
+        intent: express_area
+      - type: from_entity
         entity: region
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: region
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: region
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   bkinfo_district:
     influence_conversation: false
     type: text
     mappings:
       - type: from_entity
+        entity: country
+        intent: express_area
+      - type: from_entity
         entity: district
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   bkinfo_area_type:
     influence_conversation: false
     type: categorical
@@ -124,9 +155,23 @@ slots:
       - islands
       - bay
       - bays
+      - airport
+      - museum
+      - station
+      - terminal
     mappings:
       - type: from_entity
-        entity: area_type
+        entity: country
+        intent: express_area
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   bkinfo_area:
     influence_conversation: false
     type: text
@@ -325,6 +370,7 @@ slots:
           requested_slot: bkinfo_price
   bkinfo_area_revised:
     influence_conversation: true
+    initial_value: null
     type: text
     mappings:
       - type: from_entity
@@ -332,6 +378,7 @@ slots:
         entity: area
   bkinfo_checkin_time_revised:
     influence_conversation: true
+    initial_value: null
     type: text
     mappings:
       - type: from_entity
@@ -339,6 +386,7 @@ slots:
         entity: time
   bkinfo_duration_revised:
     influence_conversation: true
+    initial_value: null
     type: text  # unit: day
     mappings:
       - type: from_entity
@@ -346,6 +394,7 @@ slots:
         entity: duration
   bkinfo_bed_type_revised:
     influence_conversation: true
+    initial_value: null
     type: text
     mappings:
       - type: from_entity
@@ -353,6 +402,7 @@ slots:
         entity: bed_type
   bkinfo_price_revised:
     influence_conversation: true
+    initial_value: null
     type: text
     mappings:
       - type: from_entity
@@ -396,10 +446,10 @@ slots:
   botmemo_bkinfo_status:
     type: addons.custom_slot_types.BkinfoStatus
     influence_conversation: true
+    initial_value: null
     mappings:
       - type: custom
         action: action_bkinfo_status_slot_mapping
-    initial_value: null
   notes_bkinfo:
     type: any
     influence_conversation: false

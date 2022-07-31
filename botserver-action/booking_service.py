@@ -41,6 +41,7 @@ REQUESTS_CACHE_MINS = 60
 # comply to https://booking-com.p.rapidapi.com/v1/hotels/locations api's dest_type field
 DEST_TYPE_HOTEL = 'hotel'
 DEST_TYPE_LANDMARK = 'landmark'
+DEST_TYPE_AIRPORT = 'airport'
 DEST_TYPE_CITY = 'city'
 DEST_TYPE_DISTRICT = 'district'
 DEST_TYPE_REGION = 'region'
@@ -60,14 +61,18 @@ IMPOTANT:
 AREA_DEST_TYPE = {
     # assigned to hotel
     DEST_TYPE_HOTEL: ['hotel', 'hotels'],
-    # assigned to beach, lake, cave, bridge
-    DEST_TYPE_LANDMARK: ['beach', 'beaches', 'lake', 'lakes', 'cave', 'caves', 'bridge', 'bridges'],
+    # assigned to beach, lake, cave, bridge, museum
+    DEST_TYPE_LANDMARK: ['beach', 'beaches', 'lake', 'lakes', 'cave', 'caves', 'bridge', 'bridges', 'museum', 'station', 'terminal'],
+    # assigned to airport
+    DEST_TYPE_AIRPORT: ['airport'],
     # assigned to city
     DEST_TYPE_CITY: ['city', 'cities'],
     # assigned to  island, bay
     DEST_TYPE_REGION: ['island', 'islands', 'bay', 'bays'],
-    # 'state', 'province', 'county' are not bkinfo_area_type
+    # 'state', 'province', 'region' 'county' are not bkinfo_area_type but entities that are recognized as region
     DEST_TYPE_REGION_EXC: ['state', 'province', 'county'],
+    # 'district' are not bkinfo_area_type neither implied by bkinfo_area but entities that are recognized via bkinfo_district
+    DEST_TYPE_DISTRICT: ['district'],
 }
 
 headers = {
@@ -90,7 +95,7 @@ async def search_rooms(
     """
         search_locations
         search_hotel
-        get_room_list_by_hotel
+        request_room_list_by_hotel
         filter by price, adult_number
         ADVANCES:
         - sort by price, sort by review_score
@@ -131,11 +136,11 @@ async def search_rooms(
     logger.info('[INFO] will look for hotels in price below %s', max_price)
 
     if destination.get('dest_type') == DEST_TYPE_HOTEL:
-        hotel = search_hotel_data(hotel_id=destination.get('dest_id'))
-        # To solve the discrepancy of format of data of search_hotel and search_hotel_data
+        hotel = request_hotel_data(hotel_id=destination.get('dest_id'))
+        # To solve the discrepancy of format of data of request_to_search_hotel and request_hotel_data
         hotels = [uniformize_hotel_data(hotel)]
     else:
-        hotels = search_hotel(
+        hotels = request_to_search_hotel(
             dest_id=destination['dest_id'],
             dest_type=destination['dest_type'],
             checkin_date=checkin_date,
@@ -144,7 +149,7 @@ async def search_rooms(
             currency=max_price.unit,
         )
         hotels = hotels['result']
-    logger.info('[INFO] search_hotel, found %s results.', len(hotels))
+    logger.info('[INFO] request_to_search_hotel, found %s results.', len(hotels))
 
     if bkinfo_orderby == SortbyDictionary.SORTBY_REVIEW_SCORE:
         hotels = sort_hotel_by_review_score(hotels)
@@ -306,7 +311,7 @@ async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CUR
     for tasks in schedule:
         futures = []
         for hotel_id in tasks:
-            futures.append(loop.run_in_executor( None, get_room_list_by_hotel, hotel_id, checkin_date, checkout_date, currency))
+            futures.append(loop.run_in_executor( None, request_room_list_by_hotel, hotel_id, checkin_date, checkout_date, currency))
         for response in await asyncio.gather(*futures):
             for item in response:
                 result.append(item)
@@ -314,7 +319,7 @@ async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CUR
     return result
 
 
-def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
+def request_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> rooms = response.json()
     >>> rooms[0].keys()
@@ -342,7 +347,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
     }
 
     response = requests_sess.get(url, headers=headers, params=querystring)
-    logger.info('[INFO] get_room_list_by_hotel, API url: %s', response.url)
+    logger.info('[INFO] request_room_list_by_hotel, API url: %s', response.url)
 
     if not response.ok:
         return []
@@ -354,7 +359,7 @@ def get_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRE
     return result
 
 
-def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, currency=CURRENCY):
+def request_to_search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, currency=CURRENCY):
     """
     >>> hotels = response.json()
     >>> hotels.keys()
@@ -400,17 +405,17 @@ def search_hotel(dest_id, dest_type, checkin_date, checkout_date, order_by, curr
             response = requests_sess.get(url, headers=headers, params=querystring)
             response.raise_for_status()
 
-            logger.info('[INFO] search_hotel, API url: %s', response.url)
+            logger.info('[INFO] request_to_search_hotel, API url: %s', response.url)
 
             return response.json()
 
         except:
-            logger.info('[INFO] try to search_hotel, API url: %s, error: %s', response.url, i)
+            logger.info('[INFO] try to request_to_search_hotel, API url: %s, error: %s', response.url, i)
             time.sleep(0.1)
 
     return {}
 
-def search_hotel_data(hotel_id):
+def request_hotel_data(hotel_id):
     """
     >>> details = response.json()
     >>> type(details)
@@ -430,14 +435,15 @@ def search_hotel_data(hotel_id):
     }
 
     response = requests_sess.get(url, headers=headers, params=querystring)
-    logger.info('[INFO] search_hotel_data, API url: %s', response.url)
+    logger.info('[INFO] request_hotel_data, API url: %s', response.url)
 
     response.raise_for_status()
 
     return response.json()
 
 
-def search_locations(name):
+@cached(cache=TTLCache(maxsize=32, ttl=300))
+def request_to_search_locations(name):
     """
     >>> locations = response.json()
     >>> locations[0].keys()
@@ -452,7 +458,7 @@ def search_locations(name):
     }
 
     response = requests_sess.get(url, headers=headers, params=querystring)
-    logger.info('[INFO] search_locations, API url: %s', response.url)
+    logger.info('[INFO] request_to_search_locations, API url: %s', response.url)
 
     response.raise_for_status()
 
@@ -474,16 +480,16 @@ def index_location_by_dest_type(locations):
 def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
     if not bkinfo_area_type and not bkinfo_district:
         name = bkinfo_area
-    if not bkinfo_district or bkinfo_area_type in ['hotel', 'hotels']:
+    elif not bkinfo_district or bkinfo_area_type in ['hotel', 'hotels']:
         name = f'{bkinfo_area} {bkinfo_area_type}'
-    if not bkinfo_area_type:
+    elif not bkinfo_area_type:
         name = f'{bkinfo_area} {bkinfo_district}'
     else:
         # logic: include district into search if area_type is not hotel
         name = f'{bkinfo_area} {bkinfo_area_type} {bkinfo_district}'
 
-    locations = search_locations(name=name)
-    logger.info('[INFO] search_locations, found %s location(s) in respective to query: %s', len(locations), name)
+    locations = request_to_search_locations(name=name)
+    logger.info('[INFO] request_to_search_locations, found %s location(s) in respective to query: %s', len(locations), name)
 
     if len(locations) == 0:
         return None
@@ -508,37 +514,61 @@ def find_most_likely_locations(locations, bkinfo_area, bkinfo_area_type=None, bk
     result = None
 
     if bkinfo_area_type:
-        if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_HOTEL]:
-            result = find_by_dest_type(DEST_TYPE_HOTEL, locations, bkinfo_area)
-        if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_LANDMARK]:
-            result = find_by_dest_type(DEST_TYPE_LANDMARK, locations, bkinfo_area)
-        if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_CITY]:
-            result = find_by_dest_type(DEST_TYPE_CITY, locations, bkinfo_area)
+        result = find_location_by_area_type(locations=locations, bkinfo_area=bkinfo_area, bkinfo_area_type=bkinfo_area_type)
+        if result:
+            print('[INFO] Location is matched firstly in respective to bkinfo_area_type.')
+            return result
 
     # finding with district is forced to compare bkinfo_area to city_name
     # since matching of bkinfo_area and `name` is take care by many other mechanisms
-    if not result and bkinfo_district:
-        result = find_district_locations(locations, bkinfo_area, bkinfo_district)
+    result = find_district_locations(locations=locations, bkinfo_area=bkinfo_area, bkinfo_district=bkinfo_district)
 
-    if not result:
-        result = find_exact_location_name(locations, bkinfo_area)
+    if result:
+        print('[INFO] Location is matched secondly in respective to bkinfo_district.')
+        return result
 
-    if not result:
-        result = choose_destination_over_dest_types(
-            locations=locations,
-            bkinfo_area=bkinfo_area,
-            bkinfo_region=bkinfo_region,
-            bkinfo_country=bkinfo_country,
-        )
+    result = find_exact_location_name(locations, bkinfo_area, bkinfo_region=bkinfo_region, bkinfo_country=bkinfo_country)
+
+    if result:
+        print('[INFO] Location is matched exactly in respective to bkinfo_area.')
+        return result
+
+    result = choose_destination_over_dest_types(
+        locations=locations,
+        bkinfo_area=bkinfo_area,
+        bkinfo_region=bkinfo_region,
+        bkinfo_country=bkinfo_country,
+    )
+
+    if result:
+        print('[INFO] Location is matched finally in respective to api-data-field dest_type.')
+        return result
+
+    return None
+
+def find_location_by_area_type(locations, bkinfo_area, bkinfo_area_type):
+    threshold = 0.25
+    result = None
+
+    if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_HOTEL]:
+        result = find_by_dest_type(dest_type=DEST_TYPE_HOTEL, threshold=threshold, locations=locations, bkinfo_area=bkinfo_area)
+    if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_LANDMARK]:
+        result = find_by_dest_type(dest_type=DEST_TYPE_LANDMARK, threshold=threshold, locations=locations, bkinfo_area=bkinfo_area)
+    if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_AIRPORT]:
+        result = find_by_dest_type(dest_type=DEST_TYPE_AIRPORT, threshold=threshold, locations=locations, bkinfo_area=bkinfo_area)
+    if bkinfo_area_type in AREA_DEST_TYPE[DEST_TYPE_CITY]:
+        result = find_by_dest_type(dest_type=DEST_TYPE_CITY, threshold=threshold, locations=locations, bkinfo_area=bkinfo_area)
 
     return result
 
-
 def find_district_locations(locations, bkinfo_area, bkinfo_district):
-    district_threshold = 0.20
-    city_threshold = 0.80
-    destination_list = locations.get(DEST_TYPE_DISTRICT, None)
+    district_threshold = 0.21
+    city_threshold = 0.85
 
+    if not bkinfo_district:
+        return None
+
+    destination_list = locations.get(DEST_TYPE_DISTRICT, None)
     if not destination_list:
         return None
 
@@ -566,19 +596,17 @@ def find_exact_location_name(locations, bkinfo_area, bkinfo_region=None, bkinfo_
     if area_type is explicitly expressed as hotel, comparing will less strict
     otherwise increase threshold to strict level: 0.93
     """
+    AREA_THRESHOLD = 0.83
     destination_list = reduce(lambda x, y: x+y, locations.values())
 
     if not destination_list:
         return None
 
-    excluded = reduce(lambda x, y: x+y, AREA_DEST_TYPE.values())
-
     best_matched = []
-    threshold = 0.80
     for dest in destination_list:
         dest_name = dest.get('name', '')
-        similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest_name, excluded=excluded)
-        if similarity_ratio > threshold:
+        similarity_ratio = make_fuzzy_string_comparison(querystr=bkinfo_area, keystr=dest_name)
+        if similarity_ratio > AREA_THRESHOLD:
             best_matched.append(dest)
 
     if len(best_matched) == 0:
@@ -592,21 +620,23 @@ def find_exact_location_name(locations, bkinfo_area, bkinfo_region=None, bkinfo_
         bkinfo_area=bkinfo_area,
         bkinfo_region=bkinfo_region,
         bkinfo_country=bkinfo_country,
+        threshold=AREA_THRESHOLD,
     )
 
-    return None
+    return result
 
 
-def choose_destination_over_dest_types(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
-    for dest_type in [DEST_TYPE_LANDMARK, DEST_TYPE_CITY, DEST_TYPE_REGION, DEST_TYPE_HOTEL]:
-        result = find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region, bkinfo_country)
+def choose_destination_over_dest_types(locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None, threshold=0.35):
+    for dest_type in [DEST_TYPE_LANDMARK, DEST_TYPE_AIRPORT, DEST_TYPE_CITY, DEST_TYPE_DISTRICT, DEST_TYPE_REGION, DEST_TYPE_HOTEL]:
+        result = find_by_dest_type(dest_type, threshold, locations, bkinfo_area, bkinfo_region, bkinfo_country)
         if result:
             return result
 
     return None
 
 
-def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None, threshold=0.25, threshold2=0.75):
+def find_by_dest_type(dest_type, threshold, locations, bkinfo_area, bkinfo_region=None, bkinfo_country=None):
+    REGION_THRESHOLD = 0.75
     destination_list = locations.get(dest_type, None)
 
     excluded = AREA_DEST_TYPE[dest_type]
@@ -620,12 +650,12 @@ def find_by_dest_type(dest_type, locations, bkinfo_area, bkinfo_region=None, bki
     # if complement info is available take solely destinations that match
     if bkinfo_region and dest_type != DEST_TYPE_REGION:
         destination_list = list(filter(
-            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_region, keystr=dest.get('region', ''), threshold=threshold2),
+            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_region, keystr=dest.get('region', ''), threshold=REGION_THRESHOLD),
             destination_list
         ))
     elif bkinfo_country:
         destination_list = list(filter(
-            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_country, keystr=dest.get('country', ''), threshold=threshold2),
+            lambda dest: make_fuzzy_string_comparison(querystr=bkinfo_country, keystr=dest.get('country', ''), threshold=REGION_THRESHOLD),
             destination_list,
         ))
 
@@ -671,7 +701,7 @@ def eval_test(tfunc):
 
 def __test__search_locations():
     global pp
-    locations = search_locations(name='hawaii')
+    locations = request_to_search_locations(name='hawaii')
     locations = index_location_by_dest_type(data=locations)
     pp.pprint(locations)
 
@@ -799,6 +829,12 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
+    locations = area_exact['search_location_result_hambug']
+    expected_dest_id = '-1785434'
+    destination = find_most_likely_locations(locations, bkinfo_area='hamburg')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
     print('[Case 6] when bkinfo_area -> exact, bkinfo_country -> united states')
     locations = area_country['search_location_result_essex']
     expected_dest_id = '20018793'
@@ -806,10 +842,10 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 7] when bkinfo_area -> exact, bkinfo_region -> vermont')
+    print('[Case 7] when bkinfo_area -> exact, bkinfo_region -> massachusetts')
     locations = area_region['search_location_result_essex']
-    expected_dest_id = '20134745'
-    destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_region='vermont')
+    expected_dest_id = '20062172'
+    destination = find_most_likely_locations(locations, bkinfo_area='essex', bkinfo_region='massachusetts')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
@@ -827,9 +863,9 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 10] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> hotel')
+    print('[Case 10] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> district')
     locations = area_notype_notexact_hotel['search_location_result_san_francisco_north']
-    expected_dest_id = '6494652'
+    expected_dest_id = '1432'
     destination = find_most_likely_locations(locations, bkinfo_area='san francisco north')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'

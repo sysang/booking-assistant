@@ -11,6 +11,7 @@ stories:
 
 - name: Form is filled, then show room list
   steps:
+    - 'Could you help me search for a hotel?'
     - 'i need to book a hotel for a trip to {area}'
     - '{time}'
     - '{duration}'

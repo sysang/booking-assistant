@@ -1,5 +1,6 @@
 SHELL=/bin/zsh
 .SILENT: help
+.SILENT: test_actions_booking_service
 
 help:
 	echo "Commands:"
@@ -111,6 +112,9 @@ test_actions_duckling_service:
 
 test_actions_booking_service:
 	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(uit) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/booking_service.py | tail -n 1)"'
+
+unittest_action_server:
+	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(uit) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/$(filepath) | tail -n 1)"'
 
 # files := file1 file2
 # some_file: $(files)

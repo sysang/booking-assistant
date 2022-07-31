@@ -18,6 +18,7 @@ from .booking_service import choose_location
 
 from .utils import slots_for_entities, calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
+from .utils import DictUpdatingMemmQueue
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +32,17 @@ class ValidateBkinfoForm(FormValidationAction):
         return slots_for_entities(entities, domain)
 
     def old_slot_value(self, tracker, slot_name):
-        slots = tracker.slots.get('old', {})
-        return slots.get(slot_name, None)
+        old_slot = tracker.slots.get('old', None)
+        if not old_slot:
+            return None
+
+        return DictUpdatingMemmQueue(data=old_slot).retrieve(key=slot_name)
+
+    def is_new(self, tracker, slot_name, slot_value):
+        old_value = self.old_slot_value(tracker, slot_name)
+        logger.info('[DEBUGING] -> validating...')
+        logger.info('[DEBUGING] -> old_value: %s, slot_value: %s', old_value, slot_value)
+        return old_value is None or slot_value != old_value
 
     def is_slot_requested(self, tracker, slot_name):
         return tracker.slots.get('requested_slot', None) == slot_name
@@ -48,15 +58,21 @@ class ValidateBkinfoForm(FormValidationAction):
 
         slots = tracker.slots
         destination = choose_location(
-            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'),
-            bkinfo_district=slots.get('bkinfo_district'), bkinfo_county=slots.get('bkinfo_county'),
-            bkinfo_state=slots.get('bkinfo_state'), bkinfo_country=slots.get('bkinfo_country'),
+            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'), bkinfo_district=slots.get('bkinfo_district'),
+            bkinfo_region=slots.get('bkinfo_region'), bkinfo_country=slots.get('bkinfo_country'),
         )
         if not destination:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
             return {slot_name: None}
 
-        return {slot_name: slot_value}
+        if self.is_new(tracker, slot_name, slot_value):
+            dest_label = destination.get('label', None)
+            # TODO: verify if request to image_url gets 200, otherwise we're in horrible trouble by telegram
+            image_url = destination.get('image_url', None)
+            if dest_label and image_url:
+                dispatcher.utter_message(response='utter_confirm_bkinfo_area', image=image_url, dest_label=dest_label)
+
+            return {slot_name: slot_value}
 
 
     def validate_bkinfo_checkin_time(

@@ -17,6 +17,7 @@ from .booking_service import choose_location
 
 from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
+from .utils import DictUpdatingMemmQueue
 
 
 logger = logging.getLogger(__name__)
@@ -24,8 +25,11 @@ logger = logging.getLogger(__name__)
 class ValidatePredefinedSlots(ValidationAction):
 
     def old_slot_value(self, tracker, slot_name):
-        slots = tracker.slots.get('old', {})
-        return slots.get(slot_name, None)
+        old_slot = tracker.slots.get('old', None)
+        if not old_slot:
+            return None
+
+        return DictUpdatingMemmQueue(data=old_slot).retrieve(key=slot_name)
 
     def if_changed_by_botacts_utter_revised_bkinfo(self, tracker):
         return tracker.latest_action_name == 'botacts_utter_revised_bkinfo'
@@ -41,9 +45,8 @@ class ValidatePredefinedSlots(ValidationAction):
 
         slots = tracker.slots
         destination = choose_location(
-            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'),
-            bkinfo_district=slots.get('bkinfo_district'), bkinfo_county=slots.get('bkinfo_county'),
-            bkinfo_state=slots.get('bkinfo_state'), bkinfo_country=slots.get('bkinfo_country'),
+            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'), bkinfo_district=slots.get('bkinfo_district'),
+            bkinfo_region=slots.get('bkinfo_region'), bkinfo_country=slots.get('bkinfo_country'),
         )
         if not destination:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
@@ -142,3 +145,33 @@ class ValidatePredefinedSlots(ValidationAction):
             return {slot_name: None}
 
         return {slot_name: slot_value}
+
+    def validate_old(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,) -> Dict[Text, Any]:
+        """
+        The problem: slot mapping machanism is not compatible with validating mechanism because mampping phrase happens before
+        validating phrase so that in validating step history of slot (old value) has been newly updated.
+        """
+
+        slots = tracker.slots
+        old_slot = slots.get('old', None)
+
+        updated = {
+            'bkinfo_area': slots.get('bkinfo_area'),
+            'bkinfo_checkin_time': slots.get('bkinfo_checkin_time'),
+            'bkinfo_duration': slots.get('bo_durationkinfo_area'),
+            'bkinfo_bed_type': slots.get('bkinfo_bed_type'),
+            'bkinfo_price': slots.get('bkinfo_price'),
+        }
+
+        memm_queue = DictUpdatingMemmQueue(data=old_slot)
+        for key, value in updated.items():
+            memm_queue.register(key=key, value=value)
+
+        logger.info('[DEBUGING] updated: %s', updated)
+        logger.info('[DEBUGING] memm_queue: %s', memm_queue.data)
+        return {'old': memm_queue.data}

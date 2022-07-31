@@ -1,0 +1,15 @@
+stories:
+
+- name: test diversity of ways to express bkinfo_area: county, province, country, district, hotel, beach, islands, bay, airport
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'I want a {bed_type} bed room' # unexpected
+    - 'i need to book a hotel for a trip to {area}'
+    - 'I want a {bed_type} bed room' # unexpected
+    - '{time}'
+    - 'I want a {bed_type} bed room' # unexpected
+    - '{duration}'
+    - '{amount-of-money}' # unexpected
+    - 'I want a {bed_type} bed room'
+    - 'I want a {bed_type} bed room' # unexpected
+    - '{amount-of-money}'

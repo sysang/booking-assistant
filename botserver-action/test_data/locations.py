@@ -26,6 +26,7 @@ area_district = {
 
 area_exact = {
     "search_location_result_rocky_mountain_resort": load_data(filename='search_location_result_rocky_mountain_resort.json'),
+    "search_location_result_hambug": load_data(filename='search_location_result_hambug.json'),
 }
 
 area_country = {

@@ -10,11 +10,15 @@ nlu:
     - could you help me find a hotel romm
     - please help me find a hotel
     - i need a room
+    - i need a hotel room
     - i need to find a hotel
     - i am about to find a hotel
     - please find me a hotel
     - i want to make booking
     - i'm interested in booking a room
+    - hi there, i want to reserve a hotel room
+    - i need to reserve a room
+    - can you help me with some information on a place to stay
 - intent: request_listing_hotel_by_area
   examples: |
     - i need to book a hotel for a trip to [los angeles](area)
@@ -24,9 +28,10 @@ nlu:
     - i need to book a hotel for a trip to [paris](area)
     - i need to book a hotel for a trip to [shanghai](area)
     - i need to book a hotel for a trip to [berlin](area)
-    - i need to book a hotel for a trip to [bejing](area)
-    - i need to book a hotel for a trip to [singapore](area)
-    - i need to book a hotel for a trip to [hongkong](area)
+    - i need a place to stay out in [hamburg](area) [city](area_type) [st. pauli](district) district
+    - i need a place to stay out in [bejing](area), can you help
+    - i need a place to stay out in [singapore](area), can you help
+    - i need a place to stay out in [hongkong](area), can you help
     - i need to book a hotel for a business surf trip to [hawaii](area)
     - i need to book a hotel for a trip to [fort lauderdale](area) [beach](area_type)
     - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type)
@@ -39,32 +44,32 @@ nlu:
     - i'm looking for a hotel to stay in during my visit to [florida](area)
     - i need a hotel room in [bangkok](area), could you help
     - i am going to travel to [ho chi minh](area) [city](area_type), [vietnam](country)
-    - i want to visit [bangkok](area)
-    - i want to visit [tokyo](area)
-    - i want to visit [jakarta](area)
-    - i want to visit [delhi](area)
-    - i want to visit [manila](area)
-    - i want to visit [são paulo](area)
+    - can you help me find a place to stay in [bangkok](area)
+    - can you help me find a place to stay in [tokyo](area)
+    - can you help me find a place to stay in [jakarta](area)
+    - can you help me find a place to stay in [delhi](area)
+    - can you help me find a place to stay in [manila](area)
+    - can you help me find a place to stay in [são paulo](area)
     - i want to visit [seoul](area)
     - i want to visit [mumbai](area)
     - i want to visit [shanghai](area)
     - i want to visit [mexico city](area)
     - i want to visit [guangzhou](area)
-    - show me hotels in [cairo](area)
-    - show me hotels in [beijing](area)
-    - show me hotels in [new york](area)
-    - show me hotels in [kolkāta](area)
+    - what are hotels in [cairo](area)
+    - what are hotels in [beijing](area)
+    - what are hotels in [new york](area)
+    - what are hotels in [kolkāta](area)
     - show me hotels in [moscow](area)
     - show me hotels in [bangkok](area)
     - show me hotels in [dhaka](area)
     - show me hotels in [buenos aires](area)
     - show me hotels in [ōsaka](area)
     - show me hotels in [lagos](area)
-    - list me hotels in [istanbul](area)
-    - list me hotels in [karachi](area)
-    - list me hotels in [kinshasa](area)
-    - list me hotels in [shenzhen](area)
-    - list me hotels in [bangalore](area)
+    - i need to find a hotel in [north istanbul](area) for our stay
+    - i need to find a hotel in [south karachi](area) for my stay
+    - i need to find a hotel in [west kinshasa](area) to stay
+    - i need to find a hotel in [east shenzhen](area) for my stay
+    - i need to find a hotel in [central bangalore](area) to stay
     - list me hotels in [ho chi minh city](area)
     - list me hotels in [tehran](area)
     - list me hotels in [los angeles](area)
@@ -99,12 +104,12 @@ nlu:
     - find a room in [changsha](area)
     - find a room in [dongguan](area)
     - find a room in [jining](area)
-    - find a room in [jinan](area)
-    - find a room in [pune](area)
-    - find a room in [foshan](area)
-    - find a room in [bogotá](area)
-    - find a room in [ahmedabad](area)
-    - find a room in [nanjing](area)
+    - i'm needing a place to stay in [jinan](area)
+    - i'm needing a place to stay in [pune](area)
+    - i'm needing a place to stay in [foshan](area)
+    - i'm needing a place to stay in [bogotá](area)
+    - i'm needing a place to stay in [ahmedabad](area)
+    - i'm needing a place to stay in [nanjing](area)
     - i'm looking for a hotel in [plage de piémanson](area)
     - i'm looking for a hotel in [pulau derawan](area)
     - i'm looking for a hotel in [punalu'u](area)
@@ -134,6 +139,7 @@ nlu:
     - i’d like to make a reservation in [singapore](country) [marriott tang plaza](area) [hotel](area_type)
     - i’d like to make a reservation in [raffles](area) [singapore](area_type)
     - i’d like to make a reservation in [marina bay sands](area) [hotel](area_type)
+    - i want to book a room in [Star Lake Daewoo Tay Ho Luxury Apartment](area) [hotel](area_type)
 - intent: request_checkin_time
   examples: |
     - check-in time is on [monday](time)
@@ -202,6 +208,7 @@ nlu:
     - book it for [four seconds](duration)
     - book it for [86400 seconds](duration)
     - book a room for [one night](duration)
+    - i would like to reserve room for [4 days](duration)
 - intent: request_checkin_time+request_room_reservation_duration
   examples: |
     - i want to book a room for [2 days](duration) starting from [january 1st](time)
@@ -226,6 +233,10 @@ nlu:
     - i would like to book a room for [from 1/11/2022 to 1/12/2022](duration)
     - i’ll be staying for [from 25/7/2022 to 3/10/2022](duration)
     - book it for [from 1/6/2022 to 2/6/2022](duration)
+    - my plans are to be there [april 14th to the 17th](duration)
+    - i plan to be there in [april from the 14th to the 17th](duration)
+    - i arrive [thursday](time) and will be staying for [seven nights](duration)
+    - i need to book it for [5 nights](duration) on [wednesday](time)
 - intent: request_listing_hotel_by_area+request_checkin_time
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting from [sunday](time)
@@ -235,12 +246,28 @@ nlu:
     - i am looking for an average priced place in [da lat](area) [city] on [june 29th](time). thankyou.
     - i'm looking for a hotel in [district 1](district) [ho chi minh](area) starting from [saturday](time)
     - i'm looking for a hotel in [go vap](district) district [ho chi minh](area) [city](area_type)  on [friday](time)
-    - i'm looking for a hotel in [district 3](district) [ho chi minh](area)  on [september 6th](time)
+    - i'm looking for a hotel in [district 3](district) [ho chi minh](area) on [september 6th](time)
     - i'm looking for a hotel in [phu nhuan](district) district [ho chi minh](area) on [november 7th](time)
     - i'm looking for a hotel in [ba dinh](district) district [hanoi](area) [city](area_type) on [7/28/2022](time)
     - i'm looking for a hotel in [hai ba trung](district) district [hanoi](area) [city](area_type) starting from [1/1](time)
     - i'm looking for a hotel in [mai tu liem](district) district, [hanoi](area), [vietnam](country) on [2/3/22](time)
     - i'm looking for a hotel in [downtown](district) district [San Francisco](area) [city](area_type), [california](state) starting from [29 june](time)
+    - i need to book a hotel for a trip to [little bullocks farm, takeley](area), [essex](region) county, [united kingdom](country) starting from [8/28/2022](time)
+    - i need to book a hotel for a trip to [little bullocks farm](area) [hotel](area_type), takeley city starting from [9/28/2022](time)
+    - i need to book a hotel for a trip to [little bullocks farm](area) [hotel](area_type), takeley, essex, [united kingdom](country) starting from [10/28/2022](time)
+    - i need to book a hotel for a trip to [takeley](area) [city](area_type), [essex](region) county, [united kingdom](country) starting from [11/28/2022](time)
+    - i need to book a hotel for a trip to [bullock down farm cottage, old town](area), [east sussex](region), [united kingdom](country) starting from [7/29/2022](time)
+    - i need to book a hotel for a trip to [bullock down farm cottage](area) [hotel](area_type), old town, east sussex, [united kingdom](country) starting from [7/30/2022](time)
+    - i am looking for an average priced place in [bullock down farm cottage](area), old town city, [east sussex](region) county, [united kingdom](country) on [november 8th](time)
+    - i am looking for an average priced place in [old town](area) [city](area_type), [east sussex](region) county [united kingdom](country) on [november 9th](time)
+    - i am looking for an average priced place in [bob bullock texas state history](area) [museum](area_type), austin, [texas](region), [united states](country) on [november 10th](time)
+    - i am looking for an average priced place in [bob bullock texas state history museum, austin](area), [texas](region), [united states](country) on [november 11th](time)
+    - i am looking for an average priced place in [austin](area), [texas](region), [united states](country) on [november 12th](time)
+    - i am looking for an average priced place in [austin](area) [city](area_type), [texas](region) state, [united states](country) on [november 13th](time)
+    - i am looking for an average priced place in [essex](area), [connecticut](region), [us](country) on [november 14th](time)
+    - i am looking for an average priced place in [essex](area) [city](area_type), [connecticut](region) state, [us](country) on [november 15th](time)
+    - i am looking for an average priced place in [essex](area), [massachusetts](region), [us](country) on [november 16th](time)
+    - i am looking for an average priced place in [essex](area) [city](area_type), [massachusetts](region) state, [us](country) on [november 17th](time)
 - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting [from friday to sunday](duration)
@@ -249,7 +276,6 @@ nlu:
     - i'm looking for a hotel in [austin](area) [from september 5th to september 20th](time)
     - can you tell us if there is a hotel in [tokyo](area) [from 1/6/2023 to 2/6/2023](duration)
     - i am looking for an average priced place in [little corn](area) [beaches](area_type) [from 25/7/2022 to 3/10/2022](duration)
-    - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type)
     - i'm looking for a hotel in [el nido](area), [palawan province](region) [from 1/6/2022 to 2/6/2022](duration)
     - i'm searching for a hotel in [tulum](area) [from 2/6/2022 to 4/6/2022](duration)
     - i'm searching for a hotel in [da dang](area), [vietnam](country) [from 10/7/2022 to 13/7/2022](duration)
@@ -261,6 +287,22 @@ nlu:
     - i need a hotel room in [paradise](area) [beach](area_type), rab, [croatia](country), [from january 3rd 2020 to january 4th 2021](duration)
     - i am going to travel to [ho chi minh](area) [city](area_type), [vietnam](country) [from 15th to 17th this month](duration)
     - i want to visit [bangkok](area) [from 1st to 4th november](duration)
+    - i'm planning to visit [new york](area) [from friday, april 14 until monday, april 17](duration)
+    - i need to book a hotel for a trip to [essex junction](area), [vermont](region), [us](country) starting [from friday to sunday](duration)
+    - can you find me an place to stay that is located in [essex junction](area) [city](area_type) [from october 3rd to october 4th](duration)
+    - i'm looking for a hotel in [miami](area) [beach](area_type), [florida](region) state, [us](country) [from september 5th to september 20th](time)
+    - can you tell us if there is a hotel in [miami](area), [florida](region), [us](country) [from 1/6/2023 to 2/6/2023](duration)
+    - i am looking for an average priced place in [hamburg city center](district) district, [hamburg](area), [germany](country) [from 25/7/2022 to 3/10/2022](duration)
+    - i'm looking for a hotel in [hamburg city center](district) district, [hamburg](area) [city](area_type) [from 1/6/2022 to 2/6/2022](duration)
+    - i'm searching for a hotel in [hamburg](area) [airport](area_type), hamburg city [from 10/7/2022 to 13/7/2022](duration)
+    - hi! can you help me find a hotel somewhere on [hamburg central](area) [station](area_type), hamburg please [from 1/11/2022 to 2/11/2022](duration)
+    - can you tell us if there is a hotel in [hamburg central](area) [from 1/6/2022 to 2/6/2022](duration)
+    - i am looking for an average priced place in [st. pauli](district) district, [hamburg](area) [city](area_type). thankyou. [from 1/1/2022 to 10/1/2023](duration)
+    - i'm looking for a hotel to stay in during my visit to [st. pauli](district) district, [hamburg](area) [from 1/7/2022 to 2/6/2022](duration)
+    - i need a hotel room in [st. pauli, hamburg](area), [from january 3rd 2020 to january 4th 2021](duration)
+    - i am going to travel to [phra nang](area) [cave](area_type), krabi [from 15th to 17th this month](duration)
+    - i want to visit [phra nang klao](area) [bridge](area_type), nonthaburi city [from 1st to 4th november](duration)
+    - i want to book room in [hilton garden inn san francisco airport north](area) [hotel](area_type) [united states of america](country) [from friday, april 14 until monday, april 17](duration)
 - intent: request_bed_type+request_checkin_time
   examples: |
     - need a [double](bed_type) room on [7/15](time)
@@ -278,7 +320,6 @@ nlu:
     - i’d like to book a [double](bed_type) room for [3 days](bed_type), please.
     - i’d like to make a [booking](bed_type) for a [double](bed_type) room for [one night](duration)
     - i am looking for room with [double](bed_type) bed for [1 day](duration)
-  examples: |
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
@@ -292,6 +333,7 @@ nlu:
     - change the place to [stuttgart](area), [germany](country)
     - please change the place to [stuttgart](area)
     - please change the place to [downtown district](district) [San Francisco](area) [city](area_type)
+    - please change the destination to [san francisco](city) [north point](district) district
 - intent: revise_checkin_time
   examples: |
     - could i change check in time to [sunday](time)
@@ -377,6 +419,7 @@ nlu:
   examples: |
     - how about the cheapest hotels
     - what are the cheapest hotels
+    - i want cheap one
     - i want cheap hotels
     - i prefer lower price
     - i prefer affordable hotel
@@ -432,3 +475,7 @@ nlu:
     - islands
     - bay
     - bays
+    - airport
+    - museum
+    - station
+    - terminal

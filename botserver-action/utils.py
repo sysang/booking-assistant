@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Text, Optional, Tuple
 # from difflib import SequenceMatcher as SM
 from thefuzz import fuzz
 from unidecode import unidecode
+from datetime import datetime
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
@@ -51,11 +52,11 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
     for slot_name, slot_conf in domain['slots'].items():
         for entity in entities:
             for mapping in slot_conf['mappings']:
-                if mapping['type'] != 'from_entity':
+                if mapping.get('type', None) != 'from_entity':
                     continue
-                if mapping['entity'] != entity['entity']:
+                if mapping.get('entity', None) != entity['entity']:
                     continue
-                if mapping['intent'] != intent['name']:
+                if mapping.get('intent', None) != intent['name']:
                     continue
                 mapped_slots[slot_name] = entity.get('value')
 
@@ -152,12 +153,63 @@ def make_fuzzy_string_comparison(querystr, keystr, excluded: List[Text] = [], th
 
     similarity_ratio = fuzz.ratio(str1, str2)
     similarity_ratio = similarity_ratio * factor
+    # print(f'[DEV] {str1} : {str2} -> {similarity_ratio}')
 
     if threshold:
         return similarity_ratio > threshold
 
     return similarity_ratio
 
+
+class DictUpdatingMemmQueue():
+    MEMM_SIZE = 2
+
+    def __init__(self, data):
+        self.data = data if isinstance(data, dict) else {}
+        self.sanitize_data()
+
+    def sanitize_data(self):
+        result = {}
+        for key in self.data.keys():
+            item = self.get_item(key)
+            result[key] = item[0:self.MEMM_SIZE]
+
+        self.data = result
+
+    def get_item(self, key):
+        item = self.data.get(key, [])
+        item = sorted(item, key=lambda x: x[1], reverse=True)
+        return item
+
+    def register(self, key, value):
+        item = self.get_item(key)
+        now_st = datetime.now().timestamp()
+        updated = (value, now_st)
+        if len(item) < self.MEMM_SIZE:
+            item.append(updated)
+            self.data[key] = item
+        else:
+            newer = item[0:-1]
+            newer.append(updated)
+            self.data[key] = newer
+
+        return self.data
+
+    def retrieve(self, key):
+        item = self.get_item(key)
+        if not item:
+            return None
+        return item[-1][0]
+
+"""
+__pytest__
+import os;from actions.utils import eval_test;eval_test(tfunc=os.environ.get('TEST_FUNC', None));
+"""
+
+
+def eval_test(tfunc):
+    __test__fn = f'__test__{tfunc}'
+    eval(__test__fn)()
 
 
 def __test__parse_date_range():
@@ -172,5 +224,68 @@ def __test__parse_date_range():
     print('Success.')
 
 
-def eval_test():
-    __test__parse_date_range()
+def __test__DictUpdatingMemmQueue():
+    DictUpdatingMemmQueue.MEMM_SIZE = 3
+    now = datetime.now()
+    now = now.replace(second=0, minute=now.minute - 1)
+    data = {
+        'slot1': [
+            ('slot_value_1', now.replace(second=1).timestamp()),
+            ('slot_value_3', now.replace(second=3).timestamp()),
+            ('slot_value_2', now.replace(second=2).timestamp()),
+        ],
+        'slot2': [
+            ('slot_value_6', now.replace(second=6).timestamp()),
+            ('slot_value_5', now.replace(second=5).timestamp()),
+            ('slot_value_7', now.replace(second=7).timestamp()),
+        ],
+    }
+    print('[Case 1] retrieve() returns first value')
+    expected = 'slot_value_1'
+    actual = DictUpdatingMemmQueue(data=data).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    expected = 'slot_value_5'
+    actual = DictUpdatingMemmQueue(data=data).retrieve('slot2')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 2] register one time, retrieve() returns second value')
+    updated = DictUpdatingMemmQueue(data=data).register(key='slot1', value='updated_1')
+    expected = 'slot_value_2'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 3] register three time, retrieve() returns update_1 value')
+    updated = DictUpdatingMemmQueue(data=data).register(key='slot1', value='updated_1')
+    updated = DictUpdatingMemmQueue(data=updated).register(key='slot1', value='updated_2')
+    updated = DictUpdatingMemmQueue(data=updated).register(key='slot1', value='updated_3')
+    expected = 'updated_1'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 4] empty, register three time, retrieve() one by one')
+    updated = DictUpdatingMemmQueue(data=None).register(key='slot1', value='updated_1')
+    expected = 'updated_1'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    updated = DictUpdatingMemmQueue(data=updated).register(key='slot1', value='updated_2')
+    expected = 'updated_1'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    updated = DictUpdatingMemmQueue(data=updated).register(key='slot1', value='updated_3')
+    expected = 'updated_1'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    updated = DictUpdatingMemmQueue(data=updated).register(key='slot1', value='updated_4')
+    expected = 'updated_2'
+    actual = DictUpdatingMemmQueue(data=updated).retrieve('slot1')
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 5] empty, retrieve() returns None')
+    actual = DictUpdatingMemmQueue(data=None).retrieve('slot1')
+    assert actual == None, f'[FAIL] actual: {actual}'
+
+    print('All done.')

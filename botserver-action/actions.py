@@ -44,6 +44,7 @@ from .utils import (
 )
 from .utils import SortbyDictionary
 from .utils import parse_date_range
+from .utils import DictUpdatingMemmQueue
 
 from .duckling_service import (
     parse_checkin_time,
@@ -485,15 +486,15 @@ class botacts_start_conversation(Action):
         events = [
             SlotSet('botmind_context', 'chitchat'),
             # default values
-            SlotSet('botmind_state', 'attentive'),
-            SlotSet('botmind_intention', None),
             SlotSet('botmemo_booking_progress', None),
             SlotSet('botmemo_bkinfo_status', None),
-            SlotSet('bkinfo_room_id', None),
-            SlotSet('bkinfo_orderby', None),
             SlotSet('search_result_flag', None),
+            SlotSet('botmind_state', 'attentive'),
+            SlotSet('botmind_intention', None),
+            SlotSet('bkinfo_orderby', None),
             SlotSet('search_result_query', None),
             SlotSet('interlocutor_intention', None),
+            SlotSet('bkinfo_room_id', None),
         ]
 
         return events
@@ -564,6 +565,7 @@ class botacts_start_booking_progress(Action):
             SlotSet('bkinfo_orderby', None),
             SlotSet('search_result_query', None),
             SlotSet('interlocutor_intention', None),
+            SlotSet('bkinfo_room_id', None),
         ]
 
         for slot_name, slot_value in mapped_slots.items():
@@ -587,9 +589,10 @@ class botacts_express_bot_job_to_support_booking(Action):
         search_result_flag = 'waiting'
         botmind_context = 'workingonbooking'
 
+        additional= {'botmind_context': botmind_context, 'search_result_flag': search_result_flag}
         botmemo_booking_progress = FSMBotmemeBookingProgress(
             slots=tracker.slots,
-            additional={'botmind_context': botmind_context, 'search_result_flag': search_result_flag},
+            additional={**additional},
         )
         events = [
             SlotSet('botmind_context', botmind_context),
@@ -629,17 +632,18 @@ class action_old_slot_mapping(Action):
         return "action_old_slot_mapping"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        slots = copy.copy(tracker.slots)
-        del slots['old']
-        del slots['requested_slot']
-        del slots['logs_debugging_info']
-        del slots['logs_fallback_loop_history']
-        del slots['session_started_metadata']
-        del slots['botmind_name']
-        del slots['notes_search_result']
-        del slots['notes_bkinfo']
+        """
+        - To trigger validate_old method which is a real mapping
+        - To delegate storing data to validating phrase because  mapping phrase is not able access newly changed other slots, but validating phrase is
+        """
 
-        return [SlotSet('old', slots)]
+        old_slot = tracker.slots.get('old', None)
+
+        # to trigger validation
+        memm_queue = DictUpdatingMemmQueue(data=old_slot)
+        memm_queue.register(key='dummy_slot', value=random.random())
+
+        return [SlotSet('old', memm_queue.data)]
 
 
 class botacts_utter_revised_bkinfo(Action):
@@ -657,6 +661,7 @@ class botacts_utter_revised_bkinfo(Action):
         """
         Results:
             - reflex the changes to bkinfo
+            - reset bkinfo_district, bkinfo_region, bkinfo_country if bkinfo_area is in revision
             - reset the revised bkinfo
             - inform user
         """
@@ -672,6 +677,11 @@ class botacts_utter_revised_bkinfo(Action):
 
                 events.append(SlotSet(slot_name_revised, None))
                 additional[slot_name_revised] = None
+
+                if slot_name == 'bkinfo_area':
+                    events.append(SlotSet('bkinfo_district', None))
+                    events.append(SlotSet('bkinfo_region', None))
+                    events.append(SlotSet('bkinfo_country', None))
 
         if search_result_flag == 'available':
             events.append(SlotSet('search_result_flag', 'updating'))

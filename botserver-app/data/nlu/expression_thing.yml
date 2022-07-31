@@ -155,6 +155,8 @@ nlu:
     - [from february 3rd 2020 to february 4th 2021](duration)
     - [from 5th to 7th this month](duration)
     - [from 1st to 5th november](duration)
+    - [april 14 through april 17](duration)
+    - [friday through monday](duration)
 - intent: express_bed_type
   examples: |
     - a [twin](bed_type) room
@@ -224,8 +226,8 @@ nlu:
     - i want a price of [151 gbp](amount-of-money)
     - less than [10000 INR](amount-of-money)
     - less than [10001 inr](amount-of-money)
-    - less than[2000 KRW](amount-of-money)
-    - no more than[2001 krw](amount-of-money)
+    - less than [2000 KRW](amount-of-money)
+    - no more than [2001 krw](amount-of-money)
     - around [₩4000](amount-of-money)
     - no more than [5000 JPY](amount-of-money)
     - no more than [5001 jpy](amount-of-money)

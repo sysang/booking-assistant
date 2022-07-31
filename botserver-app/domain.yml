@@ -25,8 +25,10 @@ responses:
     - text: "Oops! It makes me really confused..."
 
   utter_ask_bkinfo_area:
-    - text: "What area would you like to stay in?"
-    - text: "What area are you interested in?"
+    - text: "What place would you like to stay in?"
+
+  utter_confirm_bkinfo_area:
+    - text: 'I thought the place would be "{dest_label}". If it is not what you meant please revise your request.'
 
   utter_ask_bkinfo_checkin_time:
     - text: "When will you need the accommodations?"
@@ -35,9 +37,11 @@ responses:
 
   utter_ask_bkinfo_duration:
     - text: "How long will you be staying?"
+    - text: "How many days would you like the room for?"
 
   utter_ask_bkinfo_bed_type:
     - text: "Which bed type would you like?"
+    - text: "What kind of room would you like?"
 
   utter_ask_bkinfo_price:
     - text: "what price per night you are looking for?"
@@ -88,7 +92,6 @@ responses:
     - text: "Hi! I am virtual booking assistant. How may I help you?"
 
   utter_bye:
-    - text: "Goodbye!"
     - text: "See you soon!"
     - text: "Bye, was nice talking to you!"
 
@@ -105,7 +108,7 @@ responses:
     - text: "You should try with other options."
 
   utter_revised_bkinfo_area:
-    - text: "Booking area has been changed to {bkinfo_area_revised}."
+    - text: "Booking place has been changed to {bkinfo_area_revised}."
 
   utter_revised_bkinfo_checkin_time:
     - text: "Check-in time has been changed to {bkinfo_checkin_time_revised}."
@@ -299,12 +302,6 @@ responses:
 
   utter_smalltalk/emotions_wow:
     - text: "Wow indeed!"
-
-  utter_smalltalk/greetings_bye:
-    - text: "See you soon!"
-    - text: "Bye-bye!"
-    - text: "Till next time!"
-    - text: "Bye."
 
   utter_smalltalk/greetings_goodevening:
     - text: "How is your day going?"
