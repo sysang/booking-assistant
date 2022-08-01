@@ -116,6 +116,10 @@ test_actions_booking_service:
 unittest_action_server:
 	docker exec rasachatbot-action-server-1 bash -c 'export TEST_FUNC=$(uit) && python -c "$$(grep  --regexp=__pytest__ -A 1 actions/$(filepath) | tail -n 1)"'
 
+install_ssl_certificate:
+	docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --issue -d dsysang.site --nginx /etc/nginx/conf.d/rasax.nginx --home /etc/certbot/ --server buypass'
+	docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --install-cert -d dsysang.site --fullchain-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/'
+
 # files := file1 file2
 # some_file: $(files)
 # 	echo "Look at this variable: " $(files)

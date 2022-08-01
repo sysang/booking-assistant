@@ -3,6 +3,12 @@ wget -O -  https://get.acme.sh | sh -s email="sysangtiger@gmail.com" --install -
 /etc/certbot/acme.sh --issue -d dsysang.site --nginx /etc/nginx/conf.d/rasax.nginx --home /etc/certbot/ --server buypass --force  
 /etc/certbot/acme.sh --install-cert -d dsysang.site --fullchain-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/
 
+docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --issue -d dsysang.site --nginx /etc/nginx/conf.d/rasax.nginx --home /etc/certbot/ --server buypass'
+docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --install-cert -d dsysang.site --fullchain-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/'
+
+# botfrontend static file
+docker exec rasachatbot-botfrontend-1 bash -c 'python manage.py collectstatic --noinput'
+
 # To inspect training dataset
 ```python
 from rasa.core.training import load_data

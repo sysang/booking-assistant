@@ -12,7 +12,7 @@ upstream docker-rasax-api {
 # }
 
 server {
-# listen            8080;
+  #listen            8080;
   server_name dsysang.site;
 
   include /etc/nginx/conf.d/ssl.conf;
@@ -98,6 +98,13 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host $host;
     proxy_pass http://botfrontend:8000;
+  }
+
+  location /static/ {
+    alias /var/static/;
+    autoindex off;
+    expires 3600;
+    access_log off;
   }
 
   location /nginx_status {
