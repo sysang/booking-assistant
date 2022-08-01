@@ -100,7 +100,7 @@ server {
     proxy_pass http://botfrontend:8000;
   }
 
-  location /static/ {
+  location /dialogue/static/ {
     alias /var/static/;
     autoindex off;
     expires 3600;
