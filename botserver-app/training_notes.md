@@ -23,3 +23,7 @@ This makes rules (were not declare condition) mostly uneffective in runtime beca
 # Training Configuration (model architecture) do have vital importance
 - Mind very veyr (x10) carefully on training improvment, it did exist a case when changing ted policy configuration flips thing from 'fail' to 'work'
 - For instance, story 'jumpin_middle_query_hotel_room' worked after number_of_negative_examples had been changed from 50 to 73, connection_density had been changed from 0.37 to 0.41
+
+# batch_size does help
+- Evidence is the case when (batch_size: [17, 33], epochs: 1523) led to good performance but (batch_size: [17, 33], epochs: 2513) had different diagram (worse).
+- Explain: because when change the number of epoch the structure of batch_size change occodringly. So with batch_size: [17, 43] the struture is preserved

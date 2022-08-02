@@ -107,7 +107,7 @@ slots:
     type: text
     mappings:
       - type: from_entity
-        entity: country
+        entity: region
         intent: express_area
       - type: from_entity
         entity: region
@@ -123,7 +123,7 @@ slots:
     type: text
     mappings:
       - type: from_entity
-        entity: country
+        entity: district
         intent: express_area
       - type: from_entity
         entity: district
@@ -161,16 +161,16 @@ slots:
       - university
     mappings:
       - type: from_entity
-        entity: country
+        entity: area_type
         intent: express_area
       - type: from_entity
-        entity: district
+        entity: area_type
         intent: request_listing_hotel_by_area
       - type: from_entity
-        entity: district
+        entity: area_type
         intent: request_listing_hotel_by_area+request_checkin_time
       - type: from_entity
-        entity: district
+        entity: area_type
         intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   bkinfo_area:
     influence_conversation: false
