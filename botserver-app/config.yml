@@ -173,7 +173,7 @@ policies:
     epochs: 2513
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [17, 43]  # default [32, 256]
+    batch_size: [17, 33]  # default [32, 256]
     connection_density: 0.95  # default 0.2
     dense_dimension:
       text: 128  # default 128
