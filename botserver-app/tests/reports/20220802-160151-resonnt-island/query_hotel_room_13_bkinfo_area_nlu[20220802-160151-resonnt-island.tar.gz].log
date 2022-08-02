@@ -1,0 +1,93 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel
+Identity: ST1-query_hotel_room_13_bkinfo_area_nlu[20220802-160151-resonnt-island][0803-0003]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in Empire Central Street hotel
+(BOT)   -> I thought the place would be "Hotel Empire Central Street, Bangalore, Karnataka, India". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/hotel/150x150/19363973.jpg?k=3823460de7af5f1918a76b3a0243c1f636dd21bb9d9eb37b942d12b8666d182b&o=
+(BOT)   -> what is the exact date of your arrival?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST2-query_hotel_room_13_bkinfo_area_nlu[20220802-160151-resonnt-island][0803-0003]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in continental hotel vietnam
+(BOT)   -> I thought the place would be "Hotel Continental Saigon, Ho Chi Minh City, Ho Chi Minh Municipality, Vietnam". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/hotel/150x150/19055272.jpg?k=4abd8576040dd52e93e90558db57322123a3dc245da8a55f749875152bbbac2e&o=
+(BOT)   -> When will you need the accommodations?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST3-query_hotel_room_13_bkinfo_area_nlu[20220802-160151-resonnt-island][0803-0003]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in ho chi minh city district 1
+(BOT)   <<< error >>> 
+
+__________________________________________________________________   E r r o r   _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST4-query_hotel_room_13_bkinfo_area_nlu[20220802-160151-resonnt-island][0803-0003]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in mexico city new york state
+(BOT)   -> I thought the place would be "New York State, United States". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/region/150x150/53717.jpg?k=96688767d4bbe0e6aaccd3f579bd03059046d322d7c6af86588f39690098c36d&o=
+(BOT)   -> When will you need the accommodations?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: city, country
+Identity: ST5-query_hotel_room_13_bkinfo_area_nlu[20220802-160151-resonnt-island][0803-0003]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in boston us
+(BOT)   -> I thought the place would be "Boston, Massachusetts, United States". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/689802.jpg?k=9b1b6e8f18bb474657e01465a6479d7d97def881d2e7610e8eb4f77719d5ed5f&o=
+(BOT)   -> what is the exact date of your arrival?
+
+__________________________________________________________________  passed  _________
+

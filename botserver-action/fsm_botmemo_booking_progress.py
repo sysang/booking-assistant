@@ -201,7 +201,7 @@ def eval_test():
         "bkinfo_bed_type_revised": True,
         'bkinfo_price_revised': True,
         "bkinfo_room_id": 1,
-        "botmind_context": 'idle',
+        "botmind_context": 'chitchat',
         "search_result_flag": None,
     }
     expected = None
@@ -220,7 +220,7 @@ def eval_test():
         "bkinfo_bed_type_revised": True,
         'bkinfo_price_revised': True,
         "bkinfo_room_id": 1,
-        "botmind_context": 'idle',
+        "botmind_context": 'chitchat',
         "search_result_flag": 'waiting',
     }
     expected = None

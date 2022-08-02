@@ -40,8 +40,7 @@ class ValidateBkinfoForm(FormValidationAction):
 
     def is_new(self, tracker, slot_name, slot_value):
         old_value = self.old_slot_value(tracker, slot_name)
-        logger.info('[DEBUGING] -> validating...')
-        logger.info('[DEBUGING] -> old_value: %s, slot_value: %s', old_value, slot_value)
+        logger.info('[INFO] check if slot changed: old_value: %s, slot_value: %s', old_value, slot_value)
         return old_value is None or slot_value != old_value
 
     def is_slot_requested(self, tracker, slot_name):

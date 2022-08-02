@@ -18,7 +18,7 @@ stories:
 
 - name: request to search hotel by provide duration, time
   steps:
-    - 'hi'
+    - 'how are you'
     - 'i want to book a room for {duration} starting from {time}'
     - '{area} city'
     - 'I want a {bed_type} bed room'
@@ -32,7 +32,7 @@ stories:
 
 - name: request to search hotel by provide bed_tye, time
   steps:
-    - 'hi'
+    - 'are you bot'
     - 'need a {bed_type} room on {time}'
     - '{area} city'
     - '{duration}'

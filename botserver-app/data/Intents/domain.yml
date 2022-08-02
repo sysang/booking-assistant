@@ -27,7 +27,6 @@ intents:
   - express_bed_type
   - express_mountof_money
   - express_expected_mountof_money
-  - greet
   - bye
   - thank
   - affirm

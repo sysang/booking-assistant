@@ -17,7 +17,6 @@ actions:
   - bot_relieves_imposition_to_think
   - bot_switchto_thinking
   - bot_let_action_emerges
-  - botacts_start_conversation
   - botacts_utter_bye
   - botacts_express_bot_job_to_support_booking
   - botacts_search_hotel_rooms

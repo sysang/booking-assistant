@@ -172,6 +172,4 @@ class ValidatePredefinedSlots(ValidationAction):
         for key, value in updated.items():
             memm_queue.register(key=key, value=value)
 
-        logger.info('[DEBUGING] updated: %s', updated)
-        logger.info('[DEBUGING] memm_queue: %s', memm_queue.data)
         return {'old': memm_queue.data}

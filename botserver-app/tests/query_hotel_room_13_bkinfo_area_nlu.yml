@@ -1,15 +1,27 @@
 stories:
 
-- name: test diversity of ways to express bkinfo_area: county, province, country, district, hotel, beach, islands, bay, airport
+# test diversity of ways to express bkinfo_area: county, province, country, district, hotel, beach, islands, bay, airport
+- name: hotel
   steps:
     - 'Could you help me search for a hotel?'
-    - 'I want a {bed_type} bed room' # unexpected
-    - 'i need to book a hotel for a trip to {area}'
-    - 'I want a {bed_type} bed room' # unexpected
-    - '{time}'
-    - 'I want a {bed_type} bed room' # unexpected
-    - '{duration}'
-    - '{amount-of-money}' # unexpected
-    - 'I want a {bed_type} bed room'
-    - 'I want a {bed_type} bed room' # unexpected
-    - '{amount-of-money}'
+    - 'i need to book a room in Empire Central Street hotel'  # dest_id -> 433177
+
+- name: hotel, country
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a room in continental hotel vietnam'  # Hotel Continental Saigon, dest_id -> 184750
+
+- name: hotel, country
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a room in ho chi minh city district 1'  # District 1, Ho Chi Minh City, Ho Chi Minh Municipality, Vietnam", dest_id -> 2088
+
+- name: hotel, country
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a room in mexico city new york state'  # Mexico, New York State, United States, dest_id -> 20088027
+
+- name: city, country
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a room in boston us'  #  boston, dest_id -> 20061718

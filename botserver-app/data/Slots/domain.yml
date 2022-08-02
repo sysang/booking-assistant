@@ -19,9 +19,8 @@ slots:
     mappings:
       - type: custom
     influence_conversation: true
-    initial_value: idle
+    initial_value: chitchat
     values:
-      - idle
       - workingonbooking
       - chitchat #  in waiting user's request
   botmind_intention:
@@ -159,6 +158,7 @@ slots:
       - museum
       - station
       - terminal
+      - university
     mappings:
       - type: from_entity
         entity: country

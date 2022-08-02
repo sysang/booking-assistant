@@ -79,9 +79,9 @@ stories:
     - requested_slot: bkinfo_bed_type
   - intent: revise_room_reservation_duration
     entities:
-    - duration: 3
+    - duration: '3 days'
   - slot_was_set:
-    - bkinfo_duration_revised: 3
+    - bkinfo_duration_revised: '3 days'
     - botmemo_booking_progress: information_revised
   - action: action_execution_rejected
   - action: action_deactivate_loop
@@ -94,7 +94,7 @@ stories:
   - active_loop: bkinfo_form
   - slot_was_set:
     - requested_slot: bkinfo_bed_type
-    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time',3,null,null]
+    - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time','3 days',null,null]
 
 - story: when information is being collected, bkinfo_price, revise bkinfo_bed_type
   steps:

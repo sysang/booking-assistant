@@ -1,0 +1,30 @@
+[
+  {
+    "nr_hotels": 1,
+    "b_max_los_data": {
+      "has_extended_los": 1,
+      "max_allowed_los": 45,
+      "experiment": "long_stays_android_extend_los_2",
+      "is_fullon": 0,
+      "extended_los": 90,
+      "default_los": 45
+    },
+    "city_name": "Ho Chi Minh City",
+    "hotels": 1,
+    "dest_id": "184750",
+    "latitude": 10.776751,
+    "cc1": "vn",
+    "label": "Hotel Continental Saigon, Ho Chi Minh City, Ho Chi Minh Municipality, Vietnam",
+    "type": "ho",
+    "rtl": 0,
+    "lc": "en",
+    "image_url": "https://cf.bstatic.com/xdata/images/hotel/150x150/19055272.jpg?k=4abd8576040dd52e93e90558db57322123a3dc245da8a55f749875152bbbac2e&o=",
+    "longitude": 106.702614,
+    "city_ufi": -3730078,
+    "country": "Vietnam",
+    "dest_type": "hotel",
+    "name": "Hotel Continental Saigon",
+    "region": "Ho Chi Minh Municipality",
+    "timezone": "Asia/Ho_Chi_Minh"
+  }
+]

@@ -5,7 +5,7 @@ stories:
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -41,6 +41,8 @@ stories:
     - bkinfo_orderby: null
     - search_result_query: null
     - interlocutor_intention: null
+  - intent: smalltalk
+  - action: utter_smalltalk
   - intent: request_listing_hotel_by_area+request_checkin_time
     entities:
       - area: 'hawaii'
@@ -60,7 +62,7 @@ stories:
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -97,6 +99,8 @@ stories:
     - bkinfo_orderby: null
     - search_result_query: null
     - interlocutor_intention: null
+  - intent: smalltalk
+  - action: utter_smalltalk
   - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
     entities:
       - area: 'hawaii'
@@ -117,7 +121,7 @@ stories:
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -154,6 +158,8 @@ stories:
     - bkinfo_orderby: null
     - search_result_query: null
     - interlocutor_intention: null
+  - intent: smalltalk
+  - action: utter_smalltalk
   - intent: request_bed_type+request_room_reservation_duration
     entities:
       - bed_type: 'single'

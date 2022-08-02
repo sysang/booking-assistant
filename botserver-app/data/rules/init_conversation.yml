@@ -1,60 +1,12 @@
 version: "3.1"
 
 rules:
-- rule: greet then start conversation
-  condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: idle
-      - botmemo_booking_progress: null
-  steps:
-  - intent: greet
-  - action: botacts_start_conversation
-  - slot_was_set:
-    - botmind_context: chitchat
-  - action: utter_greet
-
-- rule: ready to start conversation
-  condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: idle
-      - botmemo_booking_progress: null
-  steps:
-  - intent: agent_ready
-  - action: botacts_start_conversation
-  - slot_was_set:
-    - botmind_context: chitchat
-  - action: utter_greet
-
-- rule: chitchat then start conversing on booking
+- rule: ready to start conversation, mainly used by chat client to trigger starting process
   condition:
     - slot_was_set:
       - botmind_state: attentive
       - botmind_context: chitchat
       - botmemo_booking_progress: null
   steps:
-  - intent: request_searching_hotel
-  - action: botacts_express_bot_job_to_support_booking
-  - slot_was_set:
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: initialized
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  wait_for_user_input: false
-
-- rule: idle then start conversing on booking
-  condition:
-    - slot_was_set:
-      - botmind_state: attentive
-      - botmind_context: idle
-      - botmemo_booking_progress: null
-  steps:
-  - intent: request_searching_hotel
-  - action: botacts_express_bot_job_to_support_booking
-  - slot_was_set:
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: initialized
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  wait_for_user_input: false
+  - intent: agent_ready
+  - action: utter_greet

@@ -477,29 +477,6 @@ class botacts_confirm_room_selection(Action):
     return events
 
 
-class botacts_start_conversation(Action):
-
-    def name(self) -> Text:
-        return "botacts_start_conversation"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        events = [
-            SlotSet('botmind_context', 'chitchat'),
-            # default values
-            SlotSet('botmemo_booking_progress', None),
-            SlotSet('botmemo_bkinfo_status', None),
-            SlotSet('search_result_flag', None),
-            SlotSet('botmind_state', 'attentive'),
-            SlotSet('botmind_intention', None),
-            SlotSet('bkinfo_orderby', None),
-            SlotSet('search_result_query', None),
-            SlotSet('interlocutor_intention', None),
-            SlotSet('bkinfo_room_id', None),
-        ]
-
-        return events
-
-
 class botacts_utter_bye(Action):
 
     def name(self) -> Text:
@@ -599,6 +576,13 @@ class botacts_express_bot_job_to_support_booking(Action):
             botmemo_booking_progress.SlotSetEvent,
             SlotSet('botmemo_bkinfo_status', botmemo_booking_progress.bkinfo_status),
             SlotSet('search_result_flag', search_result_flag),
+            # default values
+            SlotSet('botmind_state', 'attentive'),
+            SlotSet('botmind_intention', None),
+            SlotSet('bkinfo_orderby', None),
+            SlotSet('search_result_query', None),
+            SlotSet('interlocutor_intention', None),
+            SlotSet('bkinfo_room_id', None),
         ]
 
         return events
@@ -705,18 +689,26 @@ class action_bkinfo_status_slot_mapping(Action):
         return slots_for_entities(entities, intent, domain)
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        """
+        The problem: to cancel out slot mapping if intent is rejected by active form
+        """
         slots = tracker.slots
         botmemo_bkinfo_status = slots.get('botmemo_bkinfo_status', None)
-
-        # TODO: check for intent mapping
-        entities = tracker.latest_message['entities']
-        intent = tracker.latest_message['intent']
-        mapped_slots = self.slots_for_entities(entities, intent, domain)
-        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=mapped_slots)
-        slot_value = botmemo_booking_progress.bkinfo_status
+        requested_slot = slots.get('requested_slot', None)
+        additional = {}
 
         if not botmemo_bkinfo_status:
             return [SlotSet('botmemo_bkinfo_status', None)]
+
+        entities = tracker.latest_message['entities']
+        intent = tracker.latest_message['intent']
+        mapped_slots = self.slots_for_entities(entities, intent, domain)
+        if requested_slot and mapped_slots.get(requested_slot):
+            additional[requested_slot] = mapped_slots.get(requested_slot)
+        logger.info('[DEBUG] mapped_slots: %s', mapped_slots)
+        logger.info('[DEBUG] additional: %s', additional)
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=additional)
+        slot_value = botmemo_booking_progress.bkinfo_status
 
         return [SlotSet('botmemo_bkinfo_status', slot_value)]
 

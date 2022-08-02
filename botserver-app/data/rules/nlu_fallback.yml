@@ -1,30 +1,17 @@
 version: "3.1"
 
 rules:
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, idle
+- rule: chitchat, ask the user to rephrase whenever they send a message with low NLU confidence
   condition:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
   steps:
   - intent: nlu_fallback
   - action: utter_please_rephrase
 
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, working on booking, showing room
-  condition:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
-    - botmemo_booking_progress: room_showing
-    - search_result_flag: available
-    - requested_slot: null
-  steps:
-  - intent: nlu_fallback
-  - action: utter_please_rephrase
-
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking, bkinfo_form, initialized
+- rule: workingonbooking, bkinfo_form, initialized, ask the user to rephrase whenever they send a message with low NLU confidence
   condition:
   - slot_was_set:
     - botmind_state: attentive
@@ -41,7 +28,7 @@ rules:
   - active_loop: bkinfo_form
   wait_for_user_input: false
 
-- rule: Ask the user to rephrase whenever they send a message with low NLU confidence, workingonbooking, bkinfo_form, information_collecting
+- rule: workingonbooking, bkinfo_form, information_collecting, ask the user to rephrase whenever they send a message with low NLU confidence
   condition:
   - slot_was_set:
     - botmind_state: attentive
@@ -57,3 +44,16 @@ rules:
   - action: bkinfo_form
   - active_loop: bkinfo_form
   wait_for_user_input: false
+
+- rule: working on booking, showing room, ask the user to rephrase whenever they send a message with low NLU confidence
+  condition:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - botmemo_booking_progress: room_showing
+    - search_result_flag: available
+    - requested_slot: null
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase

@@ -1,0 +1,57 @@
+[
+  {
+    "city_ufi": -1658079,
+    "region": "Mexico DF",
+    "city_name": "Mexico City",
+    "country": "Mexico",
+    "type": "ho",
+    "longitude": -99.15176,
+    "nr_hotels": 1,
+    "image_url": "https://cf.bstatic.com/xdata/images/hotel/150x150/209954414.jpg?k=b3b2272b9061575c25f1cc54818e7f4e72a04ceab4d005b8c07d8ffd436e8caf&o=",
+    "hotels": 1,
+    "lc": "en",
+    "rtl": 0,
+    "cc1": "mx",
+    "timezone": "America/Mexico_City",
+    "label": "Hotel New York Ciudad de Mexico, Mexico City, Mexico DF, Mexico",
+    "dest_id": "480801",
+    "latitude": 19.436905,
+    "dest_type": "hotel",
+    "b_max_los_data": {
+      "has_extended_los": 1,
+      "experiment": "long_stays_android_extend_los_2",
+      "is_fullon": 0,
+      "default_los": 45,
+      "extended_los": 90,
+      "max_allowed_los": 45
+    },
+    "name": "Hotel New York Ciudad de Mexico"
+  },
+  {
+    "timezone": "America/New_York",
+    "cc1": "us",
+    "lc": "en",
+    "rtl": 0,
+    "hotels": 1,
+    "type": "ci",
+    "longitude": -76.2292,
+    "nr_hotels": 1,
+    "country": "United States",
+    "city_name": "Mexico",
+    "city_ufi": null,
+    "region": "New York State",
+    "name": "Mexico",
+    "b_max_los_data": {
+      "max_allowed_los": 45,
+      "extended_los": 90,
+      "is_fullon": 0,
+      "default_los": 45,
+      "experiment": "long_stays_android_extend_los_2",
+      "has_extended_los": 1
+    },
+    "dest_type": "city",
+    "latitude": 43.4594,
+    "dest_id": "20088027",
+    "label": "Mexico, New York State, United States"
+  }
+]

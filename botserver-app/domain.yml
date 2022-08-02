@@ -316,16 +316,15 @@ responses:
   utter_smalltalk/greetings_goodnight:
     - text: "Sleep tight!"
     - text: "Have a good one!"
-    - text: "Talk to you soon!"
 
   utter_smalltalk/greetings_hello:
-    - text: "Hi there, friend!"
-    - text: "Hi!"
-    - text: "Hey!"
-    - text: "Hey there!"
-    - text: "Good day!"
-    - text: "Hello!"
-    - text: "Greetings!"
+    - text: "Hi! I am virtual booking assistant. How may I help you?"
+    - text: "Hi there,  I am virtual booking assistant. How may I help you?"
+    - text: "Hey! I am virtual booking assistant. How may I help you?"
+    - text: "Hey there! I am virtual booking assistant. How may I help you?"
+    - text: "Good day! I am virtual booking assistant. How may I help you?"
+    - text: "Hello! I am virtual booking assistant. How may I help you?"
+    - text: "Greetings!  I am virtual booking assistant. How may I help you?"
 
   utter_smalltalk/greetings_how_are_you:
     - text: "Doing great, thanks."

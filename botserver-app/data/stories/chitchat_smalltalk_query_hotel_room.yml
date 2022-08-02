@@ -45,7 +45,7 @@ stories:
   - action: bkinfo_form
   - active_loop: bkinfo_form
   - slot_was_set:
-    - requested_slot: bkinfo_duration
+    - requested_slot: bkinfo_checkin_time
 
 - story: when information is being collected, bkinfo_duration, smalltalk
   steps:

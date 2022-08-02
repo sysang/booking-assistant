@@ -22,11 +22,14 @@ area_type_city = {
 
 area_district = {
     "search_location_result_san_francisco_north": load_data(filename='search_location_result_san_francisco_north.json'),
+    "search_location_result_ho_chi_minh_city_district_1": load_data(filename='search_location_result_ho_chi_minh_city_district_1.json'),
 }
 
 area_exact = {
     "search_location_result_rocky_mountain_resort": load_data(filename='search_location_result_rocky_mountain_resort.json'),
     "search_location_result_hambug": load_data(filename='search_location_result_hambug.json'),
+    "search_location_result_boston_us": load_data(filename='search_location_result_boston_us.json'),
+    "search_location_result_mexico_city_new_york": load_data(filename='search_location_result_mexico_city_new_york.json'),
 }
 
 area_country = {
@@ -43,6 +46,7 @@ area_notype_notexact_landmark = {
 
 area_notype_notexact_region = {
     "search_location_result_tameside": load_data(filename='search_location_result_tameside.json'),
+    "search_location_result_continental_vietnam": load_data(filename='search_location_result_continental_vietnam.json'),
 }
 
 area_notype_notexact_hotel = {

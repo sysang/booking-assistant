@@ -62,7 +62,7 @@ AREA_DEST_TYPE = {
     # assigned to hotel
     DEST_TYPE_HOTEL: ['hotel', 'hotels'],
     # assigned to beach, lake, cave, bridge, museum
-    DEST_TYPE_LANDMARK: ['beach', 'beaches', 'lake', 'lakes', 'cave', 'caves', 'bridge', 'bridges', 'museum', 'station', 'terminal'],
+    DEST_TYPE_LANDMARK: ['beach', 'beaches', 'lake', 'lakes', 'cave', 'caves', 'bridge', 'bridges', 'museum', 'station', 'terminal', 'university'],
     # assigned to airport
     DEST_TYPE_AIRPORT: ['airport'],
     # assigned to city
@@ -477,16 +477,28 @@ def index_location_by_dest_type(locations):
     return result
 
 
+def compose_location_name(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
+    SPACE_CHAR = "\u0020"
+
+    # to reduce unnecessary inforamtion to make search more precise
+    # if bkinfo_area_type is of landmark so bkinfo_district is unnecessary
+    remarkable_dest_types = AREA_DEST_TYPE[DEST_TYPE_HOTEL] + AREA_DEST_TYPE[DEST_TYPE_LANDMARK] + AREA_DEST_TYPE[DEST_TYPE_AIRPORT]
+    bkinfo_district = bkinfo_district if bkinfo_area_type not in remarkable_dest_types else None
+
+    params = [bkinfo_area, bkinfo_area_type, bkinfo_district, bkinfo_region, bkinfo_country]
+    params = list(filter(lambda x: x, params))
+
+    return SPACE_CHAR.join(params)
+
+
 def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bkinfo_region=None, bkinfo_country=None):
-    if not bkinfo_area_type and not bkinfo_district:
-        name = bkinfo_area
-    elif not bkinfo_district or bkinfo_area_type in ['hotel', 'hotels']:
-        name = f'{bkinfo_area} {bkinfo_area_type}'
-    elif not bkinfo_area_type:
-        name = f'{bkinfo_area} {bkinfo_district}'
-    else:
-        # logic: include district into search if area_type is not hotel
-        name = f'{bkinfo_area} {bkinfo_area_type} {bkinfo_district}'
+    name = compose_location_name(
+        bkinfo_area,
+        bkinfo_area_type=bkinfo_area_type,
+        bkinfo_district=bkinfo_district,
+        bkinfo_region=bkinfo_region,
+        bkinfo_country=bkinfo_country,
+    )
 
     locations = request_to_search_locations(name=name)
     logger.info('[INFO] request_to_search_locations, found %s location(s) in respective to query: %s', len(locations), name)
@@ -596,7 +608,7 @@ def find_exact_location_name(locations, bkinfo_area, bkinfo_region=None, bkinfo_
     if area_type is explicitly expressed as hotel, comparing will less strict
     otherwise increase threshold to strict level: 0.93
     """
-    AREA_THRESHOLD = 0.83
+    AREA_THRESHOLD = 0.87
     destination_list = reduce(lambda x, y: x+y, locations.values())
 
     if not destination_list:
@@ -815,10 +827,22 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 4] when bkinfo_district -> north')
+    locations = area_exact['search_location_result_mexico_city_new_york']
+    expected_dest_id = '20088027'
+    destination = find_most_likely_locations(locations, bkinfo_area='mexico', bkinfo_area_type='city', bkinfo_region='new york')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('[Case 4] when bkinfo_district')
     locations = area_district['search_location_result_san_francisco_north']
     expected_dest_id = '1432'
     destination = find_most_likely_locations(locations, bkinfo_area='san francisco', bkinfo_district='north')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    locations = area_district['search_location_result_ho_chi_minh_city_district_1']
+    expected_dest_id = '2088'
+    destination = find_most_likely_locations(locations, bkinfo_area='ho chi minh city', bkinfo_area_type='city', bkinfo_district='district 1')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
@@ -832,6 +856,12 @@ def __test__find_most_likely_location():
     locations = area_exact['search_location_result_hambug']
     expected_dest_id = '-1785434'
     destination = find_most_likely_locations(locations, bkinfo_area='hamburg')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    locations = area_exact['search_location_result_boston_us']
+    expected_dest_id = '20061717'
+    destination = find_most_likely_locations(locations, bkinfo_area='boston', bkinfo_country='us')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
@@ -856,10 +886,16 @@ def __test__find_most_likely_location():
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
-    print('[Case 9] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> region')
+    print('[Case 9] when bkinfo_area -> not exact, bkinfo_area_type -> absent, dest_type -> region, country')
     locations = area_notype_notexact_region['search_location_result_tameside']
     expected_dest_id = '2439'
     destination = find_most_likely_locations(locations, bkinfo_area='tameside')
+    actual = destination['dest_id']
+    assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    locations = area_notype_notexact_region['search_location_result_continental_vietnam']
+    expected_dest_id = '184750'
+    destination = find_most_likely_locations(locations, bkinfo_area='continental', bkinfo_country='vietnam')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
 
@@ -869,5 +905,55 @@ def __test__find_most_likely_location():
     destination = find_most_likely_locations(locations, bkinfo_area='san francisco north')
     actual = destination['dest_id']
     assert actual == expected_dest_id, f'[FAIL] actual: {actual}'
+
+    print('All done.')
+
+
+def __test__compose_location_name():
+    bkinfo_area = 'bkinfo_area'
+    bkinfo_area_type = 'bkinfo_area_type'
+    bkinfo_district = 'bkinfo_district'
+    bkinfo_region = 'bkinfo_region'
+    bkinfo_country = 'bkinfo_country'
+
+    print('[Case 1] bkinfo_area')
+    expected = 'bkinfo_area'
+    actual = compose_location_name(bkinfo_area=bkinfo_area)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 2] bkinfo_area, bkinfo_area_type')
+    expected = 'bkinfo_area bkinfo_area_type'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type=bkinfo_area_type)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 3] bkinfo_area, bkinfo_district')
+    expected = 'bkinfo_area bkinfo_district'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_district=bkinfo_district)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 4] bkinfo_area, hotel, bkinfo_district')
+    expected = 'bkinfo_area hotel'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type='hotel', bkinfo_district=bkinfo_district)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 5] bkinfo_area, airport, bkinfo_district')
+    expected = 'bkinfo_area airport'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type='airport', bkinfo_district=bkinfo_district)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 6] bkinfo_area, beach, bkinfo_district')
+    expected = 'bkinfo_area beach'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type='beach', bkinfo_district=bkinfo_district)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 7] bkinfo_area, bkinfo_country')
+    expected = 'bkinfo_area bkinfo_country'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_country=bkinfo_country)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('[Case 8] bkinfo_area, bkinfo_area_type, bkinfo_district, bkinfo_region, bkinfo_country')
+    expected = 'bkinfo_area bkinfo_area_type bkinfo_district bkinfo_region bkinfo_country'
+    actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type=bkinfo_area_type, bkinfo_district=bkinfo_district, bkinfo_region=bkinfo_region, bkinfo_country=bkinfo_country)
+    assert actual == expected, f'[FAIL] actual: {actual}'
 
     print('All done.')

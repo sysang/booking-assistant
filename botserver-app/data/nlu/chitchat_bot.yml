@@ -975,6 +975,110 @@ nlu:
     - afternoon
     - hello hi
     - heya
+    - Bom dia
+    - Bonjour
+    - Guten Morgen
+    - HELLO
+    - HEY
+    - HEllo
+    - HI
+    - Hallo
+    - Hei
+    - Hellllooooooo
+    - Hello
+    - Hello Bot
+    - Hello Rasa
+    - Hello!
+    - Hey
+    - Hey bot
+    - Heya
+    - Heylo
+    - Hieee
+    - Hola
+    - Well hello there ;)
+    - What is up?
+    - Whats up
+    - Whats up my bot
+    - Whats up?
+    - ayyyy whaddup
+    - bonjour
+    - ey boss
+    - greet
+    - greetings
+    - hai
+    - hallo
+    - halloo
+    - halloooo
+    - halo
+    - heeey
+    - heelio
+    - hell9o
+    - hellio
+    - hello
+    - hello everybody
+    - hello friend
+    - hello hi
+    - hello is anybody there
+    - hello it is me again
+    - hello robot
+    - hello sweatheart
+    - hello sweet boy
+    - hello there
+    - hello world
+    - hello?
+    - hello]
+    - hellooo
+    - helloooo
+    - helo
+    - hey
+    - hey bot
+    - hey bot!
+    - hey dude
+    - hey hey
+    - hey let's talk
+    - hey ther
+    - hey there
+    - hey there boy
+    - hey there..
+    - hey, let's talk
+    - heya
+    - heyho
+    - heyo
+    - hhola
+    - hi
+    - hi !
+    - hi Mister
+    - hi again
+    - hi can you speak ?
+    - hi folks
+    - hi friend
+    - hi friends
+    - hi hi
+    - hi pal!
+    - hi there
+    - hi there it's me
+    - hi!
+    - hi?
+    - hieee
+    - hii
+    - hiihihi
+    - hiii
+    - hlo
+    - hola
+    - howdy
+    - jojojo
+    - jop
+    - konichiwa
+    - merhaba
+    - salut
+    - sup
+    - wasssup
+    - wasssup!
+    - what up
+    - whats popping
+    - whats up
+    - yo
+    - yoo
 
 - intent: smalltalk/greetings_how_are_you
   examples: |

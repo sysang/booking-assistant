@@ -1,7 +1,7 @@
 version: "3.1"
 
 stories:
-- story: bkinfo_form, bye, deny
+- story: initialized, bkinfo_form, bye/stop_doing, deny
   steps:
   - slot_was_set:
     - botmind_state: attentive
@@ -13,6 +13,8 @@ stories:
     - botmind_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
   - or:
     - intent: bye
     - intent: stop_doing
@@ -29,19 +31,23 @@ stories:
     - botmind_intention: engage_negative
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
 
-- story: bkinfo_form, bye, deny
+- story: bkinfo_checkin_time, bkinfo_form, bye/stop_doing, deny
   steps:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: ['bkinfo_checkin_time',null,null,null,null]
+    - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null]
     - search_result_flag: waiting
     - interlocutor_intention: null
     - botmind_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_checkin_time
   - or:
     - intent: bye
     - intent: stop_doing
@@ -58,18 +64,22 @@ stories:
     - botmind_intention: engage_negative
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_checkin_time
 
-- story: bkinfo_form, bye, affirm
+- story: bkinfo_duration, bkinfo_form, bye/stop_doing, affirm
   steps:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,'bkinfo_checkin_time',null,null,null]
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time',null,null,null]
     - search_result_flag: waiting
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_duration
   - or:
     - intent: bye
     - intent: stop_doing
@@ -86,19 +96,30 @@ stories:
     - botmind_intention: engage_affirmative
   - action: botacts_utter_bye
   - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
     - botmind_intention: null
+    - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: null
+    - bkinfo_room_id: null
+    - bkinfo_orderby: null
+    - search_result_flag: null
+    - search_result_query: null
+    - interlocutor_intention: null
 
-- story: bkinfo_form, bye, deny
+- story: bkinfo_bed_type, bkinfo_form, bye/stop_doing, deny
   steps:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,null,'bkinfo_duration',null,null]
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration',null,null]
     - search_result_flag: waiting
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_bed_type
   - or:
     - intent: bye
     - intent: stop_doing
@@ -114,18 +135,22 @@ stories:
     - botmind_intention: engage_negative
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_bed_type
 
-- story: bkinfo_form, bye, affirm
+- story: bkinfo_price, bkinfo_form, bye, affirm
   steps:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
     - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,null,null,'bkinfo_bed_type',null]
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type',null]
     - search_result_flag: waiting
     - interlocutor_intention: null
   - action: bkinfo_form
   - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_price
   - or:
     - intent: bye
     - intent: stop_doing
@@ -142,46 +167,20 @@ stories:
     - botmind_intention: engage_affirmative
   - action: botacts_utter_bye
   - slot_was_set:
-    - botmind_intention: null
-
-- story: bkinfo_form, bye, deny
-  steps:
-  - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
-    - botmemo_bkinfo_status: [null,null,null,null,'bkinfo_price']
-    - search_result_flag: waiting
-    - interlocutor_intention: null
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-  - or:
-    - intent: bye
-    - intent: stop_doing
-  - slot_was_set:
-    - interlocutor_intention: terminate_session
-    - botmind_intention: engage_interrogative
-  - action: action_execution_rejected
-  - action: action_deactivate_loop
-  - active_loop: null
-  - action: botacts_utter_asking_confirm_stop_booking
-  - intent: deny
-  - slot_was_set:
-    - interlocutor_intention: null
-    - botmind_intention: engage_negative
-  - action: bkinfo_form
-  - active_loop: bkinfo_form
-
-- story: form is completed, showing room, bye, deny
-  steps:
-  - slot_was_set:
-    - botmind_state: attentive
-    - botmind_context: workingonbooking
-    - botmemo_booking_progress: room_showing
-    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
-    - search_result_flag: available
-    - interlocutor_intention: null
+    - botmind_context: chitchat
     - botmind_intention: null
+    - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: null
+    - bkinfo_room_id: null
+    - bkinfo_orderby: null
+    - search_result_flag: null
+    - search_result_query: null
+    - interlocutor_intention: null
+
+- story: form is completed, showing room, bye/stop_doing, deny
+  steps:
+  - checkpoint: checkpoint_show_result_of_searching_room
   - or:
     - intent: bye
     - intent: stop_doing
@@ -215,4 +214,13 @@ stories:
     - botmind_intention: engage_affirmative
   - action: botacts_utter_bye
   - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
     - botmind_intention: null
+    - botmemo_booking_progress: null
+    - botmemo_bkinfo_status: null
+    - bkinfo_room_id: null
+    - bkinfo_orderby: null
+    - search_result_flag: null
+    - search_result_query: null
+    - interlocutor_intention: null

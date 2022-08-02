@@ -10,6 +10,7 @@ stories:
     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', 'bkinfo_duration', 'bkinfo_bed_type', 'bkinfo_price']
     - bkinfo_room_id: null
     - search_result_flag: waiting
+    - requested_slot: null
   - intent: bot_embodies_intention
     entities:
     - botmind_state: transitioning
@@ -34,7 +35,7 @@ stories:
     - botmemo_booking_progress: room_selected
   - action: botacts_confirm_room_selection
   - slot_was_set:
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null
@@ -46,10 +47,11 @@ stories:
   - slot_was_set:
     - botmind_state: attentive
     - botmind_context: workingonbooking
-    - botmemo_booking_progress: information_collecting
+    - botmemo_booking_progress: initialized
     - botmemo_bkinfo_status: [null,null,null,null,null,]
     - bkinfo_room_id: null
     - search_result_flag: waiting
+    - requested_slot: bkinfo_area
   - intent: bot_embodies_intention
     entities:
     - botmind_state: transitioning
@@ -64,7 +66,7 @@ stories:
     - requested_slot: bkinfo_area
   - action: action_listen
 
-- story: when botmemo_booking_progress as information_collecting, try to return executing form, bkinfo_duration
+- story: when botmemo_booking_progress as information_collecting, try to return executing form, bkinfo_checkin_time
   steps:
   - slot_was_set:
     - botmind_state: attentive
@@ -73,6 +75,31 @@ stories:
     - botmemo_bkinfo_status: ['bkinfo_area',null,null,null,null,]
     - bkinfo_room_id: null
     - search_result_flag: waiting
+    - requested_slot: bkinfo_checkin_time
+  - intent: bot_embodies_intention
+    entities:
+    - botmind_state: transitioning
+  - slot_was_set:
+    - botmind_state: transitioning
+  - action: pseudo_action
+  - slot_was_set:
+    - botmind_state: attentive
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_checkin_time
+  - action: action_listen
+
+- story: when botmemo_booking_progress as information_collecting, try to return executing form, bkinfo_duration
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time',null,null,null,]
+    - bkinfo_room_id: null
+    - search_result_flag: waiting
+    - requested_slot: bkinfo_duration
   - intent: bot_embodies_intention
     entities:
     - botmind_state: transitioning
@@ -87,6 +114,30 @@ stories:
     - requested_slot: bkinfo_duration
   - action: action_listen
 
+- story: when botmemo_booking_progress as information_collecting, try to return executing form, bkinfo_bed_type
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: information_collecting
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration',null,null,]
+    - bkinfo_room_id: null
+    - search_result_flag: waiting
+    - requested_slot: bkinfo_bed_type
+  - intent: bot_embodies_intention
+    entities:
+    - botmind_state: transitioning
+  - slot_was_set:
+    - botmind_state: transitioning
+  - action: pseudo_action
+  - slot_was_set:
+    - botmind_state: attentive
+  - action: bkinfo_form
+  - active_loop: bkinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_bed_type
+  - action: action_listen
+
 - story: when botmemo_booking_progress as information_collecting, try to return executing form, bkinfo_price
   steps:
   - slot_was_set:
@@ -96,6 +147,7 @@ stories:
     - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type',null,]
     - bkinfo_room_id: null
     - search_result_flag: waiting
+    - requested_slot: bkinfo_price
   - intent: bot_embodies_intention
     entities:
     - botmind_state: transitioning

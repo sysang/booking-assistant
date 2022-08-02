@@ -5,7 +5,7 @@ stories:
   steps:
   - slot_was_set:
     - botmind_state: attentive
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmind_intention: null
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
@@ -14,6 +14,8 @@ stories:
     - search_result_flag: null
     - search_result_query: null
     - interlocutor_intention: null
+  - intent: smalltalk
+  - action: utter_smalltalk
   - intent: request_searching_hotel
   - action: botacts_express_bot_job_to_support_booking
   - slot_was_set:
@@ -107,7 +109,7 @@ stories:
     - botmemo_booking_progress: room_selected
   - action: botacts_confirm_room_selection
   - slot_was_set:
-    - botmind_context: idle
+    - botmind_context: chitchat
     - botmemo_booking_progress: null
     - botmemo_bkinfo_status: null
     - bkinfo_room_id: null

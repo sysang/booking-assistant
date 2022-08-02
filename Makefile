@@ -52,6 +52,7 @@ testall:
 	make query_hotel_room_10_chitchat_nlufallback_test model=$(M)
 	make query_hotel_room_11_terminate_booking_test model=$(M)
 	make query_hotel_room_12_execution_rejectedof_bkinfo_form_test model=$(M)
+	make query_hotel_room_13_bkinfo_area_nlu_test model=$(M)
 
 query_hotel_room_01_schema_test:
 	export testfile=query_hotel_room_01_schema; \
@@ -99,6 +100,10 @@ query_hotel_room_11_terminate_booking_test:
 
 query_hotel_room_12_execution_rejectedof_bkinfo_form_test:
 	export testfile=query_hotel_room_12_execution_rejectedof_bkinfo_form; \
+	make test testfile=$$testfile model=$(M)
+
+query_hotel_room_13_bkinfo_area_nlu_test:
+	export testfile=query_hotel_room_13_bkinfo_area_nlu; \
 	make test testfile=$$testfile model=$(M)
 
 copyaddons:
