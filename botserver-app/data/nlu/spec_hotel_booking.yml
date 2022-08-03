@@ -57,7 +57,9 @@ nlu:
     - i want to visit [guangzhou](area)
     - what are hotels in [cairo](area)
     - what are hotels in [beijing](area)
-    - what are hotels in [new york](area)
+    - what are hotels in [new york](area) [city](area_type)
+    - what are hotels in [new york](area) [city](area_type) [new york](region) state
+    - what are hotels in [new york](area) [city](area_type) [us](country)
     - what are hotels in [kolkāta](area)
     - show me hotels in [moscow](area)
     - show me hotels in [bangkok](area)
@@ -293,7 +295,7 @@ nlu:
     - i need a hotel room in [paradise](area) [beach](area_type), rab, [croatia](country), [from january 3rd 2020 to january 4th 2021](duration)
     - i am going to travel to [ho chi minh](area) [city](area_type), [vietnam](country) [from 15th to 17th this month](duration)
     - i want to visit [bangkok](area) [from 1st to 4th november](duration)
-    - i'm planning to visit [new york](area) [from friday, april 14 until monday, april 17](duration)
+    - i'm planning to visit [new york](area) [city](area_type) [from friday, april 14 until monday, april 17](duration)
     - i need to book a hotel for a trip to [essex junction](area), [vermont](region), [us](country) starting [from friday to sunday](duration)
     - can you find me an place to stay that is located in [essex junction](area) [city](area_type) [from october 3rd to october 4th](duration)
     - i'm looking for a hotel in [miami](area) [beach](area_type), [florida](region) state, [us](country) [from september 5th to september 20th](time)
@@ -334,14 +336,15 @@ nlu:
     - i want another place, it is [san diego](area)
     - i want another place, it's [fort lauderdale](area) [beach](area_type)
     - i have changed my mind, please select another place, it is [san diego](area)
-    - can you change the area to [new york](area) please
+    - can you change the area to [new york manhattan](area) please
+    - i am looking for another area, in [new york](area) [manhattan](district) borough
     - could you change the city to [austin](area) please
     - change the area to [chicago](area)
     - change the place to [hamburg](area), [germany](country)
     - please change the place to [hamburg](area)
     - change the place to [stuttgart](area), [germany](country)
     - please change the place to [stuttgart](area)
-    - please change the place to [downtown district](district) [San Francisco](area) [city](area_type)
+    - please change the place to [downtown](district) borough [San Francisco](area) [city](area_type)
     - please change the destination to [san francisco](city) [north point](district) district
     - change destination to nearby [hamburg city center](district) district, [hamburg](area) [city](area_type)
     - change the place to around [hamburg](area) [airport](area_type), hamburg city

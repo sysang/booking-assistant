@@ -2,6 +2,7 @@ import pickle
 import re
 import json
 import arrow
+import logging
 
 from arrow import Arrow
 from typing import Any, Dict, List, Text, Optional, Tuple
@@ -9,11 +10,13 @@ from typing import Any, Dict, List, Text, Optional, Tuple
 from thefuzz import fuzz
 from unidecode import unidecode
 from datetime import datetime
+from functools import reduce
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
 SUSPICIOUS_CHECKIN_DISTANCE = 60
 
+logger = logging.getLogger(__name__)
 
 class SortbyDictionary():
     SORTBY_POPULARITY = 'popularity'
@@ -47,17 +50,33 @@ def parse_date_range(from_time, duration, format=DATE_FORMAT):
   return (arrobj_checkin.format(format), arrobj_checkout.format(format))
 
 
-def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
+def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any], requested_slot: Text = None) -> Dict[Text, Any]:
+
+    def map_requested_slot(condition):
+        if not condition.get('active_loop'):
+            # no active_loop condition mean any requested_slot of argument is valid
+            # for convenience set condition -> requested_slot of argument
+            return requested_slot
+        return condition.get('requested_slot', None)
+
     mapped_slots = {}
     for slot_name, slot_conf in domain['slots'].items():
+        slot_mappings = slot_conf['mappings']
         for entity in entities:
-            for mapping in slot_conf['mappings']:
+            for mapping in slot_mappings:
                 if mapping.get('type', None) != 'from_entity':
                     continue
                 if mapping.get('entity', None) != entity['entity']:
                     continue
                 if mapping.get('intent', None) != intent['name']:
                     continue
+
+                conditions = mapping.get('conditions', [])
+                if len(conditions) != 0 and requested_slot:
+                    inclusive_requested_slots = list(map(map_requested_slot, conditions))
+                    if requested_slot not in inclusive_requested_slots:
+                        continue
+
                 mapped_slots[slot_name] = entity.get('value')
 
     return mapped_slots
@@ -289,3 +308,33 @@ def __test__DictUpdatingMemmQueue():
     assert actual == None, f'[FAIL] actual: {actual}'
 
     print('All done.')
+
+
+def __test__slots_for_entities():
+    from ruamel.yaml import YAML
+
+    yaml = YAML(typ="safe", pure=True)
+    with open(f"actions/test_data/domain.yml", 'r') as reader:
+        domain = yaml.load(reader)
+
+    print('[CASE 1] requested_slot -> None')
+    intent = {'name': 'request_listing_hotel_by_area', 'confidence': 0.99997484683990}
+    entities = [
+        {'entity': 'area', 'start': 37, 'end': 44, 'confidence_entity': 0.9996579885482788, 'value': 'bangkok', 'extractor': 'DIETClassifier'}
+    ]
+    requested_slot = None
+    mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
+    expected = {'bkinfo_area': 'bangkok'}
+    assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
+
+    print('[CASE 2] requested_slot -> bkinfo_duration; intent -> request_bed_type; bed_type -> single')
+    intent = {'name': 'request_bed_type', 'confidence': 0.99997484683990}
+    entities = [
+        {'entity': 'bed_type', 'start': 9, 'end': 15, 'confidence_entity': 0.9997000694274902, 'value': 'single', 'extractor': 'DIETClassifier'}
+    ]
+    requested_slot = 'bkinfo_duration'
+    mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
+    expected = {}
+    assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
+
+    print('[PASSED]')

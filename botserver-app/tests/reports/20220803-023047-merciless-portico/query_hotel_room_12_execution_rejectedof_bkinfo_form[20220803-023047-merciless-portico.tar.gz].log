@@ -1,0 +1,44 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, unexpected bkinfo is provided
+Identity: ST1-query_hotel_room_12_execution_rejectedof_bkinfo_form[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  september 5th
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  3 days
+(BOT)   <<< error >>> 
+
+(USER)  500 usd
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  500 usd
+(BOT)   <<< error >>> 
+
+__________________________________________________________________   E r r o r   _________
+

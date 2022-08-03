@@ -1,0 +1,49 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, unexpected bkinfo is provided
+Identity: ST1-query_hotel_room_12_execution_rejectedof_bkinfo_form[20220803-154323-orthogonal-tap][0803-2316]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  I want a single bed room
+(BOT)   -> Oops! It makes me really confused...
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  september 5th
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  3 days
+(BOT)   <<< error >>> 
+
+(USER)  500 usd
+(BOT)   -> Oops! It makes me really confused...
+(BOT)   -> what day would you like to stay on?
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  I want a single bed room
+(BOT)   <<< error >>> 
+
+(USER)  500 usd
+(BOT)   -> Oops! It makes me really confused...
+(BOT)   -> When will you need the accommodations?
+
+__________________________________________________________________   E r r o r   _________
+

@@ -16,7 +16,7 @@ from .duckling_service import (
 )
 from .booking_service import choose_location
 
-from .utils import slots_for_entities, calc_time_distance_in_days
+from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
 from .utils import DictUpdatingMemmQueue
 
@@ -27,9 +27,6 @@ class ValidateBkinfoForm(FormValidationAction):
 
     def name(self) -> Text:
         return "validate_bkinfo_form"
-
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, domain)
 
     def old_slot_value(self, tracker, slot_name):
         old_slot = tracker.slots.get('old', None)

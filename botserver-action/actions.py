@@ -514,14 +514,15 @@ class botacts_start_booking_progress(Action):
     def name(self) -> Text:
         return "botacts_start_booking_progress"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, intent, domain)
-
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
-        logger.info('[INFO] entities: %s', entities)
         intent = tracker.latest_message['intent']
-        mapped_slots = self.slots_for_entities(entities, intent, domain)
+        requested_slot = tracker.slots.get('requested_slot', None)
+        mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
+
+        logger.info('[INFO] entities: %s', entities)
+        logger.info('[INFO] intent: %s', intent)
+        logger.info('[INFO] mapped_slots: %s', mapped_slots)
 
         search_result_flag = 'waiting'
         botmind_context = 'workingonbooking'
@@ -593,15 +594,16 @@ class action_botmemo_booking_progress_mapping(Action):
     def name(self) -> Text:
         return "action_botmemo_booking_progress_mapping"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, intent, domain)
-
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
         intent = tracker.latest_message['intent']
-        mapped_slots = self.slots_for_entities(entities, intent, domain)
+        requested_slot = tracker.slots.get('requested_slot', None)
+        mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
         botmemo_booking_progress = FSMBotmemeBookingProgress(tracker.slots, additional=mapped_slots)
 
+        logger.info('[INFO] intent: %s', intent)
+        logger.info('[INFO] entities: %s', entities)
+        logger.info('[INFO] mapped_slots: %s', mapped_slots)
         logger.info("[INFO] botmemo_booking_progress.form: %s", botmemo_booking_progress.form)
 
         if tracker.latest_action_name == 'botacts_utter_revised_bkinfo':
@@ -685,9 +687,6 @@ class action_bkinfo_status_slot_mapping(Action):
     def name(self) -> Text:
         return "action_bkinfo_status_slot_mapping"
 
-    def slots_for_entities(self, entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return slots_for_entities(entities, intent, domain)
-
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         """
         The problem: to cancel out slot mapping if intent is rejected by active form
@@ -695,19 +694,19 @@ class action_bkinfo_status_slot_mapping(Action):
         slots = tracker.slots
         botmemo_bkinfo_status = slots.get('botmemo_bkinfo_status', None)
         requested_slot = slots.get('requested_slot', None)
-        additional = {}
 
         if not botmemo_bkinfo_status:
             return [SlotSet('botmemo_bkinfo_status', None)]
 
         entities = tracker.latest_message['entities']
         intent = tracker.latest_message['intent']
-        mapped_slots = self.slots_for_entities(entities, intent, domain)
-        if requested_slot and mapped_slots.get(requested_slot):
-            additional[requested_slot] = mapped_slots.get(requested_slot)
-        logger.info('[DEBUG] mapped_slots: %s', mapped_slots)
-        logger.info('[DEBUG] additional: %s', additional)
-        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=additional)
+        mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
+
+        logger.info('[INFO] intent: %s', intent)
+        logger.info('[INFO] entities: %s', entities)
+        logger.info('[INFO] mapped_slots: %s', mapped_slots)
+
+        botmemo_booking_progress = FSMBotmemeBookingProgress(slots, additional=mapped_slots)
         slot_value = botmemo_booking_progress.bkinfo_status
 
         return [SlotSet('botmemo_bkinfo_status', slot_value)]

@@ -1,0 +1,207 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_area
+Identity: ST1-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to hamburg
+(BOT)   -> I thought the place would be "Hamburg, Hansestadt Hamburg, Germany". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/972059.jpg?k=2b8735502f766f2854ab853fc4dd557c75ba0fca70cc54e938540b94c1c6222e&o=
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 80 room(s) ranked by popularity for you:
+
+(USER)  please change the place to bangkok
+(BOT)   -> Booking place has been changed to bangkok.
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_checkin_time
+Identity: ST2-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 6th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I've found 117 room(s) ranked by popularity for you:
+
+(USER)  please change check in time to september 5th
+(BOT)   -> Check-in time has been changed to september 5th.
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_duration
+Identity: ST3-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  1 day
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 78 room(s) ranked by popularity for you:
+
+(USER)  my mistake i actually want to stay in 3 days
+(BOT)   -> Reservation duration has been changed to 3 days.
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_bed_type
+Identity: ST4-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a double bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 72 room(s) ranked by popularity for you:
+
+(USER)  sorry, could you change bed type to single
+(BOT)   -> Bed type has been changed to single.
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, rooms are shown, revise bkinfo_price
+Identity: ST5-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  100 usd
+(BOT)   -> I've found 62 room(s) ranked by popularity for you:
+
+(USER)  could i change price to 500 usd
+(BOT)   -> Room price been changed to 500 usd.
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: Form is filled, search result is empty, revise bkinfo_price
+Identity: ST6-query_hotel_room_05_donecollecting_revisebkinfo[20220803-154323-orthogonal-tap][0803-2314]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  1 usd
+(BOT)   -> I'm not finding anything matching your query.
+(BOT)   -> You should try with other options.
+
+(USER)  could i change price to 500 usd
+(BOT)   -> Room price been changed to 500 usd.
+
+__________________________________________________________________  passed  _________
+

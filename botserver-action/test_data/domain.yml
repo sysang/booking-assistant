@@ -1,0 +1,489 @@
+version: "3.1"
+
+slots:
+  botmind_state:
+    type: categorical
+    mappings:
+      - type: custom
+        action: action_botmind_state_mapping
+    influence_conversation: true
+    initial_value: attentive
+    values:
+      - transitioning
+      - thinking
+      - prime_boostX1
+      - prime_boostX2
+      - attentive
+  botmind_context:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: chitchat
+    values:
+      - workingonbooking
+      - chitchat #  in waiting user's request
+  botmind_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - engage_interrogative
+      - engage_affirmative
+      - engage_negative
+    mappings:
+      - type: custom
+        action: action_botmind_intention_mappings
+  botmemo_booking_progress:  # working memory
+    type: categorical
+    mappings:
+      - type: custom
+        action: action_botmemo_booking_progress_mapping
+    influence_conversation: true
+    initial_value: null
+    values:
+      - initialized
+      - information_collecting
+      - done_information_collecting
+      - room_showing
+      - room_selected
+      - information_revised
+  botmemo_booking_failure:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: null
+    values:
+      - missing_booking_info
+      - missing_room_id
+  interlocutor_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - terminate_session
+    mappings:
+      - type: custom
+        action: action_interlocutor_intention_mappings
+  requested_slot:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+    values:
+      - bkinfo_area
+      - bkinfo_checkin_time
+      - bkinfo_duration
+      - bkinfo_bed_type
+      - bkinfo_price
+  bkinfo_room_id:
+    influence_conversation: true
+    initial_value: null
+    type: float
+    mappings:
+      - type: from_entity
+        intent: user_click_to_select_room
+        entity: room_id
+  bkinfo_country:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: country
+        intent: express_area
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: country
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  bkinfo_region:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: region
+        intent: express_area
+      - type: from_entity
+        entity: region
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: region
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: region
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  bkinfo_district:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: district
+        intent: express_area
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: district
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  bkinfo_area_type:
+    influence_conversation: false
+    type: categorical
+    values:
+      - hotel
+      - hotels
+      - beach
+      - beaches
+      - lake
+      - lakes
+      - cave
+      - caves
+      - bridge
+      - bridges
+      - city
+      - cities
+      - island
+      - islands
+      - bay
+      - bays
+      - airport
+      - museum
+      - station
+      - terminal
+      - university
+    mappings:
+      - type: from_entity
+        entity: area_type
+        intent: express_area
+      - type: from_entity
+        entity: area_type
+        intent: request_listing_hotel_by_area
+      - type: from_entity
+        entity: area_type
+        intent: request_listing_hotel_by_area+request_checkin_time
+      - type: from_entity
+        entity: area_type
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  bkinfo_area:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_area
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+      - type: from_entity
+        intent: request_listing_hotel_by_area
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+        entity: area
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+  bkinfo_checkin_time:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_checkin_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+      - type: from_entity
+        intent: request_checkin_time+request_room_reservation_duration
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: express_time+express_length_of_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_bed_type+request_checkin_time
+        entity: time
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+  bkinfo_duration:
+    influence_conversation: false
+    type: text  # unit: day
+    mappings:
+      - type: from_entity
+        intent: express_length_of_time
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_room_reservation_duration
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_checkin_time+request_room_reservation_duration
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: express_time+express_length_of_time
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_area
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+      - type: from_entity
+        intent: request_bed_type+request_room_reservation_duration
+        entity: duration
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+  bkinfo_bed_type:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_bed_type
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type+request_checkin_time
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_checkin_time
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+      - type: from_entity
+        intent: request_bed_type+request_room_reservation_duration
+        entity: bed_type
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_duration
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_bed_type
+  bkinfo_price:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_mountof_money
+        entity: amount-of-money
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_price
+      - type: from_entity
+        intent: express_expected_mountof_money
+        entity: amount-of-money
+        conditions:
+        - active_loop: bkinfo_form
+          requested_slot: bkinfo_price
+  bkinfo_area_revised:
+    influence_conversation: true
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_area
+        entity: area
+  bkinfo_checkin_time_revised:
+    influence_conversation: true
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_checkin_time
+        entity: time
+  bkinfo_duration_revised:
+    influence_conversation: true
+    initial_value: null
+    type: text  # unit: day
+    mappings:
+      - type: from_entity
+        intent: revise_room_reservation_duration
+        entity: duration
+  bkinfo_bed_type_revised:
+    influence_conversation: true
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_bed_type
+        entity: bed_type
+  bkinfo_price_revised:
+    influence_conversation: true
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: revise_price
+        entity: amount-of-money
+  logs_debugging_info:
+    type: list
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: []
+  search_result_flag:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: null
+    values:
+      - waiting
+      - available
+      - updating
+  logs_fallback_loop_history:
+    type: list
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: []
+  botmind_name:
+    type: text
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: Badge
+  old:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+        action: action_old_slot_mapping
+    initial_value: null
+  botmemo_bkinfo_status:
+    type: addons.custom_slot_types.BkinfoStatus
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+        action: action_bkinfo_status_slot_mapping
+  notes_bkinfo:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null
+  notes_search_result:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null
+  bkinfo_orderby:
+    type: categorical
+    mappings:
+      - type: from_intent
+        value: popularity
+        intent: sort_room_by_popularity
+      - type: from_intent
+        value: review_score
+        intent: sort_room_by_review_score
+      - type: from_intent
+        value: price
+        intent: sort_room_by_price
+    influence_conversation: true
+    initial_value: null
+    values:
+      - popularity
+      - review_score
+      - price
+  search_result_query:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: from_text
+        intent: user_click_to_navigate_search_result

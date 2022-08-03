@@ -1,0 +1,95 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel
+Identity: ST1-query_hotel_room_13_bkinfo_area_nlu[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in Empire Central Street hotel
+(BOT)   -> I thought the place would be "Hotel Empire Central Street, Bangalore, Karnataka, India". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/hotel/150x150/19363973.jpg?k=3823460de7af5f1918a76b3a0243c1f636dd21bb9d9eb37b942d12b8666d182b&o=
+(BOT)   -> what day would you like to stay on?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST2-query_hotel_room_13_bkinfo_area_nlu[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in continental hotel vietnam
+(BOT)   -> I thought the place would be "Hotel Continental Saigon, Ho Chi Minh City, Ho Chi Minh Municipality, Vietnam". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/hotel/150x150/19055272.jpg?k=4abd8576040dd52e93e90558db57322123a3dc245da8a55f749875152bbbac2e&o=
+(BOT)   -> what is the exact date of your arrival?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST3-query_hotel_room_13_bkinfo_area_nlu[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in ho chi minh city district 1
+(BOT)   -> I thought the place would be "Phuc Duc Hotel - Center District 1 Ho Chi Minh City, Ho Chi Minh City, Ho Chi Minh Municipality, Vietnam". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/hotel/150x150/229865267.jpg?k=b1bf4e6bcdf3828a87a8c8cf37f07470d4d0a9886472b9d0c83de0fbabdf4e38&o=
+(BOT)   -> what is the exact date of your arrival?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: hotel, country
+Identity: ST4-query_hotel_room_13_bkinfo_area_nlu[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in mexico city new york state
+(BOT)   -> I thought the place would be "New York, New York State, United States". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/856674.jpg?k=70a9589c2f7d2fc175c3ac02c55702c2e433f588866756a394cddfe215170f38&o=
+(BOT)   -> what day would you like to stay on?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: city, country
+Identity: ST5-query_hotel_room_13_bkinfo_area_nlu[20220803-023047-merciless-portico][0803-1054]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a room in boston us
+(BOT)   -> I thought the place would be "Boston, Massachusetts, United States". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/689802.jpg?k=9b1b6e8f18bb474657e01465a6479d7d97def881d2e7610e8eb4f77719d5ed5f&o=
+(BOT)   -> When will you need the accommodations?
+
+__________________________________________________________________  passed  _________
+
