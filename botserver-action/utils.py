@@ -12,6 +12,8 @@ from unidecode import unidecode
 from datetime import datetime
 from functools import reduce
 
+from .redis_service import set_cache, get_cache
+
 
 DATE_FORMAT = 'YYYY-MM-DD'
 SUSPICIOUS_CHECKIN_DISTANCE = 60
@@ -83,11 +85,10 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
 
 
 def get_room_by_id(room_id, search_result):
-    hotels = search_result.get('hotels', None)
-    if not hotels:
+    if not search_result:
         return None
 
-    hotels = picklize_search_result(data=hotels)
+    hotels = picklize_search_result(get_cache(search_result))
 
     for rooms in hotels.values():
         for room in rooms:
