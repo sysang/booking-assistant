@@ -1,0 +1,188 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at the very beginning
+Identity: ST1-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  bye
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after say hi
+Identity: ST2-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Greetings!  I am virtual booking assistant. How may I help you?
+
+(USER)  bye
+(BOT)   -> Bye, was nice talking to you!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after initialized
+Identity: ST3-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  bye
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after provide bed type, deny
+Identity: ST4-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  no
+(BOT)   -> what price per night you would you prefer?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye after provide bed type, affirm
+Identity: ST5-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  yes
+(BOT)   -> See you soon!
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at room_showing, deny
+Identity: ST6-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  no
+(BOT)   <<< error >>> 
+
+__________________________________________________________________   E r r o r   _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: say bye at room_showing, affirm
+Identity: ST7-query_hotel_room_11_terminate_booking[20220803-162401-greasy-mesa][0804-0018]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I've found 97 room(s) ranked by popularity for you:
+
+(USER)  bye
+(BOT)   -> I will forget things we've done so far, are you sure want to stop booking?
+
+(USER)  yes
+(BOT)   -> Bye, was nice talking to you!
+
+__________________________________________________________________  passed  _________
+

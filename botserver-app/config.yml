@@ -205,8 +205,8 @@ policies:
     drop_rate_attention: 0.10  # default 0.0
     renormalize_confidences: False  # default False
     number_of_negative_examples: 371  # default 20
-    maximum_positive_similarity: 0.73  # default 0.8
-    maximum_negative_similarity: -0.10  # default -0.2
+    maximum_positive_similarity: 0.8  # default 0.8
+    maximum_negative_similarity: -0.2  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
     tensorboard_log_level: "epoch"
     evaluate_on_number_of_examples: 0
