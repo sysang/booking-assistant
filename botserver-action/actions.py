@@ -338,33 +338,28 @@ class botacts_search_hotel_rooms(Action):
                     })
 
                 elif channel in ['socketio', 'rasa']:
-                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
-                    room_photos = "Photos: \n{photos_url}" . format(**data)
-                    hotel_descrition = "Hotel: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. Room photos: \n{photos_url}" . format(**data)
+                    hotel_descrition = "Hotel information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
                     button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
+                    
 
                     dispatcher.utter_message(text=room_description, buttons=[button])
                     dispatcher.utter_message(text=hotel_descrition, image=room['hotel_photo_url'])
-                    dispatcher.utter_message(text=room_photos)
+                    # room_photos = "Photos: \n{photos_url}" . format(**data)
+                    # dispatcher.utter_message(text=room_photos)
 
                 elif channel=='telegram':
-                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
-                    hotel_descrition = "Hotel: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_descrition = "Hotel information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
                     button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
 
-                    # room_image_url = images[-1]
-                    # r = requests.get(room_image_url)
-                    # if len(images) != 0 and r.status_code == 200:
-                    #     dispatcher.utter_message(text=room_description, image=room_image_url)
-                    # else:
-                    #     dispatcher.utter_message(text=room_description)
-
                     if photos_presentation_url:
-                        dispatcher.utter_message(text=room_description, entities=[{'type': 'text_link', 'url': photos_presentation_url}])
+                        room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. Room photos: \n{photos_url}" . format(**data)
                     else:
-                        dispatcher.utter_message(text=room_description)
+                        room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+                        
+                    dispatcher.utter_message(text=room_description)
 
                     hotel_image_url = room['hotel_photo_url']
                     r = requests.get(hotel_image_url)

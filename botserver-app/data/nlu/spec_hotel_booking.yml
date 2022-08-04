@@ -19,6 +19,10 @@ nlu:
     - hi there, i want to reserve a hotel room
     - i need to reserve a room
     - can you help me with some information on a place to stay
+    - i want to book another room
+    - i want to look for other hotel
+    - please find other hotel
+    - i want to make other booking
 - intent: request_listing_hotel_by_area
   examples: |
     - i need to book a hotel for a trip to [los angeles](area)
