@@ -61,3 +61,8 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 - Go to Settings -> Basic -> use: App ID, App Secret
 - Go to Messenger -> Setting -> add page, add callback url, copy page access token to `page-access-token`
 - Go to Messenger -> Setting (Webhooks) to subsribe `message` filed for webhook
+
+# Setting domain session_expiration_time has no effect
+- issue: https://github.com/RasaHQ/rasa/issues/11061
+- advise: https://github.com/RasaHQ/rasa/issues/11061#issuecomment-1119870053
+- `nvim /opt/venv/lib/python3.8/site-packages/rasa/shared/constants.py`, DEFAULT_SESSION_EXPIRATION_TIME_IN_MINUTES -> False

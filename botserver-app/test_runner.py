@@ -40,7 +40,6 @@ def load_data(testfile):
     return stories
 
 endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
-# endpoind = 'https://dsysang.site/webhooks/rest/webhook'
 
 testing_data = {
     'area': 'bangkok',

@@ -165,48 +165,48 @@ policies:
     drop_rate_attention: 0.1 # default 0.0
     renormalize_confidences: True  # default False
     number_of_negative_examples: 701  # default 20
-    maximum_positive_similarity: 0.71  # default 0.8
-    maximum_negative_similarity: -0.13  # default -0.2
+    maximum_positive_similarity: 0.85  # default 0.8
+    maximum_negative_similarity: -0.35  # default -0.2
   - name: TEDPolicy
     max_history: 1
-    learning_rate: 3e-4  # default 1e-3
-    epochs: 2513
+    learning_rate: 1e-3  # default 1e-3
+    epochs: 901
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [17, 33]  # default [32, 256]
-    connection_density: 0.95  # default 0.2
+    batch_size: [16, 43]  # default [32, 256]
+    connection_density: 0.75  # default 0.2
     dense_dimension:
       text: 128  # default 128
-      intent: 24  # default 20
-      action_name: 24
-      label_intent: 24
-      entities: 12
-      slots: 12
-      active_loop: 12
+      intent: 32  # default 20
+      action_name: 32
+      label_intent: 32
+      entities: 24
+      slots: 48
+      active_loop: 32
     concat_dimension:
-      text: 50
-      action_text: 50
-      label_action_text: 50  # default 128
-    encoding_dimension: 32
-    transformer_size:
       text: 128
-      dialogue: 128
       action_text: 128
-      label_action_text: 128
+      label_action_text: 128  # default 128
+    encoding_dimension: 48
+    transformer_size:
+      text: 512
+      dialogue: 512
+      action_text: 512
+      label_action_text: 512
     number_of_transformer_layers:
       text: 2
       dialogue: 2
       action_text: 2
       label_action_text: 2  # default 1
-    number_of_attention_heads: 16
+    number_of_attention_heads: 32
     embedding_dimension: 32  # default 20
     drop_rate_dialogue: 0.15  # default 0.1
-    drop_rate_label: 0.10  # default 0.0
-    drop_rate_attention: 0.10  # default 0.0
-    renormalize_confidences: False  # default False
-    number_of_negative_examples: 371  # default 20
-    maximum_positive_similarity: 0.8  # default 0.8
-    maximum_negative_similarity: -0.2  # default -0.2
+    drop_rate_label: 0.08  # default 0.0
+    drop_rate_attention: 0.08  # default 0.0
+    renormalize_confidences: True  # default False
+    number_of_negative_examples: 301  # default 20
+    maximum_positive_similarity: 0.73  # default 0.8
+    maximum_negative_similarity: -0.05  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
     tensorboard_log_level: "epoch"
     evaluate_on_number_of_examples: 0
