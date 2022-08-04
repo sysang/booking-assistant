@@ -27,3 +27,7 @@ This makes rules (were not declare condition) mostly uneffective in runtime beca
 # batch_size does help
 - Evidence is the case when (batch_size: [17, 33], epochs: 1523) led to good performance but (batch_size: [17, 33], epochs: 2513) had different diagram (worse).
 - Explain: because when change the number of epoch the structure of batch_size change occodringly. So with batch_size: [17, 43] the struture is preserved
+
+# Baseline models
+- 20220802-143922-religious-breakout
+- 20220803-151032-brown-inflection.tar.gz

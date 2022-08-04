@@ -285,7 +285,8 @@ class botacts_search_hotel_rooms(Action):
                         images.append(photo.get('url_original'))
 
                 if len(images) != 0:
-                    img_query = {'img'+str(idx):image for idx, image in zip(range(len(images)), images)}
+                    # img_query = {'img'+str(idx):image for idx, image in zip(range(len(images)), images)}
+                    img_query = {'hotel_id': room['hotel_id'], 'room_id': room['room_id']}
                     photos_presentation_url = BASE_URL + parse.urlencode(img_query)
                 else:
                     photos_presentation_url = None
@@ -353,10 +354,15 @@ class botacts_search_hotel_rooms(Action):
                     button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
 
-                    room_image_url = images[-1]
-                    r = requests.get(room_image_url)
-                    if len(images) != 0 and r.status_code == 200:
-                        dispatcher.utter_message(text=room_description, image=room_image_url)
+                    # room_image_url = images[-1]
+                    # r = requests.get(room_image_url)
+                    # if len(images) != 0 and r.status_code == 200:
+                    #     dispatcher.utter_message(text=room_description, image=room_image_url)
+                    # else:
+                    #     dispatcher.utter_message(text=room_description)
+
+                    if photos_presentation_url:
+                        dispatcher.utter_message(text=room_description, entities=[{'type': 'text_link', 'url': photos_presentation_url}])
                     else:
                         dispatcher.utter_message(text=room_description)
 
