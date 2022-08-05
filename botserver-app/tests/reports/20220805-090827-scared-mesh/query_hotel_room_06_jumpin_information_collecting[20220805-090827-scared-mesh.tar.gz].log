@@ -1,0 +1,135 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area
+Identity: ST1-query_hotel_room_06_jumpin_information_collecting[20220805-090827-scared-mesh][0805-1839]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Hey! I am virtual booking assistant. How may I help you?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 100 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area, time
+Identity: ST2-query_hotel_room_06_jumpin_information_collecting[20220805-090827-scared-mesh][0805-1839]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  i need to book a hotel for a trip to bangkok starting from september 5th
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 100 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide duration, time
+Identity: ST3-query_hotel_room_06_jumpin_information_collecting[20220805-090827-scared-mesh][0805-1839]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  how are you
+(BOT)   -> I'm doing very well. Thanks!
+
+(USER)  i want to book a room for 3 days starting from september 5th
+(BOT)   -> What place would you like to stay in?
+
+(USER)  bangkok city
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 100 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide area, time_duration
+Identity: ST4-query_hotel_room_06_jumpin_information_collecting[20220805-090827-scared-mesh][0805-1839]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  i need to book a hotel for a trip to bangkok starting from september 5th to september 8th
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> How long will you be staying?
+
+(USER)  I want a single bed room
+(BOT)   -> Oops! It makes me really confused...
+(BOT)   -> How many days would you like the room for?
+
+(USER)  500 usd
+(BOT)   -> Oops! It makes me really confused...
+(BOT)   -> How many days would you like the room for?
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: request to search hotel by provide bed_tye, time
+Identity: ST5-query_hotel_room_06_jumpin_information_collecting[20220805-090827-scared-mesh][0805-1839]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  are you bot
+(BOT)   -> That's me. I chat, therefore I am.
+
+(USER)  need a single room on september 5th
+(BOT)   -> What place would you like to stay in?
+
+(USER)  bangkok city
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 100 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+

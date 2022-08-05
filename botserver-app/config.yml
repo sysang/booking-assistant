@@ -60,7 +60,7 @@ pipeline:
   - name: DIETClassifier
     intent_classification: True
     entity_recognition: True
-    epochs: 501
+    epochs: 531
     learning_rate: 1e-3
     batch_size: [128, 512]  # default [64, 256]
     constrain_similarities: true
@@ -75,18 +75,18 @@ pipeline:
       label: 20
     connection_density: 0.20
     transformer_size: 256  # default 256
-    number_of_transformer_layers: 2
-    number_of_attention_heads: 8
-    use_masked_language_model: True
-    embedding_dimension: 32
-    drop_rate: 0.35  # Dropout rate for encoder. Default: 0.2
-    drop_rate_attention: 0.20  # Dropout rate for attention.
+    number_of_transformer_layers: 2  # default 2
+    number_of_attention_heads: 4  # default 4
+    use_masked_language_model: True  # default False
+    embedding_dimension: 20  # default 20
+    drop_rate: 0.25  # Dropout rate for encoder. Default: 0.2
+    drop_rate_attention: 0.25  # Dropout rate for attention.
     number_of_negative_examples: 501  # default: 20
     similarity_type: auto  # default: auto
   - name: EntitySynonymMapper
   - name: ResponseSelector
     retrieval_intent: null  # Name of the intent for which this response selector model is trained
-    epochs: 203
+    epochs: 133
     constrain_similarities: true
     batch_size: [64, 256]
     hidden_layers_sizes:
@@ -170,10 +170,10 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 1e-3  # default 1e-3
-    epochs: 901
+    epochs: 2047
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [16, 43]  # default [32, 256]
+    batch_size: [16, 23]  # default [32, 256]
     connection_density: 0.75  # default 0.2
     dense_dimension:
       text: 128  # default 128
@@ -200,12 +200,12 @@ policies:
       label_action_text: 2  # default 1
     number_of_attention_heads: 32
     embedding_dimension: 32  # default 20
-    drop_rate_dialogue: 0.15  # default 0.1
-    drop_rate_label: 0.08  # default 0.0
-    drop_rate_attention: 0.08  # default 0.0
+    drop_rate_dialogue: 0.25  # default 0.1
+    drop_rate_label: 0.15  # default 0.0
+    drop_rate_attention: 0.15  # default 0.0
     renormalize_confidences: True  # default False
-    number_of_negative_examples: 301  # default 20
-    maximum_positive_similarity: 0.73  # default 0.8
+    number_of_negative_examples: 1271  # default 20
+    maximum_positive_similarity: 0.67  # default 0.8
     maximum_negative_similarity: -0.05  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
     tensorboard_log_level: "epoch"

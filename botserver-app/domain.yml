@@ -520,7 +520,7 @@ responses:
     - text: "I can help you seach hotel by areas such as city, famous beach."
 
   utter_smalltalk/ask_for_payment:
-    - text: "We haven't implement this function but it surely in our plan."
+    - text: "We haven't implement this function but it's definitely in our plan."
 
   utter_smalltalk/ask_for_confirmation_email:
-    - text: "We haven't implement this function but it surely in our plan."
+    - text: "We haven't implement this function but it's definitely in our plan."

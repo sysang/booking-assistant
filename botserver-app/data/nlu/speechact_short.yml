@@ -31,6 +31,11 @@ nlu:
     - ok bye
     - ok, bye
     - ok.bye
+    - thank bye
+    - bye thank
+    - bye thanks
+    - thank you! bye
+    - thank! bye bye
     - see u later
     - see ya
     - see you
