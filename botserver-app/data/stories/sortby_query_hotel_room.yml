@@ -7,6 +7,7 @@ stories:
   - intent: sort_room_by_popularity
   - slot_was_set:
     - bkinfo_orderby: popularity
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - bkinfo_orderby: null
@@ -21,6 +22,7 @@ stories:
   - intent: sort_room_by_review_score
   - slot_was_set:
     - bkinfo_orderby: review_score
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - bkinfo_orderby: null
@@ -35,6 +37,7 @@ stories:
   - intent: sort_room_by_price
   - slot_was_set:
     - bkinfo_orderby: price
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - bkinfo_orderby: null

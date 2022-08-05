@@ -32,6 +32,7 @@ rules:
     - intent: sort_room_by_popularity
     - slot_was_set:
       - bkinfo_orderby: popularity
+    - action: botacts_utter_inform_searching_inprogress
     - action: botacts_search_hotel_rooms
   wait_for_user_input: false
 
@@ -48,6 +49,7 @@ rules:
     - intent: sort_room_by_review_score
     - slot_was_set:
       - bkinfo_orderby: review_score
+    - action: botacts_utter_inform_searching_inprogress
     - action: botacts_search_hotel_rooms
   wait_for_user_input: false
 
@@ -64,6 +66,7 @@ rules:
     - intent: sort_room_by_price
     - slot_was_set:
       - bkinfo_orderby: price
+    - action: botacts_utter_inform_searching_inprogress
     - action: botacts_search_hotel_rooms
   wait_for_user_input: false
 
@@ -80,5 +83,6 @@ rules:
     - intent: user_click_to_navigate_search_result
     - slot_was_set:
       - search_result_query: true
+    - action: botacts_utter_inform_searching_inprogress
     - action: botacts_search_hotel_rooms
   wait_for_user_input: false

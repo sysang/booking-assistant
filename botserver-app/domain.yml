@@ -77,6 +77,9 @@ responses:
   utter_instruct_to_choose_room:
     - text: "To choose your room please click on respective room."
 
+  utter_inform_searching_inprogress:
+    - text: "I'm searching, it takes for a while..."
+
   utter_room_not_available:
     - text: "I'm not finding anything matching your query."
     - text: "I'm sorry but we have no hotels meeting your criteria."
@@ -515,3 +518,9 @@ responses:
 
   utter_smalltalk/explain_supported_areas:
     - text: "I can help you seach hotel by areas such as city, famous beach."
+
+  utter_smalltalk/ask_for_payment:
+    - text: "We haven't implement this function but it surely in our plan."
+
+  utter_smalltalk/ask_for_confirmation_email:
+    - text: "We haven't implement this function but it surely in our plan."

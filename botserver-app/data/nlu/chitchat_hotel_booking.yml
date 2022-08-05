@@ -55,3 +55,27 @@ nlu:
     - what is area?
     - i am confused about area
     - area makes me puzzled
+
+- intent: smalltalk/ask_for_payment
+  examples: |
+    - how do i pay
+    - how can i pay
+    - how could i pay
+    - how to make a payment
+    - what are the payment methods
+    - what payment do you support
+    - what payment methods do you support
+    - how to proceed payment
+    - can i make payment
+    - can i pay
+    - can i pay by credit or debit
+
+- intent: smalltalk/ask_for_confirmation_email
+  examples: |
+    - send me a confirmation email please
+    - please send confirmation to my email
+    - i have not received confirmation email
+    - i have not seen confirmation email
+    - email me to confirm
+    - please email me to confirm
+    - i want a confirmation email

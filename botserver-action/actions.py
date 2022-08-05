@@ -182,7 +182,17 @@ class bot_switchto_thinking(Action):
     return [botmind_state_slot]
 
 
-#TODO: rename to search_hotel
+class botacts_utter_inform_searching_inprogress(Action):
+
+    def name(self) -> Text:
+        return "botacts_utter_inform_searching_inprogress"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(response='utter_inform_searching_inprogress')
+
+        return [FollowupAction(name='botacts_search_hotel_rooms')]
+
+
 class botacts_search_hotel_rooms(Action):
 
     def name(self) -> Text:

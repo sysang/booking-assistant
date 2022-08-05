@@ -160,15 +160,29 @@ nlu:
 - intent: express_bed_type
   examples: |
     - a [twin](bed_type) room
-    - a [twin](bed_type) bed
+    - a [single](bed_type) room
     - a [double](bed_type) room
-    - a [double](bed_type) bed room
-    - a [king size](bed_type) room
-    - a [king size](bed_type) bed room
-    - a [king-size](bed_type) bed room
+    - a [small double](bed_type) room
+    - a [large double](bed_type) room
+    - a [queen](bed_type) room
     - a [queen size](bed_type) room
-    - a [queen size](bed_type) bed room
+    - a [queen-size](bed_type) room
+    - a [king](bed_type) room
+    - a [king size](bed_type) room
+    - a [king-size](bed_type) room
+    - a [california king](bed_type) room
+    - a [twin](bed_type) bed
+    - a [single](bed_type) bed
+    - a [small double](bed_type) bed
+    - a [queen size](bed_type) bed
+    - a [king-size](bed_type) bed
+    - a [hollywood twin](bed_type) bed room
+    - a [small double](bed_type) bed room
+    - a [large double](bed_type) bed room
     - a [queen-size](bed_type) bed room
+    - a [california king](bed_type) bed room
+    - a [single](bed_type)
+    - a [double](bed_type)
 - intent: express_mountof_money
   examples: |
     - [€42](amount-of-money)

@@ -24,3 +24,4 @@ actions:
   - botacts_utter_revised_bkinfo
   - botacts_start_booking_progress
   - botacts_utter_asking_confirm_stop_booking
+  - botacts_utter_inform_searching_inprogress

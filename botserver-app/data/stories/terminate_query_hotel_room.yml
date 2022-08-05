@@ -192,6 +192,7 @@ stories:
   - slot_was_set:
     - interlocutor_intention: null
     - botmind_intention: engage_negative
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - botmind_intention: null

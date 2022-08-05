@@ -463,6 +463,13 @@ nlu:
     - i am looking for cheap hotels
     - i am interested in ones with good price
     - i am interested in ones with low price
+- lookup: bed_type
+  examples: |
+    - twin
+    - single
+    - double
+    - king
+    - queen
 - synonym: king
   examples: |
     - king size

@@ -143,6 +143,7 @@ stories:
     - bkinfo_area_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
@@ -165,6 +166,7 @@ stories:
     - bkinfo_checkin_time_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
@@ -187,6 +189,7 @@ stories:
     - bkinfo_duration_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - botmemo_bkinfo_status: ['bkinfo_area', 'bkinfo_checkin_time', '3 days', 'bkinfo_bed_type', 'bkinfo_price']
@@ -209,6 +212,7 @@ stories:
     - bkinfo_bed_type_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
@@ -231,6 +235,7 @@ stories:
     - bkinfo_price_revised: null
     - botmemo_booking_progress: done_information_collecting
     - search_result_flag: updating
+  - action: botacts_utter_inform_searching_inprogress
   - action: botacts_search_hotel_rooms
   - slot_was_set:
     - search_result_flag: available
