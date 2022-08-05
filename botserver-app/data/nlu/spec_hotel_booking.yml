@@ -283,9 +283,9 @@ nlu:
 - intent: request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
   examples: |
     - i need to book a hotel for a trip to [los angeles](area) starting [from friday to sunday](duration)
-    - i need to book a hotel in [bangkok](area) from [from november 1st to december 1st](duration)
+    - i need to book a hotel in [bangkok](area) [from november 1st to december 1st](duration)
     - can you find me an place to stay that is located in [nha trang](area) [city](area_type) [from october 3rd to october 4th](duration)
-    - i'm looking for a hotel in [austin](area) [from september 5th to september 20th](time)
+    - i'm looking for a hotel in [austin](area) [from september 5th to september 20th](duration)
     - can you tell us if there is a hotel in [tokyo](area) [from 1/6/2023 to 2/6/2023](duration)
     - i am looking for an average priced place in [little corn](area) [beaches](area_type) [from 25/7/2022 to 3/10/2022](duration)
     - i'm looking for a hotel in [el nido](area), [palawan province](region) [from 1/6/2022 to 2/6/2022](duration)
@@ -302,7 +302,7 @@ nlu:
     - i'm planning to visit [new york](area) [city](area_type) [from friday, april 14 until monday, april 17](duration)
     - i need to book a hotel for a trip to [essex junction](area), [vermont](region), [us](country) starting [from friday to sunday](duration)
     - can you find me an place to stay that is located in [essex junction](area) [city](area_type) [from october 3rd to october 4th](duration)
-    - i'm looking for a hotel in [miami](area) [beach](area_type), [florida](region) state, [us](country) [from september 5th to september 20th](time)
+    - i'm looking for a hotel in [miami](area) [beach](area_type), [florida](region) state, [us](country) [from september 5th to september 20th](duration)
     - can you tell us if there is a hotel in [miami](area), [florida](region), [us](country) [from 1/6/2023 to 2/6/2023](duration)
     - i am looking for an average priced place in [hamburg city center](district) district, [hamburg](area), [germany](country) [from 25/7/2022 to 3/10/2022](duration)
     - i'm looking for a hotel in [hamburg city center](district) district, [hamburg](area) [city](area_type) [from 1/6/2022 to 2/6/2022](duration)

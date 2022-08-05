@@ -8,13 +8,17 @@ from datetime import datetime
 from pathlib import Path
 from ruamel.yaml import YAML
 
+ENDPOINT = 'http://rasachatbot.sysang/webhooks/rest/webhook'
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', required=True, type=str)
 parser.add_argument('--testfile', required=True, type=str)
+parser.add_argument('--endpoint', required=False, type=str, default='')
 args = parser.parse_args()
 
 model = args.model
 testfile = args.testfile
+endpoint = args.endpoint if args.endpoint else ENDPOINT
 model_path = Path(f"models/{model}")
 
 assert model, "Parameter `model` is not valid."
@@ -38,8 +42,6 @@ def load_data(testfile):
         stories = yaml.load(reader)
 
     return stories
-
-endpoind = 'http://rasachatbot.sysang/webhooks/rest/webhook'
 
 testing_data = {
     'area': 'bangkok',
@@ -76,7 +78,7 @@ if __name__ == '__main__':
         for step in story['steps']:
             message = step .format(**testing_data)
             payload = {'sender': tester, 'message': message}
-            r = requests.post(endpoind, data=json.dumps(payload))
+            r = requests.post(endpoint, data=json.dumps(payload))
             r.raise_for_status()
             body = r.json()
 

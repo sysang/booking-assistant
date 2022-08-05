@@ -36,23 +36,23 @@ dryrun:
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --dry-run'
 
 test:
-	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile)
+	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile) --endpoint=$(endpoint)
 
 testall:
 	-rm -f botserver-app/tests/reports/current/*
-	make query_hotel_room_01_schema_test model=$(M)
-	make query_hotel_room_02_sorting_test model=$(M)
-	make query_hotel_room_03_chitchat_revisebkinfo_test model=$(M)
-	make query_hotel_room_04_revise_invalid_bkinfo_test model=$(M)
-	make query_hotel_room_05_donecollecting_revisebkinfo_test model=$(M)
-	make query_hotel_room_06_jumpin_information_collecting_test model=$(M)
-	make query_hotel_room_07_chitchat_faq_test model=$(M)
-	make query_hotel_room_08_chitchat_smalltalk_test model=$(M)
-	make query_hotel_room_09_chitchat_outofscope_test model=$(M)
-	make query_hotel_room_10_chitchat_nlufallback_test model=$(M)
-	make query_hotel_room_11_terminate_booking_test model=$(M)
-	make query_hotel_room_12_execution_rejectedof_bkinfo_form_test model=$(M)
-	make query_hotel_room_13_bkinfo_area_nlu_test model=$(M)
+	make query_hotel_room_01_schema_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_02_sorting_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_03_chitchat_revisebkinfo_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_04_revise_invalid_bkinfo_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_05_donecollecting_revisebkinfo_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_06_jumpin_information_collecting_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_07_chitchat_faq_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_08_chitchat_smalltalk_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_09_chitchat_outofscope_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_10_chitchat_nlufallback_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_11_terminate_booking_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_12_execution_rejectedof_bkinfo_form_test model=$(M) endpoint=$(endpoint)
+	make query_hotel_room_13_bkinfo_area_nlu_test model=$(M) endpoint=$(endpoint)
 
 query_hotel_room_01_schema_test:
 	export testfile=query_hotel_room_01_schema; \
