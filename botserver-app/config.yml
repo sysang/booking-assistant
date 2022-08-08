@@ -174,7 +174,7 @@ policies:
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [13, 64]  # default [32, 256]
-    connection_density: 0.55  # default 0.2
+    connection_density: 0.25  # default 0.2
     dense_dimension:
       text: 128  # default 128
       intent: 32  # default 20
