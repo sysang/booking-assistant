@@ -170,11 +170,11 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 6.66e-4  # default 1e-3
-    epochs: 1013
+    epochs: 1253
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [13, 256]  # default [32, 256]
-    connection_density: 0.75  # default 0.2
+    batch_size: [13, 64]  # default [32, 256]
+    connection_density: 0.55  # default 0.2
     dense_dimension:
       text: 128  # default 128
       intent: 32  # default 20
@@ -205,8 +205,8 @@ policies:
     drop_rate_attention: 0.15  # default 0.0
     renormalize_confidences: True  # default False
     number_of_negative_examples: 253  # default 20
-    maximum_positive_similarity: 0.67  # default 0.8
-    maximum_negative_similarity: -0.05  # default -0.2
+    maximum_positive_similarity: 0.8  # default 0.8
+    maximum_negative_similarity: -0.2  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
     tensorboard_log_level: "epoch"
     evaluate_on_number_of_examples: 0
