@@ -1,0 +1,55 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, nlu_fallback
+Identity: ST1-query_hotel_room_10_chitchat_nlufallback[20220813-152845-clever-sync][0813-2244]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 119 room(s) ranked by popularity for you:
+
+(USER)  Hi can you please lorem ipsum dolor sit amet i you me want
+(BOT)   -> I'm sorry, I didn't quite understand that. Could you rephrase?
+
+__________________________________________________________________  passed  _________
+
