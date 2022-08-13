@@ -169,20 +169,20 @@ policies:
     maximum_negative_similarity: -0.35  # default -0.2
   - name: TEDPolicy
     max_history: 1
-    learning_rate: 3e-4  # default 1e-3
+    learning_rate: 6.66e-4  # default 1e-3
     epochs: 701
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [13, 43]  # default [32, 256]
     connection_density: 0.85  # default 0.2
     dense_dimension:
-      text: 128  # default 128
-      intent: 32  # default 20
-      action_name: 32
-      label_intent: 32
-      entities: 24
+      text: 256  # default 128
+      intent: 64  # default 20
+      action_name: 64
+      label_intent: 64
+      entities: 48
       slots: 48
-      active_loop: 32
+      active_loop: 64
     concat_dimension:
       text: 150
       action_text: 150
