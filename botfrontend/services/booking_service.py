@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import redis
 import requests
 
@@ -24,7 +22,7 @@ r = redis.Redis(connection_pool=pool)
 requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuristic=ExpiresAfter(minutes=REQUESTS_CACHE_MINS))
 
 
-def request_room_list_by_hotel(hotel_id, currency=CURRENCY):
+def request_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=CURRENCY):
     """
     >>> rooms = response.json()
     >>> rooms[0].keys()
@@ -38,11 +36,6 @@ def request_room_list_by_hotel(hotel_id, currency=CURRENCY):
     url = f"{BASE_URL}/hotels/room-list"
     number_of_occupancy = 2
     number_of_room = 1
-    now = datetime.now()
-    now_day = now.day
-    now_mo = now.month
-    checkin_date = now.replace(month=now_mo + 1).strftime('%Y-%m-%d')
-    checkout_date = now.replace(month=now_mo + 1, day=now_day + 1).strftime('%Y-%m-%d')
 
     querystring = {
         "checkin_date": checkin_date,

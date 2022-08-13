@@ -19,9 +19,12 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dialogue/chatroom/', include('chatroom.urls')),
+    path('dialogue/booking/', include('chatroom.urls', namespace='booking')),
+    path('dialogue/urls', views.urls, name='urls'),
 ]
 
 

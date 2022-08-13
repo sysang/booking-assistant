@@ -11,6 +11,7 @@ from thefuzz import fuzz
 from unidecode import unidecode
 from datetime import datetime
 from functools import reduce
+from requests import get
 
 from .redis_service import set_cache, get_cache
 
@@ -220,6 +221,24 @@ class DictUpdatingMemmQueue():
         if not item:
             return None
         return item[-1][0]
+
+
+
+def request_botfrontend_url(name):
+    url = 'http://botfrontend:8000/dialogue/urls'
+    r = get(url)
+
+    if r.status_code != 200:
+        return None
+
+    data = r.json()
+
+    if not isinstance(data, dict):
+        return None
+
+    return data.get(name)
+
+
 
 """
 __pytest__

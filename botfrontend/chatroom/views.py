@@ -13,11 +13,13 @@ def index(request):
     return response
 
 def room_photos(request):
-    hotel_id = request.GET.get('hotel_id')
-    room_id = request.GET.get('room_id')
+    hotel_id = request.GET.get('hoid')
+    room_id = request.GET.get('roid')
+    checkin_date = request.GET.get('chkin')
+    checkout_date = request.GET.get('chkout')
     images = []
 
-    room_list = request_room_list_by_hotel(hotel_id=hotel_id)
+    room_list = request_room_list_by_hotel(hotel_id=hotel_id, checkin_date=checkin_date, checkout_date=checkout_date)
 
     if len(room_list) > 0:
         room_list = room_list[0].get('rooms', {})
@@ -28,5 +30,6 @@ def room_photos(request):
                 photo_url = photo.get('url_original')
                 if photo_url:
                     images.append(photo_url)
+
 
     return TemplateResponse(request, 'chatroom/room_photos.html', {'images': images})

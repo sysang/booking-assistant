@@ -45,6 +45,7 @@ from .utils import (
 from .utils import SortbyDictionary
 from .utils import parse_date_range
 from .utils import DictUpdatingMemmQueue
+from .utils import request_botfrontend_url
 
 from .duckling_service import (
     parse_checkin_time,
@@ -199,7 +200,7 @@ class botacts_search_hotel_rooms(Action):
         return "botacts_search_hotel_rooms"
 
     async def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        BASE_URL = 'https://dsysang.site/dialogue/chatroom/room_photos?'
+        BASE_URL = request_botfrontend_url('room_photos')
         events = []
         slots = tracker.slots
         channel = tracker.get_latest_input_channel()
@@ -294,10 +295,12 @@ class botacts_search_hotel_rooms(Action):
                     if photo.get('url_original', None):
                         images.append(photo.get('url_original'))
 
-                if len(images) != 0:
-                    # img_query = {'img'+str(idx):image for idx, image in zip(range(len(images)), images)}
-                    img_query = {'hotel_id': room['hotel_id'], 'room_id': room['room_id']}
-                    photos_presentation_url = BASE_URL + parse.urlencode(img_query)
+                if len(images) != 0 and BASE_URL:
+                    checkin_time = parse_checkin_time(expression=bkinfo.get('bkinfo_checkin_time'))
+                    duration = parse_bkinfo_duration(expression=bkinfo.get('bkinfo_duration'))
+                    checkin_date, checkout_date = parse_date_range(from_time=checkin_time.value, duration=duration.value, format='YYYY-MM-DD')
+                    img_query = {'hoid': room['hotel_id'], 'roid': room['room_id'], 'chkin': checkin_date, 'chkout': checkout_date}
+                    photos_presentation_url = BASE_URL + '?' + parse.urlencode(img_query)
                 else:
                     photos_presentation_url = None
 
@@ -348,27 +351,28 @@ class botacts_search_hotel_rooms(Action):
                     })
 
                 elif channel in ['socketio', 'rasa']:
-                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. Room photos: \n{photos_url}" . format(**data)
-                    hotel_descrition = "Hotel information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
-                    button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
-                    
+                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}." . format(**data)
+                    room_photos = "To view room photos: \n{photos_url}" . format(**data)
+                    hotel_descrition = "More information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    # button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
+                    button = { "title": room_description, "payload": btn_payload}
 
-                    dispatcher.utter_message(text=room_description, buttons=[button])
+                    # dispatcher.utter_message(text=room_description, buttons=[button])
+                    dispatcher.utter_message(text='.....'.format(**data), buttons=[button])
+                    dispatcher.utter_message(text=room_photos)
                     dispatcher.utter_message(text=hotel_descrition, image=room['hotel_photo_url'])
-                    # room_photos = "Photos: \n{photos_url}" . format(**data)
-                    # dispatcher.utter_message(text=room_photos)
 
                 elif channel=='telegram':
-                    hotel_descrition = "Hotel information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_descrition = "More information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
                     button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
 
                     if photos_presentation_url:
-                        room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. Room photos: \n{photos_url}" . format(**data)
+                        room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. To view room photos: \n{photos_url}" . format(**data)
                     else:
-                        room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
-                        
+                        room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+
                     dispatcher.utter_message(text=room_description)
 
                     hotel_image_url = room['hotel_photo_url']

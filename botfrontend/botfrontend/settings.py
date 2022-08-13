@@ -28,6 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'dsysang.site',
     'rasachatbot.sysang',
+    'botfrontend',
 ]
 
 BASE_DOMAIN_URL = 'https://dsysang.site'
