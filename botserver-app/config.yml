@@ -170,10 +170,10 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 1e-4  # default 1e-3
-    epochs: 2047
+    epochs: 501
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [128, 256]  # default [32, 256]
+    batch_size: [17, 33]  # default [32, 256]
     connection_density: 0.75  # default 0.2
     dense_dimension:
       text: 128  # default 128
@@ -187,7 +187,7 @@ policies:
       text: 150
       action_text: 150
       label_action_text: 150  # default 128
-    encoding_dimension: 48
+    encoding_dimension: 64
     transformer_size:
       text: 512
       dialogue: 512
