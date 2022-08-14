@@ -169,11 +169,11 @@ policies:
     maximum_negative_similarity: -0.35  # default -0.2
   - name: TEDPolicy
     max_history: 1
-    learning_rate: 6.66e-4  # default 1e-3
-    epochs: 701
+    learning_rate: 1e-3  # default 1e-3
+    epochs: 1031
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [13, 43]  # default [32, 256]
+    batch_size: [23, 29]  # default [32, 256]
     connection_density: 0.85  # default 0.2
     dense_dimension:
       text: 256  # default 128
@@ -200,11 +200,11 @@ policies:
       label_action_text: 1  # default 1
     number_of_attention_heads: 32
     embedding_dimension: 32  # default 20
-    drop_rate_dialogue: 0.15  # default 0.1
-    drop_rate_label: 0.07  # default 0.0
-    drop_rate_attention: 0.07  # default 0.0
+    drop_rate_dialogue: 0.25  # default 0.1
+    drop_rate_label: 0.12  # default 0.0
+    drop_rate_attention: 0.12  # default 0.0
     renormalize_confidences: False  # default False
-    number_of_negative_examples: 301  # default 20
+    number_of_negative_examples: 153  # default 20
     maximum_positive_similarity: 0.85  # default 0.8
     maximum_negative_similarity: -0.35  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
