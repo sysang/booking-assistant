@@ -170,7 +170,7 @@ policies:
   - name: TEDPolicy
     max_history: 1
     learning_rate: 1e-3  # default 1e-3
-    epochs: 1031
+    epochs: 701
     constrain_similarities: true
     model_confidence: softmax
     batch_size: [23, 29]  # default [32, 256]
@@ -194,12 +194,12 @@ policies:
       action_text: 512
       label_action_text: 512
     number_of_transformer_layers:
-      text: 1
-      dialogue: 1
-      action_text: 1
-      label_action_text: 1  # default 1
-    number_of_attention_heads: 32
-    embedding_dimension: 32  # default 20
+      text: 3
+      dialogue: 3
+      action_text: 3
+      label_action_text: 3  # default 1
+    number_of_attention_heads: 4  # default 4
+    embedding_dimension: 20  # default 20
     drop_rate_dialogue: 0.25  # default 0.1
     drop_rate_label: 0.12  # default 0.0
     drop_rate_attention: 0.12  # default 0.0
