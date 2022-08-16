@@ -180,7 +180,15 @@ stories:
 
 - story: form is completed, showing room, bye/stop_doing, deny
   steps:
-  - checkpoint: checkpoint_show_result_of_searching_room
+  # - checkpoint: checkpoint_show_result_of_searching_room
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonbooking
+    - botmemo_booking_progress: room_showing
+    - botmemo_bkinfo_status: ['bkinfo_area','bkinfo_checkin_time','bkinfo_duration','bkinfo_bed_type','bkinfo_price']
+    - search_result_flag: available
+    - interlocutor_intention: null
+    - botmind_intention: null
   - or:
     - intent: bye
     - intent: stop_doing

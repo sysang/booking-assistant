@@ -321,24 +321,31 @@ nlu:
 - intent: request_bed_type+request_checkin_time
   examples: |
     - need a [double](bed_type) room on [7/15](time)
+    - i need a [single](bed_type) room on [november 1](time)
     - find me [double](bed_type) room on [tuesday](time)
+    - find me [king](bed_type) room on [monday](time)
     - i want a [single](bed_type) room starting from [sunday](time)
-    - i looking for [queen-size](bed_type) bed room on [september 1st](time)
-    - please booked [single](bed_type) room on [january 23th](time)
+    - please book [single](bed_type) room on [january 23th](time)
+    - please book [double](bed_type) room on [24 february](time)
+    - i am looking for [queen-size](bed_type) bed room on [september 1st](time)
     - i am looking for room with [double](bed_type) bed on [12 december](time)
     - i’d like to make a reservation for a [twin](bed_type) room for the night of [october 1](time), please.
     - i’d like to make a reservation for a [single](bed_type) room for the night of [11 january](time), please.
     - i’d like to make a booking for a [double](bed_type) room for the night of [20th](time), please.
 - intent: request_bed_type+request_room_reservation_duration
   examples: |
-    - i’d like to book a [single](bed_type) room for [two nights](bed_type), please.
-    - i’d like to book a [double](bed_type) room for [3 days](bed_type), please.
-    - i’d like to make a [booking](bed_type) for a [double](bed_type) room for [one night](duration)
+    - i’d like to book a [single](bed_type) room for [two nights](duration), please.
+    - i’d like to book a [double](bed_type) room for [3 days](duration), please.
+    - i’d like to make a booking for a [double](bed_type) room for [one night](duration)
     - i am looking for room with [double](bed_type) bed for [1 day](duration)
+    - i need a [single](bed_type) room for [2 nights](duration)
+    - i want a [double](bed_type) room [3 days](duration)
+    - i am looking for [queen-size](bed_type) bed room for [5 days](duration)
+    - i am looking for room with [king](bed_type) bed for [1 day](duration)
 - intent: revise_area
   examples: |
     - i want another place, it is [san diego](area)
-    - i want another place, it's [fort lauderdale](area) [beach](area_type)
+    - i want different place, it's [fort lauderdale](area) [beach](area_type)
     - i have changed my mind, please select another place, it is [san diego](area)
     - can you change the area to [new york manhattan](area) please
     - i am looking for another area, in [new york](area) [manhattan](district) borough

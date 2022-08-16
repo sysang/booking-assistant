@@ -1,0 +1,61 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, faq
+Identity: ST1-query_hotel_room_07_chitchat_faq[20220816-151501-partial-colonnade][0816-2242]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what day would you like to stay on?
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+(BOT)   -> what day would you like to stay on?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 126 room(s) ranked by popularity for you:
+
+(USER)  what is bed type
+(BOT)   -> Bed types, such as Single, Double, Queen and King, refer to bed size.
+(BOT)   -> https://partner.booking.com/sites/default/files/inline-images/gorgeous-double-size-mattress-dimensions-twin-bed-dimensions-feet-bedding-design-ideas.jpg
+
+__________________________________________________________________  passed  _________
+
