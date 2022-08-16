@@ -148,7 +148,7 @@ async def search_rooms(
             order_by=bkinfo_orderby,
             currency=max_price.unit,
         )
-        hotels = hotels['result']
+        hotels = hotels.get('result', [])
     logger.info('[INFO] request_to_search_hotel, found %s results.', len(hotels))
 
     if bkinfo_orderby == SortbyDictionary.SORTBY_REVIEW_SCORE:
