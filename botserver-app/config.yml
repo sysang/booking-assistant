@@ -189,17 +189,17 @@ policies:
       label_action_text: 150  # default 128
     encoding_dimension: 64
     transformer_size:
-      text: 128
-      dialogue: 128
-      action_text: 128
-      label_action_text: 128
+      text: 64
+      dialogue: 64
+      action_text: 64
+      label_action_text: 64
     number_of_transformer_layers:
       text: 1
       dialogue: 1
       action_text: 1
       label_action_text: 1  # default 1
     number_of_attention_heads: 4  # default 4
-    embedding_dimension: 32  # default 20
+    embedding_dimension: 16  # default 20
     drop_rate_dialogue: 0.07  # default 0.1
     drop_rate_label: 0.0  # default 0.0
     drop_rate_attention: 0.0  # default 0.0
