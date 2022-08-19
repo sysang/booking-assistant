@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dialogue/booking/', include('chatroom.urls', namespace='booking')),
     path('dialogue/urls', views.urls, name='urls'),
+    path('dialogue/chatroom/', include('chatroom.urls', namespace='chatroom')),
 ]
 
 
