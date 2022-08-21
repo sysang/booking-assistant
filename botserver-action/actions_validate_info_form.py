@@ -19,6 +19,7 @@ from .booking_service import choose_location
 from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
 from .utils import DictUpdatingMemmQueue
+from .utils import parse_bkinfo_bed_type
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,7 @@ class ValidateBkinfoForm(FormValidationAction):
         )
         if not destination:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
-            return {slot_name: None}
+            return {slot_name: None, 'bkinfo_bed_type': None, 'bkinfo_district': None, 'bkinfo_region': None, 'bkinfo_country': None}
 
         if self.is_new(tracker, slot_name, slot_value):
             dest_label = destination.get('label', None)
@@ -145,6 +146,12 @@ class ValidateBkinfoForm(FormValidationAction):
         domain: DomainDict,) -> Dict[Text, Any]:
 
         slot_name = 'bkinfo_bed_type'
+
+        result = parse_bkinfo_bed_type(expression=slot_value)
+
+        if result.if_error('failed'):
+            dispatcher.utter_message(response='utter_ask_rephrase_bed_type')
+            return {slot_name: None}
 
         return {slot_name: slot_value}
 

@@ -1,0 +1,12 @@
+stories:
+# test diversity of ways to express bkinfo_bed_type
+- name: room for 2 person
+  steps:
+    - 'hi'
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'room for 2 person'
+    - '{amount-of-money}'
+

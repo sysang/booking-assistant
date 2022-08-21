@@ -29,9 +29,9 @@ nlu:
     - i need to book a hotel for a trip to [hanoi](area)
     - i need to book a hotel for a trip to [ho chi minh](area) [city](area_type)
     - i need to book a hotel for a trip to [bangkok](area) [thailand](country)
-    - i need to book a hotel for a trip to [paris](area)
-    - i need to book a hotel for a trip to [shanghai](area)
-    - i need to book a hotel for a trip to [berlin](area)
+    - i need to book a hotel for a my visit to [paris](area)
+    - i need to book a hotel for a my visit to [shanghai](area)
+    - i need to book a hotel for a my visit to [berlin](area)
     - i need a place to stay out in [hamburg](area) [city](area_type) [st. pauli](district) district
     - i need a place to stay out in [bejing](area), can you help
     - i need a place to stay out in [singapore](area), can you help
@@ -56,9 +56,10 @@ nlu:
     - can you help me find a place to stay in [são paulo](area)
     - i want to visit [seoul](area)
     - i want to visit [mumbai](area)
-    - i want to visit [shanghai](area)
-    - i want to visit [mexico](area) city
-    - i want to visit [guangzhou](area)
+    - i am going to visit [shanghai](area)
+    - i want to travel to [mexico](area) city(area_type)
+    - i'm going to travel to [hongkong](area), can you help
+    - i want to go to [guangzhou](area)
     - what are hotels in [cairo](area)
     - what are hotels in [beijing](area)
     - what are hotels in [new york](area) [city](area_type)
@@ -76,7 +77,7 @@ nlu:
     - i need to find a hotel in [west kinshasa](area) to stay
     - i need to find a hotel in [east shenzhen](area) for my stay
     - i need to find a hotel in [central bangalore](area) to stay
-    - list me hotels in [ho chi minh city](area)
+    - list me hotels in [ho chi minh](area) [city](area_type)
     - list me hotels in [tehran](area)
     - list me hotels in [los angeles](area)
     - list me hotels in [rio de janeiro](area)
@@ -148,10 +149,16 @@ nlu:
     - i want to book a room in [Star Lake Daewoo Tay Ho Luxury Apartment](area) [hotel](area_type)
     - i'm needing a place to stay in [new york](area) [city](area_type)
     - i'm looking for a hotel in [los angeles](area) [city](area_type)
-    - i want to book a room in [Houston](area) [city](area_type) [texas](region) state
+    - i want to book a room in [houston](area) [city](area_type) [texas](region) state
     - i’d like to make a reservation in [phoenix](area) [city](area_type), arizona
     - show me hotels in [philadelphia](area) [city](area_type) [pennsylvania](region) state
     - i need to find a hotel in [san antonio](area) [city](area_type) [texas](region) state
+    - are there are rooms available in [qatar](area) for the world cup?
+    - are there are rooms available in [dubai](area) [city](area_type) for my business trip?
+    - are there are rooms available in [phra nang](area) [beach](area_type) for my vacation?
+    - are there are rooms available in [uae](area) for my vacation?
+    - are there are rooms available in [new york](area) for my business trip?
+    - are there are rooms available in [mumbai](area) for my business trip?
 - intent: request_checkin_time
   examples: |
     - check-in time is on [monday](time)
@@ -255,7 +262,7 @@ nlu:
     - can you find me an place to stay that is located in [fort lauderdale](area) [beach](area_type) on [friday](time)
     - i'm looking for a hotel in [long](area) [bay](area_type), [saint-martin](country) on [september 5th](time)
     - can you tell us if there is a hotel in [haad rin](area), ko pha ngan on [monday](time)
-    - i am looking for an average priced place in [da lat](area) [city] on [june 29th](time). thankyou.
+    - i am looking for an average priced place in [da lat](area) [city](area_type) on [june 29th](time). thankyou.
     - i'm looking for a hotel in [district 1](district) [ho chi minh](area) starting from [saturday](time)
     - i'm looking for a hotel in [go vap](district) district [ho chi minh](area) [city](area_type)  on [friday](time)
     - i'm looking for a hotel in [district 3](district) [ho chi minh](area) on [september 6th](time)
@@ -273,7 +280,7 @@ nlu:
     - i am looking for an average priced place in [bullock down farm cottage](area), old town city, [east sussex](region) county, [united kingdom](country) on [november 8th](time)
     - i am looking for an average priced place in [old town](area) [city](area_type), [east sussex](region) county [united kingdom](country) on [november 9th](time)
     - i am looking for an average priced place in [bob bullock texas state history](area) [museum](area_type), austin, [texas](region), [united states](country) on [november 10th](time)
-    - i am looking for an average priced place in [bob bullock texas state history museum, austin](area), [texas](region), [united states](country) on [november 11th](time)
+    - i am looking for an average priced place in [bob bullock texas state history](area) [museum](area_type), austin city on [november 10th](time)
     - i am looking for an average priced place in [austin](area), [texas](region), [united states](country) on [november 12th](time)
     - i am looking for an average priced place in [austin](area) [city](area_type), [texas](region) state, [united states](country) on [november 13th](time)
     - i am looking for an average priced place in [essex](area), [connecticut](region), [us](country) on [november 14th](time)
@@ -349,14 +356,14 @@ nlu:
     - i have changed my mind, please select another place, it is [san diego](area)
     - can you change the area to [new york manhattan](area) please
     - i am looking for another area, in [new york](area) [manhattan](district) borough
-    - could you change the city to [austin](area) please
+    - could you change the [city](area_type) to [austin](area) please
     - change the area to [chicago](area)
     - change the place to [hamburg](area), [germany](country)
     - please change the place to [hamburg](area)
     - change the place to [stuttgart](area), [germany](country)
     - please change the place to [stuttgart](area)
     - please change the place to [downtown](district) borough [San Francisco](area) [city](area_type)
-    - please change the destination to [san francisco](city) [north point](district) district
+    - please change the destination to [san francisco](area) [north point](district) district
     - change destination to nearby [hamburg city center](district) district, [hamburg](area) [city](area_type)
     - change the place to around [hamburg](area) [airport](area_type), hamburg city
     - change searching area to nearby [hamburg central](area) [station](area_type), hamburg
@@ -366,7 +373,7 @@ nlu:
     - please change [hotel](area_type) to [adhi jaya sunset road](area)
     - please change [hotel](area_type) to [the fullerton](area)
     - i want another, please make a reservation in [singapore](country) [marriott tang plaza](area) [hotel](area_type)
-    - i want another, please make a reservation in [raffles](area) [singapore](area_type)
+    - i want another, please make a reservation in [raffles](area) [singapore](country)
     - i want another, please make a reservation in [marina bay sands](area) [hotel](area_type)
     - please change to [Star Lake Daewoo Tay Ho Luxury Apartment](area) [hotel](area_type)
 - intent: revise_checkin_time
@@ -494,6 +501,14 @@ nlu:
   examples: |
     - small double
     - large double
+    - 2 person
+    - 2 persons
+    - two person
+    - two persons
+    - 2 adult
+    - 2 adults
+    - two adult
+    - two adults
 - synonym: united states
   examples: |
     - united states of america
@@ -502,6 +517,9 @@ nlu:
 - synonym: united kingdom
   examples: |
     - uk
+- synonym: united arab emirates
+  examples: |
+    - uae
 - lookup: area_type
   examples: |
     - hotel

@@ -40,71 +40,21 @@ test:
 
 testall:
 	-rm -f botserver-app/tests/reports/current/*
-	make query_hotel_room_01_schema_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_02_sorting_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_03_chitchat_revisebkinfo_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_04_revise_invalid_bkinfo_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_05_donecollecting_revisebkinfo_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_06_jumpin_information_collecting_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_07_chitchat_faq_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_08_chitchat_smalltalk_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_09_chitchat_outofscope_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_10_chitchat_nlufallback_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_11_terminate_booking_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_12_execution_rejectedof_bkinfo_form_test model=$(M) endpoint=$(endpoint)
-	make query_hotel_room_13_bkinfo_area_nlu_test model=$(M) endpoint=$(endpoint)
-
-query_hotel_room_01_schema_test:
-	export testfile=query_hotel_room_01_schema; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_02_sorting_test:
-	export testfile=query_hotel_room_02_sorting; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_03_chitchat_revisebkinfo_test:
-	export testfile=query_hotel_room_03_chitchat_revisebkinfo; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_04_revise_invalid_bkinfo_test:
-	export testfile=query_hotel_room_04_revise_invalid_bkinfo; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_05_donecollecting_revisebkinfo_test:
-	export testfile=query_hotel_room_05_donecollecting_revisebkinfo; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_06_jumpin_information_collecting_test:
-	export testfile=query_hotel_room_06_jumpin_information_collecting; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_07_chitchat_faq_test:
-	export testfile=query_hotel_room_07_chitchat_faq; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_08_chitchat_smalltalk_test:
-	export testfile=query_hotel_room_08_chitchat_smalltalk; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_09_chitchat_outofscope_test:
-	export testfile=query_hotel_room_09_chitchat_outofscope; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_10_chitchat_nlufallback_test:
-	export testfile=query_hotel_room_10_chitchat_nlufallback; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_11_terminate_booking_test:
-	export testfile=query_hotel_room_11_terminate_booking; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_12_execution_rejectedof_bkinfo_form_test:
-	export testfile=query_hotel_room_12_execution_rejectedof_bkinfo_form; \
-	make test testfile=$$testfile model=$(M)
-
-query_hotel_room_13_bkinfo_area_nlu_test:
-	export testfile=query_hotel_room_13_bkinfo_area_nlu; \
-	make test testfile=$$testfile model=$(M)
+	make test testfile=query_hotel_room_01_schema model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_02_sorting model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_03_chitchat_revisebkinfo model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_04_revise_invalid_bkinfo model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_05_donecollecting_revisebkinfo model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_06_jumpin_information_collecting model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_07_chitchat_faq model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_08_chitchat_smalltalk model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_09_chitchat_outofscope model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_10_chitchat_nlufallback model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_11_terminate_booking model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_12_execution_rejectedof_bkinfo_form model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_13_bkinfo_area_nlu model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_14_bkinfo_price_nlu model=$(M) endpoint=$(endpoint)
+	make test testfile=query_hotel_room_15_bkinfo_bed_type model=$(M) endpoint=$(endpoint)
 
 copyaddons:
 	docker cp botserver-app/addons rasachatbot-rasa-production-1:/app

@@ -7,6 +7,7 @@ from .duckling_service import (
     parse_bkinfo_duration,
     parse_bkinfo_price,
 )
+from .utils import parse_bkinfo_bed_type
 
 from .service import query_available_rooms, query_room_by_id
 from .data_struture import BookingInfo
@@ -78,6 +79,10 @@ class FSMBotmemeBookingProgress():
 
         def validate_bkinfo_duration(self, value):
             result = parse_bkinfo_duration(expression=value)
+            return result.is_valid()
+
+        def validate_bkinfo_bed_type(self, value):
+            result = parse_bkinfo_bed_type(expression=value)
             return result.is_valid()
 
         def validate_bkinfo_price(self, value):

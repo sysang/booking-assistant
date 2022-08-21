@@ -118,6 +118,8 @@ def parse_bkinfo_duration(expression):
     dim_time = DIM_TIME
     units = [UNIT_DAY, UNIT_WEEK]
 
+    expression = expression.replace('night', 'day').replace('nights', 'days')
+
     result = duckling_parse(expression=expression, dims=dim_duration)
     parsed = None
     parsed_dim = None
@@ -288,11 +290,25 @@ def __test__parse_bkinfo_duration():
     print(result)
     assert result.error == None
 
+    expression = '2 night'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == None and result.value == 2 and result.unit == 'day'
+
+    expression = '3 nights'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_duration(expression)
+    print(result)
+    assert result.error == None and result.value == 3 and result.unit == 'day'
+
     expression = '2 weeks'
     print('\n[TEST] expression: ', expression)
     result = parse_bkinfo_duration(expression)
     print(result)
     assert result.error == None
+
+    print('\nAll done.')
 
 
 def __test__parse_bkinfo_price():
@@ -319,7 +335,51 @@ def __test__parse_bkinfo_price():
     print('\n[TEST] expression: ', expression)
     result = parse_bkinfo_price(expression)
     print(result)
-    assert result.error == None
+    assert result.error == None and result.value == 100 and result.unit == 'EUR'
+
+    expression = '100eur'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 100 and result.unit == 'EUR'
+
+    expression = '2001 krw'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 2001 and result.unit == 'KRW'
+
+    expression = '2001krw'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 2001 and result.unit == 'KRW'
+
+    expression = '5000 jpy/night'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 5000 and result.unit == 'JPY'
+
+    expression = '5000jpy/night'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 5000 and result.unit == 'JPY'
+
+    expression = '5000 jpy per night'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 5000 and result.unit == 'JPY'
+
+    expression = '5000jpy per night'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_price(expression)
+    print(result)
+    assert result.error == None and result.value == 5000 and result.unit == 'JPY'
+
+    print('\nAll done.')
 
 
 """

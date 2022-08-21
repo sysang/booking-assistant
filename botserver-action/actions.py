@@ -659,10 +659,19 @@ class botacts_utter_revised_bkinfo(Action):
         search_result_flag = slots.get('search_result_flag')
         additional = {}
 
+        def apply_change(slot_name, slot_name_revised, slot_value_revised):
+            response = f'utter_revised_{slot_name}'
+            dispatcher.utter_message(response=response)
+
+            events.append(SlotSet(slot_name, slot_value_revised))
+            events.append(SlotSet(slot_name_revised, None))
+            additional[slot_name_revised] = None
+
+
         """
         Results:
             - reflex the changes to bkinfo
-            - reset bkinfo_district, bkinfo_region, bkinfo_country if bkinfo_area is in revision
+            - set bkinfo_district, bkinfo_region, bkinfo_country if bkinfo_area is in revision
             - reset the revised bkinfo
             - inform user
         """
@@ -670,19 +679,40 @@ class botacts_utter_revised_bkinfo(Action):
             slot_name_revised = f"{slot_name}_revised"
             slot_value_revised = slots.get(slot_name_revised, None)
             slot_value_current = slots.get(slot_name, None)
-            if slot_value_revised and slot_value_revised != slot_value_current:
-                response = f'utter_revised_{slot_name}'
-                dispatcher.utter_message(response=response)
 
-                events.append(SlotSet(slot_name, slot_value_revised))
+            if slot_name == 'bkinfo_area':
+                bkinfo_area_type = slots.get('bkinfo_area_type', None)
+                bkinfo_country = slots.get('bkinfo_country', None)
+                bkinfo_region = slots.get('bkinfo_region', None)
+                bkinfo_district = slots.get('bkinfo_district', None)
+                bkinfo_area_type_revised = slots.get('bkinfo_area_type_revised', None)
+                bkinfo_country_revised = slots.get('bkinfo_country_revised', None)
+                bkinfo_region_revised = slots.get('bkinfo_region_revised', None)
+                bkinfo_district_revised = slots.get('bkinfo_district_revised', None)
 
-                events.append(SlotSet(slot_name_revised, None))
-                additional[slot_name_revised] = None
+                if (slot_value_revised and
+                    (
+                        slot_value_revised != slot_value_current
+                        or (bkinfo_area_type_revised and bkinfo_area_type_revised != bkinfo_area_type)
+                        or (bkinfo_country_revised and bkinfo_country_revised != bkinfo_country)
+                        or (bkinfo_region_revised and bkinfo_region_revised != bkinfo_region)
+                        or (bkinfo_district_revised and bkinfo_district_revised != bkinfo_district)
+                    )):
+                        apply_change(slot_name=slot_name, slot_name_revised=slot_name_revised, slot_value_revised=slot_value_revised)
 
-                if slot_name == 'bkinfo_area':
-                    events.append(SlotSet('bkinfo_district', None))
-                    events.append(SlotSet('bkinfo_region', None))
-                    events.append(SlotSet('bkinfo_country', None))
+                        events.append(SlotSet('bkinfo_area_type', bkinfo_area_type_revised))
+                        events.append(SlotSet('bkinfo_country', bkinfo_country_revised))
+                        events.append(SlotSet('bkinfo_region', bkinfo_region_revised))
+                        events.append(SlotSet('bkinfo_district', bkinfo_district_revised))
+
+                        events.append(SlotSet('bkinfo_area_type_revised', None))
+                        events.append(SlotSet('bkinfo_country_revised', None))
+                        events.append(SlotSet('bkinfo_region_revised', None))
+                        events.append(SlotSet('bkinfo_district_revised', None))
+
+            else:
+                if slot_value_revised and slot_value_revised != slot_value_current:
+                    apply_change(slot_name=slot_name, slot_name_revised=slot_name_revised, slot_value_revised=slot_value_revised)
 
         if search_result_flag == 'available':
             events.append(SlotSet('search_result_flag', 'updating'))

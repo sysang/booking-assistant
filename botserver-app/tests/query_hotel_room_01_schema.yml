@@ -21,11 +21,13 @@ stories:
 - name: Form is filled after validating wrong inputs, then show room list
   steps:
     - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area_invalid}'
     - 'i need to book a hotel for a trip to {area}'
     - '{time_invalid}'
     - '{time}'
     - '{duration_invalid}'
     - '{duration}'
+    - 'I want a {bed_type_invalid} bed room'
     - 'I want a {bed_type} bed room'
     - '{amount-of-money_invalid}'
     - '{amount-of-money}'

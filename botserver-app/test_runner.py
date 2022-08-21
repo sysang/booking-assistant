@@ -45,10 +45,12 @@ def load_data(testfile):
 
 testing_data = {
     'area': 'bangkok',
+    'area_invalid': 'jurong east station',
     'time': 'september 5th',
     'duration': '3 days',
     'time_duration': 'from september 5th to september 8th',
     'bed_type': 'single',
+    'bed_type_invalid': 'doubled',
     'amount-of-money': '500 usd',
     'time_invalid': '01/06/2022',
     'duration_invalid': '23 hours',

@@ -48,7 +48,7 @@ responses:
     - text: "what price per night you would you prefer?"
 
   utter_ask_valid_bkinfo_area:
-    - text: "I could not find any possible location, please provide more precise information."
+    - text: "I could not find any possible location, please try different name."
 
   utter_ask_rephrase_checkin_time:
     - text: "I can not understand check-in time, could you rephrase it?"
@@ -61,6 +61,9 @@ responses:
 
   utter_ask_valid_bkinfo_duration:
     - text: "Please provide reservation duration length in day or week."
+
+  utter_ask_rephrase_bed_type:
+    - text: "I'm not so sure about the bed type you provided, it could be one of twin, single, double, king or queen type."
 
   utter_ask_valid_bkinfo_price:
     - text: "Please provide positive number and correct currency code. If you're not sure you can take this reference: https://www.iban.com/currency-codes"

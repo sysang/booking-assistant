@@ -14,6 +14,7 @@ from functools import reduce
 from requests import get
 
 from .redis_service import set_cache, get_cache
+from .duckling_service import ParseResult
 
 
 DATE_FORMAT = 'YYYY-MM-DD'
@@ -83,6 +84,17 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
                 mapped_slots[slot_name] = entity.get('value')
 
     return mapped_slots
+
+
+def parse_bkinfo_bed_type(expression):
+    VALID_BED_TYPES = ['twin', 'single', 'double', 'king', 'queen']
+
+    if expression not in VALID_BED_TYPES:
+        error = ParseResult.error_names['failed']
+        return ParseResult(error=error, value=None)
+
+
+    return ParseResult(value=expression, parsed=expression, error=None)
 
 
 def get_room_by_id(room_id, search_result):
@@ -358,3 +370,18 @@ def __test__slots_for_entities():
     assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
 
     print('[PASSED]')
+
+def __test__parse_bkinfo_bed_type():
+    expression = 'double edged'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_bed_type(expression)
+    print(result)
+    assert result.error == 'failed'
+
+    expression = 'king'
+    print('\n[TEST] expression: ', expression)
+    result = parse_bkinfo_bed_type(expression)
+    print(result)
+    assert result.error == None and result.value == 'king'
+
+    print('\nAll done.')

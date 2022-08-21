@@ -1,0 +1,20 @@
+stories:
+# test diversity of ways to express bkinfo_price
+- name: 500eur/night
+  steps:
+    - 'hi'
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '500eur/night'
+
+- name: 12000thb per night
+  steps:
+    - 'Could you help me search for a hotel?'
+    - 'i need to book a hotel for a trip to {area}'
+    - '{time}'
+    - '{duration}'
+    - 'I want a {bed_type} bed room'
+    - '12000thb per night'

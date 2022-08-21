@@ -1,8 +1,9 @@
 stories:
-- name: Form is filled, then show room list
+- name: Revise invalid information
   steps:
     - 'Could you help me search for a hotel?'
     - 'i need to book a hotel for a trip to hamburg'
+    - 'please change the place to {area_invalid}'
     - 'please change the place to {area}'
     - 'september 6th'
     - 'please change check in time to  10/10/2010'
@@ -10,6 +11,6 @@ stories:
     - '10 days'
     - 'my mistake i actually want to stay in 2 hours'
     - 'i want to change my staying to {duration}'
-    - 'I want a queen bed room'
-    - 'sorry, could you change bed type to {bed_type}'
+    - 'I want a {bed_type} bed room'
+    - 'sorry, could you change bed type to {bed_type_invalid}'
     - '{amount-of-money}'

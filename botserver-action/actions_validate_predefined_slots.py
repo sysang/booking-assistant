@@ -18,6 +18,7 @@ from .booking_service import choose_location
 from .utils import calc_time_distance_in_days
 from .utils import SUSPICIOUS_CHECKIN_DISTANCE
 from .utils import DictUpdatingMemmQueue
+from .utils import parse_bkinfo_bed_type
 
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,11 @@ class ValidatePredefinedSlots(ValidationAction):
         return DictUpdatingMemmQueue(data=old_slot).retrieve(key=slot_name)
 
     def if_changed_by_botacts_utter_revised_bkinfo(self, tracker):
+        """
+            hacking, to work around problem gave by validating action
+            it recovers old value from being updated by SlotSet event
+            (it prevents SlotSet event take effect)
+        """
         return tracker.latest_action_name == 'botacts_utter_revised_bkinfo'
 
     def validate_bkinfo_area_revised(
@@ -42,20 +48,18 @@ class ValidatePredefinedSlots(ValidationAction):
         domain: DomainDict,) -> Dict[Text, Any]:
 
         slot_name = 'bkinfo_area_revised'
-
         slots = tracker.slots
+
+        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
+
         destination = choose_location(
-            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type'), bkinfo_district=slots.get('bkinfo_district'),
-            bkinfo_region=slots.get('bkinfo_region'), bkinfo_country=slots.get('bkinfo_country'),
+            bkinfo_area=slot_value, bkinfo_area_type=slots.get('bkinfo_area_type_revised'), bkinfo_district=slots.get('bkinfo_district_revised'),
+            bkinfo_region=slots.get('bkinfo_region_revised'), bkinfo_country=slots.get('bkinfo_country_revised'),
         )
         if not destination:
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_area')
-            return {slot_name: None}
-
-        # hacking, to work around problem gave by validating action
-        # it recovers old value from being update by SlotSet event
-        if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
-            return {slot_name: None}
+            return {slot_name: None, 'bkinfo_bed_type_revised': None, 'bkinfo_district_revised': None, 'bkinfo_region_revised': None, 'bkinfo_country_revised': None}
 
         return {slot_name: slot_value}
 
@@ -79,7 +83,7 @@ class ValidatePredefinedSlots(ValidationAction):
 
         if result.if_error('invalid_checkin_time'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_checkin_time')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         return {slot_name: slot_value}
 
@@ -99,7 +103,7 @@ class ValidatePredefinedSlots(ValidationAction):
 
         if result.if_error('failed'):
             dispatcher.utter_message(response='utter_ask_rephrase_duration')
-            return {slot_name: self.old_slot_value(tracker, slot_name)}
+            return {slot_name: None}
 
         if result.if_error('invalid_bkinfo_duration'):
             dispatcher.utter_message(response='utter_ask_valid_bkinfo_duration')
@@ -122,6 +126,14 @@ class ValidatePredefinedSlots(ValidationAction):
         slot_name = 'bkinfo_bed_type_revised'
 
         if self.if_changed_by_botacts_utter_revised_bkinfo(tracker):
+            return {slot_name: None}
+
+        result = parse_bkinfo_bed_type(expression=slot_value)
+
+        logger.info('[DEV] validate_bkinfo_price_revised: %s', result)
+        if result.if_error('failed'):
+            logger.info('[DEV] validate_bkinfo_price_revised -> failed')
+            dispatcher.utter_message(response='utter_ask_rephrase_bed_type')
             return {slot_name: None}
 
         return {slot_name: slot_value}
