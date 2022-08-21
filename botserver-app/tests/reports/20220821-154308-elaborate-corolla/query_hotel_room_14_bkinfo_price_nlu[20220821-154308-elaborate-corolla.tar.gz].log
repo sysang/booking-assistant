@@ -1,0 +1,67 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: 500eur/night
+Identity: ST1-query_hotel_room_14_bkinfo_price_nlu[20220821-154308-elaborate-corolla][0821-2322]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  hi
+(BOT)   -> Hey there! I am virtual booking assistant. How may I help you?
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> Which bed type would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  500eur/night
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 112 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+
+
+_____  STORY  ______________________________________________________________________
+
+Name: 12000thb per night
+Identity: ST2-query_hotel_room_14_bkinfo_price_nlu[20220821-154308-elaborate-corolla][0821-2322]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what is the exact date of your arrival?
+
+(USER)  september 5th
+(BOT)   -> How many days would you like the room for?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  12000thb per night
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 115 room(s) ranked by popularity for you:
+
+__________________________________________________________________  passed  _________
+

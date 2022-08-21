@@ -1,0 +1,55 @@
+
+_____  STORY  ______________________________________________________________________
+
+Name: when information is being collected, out_of_scope
+Identity: ST1-query_hotel_room_09_chitchat_outofscope[20220821-154308-elaborate-corolla][0821-2321]
+- - -  --- - --- - - - - - - - - - ------- -- - - -- - - -- ---- -- -- - -- ----- ---
+
+
+(USER)  Could you help me search for a hotel?
+(BOT)   -> My job is to help you to quickly find a suitable hotel.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> What place would you like to stay in?
+
+(USER)  i need to book a hotel for a trip to bangkok
+(BOT)   -> I thought the place would be "Bangkok, Bangkok Province, Thailand". If it is not what you meant please revise your request.
+(BOT)   -> https://cf.bstatic.com/xdata/images/city/150x150/620027.jpg?k=3e415bb694a1a0145529dad3242573d0d52364bc57bae824b5990bf9c2fabc04&o=
+(BOT)   -> what day would you like to stay on?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> When will you need the accommodations?
+
+(USER)  september 5th
+(BOT)   -> How long will you be staying?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> How long will you be staying?
+
+(USER)  3 days
+(BOT)   -> What kind of room would you like?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> What kind of room would you like?
+
+(USER)  I want a single bed room
+(BOT)   -> what price per night you are looking for?
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+(BOT)   -> what price per night you would you prefer?
+
+(USER)  500 usd
+(BOT)   -> I'm searching, it takes for a while...
+(BOT)   -> I've found 131 room(s) ranked by popularity for you:
+
+(USER)  Wie fange ich mit Rasa an?
+(BOT)   -> I only understand English, I'm sorry.
+
+__________________________________________________________________  passed  _________
+

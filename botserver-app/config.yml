@@ -60,7 +60,7 @@ pipeline:
   - name: DIETClassifier
     intent_classification: True
     entity_recognition: True
-    epochs: 531
+    epochs: 553
     learning_rate: 1e-3
     batch_size: [128, 512]  # default [64, 256]
     constrain_similarities: true
@@ -98,20 +98,20 @@ pipeline:
     concat_dimension:
       text: 512
       label: 512
-    transformer_size: 128
-    number_of_transformer_layers: 1
+    transformer_size: 256
+    number_of_transformer_layers: 2
     number_of_attention_heads: 4
     use_masked_language_model: true
     embedding_dimension: 20
-    drop_rate: 0.2
-    drop_rate_attention: 0.1
+    drop_rate: 0.25
+    drop_rate_attention: 0.25
     use_key_relative_attention: false
     use_value_relative_attention: false
-    number_of_negative_examples: 31
+    number_of_negative_examples: 501
     similarity_type: auto
   - name: FallbackClassifier
-    threshold: 0.35
-    ambiguity_threshold: 0.25
+    threshold: 0.47
+    ambiguity_threshold: 0.35
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
@@ -127,53 +127,13 @@ policies:
     restrict_rules: true
     check_for_contradictions: true
   - name: UnexpecTEDIntentPolicy
-    tolerance: 0.83
+    tolerance: 0.67
     max_history: 2
-    learning_rate: 1e-4  # default 1e-3
+    learning_rate: 1.3e-3  # default 1e-3
     epochs: 501
     constrain_similarities: true
     model_confidence: softmax
-    batch_size: [32, 128]  # default [32, 256]
-    connection_density: 0.75  # default 0.2
-    dense_dimension:
-      text: 128  # default 128
-      intent: 24  # default 20
-      action_name: 24
-      label_intent: 24
-      entities: 12
-      slots: 12
-      active_loop: 12
-    concat_dimension:
-      text: 50
-      action_text: 50
-      label_action_text: 50  # default 128
-    encoding_dimension: 32
-    transformer_size:
-      text: 128
-      dialogue: 128
-      action_text: 128
-      label_action_text: 128
-    number_of_transformer_layers:
-      text: 2
-      dialogue: 2
-      action_text: 2
-      label_action_text: 2  # default 1
-    number_of_attention_heads: 16
-    embedding_dimension: 20  # default 20
-    drop_rate_dialogue: 0.1  # default 0.1
-    drop_rate_label: 0.1  # default 0.0
-    drop_rate_attention: 0.1 # default 0.0
-    renormalize_confidences: True  # default False
-    number_of_negative_examples: 701  # default 20
-    maximum_positive_similarity: 0.85  # default 0.8
-    maximum_negative_similarity: -0.35  # default -0.2
-  - name: TEDPolicy
-    max_history: 1
-    learning_rate: 1.3e-3  # default 1e-3
-    epochs: 1023
-    constrain_similarities: true
-    model_confidence: softmax
-    batch_size: [256, 256]  # default [32, 256]
+    batch_size: [241, 249]  # default [32, 256]
     connection_density: 0.61  # default 0.2
     dense_dimension:
       text: 256  # default 128
@@ -185,11 +145,51 @@ policies:
       active_loop: 64
     concat_dimension:
       text: 150
-      action_text: 150
-      label_action_text: 150  # default 128
+      action_text: 128
+      label_action_text: 128  # default 128
     encoding_dimension: 64
     transformer_size:
-      text: 64
+      text: 80
+      dialogue: 64
+      action_text: 64
+      label_action_text: 64
+    number_of_transformer_layers:
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2  # default 1
+    number_of_attention_heads: 2
+    embedding_dimension: 12  # default 20
+    drop_rate_dialogue: 0.08  # default 0.1
+    drop_rate_label: 0.0  # default 0.0
+    drop_rate_attention: 0.0 # default 0.0
+    renormalize_confidences: True  # default False
+    number_of_negative_examples: 201  # default 20
+    maximum_positive_similarity: 0.80  # default 0.8
+    maximum_negative_similarity: -0.12  # default -0.2
+  - name: TEDPolicy
+    max_history: 1
+    learning_rate: 1.3e-3  # default 1e-3
+    epochs: 2047
+    constrain_similarities: true
+    model_confidence: softmax
+    batch_size: [241, 249]  # default [32, 256]
+    connection_density: 0.61  # default 0.2
+    dense_dimension:
+      text: 256  # default 128
+      intent: 64  # default 20
+      action_name: 64
+      label_intent: 64
+      entities: 48
+      slots: 48
+      active_loop: 64
+    concat_dimension:
+      text: 150
+      action_text: 128
+      label_action_text: 128  # default 128
+    encoding_dimension: 64
+    transformer_size:
+      text: 80
       dialogue: 64
       action_text: 64
       label_action_text: 64
@@ -199,12 +199,12 @@ policies:
       action_text: 2
       label_action_text: 2  # default 1
     number_of_attention_heads: 2  # default 4
-    embedding_dimension: 10  # default 20
-    drop_rate_dialogue: 0.12  # default 0.1
+    embedding_dimension: 12  # default 20
+    drop_rate_dialogue: 0.08  # default 0.1
     drop_rate_label: 0.0  # default 0.0
     drop_rate_attention: 0.0  # default 0.0
     renormalize_confidences: True  # default False
-    number_of_negative_examples: 43  # default 20
+    number_of_negative_examples: 61  # default 20
     maximum_positive_similarity: 0.80  # default 0.8
     maximum_negative_similarity: -0.12  # default -0.2
     tensorboard_log_directory: './tensorboard/current'
