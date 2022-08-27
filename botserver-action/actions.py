@@ -212,7 +212,7 @@ class botacts_search_hotel_rooms(Action):
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
         bkinfo = botmemo_booking_progress.form
 
-        web_channels = ['socketio', 'rasa', 'chatwoot']
+        web_channels = ['socketio', 'rasa', 'cwwebsite']
 
         limit_num = 5 if channel == 'facebook' else 2 if channel in web_channels else 1
 
