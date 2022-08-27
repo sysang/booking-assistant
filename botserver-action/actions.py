@@ -212,7 +212,9 @@ class botacts_search_hotel_rooms(Action):
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
         bkinfo = botmemo_booking_progress.form
 
-        limit_num = 5 if channel == 'facebook' else 2 if channel in ['socketio', 'rasa'] else 1
+        web_channels = ['socketio', 'rasa', 'chatwoot']
+
+        limit_num = 5 if channel == 'facebook' else 2 if channel in web_channels else 1
 
 
         if bkinfo_orderby:
@@ -345,33 +347,33 @@ class botacts_search_hotel_rooms(Action):
                     })
 
                     fb_elements.append({
-                        'title': '{room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}'.format(**data),
-                        'subtitle': '{hotel_name}. Score: {review_score}. Address: {address}, {nearest_beach_name}'.format(**data),
+                        'title': '{room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}'.format(**data),
+                        'subtitle': '❖ {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {nearest_beach_name}'.format(**data),
                         'buttons': fb_buttons,
                     })
 
-                elif channel in ['socketio', 'rasa']:
-                    room_description = "#{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}." . format(**data)
+                elif channel in web_channels:
+                    room_description = "⚑ {room_display_index}: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}." . format(**data)
                     room_photos = "To view room photos: \n{photos_url}" . format(**data)
-                    hotel_descrition = "More information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
-                    # button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
+                    hotel_descrition = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    # button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     button = { "title": room_description, "payload": btn_payload}
 
                     # dispatcher.utter_message(text=room_description, buttons=[button])
-                    dispatcher.utter_message(text='.....'.format(**data), buttons=[button])
+                    dispatcher.utter_message(text='♫ ♫ ♫'.format(**data), buttons=[button])
                     dispatcher.utter_message(text=room_photos)
                     dispatcher.utter_message(text=hotel_descrition, image=room['hotel_photo_url'])
 
                 elif channel=='telegram':
-                    hotel_descrition = "More information: {hotel_name}. Review score: {review_score}. Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_descrition = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
-                    button = { "title": 'Pick Room #{room_display_index}'.format(**data), "payload": btn_payload}
+                    button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
 
                     if photos_presentation_url:
-                        room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}. To view room photos: \n{photos_url}" . format(**data)
+                        room_description = "Room ⚑ {room_display_index}: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}. To view room photos: \n{photos_url}" . format(**data)
                     else:
-                        room_description = "Room #{room_display_index}: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+                        room_description = "Room ⚑ {room_display_index}: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}" . format(**data)
 
                     dispatcher.utter_message(text=room_description)
 
@@ -393,9 +395,9 @@ class botacts_search_hotel_rooms(Action):
                 'next': paginate_button_payload(page_number=next_page, bkinfo_orderby=bkinfo_orderby) if remains != 0 else None,
                 'prev': paginate_button_payload(page_number=prev_page, bkinfo_orderby=bkinfo_orderby) if page_number > 1 else None,
             }
-            prev_button_title = 'back {limit_num} rooms'.format(**query)
+            prev_button_title = '❮❮ previous {limit_num} rooms'.format(**query)
             prev_button_payload = '/{intent}{prev}'.format(**query)
-            next_button_title = 'see more {remains} room(s)'.format(**query)
+            next_button_title = '❯❯ next {remains} room(s)'.format(**query)
             next_button_payload = '/{intent}{next}'.format(**query)
 
             if channel == 'facebook':
@@ -408,7 +410,7 @@ class botacts_search_hotel_rooms(Action):
                     fb_buttons.append({'title': next_button_title, 'payload': next_button_payload, 'type': 'postback'})
                 dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=fb_buttons)
 
-            elif channel in ['socketio', 'rasa']:
+            elif channel in web_channels:
                 buttons = []
                 if query.get('prev'):
                     buttons.append({'title': prev_button_title, 'payload': prev_button_payload})
@@ -473,7 +475,7 @@ class botacts_confirm_room_selection(Action):
         'room_min_price': room['min_price'],
         'room_price_currency': room['price_currency'],
     }
-    room_description = "Room details: {room_name}, {room_bed_type}, {room_min_price:.2f} {room_price_currency}" . format(**data)
+    room_description = "Room details: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}" . format(**data)
 
     dispatcher.utter_message(
         response="utter_room_selection",

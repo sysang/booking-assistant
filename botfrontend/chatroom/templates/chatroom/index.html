@@ -20,18 +20,23 @@
         (e.src = "{% static 'chatroom/js/rasa-webchat.min.js' %}"),
         (e.async = !0),
         (e.onload = () => {
-          window.WebChat.default(
-            {
-              customData: { language: "en" },
-              socketUrl: "{{ socketUrl }}",
-              // add other props here
-            },
-            null
-          );
+            window.WebChat.default({
+                 socketUrl: "{{ socketUrl }}",
+                // add other props here
+                <!-- customData:{language:"en"}, -->
+                <!-- socketUrl:"ws://192.168.58.7:3000/cable", -->
+                <!-- protocol: 'sockcw', -->
+                <!-- withRules: true, -->
+                <!-- protocolOptions:{ -->
+                <!--     inboxIdentifier: "oqaHvF8Pn6jFig9mhxE4YiD5", -->
+                <!--     chatwootAPIUrl: "http://192.168.58.7:3000/public/api/v1/", -->
+                <!-- }, -->
+            }, null);
         }),
         t.insertBefore(e, t.firstChild);
       })();
     </script>
+
     <div id="page" style="height: 100%;">
         <div class="header-container" style="height: 100%;">
             <header id="header" style="background-image:url({% static 'chatroom/asset/hotel_header_image.jpg'%}); height: 100%;">
@@ -69,7 +74,7 @@
                                         <div class="header-desc-inner-wrapper">
                                             <h1 class="header-hotel-name">Digital Booking Assistant</h1>
                                             <p class="header-hotel-desc">
-                                                To help to find you next stay
+                                                To help to find your next stay
                                             </p>
                                             <hr class="heasder-desc-hr-second">
                                         </div>
