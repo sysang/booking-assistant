@@ -1,4 +1,5 @@
 import requests
+import json
 
 from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn, List, Iterable
 
@@ -10,7 +11,7 @@ class CwwebsiteOutput:
         """Every output channel needs a name to identify it."""
         return cls.__name__
 
-    async def send_response(self, message: Dict[Text, Any]) -> None:
+    async def send_response(self, recipient_id: Text, message: Dict[Text, Any]) -> None:
         """Send a message to the client."""
 
         if message.get("quick_replies"):

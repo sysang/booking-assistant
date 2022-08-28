@@ -1,7 +1,6 @@
 import asyncio
 import inspect
 import logging
-import json
 
 from sanic import Sanic, Blueprint, response
 from sanic.request import Request
@@ -55,10 +54,10 @@ class ChatwootInput(InputChannel):
         out_channel = None
         if channel == 'cwwebsite':
             out_channel = CwwebsiteOutput(
-                chatwoot_url=cfg.chatwoot_url,
-                bot_token=cfg.bot_token,
-                botagent_account_id=cfg.botagent_account_id,
-                conversation_id=kwargs.conversation_id,
+                chatwoot_url=self.chatwoot_url,
+                bot_token=cfg.get("bot_token"),
+                botagent_account_id=cfg.get("botagent_account_id"),
+                conversation_id=kwargs.get("conversation_id"),
             )
 
         return out_channel
@@ -74,19 +73,21 @@ class ChatwootInput(InputChannel):
         )
 
         async def handler(request: Request) -> HTTPResponse:
-            cfg = getattr(self, request.ctx.configuration_name)
+            cfg = getattr(self, request.route.ctx.configuration_name)
             message = request.json
+            logger.info('[DEV] message: %s', message)
             metadata = self.get_metadata(request)
 
             if self._check_should_proceed_message(message):
                 sender = message.get("sender", {})
                 sender_id = sender.get('id', None)
                 content = message.get("content", None)
+                conversation = message.get('conversation', {})
                 conversation_id = conversation.get('id', None)
 
-                input_channel = cfg.sub_channel
+                input_channel = cfg.get("sub_channel")
                 collector = CollectingOutputChannel()
-                out_channel = self.select_output_channel(
+                output_channel = self.select_output_channel(
                     channel=input_channel,
                     cfg=cfg,
                     conversation_id=conversation_id,
@@ -98,23 +99,20 @@ class ChatwootInput(InputChannel):
                             UserMessage(
                                 text=content,
                                 input_channel=input_channel,
-                                output_channel=collector,
+                                output_channel=output_channel,
                                 sender_id=sender_id,
                                 metadata=metadata,
                             )
                         )
 
-                        for message in collector.messages:
-                            await out_channel.send_response(message)
+                        # for message in collector.messages:
+                        #     await output_channel.send_response(message)
 
                     except CancelledError:
                         logger.error(
-                            f"Message handling timed out for " f"user message '{text}'."
-                        )
+                                f"Message handling timed out for message: %s", message)
                     except Exception:
-                        logger.exception(
-                            f"An exception occured while handling "
-                            f"user message '{text}'.")
+                        logger.exception(f"An exception occured while handling message: %s", message)
 
             return response.text("", status=204)
 

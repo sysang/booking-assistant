@@ -21,16 +21,14 @@
         (e.async = !0),
         (e.onload = () => {
             window.WebChat.default({
-                 socketUrl: "{{ socketUrl }}",
-                // add other props here
-                <!-- customData:{language:"en"}, -->
-                <!-- socketUrl:"ws://192.168.58.7:3000/cable", -->
-                <!-- protocol: 'sockcw', -->
-                <!-- withRules: true, -->
-                <!-- protocolOptions:{ -->
-                <!--     inboxIdentifier: "oqaHvF8Pn6jFig9mhxE4YiD5", -->
-                <!--     chatwootAPIUrl: "http://192.168.58.7:3000/public/api/v1/", -->
-                <!-- }, -->
+                customData:{language:"en"},
+                socketUrl:"ws://cs.rasachatbot.sysang/cable",
+                protocol: 'sockcw',
+                withRules: true,
+                protocolOptions:{
+                    inboxIdentifier: "8pcVNHNn5Nc1cYZy1kGSsXjG",
+                    chatwootAPIUrl: "http://cs.rasachatbot.sysang/public/api/v1/",
+                },
             }, null);
         }),
         t.insertBefore(e, t.firstChild);

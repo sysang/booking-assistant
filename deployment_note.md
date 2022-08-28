@@ -66,3 +66,14 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 - issue: https://github.com/RasaHQ/rasa/issues/11061
 - advise: https://github.com/RasaHQ/rasa/issues/11061#issuecomment-1119870053
 - `nvim /opt/venv/lib/python3.8/site-packages/rasa/shared/constants.py`, DEFAULT_SESSION_EXPIRATION_TIME_IN_MINUTES -> False
+
+# chatwoot
+- Be for running `docker compose up -d` prepare the database by running the migrations by `docker compose run --rm rails bundle exec rails db:chatwoot_prepare`
+- Access Rails console, `docker exec -it chatwoot_rails_1 bundle exec rails c`
+- (optional) `chmod 777 -R mounts/cw/storage`
+- (optional) `chmod 777 -R mounts/cwdb`
+- (optional) `rm -rf mounts/cwdb/*`
+- Add AgentBot: https://www.chatwoot.com/docs/product/others/agent-bots
+> `bot = AgentBot.create!(name:"Rasa Chatbot", outgoing_url:"http://rasachatbot.sysang/webhooks/chatwoot/cwwebsite")`
+> `bot.access_token.token`
+> `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`

@@ -3,9 +3,9 @@ version: "3.4"
 x-database-credentials: &database-credentials
   DB_HOST: "db"
   DB_PORT: "5432"
-  DB_USER: "${DB_USER:-admin}"
+  DB_USER: "${DB_USER}"
   DB_PASSWORD: "${DB_PASSWORD}"
-  DB_LOGIN_DB: "${DB_LOGIN_DB:-rasa}"
+  DB_LOGIN_DB: "${DB_DATABASE}"
 
 x-rabbitmq-credentials: &rabbitmq-credentials
   RABBITMQ_HOST: "rabbit"
@@ -37,7 +37,7 @@ x-rasax-credentials: &rasax-credentials
   JWT_SECRET: ${JWT_SECRET}
   RASA_USER_APP: "http://action-server:5055"
   RASA_PRODUCTION_HOST: "http://rasa-production:5005"
-  RASA_WORKER_HOST: "http://rasa-worker:5005"
+  # RASA_WORKER_HOST: "http://rasa-worker:5005"
   RASA_TOKEN: ${RASA_TOKEN}
 
 x-rasa-credentials: &rasa-credentials
@@ -94,8 +94,8 @@ services:
       <<: *database-credentials
       <<: *rasa-credentials
       SELF_PORT: "5002"
-      DB_DATABASE: "${DB_DATABASE:-rasa}"
       RASA_MODEL_DIR: "/app/models"
+      DB_DATABASE: "${DB_DATABASE}"
       PASSWORD_SALT: ${PASSWORD_SALT}
       RABBITMQ_QUEUE: "rasa_production_events"
       RASA_X_USER_ANALYTICS: "0"
@@ -119,6 +119,7 @@ services:
       - "8000"
     environment:
       <<: *database-credentials
+      DB_DATABASE: "${DB_DATABASE}"
       RUN_DATABASE_MIGRATION_AS_SEPARATE_SERVICE: "true"
       MPLCONFIGDIR: "/tmp/.matplotlib"
     depends_on:
@@ -135,14 +136,16 @@ services:
       MPLCONFIGDIR: "/tmp/.matplotlib"
       RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
 
-  rasa-worker:
-    <<: *default-rasa-service
-    environment:
-      <<: *rasa-credentials
-      RASA_ENVIRONMENT: "worker"
-      DB_DATABASE: "worker_tracker"
-      MPLCONFIGDIR: "/tmp/.matplotlib"
-      RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
+  # rasa-worker:
+  #   <<: *default-rasa-service
+  #   volumes:
+  #     - ./botserver-app/addons:/app/addons
+  #   environment:
+  #     <<: *rasa-credentials
+  #     RASA_ENVIRONMENT: "worker"
+  #     DB_DATABASE: "worker_tracker"
+  #     MPLCONFIGDIR: "/tmp/.matplotlib"
+  #     RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
   #   deploy:
   #     resources:
   #       reservations:
@@ -177,11 +180,11 @@ services:
     restart: on-failure:5
     image: "bitnami/postgresql:11.9.0"
     expose:
-      - "5432"
+      - "5432:54321"
     environment:
-      POSTGRESQL_USERNAME: "${DB_USER:-admin}"
+      POSTGRESQL_USERNAME: "${DB_USER}"
       POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
-      POSTGRESQL_DATABASE: "${DB_DATABASE:-rasa}"
+      POSTGRESQL_DATABASE: "${DB_DATABASE}"
     volumes:
       - ./mounts/db:/bitnami/postgresql
 
@@ -223,7 +226,7 @@ services:
     depends_on:
       - rasa-x
       - rasa-production
-      - rasa-worker
+      # - rasa-worker
       - botfrontend
 
   redis:
@@ -237,9 +240,57 @@ services:
   botfrontend:
     restart: on-failure:5
     image: "sysang/botfrontend"
-    build: 
+    build:
       context: "./botfrontend"
     volumes:
       - ./botfrontend/:/usr/src/app/
     expose:
       - "8000"
+
+  cwbase: &cwbase
+    image: chatwoot/chatwoot:v2.8.1-ce
+    env_file: .cw.env
+    volumes:
+      - ./mounts/cw/storage:/app/storage
+    tty: true
+    stdin_open: true
+
+  rails:
+    <<: *cwbase
+    depends_on:
+      - cwdb
+      - redis
+    # ports:
+    #   - '3000:3000'
+    # expose:
+    #   - "3000"
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    entrypoint: docker/entrypoints/rails.sh
+    # command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '127.0.0.1']
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000']
+
+  sidekiq:
+    <<: *cwbase
+    depends_on:
+      - cwdb
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  cwdb:
+    restart: on-failure:5
+    image: "bitnami/postgresql:11.9.0"
+    expose:
+      - "5432:54322"
+    environment:
+      POSTGRESQL_USERNAME: "${POSTGRES_CWUSER}"
+      POSTGRESQL_PASSWORD: "${POSTGRES_CWPASSWORD}"
+      POSTGRESQL_DATABASE: "${POSTGRES_CWDB}"
+    volumes:
+      - ./mounts/cwdb:/bitnami/postgresql

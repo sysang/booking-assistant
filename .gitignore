@@ -11,6 +11,8 @@ botserver-app/auth/
 botserver-app/git/
 botserver-app/logs/
 botserver-app/models/
+botserver-app/credentials.yml
 botfrontend/botfrontend/local.py
 
 .env
+.cw.env
