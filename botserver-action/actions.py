@@ -207,6 +207,10 @@ class botacts_search_hotel_rooms(Action):
         pagination_intent = 'user_click_to_navigate_search_result'
         notes_bkinfo = slots.get('notes_bkinfo')
         bkinfo_orderby = slots.get('bkinfo_orderby', None)
+        bkinfo_area_type = slots.get('bkinfo_area_type', None)
+        bkinfo_district = slots.get('bkinfo_district', None)
+        bkinfo_region = slots.get('bkinfo_region', None)
+        bkinfo_country = slots.get('bkinfo_country', None)
         query_payload = slots.get('search_result_query', '')
         notes_search_result = slots.get('notes_search_result', None)
         botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
@@ -252,7 +256,14 @@ class botacts_search_hotel_rooms(Action):
             hotels = picklize_search_result(get_cache(notes_search_result))
             logger.info('[INFO] Retrieve hotels from redis cache, key: notes_search_result.')
         else:
-            hotels = await search_rooms(bkinfo_orderby=bkinfo_orderby, **bkinfo)
+            hotels = await search_rooms(
+                **bkinfo,
+                bkinfo_orderby=bkinfo_orderby,
+                bkinfo_area_type=bkinfo_area_type,
+                bkinfo_district=bkinfo_district,
+                bkinfo_region=bkinfo_region,
+                bkinfo_country=bkinfo_country,
+            )
 
             if not isinstance(hotels, dict):
                 error_message = '[ERROR] in botacts_search_hotel_rooms action, search_rooms returns wrong data type: %s.' % (type(hotels))

@@ -9,7 +9,7 @@ import time
 import copy
 
 from arrow import Arrow
-from requests import get
+from requests import get, RequestException
 from cachetools import cached, TTLCache
 from cachecontrol import CacheControl
 from cachecontrol import CacheControlAdapter
@@ -83,6 +83,24 @@ headers = {
 pool = redis.ConnectionPool(host='redis', port=6379, db=0,  password='qwer1234')
 r = redis.Redis(connection_pool=pool)
 requests_sess = CacheControl(sess=requests.Session(), cache=RedisCache(r), heuristic=ExpiresAfter(minutes=REQUESTS_CACHE_MINS))
+
+
+def make_request_to_bookingapi(url, headers, params):
+
+    for i in range(3):
+        try:
+            response = requests_sess.get(url, headers=headers, params=params)
+            response.raise_for_status()
+
+            return response
+
+        except RequestException:
+            logger.error('[INFO] try to request_to_search_hotel, %s, API url: %s, HttpError: %s', 'RequestException', response.url, response.reason)
+            time.sleep(0.1)
+
+    # TODO: propagate the error back to action to inform user something like
+    # "I got problem while communicating booking service, please try again after few minutes"
+    return None
 
 
 # @cached(cache=TTLCache(maxsize=128, ttl=60))
@@ -346,7 +364,7 @@ def request_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=C
         "units": UNITS,
     }
 
-    response = requests_sess.get(url, headers=headers, params=querystring)
+    response = make_request_to_bookingapi(url, headers=headers, params=querystring)
     logger.info('[INFO] request_room_list_by_hotel, API url: %s', response.url)
 
     if not response.ok:
@@ -400,20 +418,14 @@ def request_to_search_hotel(dest_id, dest_type, checkin_date, checkout_date, ord
         "units": UNITS,
     }
 
-    for i in range(3):
-        try:
-            response = requests_sess.get(url, headers=headers, params=querystring)
-            response.raise_for_status()
+    response = make_request_to_bookingapi(url, headers=headers, params=querystring)
 
-            logger.info('[INFO] request_to_search_hotel, API url: %s', response.url)
+    logger.info('[INFO] request_to_search_hotel, API url: %s', response.url)
 
-            return response.json()
-
-        except:
-            logger.info('[INFO] try to request_to_search_hotel, API url: %s, error: %s', response.url, i)
-            time.sleep(0.1)
-
+    if response:
+        return response.json()
     return {}
+
 
 def request_hotel_data(hotel_id):
     """
@@ -434,10 +446,8 @@ def request_hotel_data(hotel_id):
         "locale": LOCALE,
     }
 
-    response = requests_sess.get(url, headers=headers, params=querystring)
+    response = make_request_to_bookingapi(url, headers=headers, params=querystring)
     logger.info('[INFO] request_hotel_data, API url: %s', response.url)
-
-    response.raise_for_status()
 
     return response.json()
 
@@ -457,10 +467,8 @@ def request_to_search_locations(name):
         "locale": LOCALE,
     }
 
-    response = requests_sess.get(url, headers=headers, params=querystring)
+    response = make_request_to_bookingapi(url, headers=headers, params=querystring)
     logger.info('[INFO] request_to_search_locations, API url: %s', response.url)
-
-    response.raise_for_status()
 
     return response.json()
 
@@ -500,6 +508,7 @@ def choose_location(bkinfo_area, bkinfo_area_type=None, bkinfo_district=None, bk
         bkinfo_country=bkinfo_country,
     )
 
+    logger.info('[DEV] request_to_search_locations -> %s', name)
     locations = request_to_search_locations(name=name)
     logger.info('[INFO] request_to_search_locations, found %s location(s) in respective to query: %s', len(locations), name)
 
