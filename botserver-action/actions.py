@@ -337,8 +337,6 @@ class botacts_search_hotel_rooms(Action):
                 btn_payload = "/user_click_to_select_room%s" % (json.dumps(payload))
                 btn_payload = btn_payload.replace(' ', '')
 
-                logger.info("[INFO] channel: %s", channel)
-
                 fb_buttons = []
                 teleg_buttons = []
 
@@ -363,20 +361,26 @@ class botacts_search_hotel_rooms(Action):
                         'buttons': fb_buttons,
                     })
 
+                    dispatcher.utter_message(elements=fb_elements, template_type="generic")
+
+                    logger.info("[INFO] send message to facebook channel, fb_elements: %s ", fb_elements)
+
                 elif channel in web_channels:
                     room_description = "⚑ {room_display_index}: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}." . format(**data)
                     room_photos = "To view room photos: \n{photos_url}" . format(**data)
-                    hotel_descrition = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_description = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
                     # button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     button = { "title": room_description, "payload": btn_payload}
 
                     # dispatcher.utter_message(text=room_description, buttons=[button])
                     dispatcher.utter_message(text='♫ ♫ ♫'.format(**data), buttons=[button])
                     dispatcher.utter_message(text=room_photos)
-                    dispatcher.utter_message(text=hotel_descrition, image=room['hotel_photo_url'])
+                    dispatcher.utter_message(text=hotel_description, image=room['hotel_photo_url'])
+
+                    logger.info("[INFO] send message to web channel, hotel_description: %s", hotel_description)
 
                 elif channel=='telegram':
-                    hotel_descrition = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_description = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
                     button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
@@ -391,9 +395,11 @@ class botacts_search_hotel_rooms(Action):
                     hotel_image_url = room['hotel_photo_url']
                     r = requests.get(hotel_image_url)
                     if room.get('hotel_photo_url') and r.status_code == 200:
-                        dispatcher.utter_message(text=hotel_descrition, image=hotel_image_url)
+                        dispatcher.utter_message(text=hotel_description, image=hotel_image_url)
                     else:
-                        dispatcher.utter_message(text=hotel_descrition)
+                        dispatcher.utter_message(text=hotel_description)
+
+                    logger.info("[INFO] send message to telegram channel, room_description: ", room_description)
 
             # End of `for room in total_rooms[start:end]:`
 
@@ -413,7 +419,6 @@ class botacts_search_hotel_rooms(Action):
 
             if channel == 'facebook':
                 fb_buttons = []
-                dispatcher.utter_message(elements=fb_elements, template_type="generic")
 
                 if query.get('prev'):
                     fb_buttons.append({'title': prev_button_title, 'payload': prev_button_payload, 'type': 'postback'})

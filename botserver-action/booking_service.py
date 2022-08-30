@@ -95,7 +95,8 @@ def make_request_to_bookingapi(url, headers, params):
             return response
 
         except RequestException:
-            logger.error('[INFO] try to request_to_search_hotel, %s, API url: %s, HttpError: %s', 'RequestException', response.url, response.reason)
+            reason = response.reason if response else ''
+            logger.error('[INFO] make_request_to_bookingapi, API url: %s, FAILED, HttpError: %s', url, reason)
             time.sleep(0.1)
 
     # TODO: propagate the error back to action to inform user something like
@@ -313,15 +314,21 @@ def extract_bed_type(room):
 
     return bed_types[0]
 
-async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CURRENCY):
+def make_asyncio_schedule_to_get_room_list(hotel_id_list):
     total_num = len(hotel_id_list)
-    reqnum_limit = 4
+    reqnum_limit = 3
     total_page = math.ceil(total_num / reqnum_limit)
     schedule = []
     for idx in range(total_page):
         start = idx * reqnum_limit
         end = start + reqnum_limit
         schedule.append(hotel_id_list[start:end])
+
+    return schedule
+
+
+async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CURRENCY):
+    schedule = make_asyncio_schedule_to_get_room_list(hotel_id_list)
 
     loop = asyncio.get_running_loop()
 
@@ -364,15 +371,15 @@ def request_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=C
         "units": UNITS,
     }
 
+    logger.info('[INFO] request_room_list_by_hotel, API url: %s', url)
     response = make_request_to_bookingapi(url, headers=headers, params=querystring)
-    logger.info('[INFO] request_room_list_by_hotel, API url: %s', response.url)
 
     if not response.ok:
+        logger.info('[INFO] request_room_list_by_hotel, API url: %s, FAILED.', url)
         return []
 
+    logger.info('[INFO] request_room_list_by_hotel, API url: %s, SUCCESS.', url)
     result = response.json()
-
-    # logger.info('[INFO] query room by hotel id: %s, found %s rooms', hotel_id, sum(len(item['block']) for item in result))
 
     return result
 
@@ -971,6 +978,16 @@ def __test__compose_location_name():
     print('[CASE 8] bkinfo_area, bkinfo_area_type, bkinfo_district, bkinfo_region, bkinfo_country')
     expected = 'bkinfo_area bkinfo_area_type bkinfo_district bkinfo_region bkinfo_country'
     actual = compose_location_name(bkinfo_area=bkinfo_area, bkinfo_area_type=bkinfo_area_type, bkinfo_district=bkinfo_district, bkinfo_region=bkinfo_region, bkinfo_country=bkinfo_country)
+    assert actual == expected, f'[FAIL] actual: {actual}'
+
+    print('All done.')
+
+
+def __test__make_asyncio_schedule_to_get_room_list():
+    hotel_id_list = [7408535, 2377260, 56095, 1106729, 6162805, 55952, 43396, 4700797, 257313, 56800, 3174621, 57009, 599534, 4125132, 522337, 5218600, 56276, 617927, 2012829, 26974]
+    expected = [[7408535, 2377260, 56095], [1106729, 6162805, 55952], [43396, 4700797, 257313], [56800, 3174621, 57009], [599534, 4125132, 522337], [5218600, 56276, 617927], [2012829, 26974]]
+
+    actual = make_asyncio_schedule_to_get_room_list(hotel_id_list)
     assert actual == expected, f'[FAIL] actual: {actual}'
 
     print('All done.')

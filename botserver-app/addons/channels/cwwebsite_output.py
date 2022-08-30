@@ -1,8 +1,11 @@
 import requests
 import json
+import logging
 
 from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn, List, Iterable
 
+
+logger = logging.getLogger(__name__)
 
 class CwwebsiteOutput:
 
@@ -13,6 +16,7 @@ class CwwebsiteOutput:
 
     async def send_response(self, recipient_id: Text, message: Dict[Text, Any]) -> None:
         """Send a message to the client."""
+        logger.info('[DEV] send_response: %s', message)
 
         if message.get("quick_replies"):
             await self.send_quick_replies(

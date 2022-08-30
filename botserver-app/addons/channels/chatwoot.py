@@ -15,6 +15,7 @@ from rasa.core.channels.channel import (
     CollectingOutputChannel,
     UserMessage,
 )
+from rasa.core.channels.rest import QueueOutputChannel
 
 from .cwwebsite_output import CwwebsiteOutput
 
@@ -75,7 +76,7 @@ class ChatwootInput(InputChannel):
         async def handler(request: Request) -> HTTPResponse:
             cfg = getattr(self, request.route.ctx.configuration_name)
             message = request.json
-            logger.info('[DEV] message: %s', message)
+            # logger.info('[INFO] message: %s', message)
             metadata = self.get_metadata(request)
 
             if self._check_should_proceed_message(message):
@@ -105,15 +106,14 @@ class ChatwootInput(InputChannel):
                             )
                         )
 
-                        # for message in collector.messages:
-                        #     await output_channel.send_response(message)
-
-                    except CancelledError:
-                        logger.error(
-                                f"Message handling timed out for message: %s", message)
+                    # except CancelledError:
+                    #     logger.error(f"Message handling timed out for message: %s", message)
                     except Exception:
                         logger.exception(f"An exception occured while handling message: %s", message)
+            else:
+                logger.debug("Invalid message")
 
+            logger.debug('[DEBUG] return response, 204')
             return response.text("", status=204)
 
         @custom_webhook.route("/", methods=["GET"])
@@ -131,26 +131,3 @@ class ChatwootInput(InputChannel):
         return custom_webhook
 
 
-class QueueOutputChannel(CollectingOutputChannel):
-    """Output channel that collects send messages in a list
-    (doesn't send them anywhere, just collects them)."""
-
-    # FIXME: this is breaking Liskov substitution principle
-    # and would require some user-facing refactoring to address
-    messages: Queue  # type: ignore[assignment]
-
-    @classmethod
-    def name(cls) -> Text:
-        """Name of QueueOutputChannel."""
-        return "queue"
-
-    # noinspection PyMissingConstructor
-    def __init__(self, message_queue: Optional[Queue] = None) -> None:
-        super().__init__()
-        self.messages = Queue() if not message_queue else message_queue
-
-    def latest_output(self) -> NoReturn:
-        raise NotImplementedError("A queue doesn't allow to peek at messages.")
-
-    async def _persist_message(self, message: Dict[Text, Any]) -> None:
-        await self.messages.put(message)

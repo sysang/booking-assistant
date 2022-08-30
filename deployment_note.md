@@ -6,6 +6,9 @@ wget -O -  https://get.acme.sh | sh -s email="sysangtiger@gmail.com" --install -
 docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --issue -d dsysang.site --nginx /etc/nginx/conf.d/rasax.nginx --home /etc/certbot/ --server buypass'
 docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --install-cert -d dsysang.site --fullchain-file /etc/certs/fullchain.pem --key-file /etc/certs/privkey.pem --home /etc/certbot/'
 
+docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --issue -d cs.dsysang.site --nginx /etc/nginx/conf.d/chatwoot.nginx --home /etc/certbot/ --server buypass'
+docker exec rasachatbot-nginx-1 bash -c '/etc/certbot/acme.sh --install-cert -d cs.dsysang.site --fullchain-file /etc/certs/cs.fullchain.pem --key-file /etc/certs/cs.privkey.pem --home /etc/certbot/'
+
 # botfrontend static file
 docker exec rasachatbot-botfrontend-1 bash -c 'python manage.py collectstatic --noinput'
 
@@ -74,6 +77,14 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 - (optional) `chmod 777 -R mounts/cwdb`
 - (optional) `rm -rf mounts/cwdb/*`
 - Add AgentBot: https://www.chatwoot.com/docs/product/others/agent-bots
-> `bot = AgentBot.create!(name:"Rasa Chatbot", outgoing_url:"http://rasachatbot.sysang/webhooks/chatwoot/cwwebsite")`
+> `bot = AgentBot.create!(name: "Rasa Chatbot", outgoing_url: "http://rasa-production:5005/webhooks/chatwoot/cwwebsite")`
 > `bot.access_token.token`
 > `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`
+> `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`
+- Super admin Console
+> https://www.chatwoot.com/docs/self-hosted/monitoring/super-admin-sidekiq/
+> `docker exec -it chatwoot_rails_1 bundle exec rails c`
+> `s = SuperAdmin.create!(email: 'sysangtiger@gmail.com', password: 'Qwer!234', name: 'Admin')`
+> `s.confirm`
+> `https://cs.dsysang.site/super_admin/sign_in`
+

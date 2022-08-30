@@ -220,6 +220,8 @@ services:
       - ./httpserver-nginx/nginx-config-files/nginx.conf:/etc/nginx/nginx.conf
       - ./httpserver-nginx/nginx-config-files/ssl.conf.template:/etc/nginx/templates/ssl.conf.template
       - ./httpserver-nginx/nginx-config-files/${RASAX_NGINX_TEMPLATE_FILE}:/etc/nginx/templates/rasax.nginx.template
+      - ./httpserver-nginx/nginx-config-files/${CHATWOOT_NGINX_TEMPLATE_FILE}:/etc/nginx/templates/chatwoot.nginx.template
+      - ./httpserver-nginx/nginx-config-files/chatwoot.ssl.conf.template:/etc/nginx/templates/chatwoot.ssl.conf.template
       - ./botfrontend/static:/var/static
     environment:
       <<: *nginx-host-variables
