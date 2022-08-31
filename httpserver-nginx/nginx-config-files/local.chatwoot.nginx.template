@@ -1,0 +1,35 @@
+upstream docker-chatwoot {
+  server rails:3000 max_fails=0;
+}
+
+server {
+  listen            8080;
+  server_name cs.rasachatbot.sysang;
+
+  # Nginx strips out underscore in headers by default
+  # Chatwoot relies on underscore in headers for API
+  # Make sure that the config is set to on.
+  underscores_in_headers on;
+
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $host;
+
+    proxy_pass_header Authorization;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header X-Forwarded-Ssl on; # Optional
+
+    proxy_http_version 1.1;
+    proxy_set_header Connection “”;
+    proxy_buffering off;
+
+    client_max_body_size 0;
+    proxy_read_timeout 36000s;
+    proxy_redirect off;
+
+    proxy_pass http://docker-chatwoot;
+  }
+}

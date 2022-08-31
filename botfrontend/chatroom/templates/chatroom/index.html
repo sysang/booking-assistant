@@ -21,13 +21,14 @@
         (e.async = !0),
         (e.onload = () => {
             window.WebChat.default({
+                //socketUrl:"http://rasachatbot.sysang",
                 customData:{language:"en"},
-                socketUrl:"wss://cs.dsysang.site/cable",
-                protocol: 'sockcw',
+                socketUrl:"{{ socketUrl }}",
+                protocol: "{{ protocol }}",
                 withRules: true,
                 protocolOptions:{
-                    inboxIdentifier: "t1hbqYVrTWQHwge9tvtFnByz",
-                    chatwootAPIUrl: "https://cs.dsysang.site/public/api/v1/",
+                    inboxIdentifier: "{{ propsInboxIdentifier }}",
+                    chatwootAPIUrl: "{{ propsChatwootAPIUrl }}",
                 },
             }, null);
         }),

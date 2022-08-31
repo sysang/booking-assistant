@@ -80,7 +80,6 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 > `bot = AgentBot.create!(name: "Rasa Chatbot", outgoing_url: "http://rasa-production:5005/webhooks/chatwoot/cwwebsite")`
 > `bot.access_token.token`
 > `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`
-> `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`
 - Super admin Console
 > https://www.chatwoot.com/docs/self-hosted/monitoring/super-admin-sidekiq/
 > `docker exec -it chatwoot_rails_1 bundle exec rails c`

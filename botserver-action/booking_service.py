@@ -16,6 +16,7 @@ from cachecontrol import CacheControlAdapter
 from cachecontrol.caches.redis_cache import RedisCache
 from cachecontrol.heuristics import ExpiresAfter
 from functools import reduce
+from asyncio import CancelledError
 
 from .utils import parse_date_range
 from .utils import SortbyDictionary
@@ -36,7 +37,8 @@ CURRENCY = 'USD'
 LOCALE = 'en-gb'
 UNITS = 'metric'
 PRICE_MARGIN = 0.07
-REQUESTS_CACHE_MINS = 60
+# REQUESTS_CACHE_MINS = 60
+REQUESTS_CACHE_MINS = 1
 
 # comply to https://booking-com.p.rapidapi.com/v1/hotels/locations api's dest_type field
 DEST_TYPE_HOTEL = 'hotel'
@@ -316,7 +318,7 @@ def extract_bed_type(room):
 
 def make_asyncio_schedule_to_get_room_list(hotel_id_list):
     total_num = len(hotel_id_list)
-    reqnum_limit = 3
+    reqnum_limit = 4
     total_page = math.ceil(total_num / reqnum_limit)
     schedule = []
     for idx in range(total_page):
@@ -337,9 +339,15 @@ async def get_room_list(hotel_id_list, checkin_date, checkout_date, currency=CUR
         futures = []
         for hotel_id in tasks:
             futures.append(loop.run_in_executor( None, request_room_list_by_hotel, hotel_id, checkin_date, checkout_date, currency))
-        for response in await asyncio.gather(*futures):
-            for item in response:
-                result.append(item)
+        try:
+            responses = await asyncio.gather(*futures)
+            for response in responses:
+                for item in response:
+                    result.append(item)
+
+        except CancelledError:
+            logger.error(f"[ERROR] Requesting rooms timed out for hotel ids: %s", tasks)
+
 
     return result
 
@@ -374,7 +382,7 @@ def request_room_list_by_hotel(hotel_id, checkin_date, checkout_date, currency=C
     logger.info('[INFO] request_room_list_by_hotel, API url: %s', url)
     response = make_request_to_bookingapi(url, headers=headers, params=querystring)
 
-    if not response.ok:
+    if not response:
         logger.info('[INFO] request_room_list_by_hotel, API url: %s, FAILED.', url)
         return []
 
@@ -431,6 +439,7 @@ def request_to_search_hotel(dest_id, dest_type, checkin_date, checkout_date, ord
 
     if response:
         return response.json()
+
     return {}
 
 

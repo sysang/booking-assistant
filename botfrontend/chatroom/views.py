@@ -8,7 +8,12 @@ from services.booking_service import request_room_list_by_hotel
 
 
 def index(request):
-    response = TemplateResponse(request, 'chatroom/index.html', {'socketUrl': settings.BASE_DOMAIN_URL})
+    response = TemplateResponse(request, 'chatroom/index.html', {
+        'socketUrl': settings.CHAT_SERVER['socketUrl'],
+        'protocol': settings.CHAT_SERVER['protocol'],
+        'propsInboxIdentifier': settings.CHAT_SERVER['protocolOptions']['inboxIdentifier'],
+        'propsChatwootAPIUrl': settings.CHAT_SERVER['protocolOptions']['chatwootAPIUrl'],
+    })
 
     return response
 

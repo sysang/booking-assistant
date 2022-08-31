@@ -264,8 +264,8 @@ services:
       - redis
     # ports:
     #   - '3000:3000'
-    # expose:
-    #   - "3000"
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -289,7 +289,7 @@ services:
     restart: on-failure:5
     image: "bitnami/postgresql:11.9.0"
     expose:
-      - "5432:54322"
+      - "5432"
     environment:
       POSTGRESQL_USERNAME: "${POSTGRES_CWUSER}"
       POSTGRESQL_PASSWORD: "${POSTGRES_CWPASSWORD}"

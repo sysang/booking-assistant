@@ -1,6 +1,8 @@
 import requests
 import json
 import logging
+import asyncio
+import aiohttp
 
 from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn, List, Iterable
 
@@ -65,7 +67,10 @@ class CwwebsiteOutput:
         }
 
         # TDOD: check if error
-        r = requests.post(url, json=data, headers=headers)
+        timeout = aiohttp.ClientTimeout(total=60)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.post(url, json=data, headers=headers) as resp:
+                pass
 
     async def send_text_message( self, text: Text, **kwargs: Any) -> None:
         """Send a message through this channel."""

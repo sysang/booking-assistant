@@ -169,6 +169,15 @@ LOGGING = {
     },
 }
 
+CHAT_SERVER = {
+    'socketUrl': 'ws://cs.rasachatbot.sysang/cable',
+    'protocol': 'sockcw',
+    'protocolOptions': {
+        'inboxIdentifier': "t1hbqYVrTWQHwge9tvtFnByz",
+        'chatwootAPIUrl': "https://cs.dsysang.site/public/api/v1/",
+    }
+}
+
 try:
     from .local import *
 except ImportError:
