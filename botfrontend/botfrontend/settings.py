@@ -170,7 +170,7 @@ LOGGING = {
 }
 
 CHAT_SERVER = {
-    'socketUrl': 'ws://cs.rasachatbot.sysang/cable',
+    'socketUrl': 'wss://cs.dsysang.site/cable',
     'protocol': 'sockcw',
     'protocolOptions': {
         'inboxIdentifier': "t1hbqYVrTWQHwge9tvtFnByz",

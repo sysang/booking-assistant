@@ -77,7 +77,7 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 - (optional) `chmod 777 -R mounts/cwdb`
 - (optional) `rm -rf mounts/cwdb/*`
 - Add AgentBot: https://www.chatwoot.com/docs/product/others/agent-bots
-> `bot = AgentBot.create!(name: "Rasa Chatbot", outgoing_url: "http://rasa-production:5005/webhooks/chatwoot/cwwebsite")`
+> `bot = AgentBot.create!(name: "Rasa Chatbot for Website", outgoing_url: "http://rasa-production:5005/webhooks/chatwoot/cwwebsite")`
 > `bot.access_token.token`
 > `AgentBotInbox.create!(inbox: Inbox.find(1), agent_bot: bot)`
 - Super admin Console
@@ -86,4 +86,5 @@ for tracker_state, label in zip(tracker_state_features, label_ids):
 > `s = SuperAdmin.create!(email: 'sysangtiger@gmail.com', password: 'Qwer!234', name: 'Admin')`
 > `s.confirm`
 > `https://cs.dsysang.site/super_admin/sign_in`
-
+- Fix the way chatwoot request to sendMessage api
+> `sudo docker cp telegram.rb rasachatbot-sidekiq-1:/app/app/models/channel/telegram.rb`

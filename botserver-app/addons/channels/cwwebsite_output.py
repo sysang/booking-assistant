@@ -66,11 +66,13 @@ class CwwebsiteOutput:
             'message_type': 'outgoing',
         }
 
+        logger.info('[DEBUG] make request to send message to chatwoot server, url: %s, headers: %s, data: %s', url, headers, data)
+
         # TDOD: check if error
         timeout = aiohttp.ClientTimeout(total=60)
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.post(url, json=data, headers=headers) as resp:
-                pass
+                logger.info('[DEBUG] make request to send message to chatwoot server, response: %s', resp)
 
     async def send_text_message( self, text: Text, **kwargs: Any) -> None:
         """Send a message through this channel."""

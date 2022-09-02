@@ -217,6 +217,7 @@ class botacts_search_hotel_rooms(Action):
         bkinfo = botmemo_booking_progress.form
 
         web_channels = ['socketio', 'rasa', 'cwwebsite']
+        telegram_channels = ['telegram', 'cwtelegram']
 
         limit_num = 5 if channel == 'facebook' else 2 if channel in web_channels else 1
 
@@ -379,7 +380,7 @@ class botacts_search_hotel_rooms(Action):
 
                     logger.info("[INFO] send message to web channel, hotel_description: %s", hotel_description)
 
-                elif channel=='telegram':
+                elif channel in telegram_channels:
                     hotel_description = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
                     button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
@@ -434,7 +435,7 @@ class botacts_search_hotel_rooms(Action):
                     buttons.append({'title': next_button_title, 'payload': next_button_payload})
                 dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
 
-            elif channel == 'telegram':
+            elif channel in telegram_channels:
                 if query.get('prev'):
                     teleg_buttons.append({'title': prev_button_title, 'payload':  prev_button_payload})
                 if query.get('next'):

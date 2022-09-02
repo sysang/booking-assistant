@@ -37,8 +37,7 @@ CURRENCY = 'USD'
 LOCALE = 'en-gb'
 UNITS = 'metric'
 PRICE_MARGIN = 0.07
-# REQUESTS_CACHE_MINS = 60
-REQUESTS_CACHE_MINS = 1
+REQUESTS_CACHE_MINS = 60
 
 # comply to https://booking-com.p.rapidapi.com/v1/hotels/locations api's dest_type field
 DEST_TYPE_HOTEL = 'hotel'

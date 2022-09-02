@@ -5,6 +5,7 @@ import json
 import asyncio
 import aiohttp
 import time
+import redis
 
 from sanic import Sanic, Blueprint, response
 from sanic.request import Request
@@ -22,9 +23,41 @@ from rasa.core.channels.channel import (
 from rasa.core.channels.rest import QueueOutputChannel
 
 from .cwwebsite_output import CwwebsiteOutput
+from .cwtelegram_output import CwteltegramOutput
 
 
 logger = logging.getLogger(__name__)
+
+pool = redis.ConnectionPool(host='redis', port=6379, db=0,  password='qwer1234')
+r = redis.Redis(connection_pool=pool)
+
+def redis_make_key(data):
+    prefix = 'chatwoot_msg_'
+    conversation = data.get('conversation', {})
+    sender = data.get("sender", {})
+    sender_id = sender.get('id', None)
+
+    params = {
+        'message_id': data.get('id'),
+        'conversation_id': conversation.get('id'),
+        'sender_id': sender.get('id')
+    }
+
+    return prefix + json.dumps(params)
+
+def redis_set_cache(data):
+    key = redis_make_key(data)
+    r.setex(name=key, time=100, value=1)
+
+def redis_check_cache(data):
+    key = redis_make_key(data)
+    
+    if r.get(name=key):
+        return True
+    
+    redis_set_cache(data)
+
+    return False
 
 def create_handler(message, chatwoot_url, cfg, on_new_message) -> Callable:
 
@@ -32,6 +65,14 @@ def create_handler(message, chatwoot_url, cfg, on_new_message) -> Callable:
         out_channel = None
         if channel == 'cwwebsite':
             out_channel = CwwebsiteOutput(
+                chatwoot_url=chatwoot_url,
+                bot_token=cfg.get("bot_token"),
+                botagent_account_id=cfg.get("botagent_account_id"),
+                conversation_id=kwargs.get("conversation_id"),
+            )
+
+        elif channel == 'cwtelegram':
+            out_channel = CwteltegramOutput(
                 chatwoot_url=chatwoot_url,
                 bot_token=cfg.get("bot_token"),
                 botagent_account_id=cfg.get("botagent_account_id"),
@@ -58,6 +99,8 @@ def create_handler(message, chatwoot_url, cfg, on_new_message) -> Callable:
             conversation_id=conversation_id,
         )
 
+        logger.info('[DEBUG] (process_message) output_channel: %s', output_channel)
+
         if content and conversation_id and output_channel:
             logger.info('[DEBUG] on_new_message, content: %s', content)
             user_message = UserMessage(
@@ -74,13 +117,14 @@ def create_handler(message, chatwoot_url, cfg, on_new_message) -> Callable:
 
 
 def check_should_proceed_message(message):
+    message_id = message.get("id", None)
     message_type = message.get("message_type", None)
     conversation = message.get('conversation', {})
     conversation_status = conversation.get('status', None)
     sender = message.get("sender", {})
     sender_id = sender.get('id', None)
 
-    return message_type == "incoming" and conversation_status == 'pending' and sender_id
+    return message_id and message_type == "incoming" and conversation_status == 'pending' and sender_id
 
 
 class ChatwootInput(InputChannel):
@@ -94,14 +138,24 @@ class ChatwootInput(InputChannel):
         if not credentials:
             cls.raise_missing_credentials_exception()
 
+        logger.info('[INFO] chatwoot connector (channel), from_credentials: %s', credentials)
+
         return cls(
             credentials.get("chatwoot_url"),
             credentials.get("website"),
+            credentials.get("telegram"),
         )
 
-    def __init__(self, chatwoot_url, website: Dict[Text, Any]) -> None:
+    def __init__(
+            self,
+            chatwoot_url,
+            website: Dict[Text, Any],
+            telegram: Dict[Text, Any],
+        ) -> None:
+
         self.chatwoot_url = chatwoot_url
         self.website = website
+        self.telegram = telegram
 
     def blueprint(
         self, on_new_message: Callable[[UserMessage], Awaitable[None]]
@@ -134,19 +188,23 @@ class ChatwootInput(InputChannel):
 
             except Exception:
                 logger.error(f"[ERROR] An exception occured while handling message: %s", _message)
+                raise
 
-
-        async def async_trigger():
-            await asyncio.sleep(0.1)
-            return True
-
-        async def cwwebsite(request: Request) -> HTTPResponse:
-            logger.info('[DEBUG] (webhooks/chatwoot/cwwebsite) message: %s', request.json)
+        async def webhook(request: Request) -> HTTPResponse:
+            logger.info('[DEBUG] (webhooks/chatwoot/webhook) message: %s', request.json)
 
             if check_should_proceed_message(request.json):
                 message = request.json
+
+                # To work around chatwoot bug that sends same message twice
+                # cache message identity to redis db for checking for duplication
+                if redis_check_cache(message):
+                    return response.text("", status=204)
+
                 chatwoot_url = request.route.ctx.chatwoot_url
                 cfg = json.loads(request.route.ctx.cfg)
+
+                logger.info('[DEBUG] sub channel: %s', cfg.get('sub_channel'))
 
                 await asyncio.shield(handler(
                     _message=message,
@@ -162,11 +220,19 @@ class ChatwootInput(InputChannel):
             return response.text("", status=204)
 
         custom_webhook.add_route(
-            handler=cwwebsite,
+            handler=webhook,
             uri="/cwwebsite",
             methods=["POST"],
             ctx_chatwoot_url=self.chatwoot_url,
             ctx_cfg=json.dumps(self.website),
+        )
+
+        custom_webhook.add_route(
+            handler=webhook,
+            uri="/cwtelegram",
+            methods=["POST"],
+            ctx_chatwoot_url=self.chatwoot_url,
+            ctx_cfg=json.dumps(self.telegram),
         )
 
         return custom_webhook
