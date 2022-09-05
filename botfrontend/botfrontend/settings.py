@@ -173,7 +173,7 @@ CHAT_SERVER = {
     'socketUrl': 'wss://cs.dsysang.site/cable',
     'protocol': 'sockcw',
     'protocolOptions': {
-        'inboxIdentifier': "t1hbqYVrTWQHwge9tvtFnByz",
+        'inboxIdentifier': "9enUQm8X4WSzeYYG1fvv2ZYQ",
         'chatwootAPIUrl': "https://cs.dsysang.site/public/api/v1/",
     }
 }
