@@ -41,7 +41,6 @@ responses:
 
   utter_ask_bkinfo_bed_type:
     - text: "Which bed type would you like?"
-    - text: "What kind of room would you like?"
 
   utter_ask_bkinfo_price:
     - text: "what price per night you are looking for?"

@@ -183,30 +183,50 @@ nlu:
     - [25 to 29 december](duration)
 - intent: express_bed_type
   examples: |
-    - a [twin](bed_type) room
-    - a [single](bed_type) room
-    - a [double](bed_type) room
-    - a [small double](bed_type) room
-    - a [large double](bed_type) room
-    - a [queen](bed_type) room
-    - a [queen size](bed_type) room
-    - a [queen-size](bed_type) room
-    - a [king](bed_type) room
-    - a [king size](bed_type) room
-    - a [king-size](bed_type) room
-    - a [california king](bed_type) room
-    - a [twin](bed_type) bed
-    - a [single](bed_type) bed
-    - a [small double](bed_type) bed
-    - a [queen size](bed_type) bed
-    - a [king-size](bed_type) bed
-    - a [hollywood twin](bed_type) bed room
-    - a [small double](bed_type) bed room
-    - a [large double](bed_type) bed room
-    - a [queen-size](bed_type) bed room
-    - a [california king](bed_type) bed room
-    - a [single](bed_type)
-    - a [double](bed_type)
+    - deluxe [twin](bed_type) room
+    - standard [single](bed_type) room
+    - deluxe [double](bed_type) room
+    - standard [small double](bed_type) room
+    - deluxe [large double](bed_type) room
+    - standard [queen](bed_type) room
+    - deluxe [queen size](bed_type) room
+    - standard [queen-size](bed_type) room
+    - deluxe [king](bed_type) room
+    - standard [king size](bed_type) room
+    - deluxe [king-size](bed_type) room
+    - standard [california king](bed_type) room
+    - [twin](bed_type) room
+    - [single](bed_type) room
+    - [double](bed_type) room
+    - [small double](bed_type) room
+    - [large double](bed_type) room
+    - [queen](bed_type) room
+    - [queen size](bed_type) room
+    - [queen-size](bed_type) room
+    - [king](bed_type) room
+    - [king size](bed_type) room
+    - [king-size](bed_type) room
+    - [california king](bed_type) room
+    - [twin](bed_type) bed
+    - [single](bed_type) bed
+    - [double](bed_type) bed
+    - [small double](bed_type) bed
+    - [large double](bed_type) bed
+    - [queen](bed_type) bed
+    - [queen size](bed_type) bed
+    - [queen-size](bed_type) bed
+    - [king-size](bed_type) bed
+    - [king size](bed_type) bed
+    - [king](bed_type) bed
+    - [hollywood twin](bed_type) bed room
+    - [small double](bed_type) bed room
+    - [large double](bed_type) bed room
+    - [queen-size](bed_type) bed room
+    - [california king](bed_type) bed room
+    - [single](bed_type)
+    - [double](bed_type)
+    - [king](bed_type)
+    - [queen](bed_type)
     - room for [2 person](bed_type)
     - room for [two persons](bed_type)
     - room for [2 adults](bed_type)

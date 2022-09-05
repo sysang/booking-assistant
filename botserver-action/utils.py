@@ -86,10 +86,11 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
     return mapped_slots
 
 
-def parse_bkinfo_bed_type(expression):
+def parse_bkinfo_bed_type(expression: Text) -> Text:
     VALID_BED_TYPES = ['twin', 'single', 'double', 'king', 'queen']
+    _exp = str(expression).lower()
 
-    if expression not in VALID_BED_TYPES:
+    if _exp not in VALID_BED_TYPES:
         error = ParseResult.error_names['failed']
         return ParseResult(error=error, value=None)
 
