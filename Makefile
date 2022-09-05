@@ -84,3 +84,12 @@ install_ssl_certificate:
 # 	touch file1
 # file2:
 # 	touch file2
+
+patch_chatwoot:
+	sudo docker cp incoming_message_service.rb rasachatbot-sidekiq-1:/app/app/services/telegram/incoming_message_service.rb
+	sudo docker cp telegram.rb rasachatbot-sidekiq-1:/app/app/models/channel/telegram.rb
+
+sidekig:
+	make patch_chatwoot
+	sudo docker restart rasachatbot-sidekiq-1
+	sudo docker logs --tail=100 -f rasachatbot-sidekiq-1

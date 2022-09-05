@@ -179,8 +179,8 @@ services:
   db:
     restart: on-failure:5
     image: "bitnami/postgresql:11.9.0"
-    expose:
-      - "5432:54321"
+    ports:
+      - "54321:5432"
     environment:
       POSTGRESQL_USERNAME: "${DB_USER}"
       POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
@@ -288,8 +288,8 @@ services:
   cwdb:
     restart: on-failure:5
     image: "bitnami/postgresql:11.9.0"
-    expose:
-      - "5432"
+    ports:
+      - "54322:5432"
     environment:
       POSTGRESQL_USERNAME: "${POSTGRES_CWUSER}"
       POSTGRESQL_PASSWORD: "${POSTGRES_CWPASSWORD}"
