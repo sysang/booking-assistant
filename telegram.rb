@@ -1,5 +1,5 @@
-# app/models/channel/telegram.rb
-# sudo docker cp telegram.rb rasachatbot-sidekiq-1:/app/app/models/channel/telegram.rb
+# source: app/models/channel/telegram.rb
+# docker cp telegram.rb rasachatbot-sidekiq-1:/app/app/models/channel/telegram.rb
 
 # == Schema Information
 #

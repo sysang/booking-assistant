@@ -1,4 +1,5 @@
-# sudo docker cp telegram_events_job.rb rasachatbot-sidekiq-1:/app/app/jobs/webhooks/telegram_events_job.rb
+# source: app/jobs/webhooks/telegram_events_job.rb
+# docker cp telegram_events_job.rb rasachatbot-sidekiq-1:/app/app/jobs/webhooks/telegram_events_job.rb
 
 class Webhooks::TelegramEventsJob < ApplicationJob
   queue_as :default

@@ -189,7 +189,24 @@ class botacts_utter_inform_searching_inprogress(Action):
         return "botacts_utter_inform_searching_inprogress"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(response='utter_inform_searching_inprogress')
+        slots = tracker.slots
+        query_payload = slots.get('search_result_query', '')
+        if not query_payload:
+            botmemo_booking_progress = FSMBotmemeBookingProgress(slots)
+            bkinfo = botmemo_booking_progress.form
+            data = {
+                'destination': bkinfo.get('bkinfo_area'),
+                'checkin': bkinfo.get('bkinfo_checkin_time'),
+                'staying': bkinfo.get('bkinfo_duration') if bkinfo.get('bkinfo_checkin_time') != bkinfo.get('bkinfo_duration') else '',
+                'bed_type': bkinfo.get('bkinfo_bed_type'),
+                'max_price': bkinfo.get('bkinfo_price'),
+            }
+            message = """
+                I'm going to search for hotel room based on your information, destination: {destination}, check-in: {checkin}, staying: {staying}, bed type: {bed_type}, max price: {max_price}. It takes for a while, hold on!
+            """.format(**data)
+
+            dispatcher.utter_message(text=message)
+            # dispatcher.utter_message(response='utter_inform_searching_inprogress')
 
         return [FollowupAction(name='botacts_search_hotel_rooms')]
 
@@ -218,8 +235,10 @@ class botacts_search_hotel_rooms(Action):
 
         web_channels = ['socketio', 'rasa', 'cwwebsite']
         telegram_channels = ['telegram', 'cwtelegram']
+        fb_channels = ['facebook', 'cwfacebook']
+        whatsapp_channels = ['whatsapp', 'cwwhatsapp']
 
-        limit_num = 5 if channel == 'facebook' else 2 if channel in web_channels else 1
+        limit_num = 5 if channel in fb_channels else 2 if channel in web_channels else 1
 
 
         if bkinfo_orderby:
@@ -287,12 +306,14 @@ class botacts_search_hotel_rooms(Action):
             total_rooms = reduce(lambda x, y: x+y, hotels.values())
             room_num = len(total_rooms)
 
-            if SortbyDictionary.SORTBY_REVIEW_SCORE == bkinfo_orderby:
-                dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_review_score", room_num=room_num)
-            elif SortbyDictionary.SORTBY_PRICE == bkinfo_orderby:
-                dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_price", room_num=room_num)
-            else:
-                dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_popularity", room_num=room_num)
+            # do not repeat if user keep exploring the same filter
+            if page_number == 1:
+                if SortbyDictionary.SORTBY_REVIEW_SCORE == bkinfo_orderby:
+                    dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_review_score", room_num=room_num)
+                elif SortbyDictionary.SORTBY_PRICE == bkinfo_orderby:
+                    dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_price", room_num=room_num)
+                else:
+                    dispatcher.utter_message(response="utter_about_to_show_hotel_list_by_popularity", room_num=room_num)
 
             start, end, remains = paginate(index=page_number, limit=limit_num, total=room_num)
             logger.info('[INFO] paginating search result by index=%s, limit=%s, total=%s -> (%s, %s, %s)', page_number, limit_num, room_num, start, end, remains)
@@ -341,7 +362,7 @@ class botacts_search_hotel_rooms(Action):
                 fb_buttons = []
                 teleg_buttons = []
 
-                if channel == 'facebook':
+                if channel in fb_channels:
 
                     if photos_presentation_url:
                         fb_buttons.append({
@@ -369,7 +390,7 @@ class botacts_search_hotel_rooms(Action):
                 elif channel in web_channels:
                     room_description = "⚑ {room_display_index}: {room_name}, {room_bed_type}, ☝ {room_min_price:.2f} {room_price_currency}." . format(**data)
                     room_photos = "To view room photos: \n{photos_url}" . format(**data)
-                    hotel_description = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                    hotel_description = "❖ Hotel information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
                     # button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     button = { "title": room_description, "payload": btn_payload}
 
@@ -380,8 +401,8 @@ class botacts_search_hotel_rooms(Action):
 
                     logger.info("[INFO] send message to web channel, hotel_description: %s", hotel_description)
 
-                elif channel in telegram_channels:
-                    hotel_description = "❖ More information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
+                elif channel in telegram_channels or channel in whatsapp_channels:
+                    hotel_description = "❖ Hotel information: {hotel_name}  ★★★ Score: {review_score} ★★★ Address: {address}, {city}, {country}, {nearest_beach_name}" . format(**data)
 
                     button = { "title": 'Pick Room ⚑ {room_display_index}'.format(**data), "payload": btn_payload}
                     teleg_buttons.append(button)
@@ -400,7 +421,7 @@ class botacts_search_hotel_rooms(Action):
                     else:
                         dispatcher.utter_message(text=hotel_description)
 
-                    logger.info("[INFO] send message to telegram channel, room_description: ", room_description)
+                    logger.info("[INFO] send message to telegram/whatsapp channel, room_description: %s", room_description)
 
             # End of `for room in total_rooms[start:end]:`
 
@@ -418,7 +439,7 @@ class botacts_search_hotel_rooms(Action):
             next_button_title = '❯❯ next {remains} room(s)'.format(**query)
             next_button_payload = '/{intent}{next}'.format(**query)
 
-            if channel == 'facebook':
+            if channel in fb_channels:
                 fb_buttons = []
 
                 if query.get('prev'):
@@ -435,7 +456,7 @@ class botacts_search_hotel_rooms(Action):
                     buttons.append({'title': next_button_title, 'payload': next_button_payload})
                 dispatcher.utter_message(response="utter_instruct_to_choose_room", buttons=buttons)
 
-            elif channel in telegram_channels:
+            elif channel in telegram_channels or channel in whatsapp_channels:
                 if query.get('prev'):
                     teleg_buttons.append({'title': prev_button_title, 'payload':  prev_button_payload})
                 if query.get('next'):

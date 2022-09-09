@@ -24,6 +24,7 @@ from rasa.core.channels.rest import QueueOutputChannel
 
 from .cwwebsite_output import CwwebsiteOutput
 from .cwtelegram_output import CwteltegramOutput
+from .cwwhatsapp_output import CwwhatsappOutput
 
 
 logger = logging.getLogger(__name__)
@@ -62,24 +63,25 @@ def redis_check_cache(data):
 def create_handler(message, chatwoot_url, cfg, on_new_message) -> Callable:
 
     def select_output_channel(channel, chatwoot_url, cfg, **kwargs):
-        out_channel = None
+        output_channel_cls = None
+
         if channel == 'cwwebsite':
-            out_channel = CwwebsiteOutput(
-                chatwoot_url=chatwoot_url,
-                bot_token=cfg.get("bot_token"),
-                botagent_account_id=cfg.get("botagent_account_id"),
-                conversation_id=kwargs.get("conversation_id"),
-            )
-
+             output_channel_cls = CwwebsiteOutput
         elif channel == 'cwtelegram':
-            out_channel = CwteltegramOutput(
+            output_channel_cls = CwteltegramOutput
+        elif channel == 'cwwhatsapp':
+            output_channel_cls = CwwhatsappOutput
+
+        if output_channel_cls:
+            return output_channel_cls(
                 chatwoot_url=chatwoot_url,
                 bot_token=cfg.get("bot_token"),
                 botagent_account_id=cfg.get("botagent_account_id"),
                 conversation_id=kwargs.get("conversation_id"),
             )
 
-        return out_channel
+
+        return None
 
     async def process_message() -> None:
         logger.info('[DEBUG] (process_message) message: %s', message)
@@ -141,9 +143,10 @@ class ChatwootInput(InputChannel):
         logger.info('[INFO] chatwoot connector (channel), from_credentials: %s', credentials)
 
         return cls(
-            credentials.get("chatwoot_url"),
-            credentials.get("website"),
-            credentials.get("telegram"),
+            chatwoot_url=credentials.get("chatwoot_url"),
+            website=credentials.get("website"),
+            telegram=credentials.get("telegram"),
+            whatsapp=credentials.get("whatsapp"),
         )
 
     def __init__(
@@ -151,11 +154,13 @@ class ChatwootInput(InputChannel):
             chatwoot_url,
             website: Dict[Text, Any],
             telegram: Dict[Text, Any],
+            whatsapp: Dict[Text, Any],
         ) -> None:
 
         self.chatwoot_url = chatwoot_url
         self.website = website
         self.telegram = telegram
+        self.whatsapp = whatsapp
 
     def blueprint(
         self, on_new_message: Callable[[UserMessage], Awaitable[None]]
@@ -233,6 +238,14 @@ class ChatwootInput(InputChannel):
             methods=["POST"],
             ctx_chatwoot_url=self.chatwoot_url,
             ctx_cfg=json.dumps(self.telegram),
+        )
+
+        custom_webhook.add_route(
+            handler=webhook,
+            uri="/cwwhatsapp",
+            methods=["POST"],
+            ctx_chatwoot_url=self.chatwoot_url,
+            ctx_cfg=json.dumps(self.whatsapp),
         )
 
         return custom_webhook

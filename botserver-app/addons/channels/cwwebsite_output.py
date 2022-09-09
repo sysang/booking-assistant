@@ -6,6 +6,8 @@ import aiohttp
 
 from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn, List, Iterable
 
+from rasa.core.channels.channel import OutputChannel
+
 
 logger = logging.getLogger(__name__)
 

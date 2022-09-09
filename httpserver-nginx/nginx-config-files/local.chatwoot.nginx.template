@@ -3,8 +3,10 @@ upstream docker-chatwoot {
 }
 
 server {
-  listen            8080;
-  server_name cs.rasachatbot.sysang;
+  listen 8080;
+
+  #server_name cs.rasachatbot.sysang;
+  server_name 9f04-115-74-186-32.ap.ngrok.io;
 
   # Nginx strips out underscore in headers by default
   # Chatwoot relies on underscore in headers for API
