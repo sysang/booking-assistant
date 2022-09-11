@@ -228,7 +228,6 @@ services:
     depends_on:
       - rasa-x
       - rasa-production
-      # - rasa-worker
       - botfrontend
 
   redis:
@@ -244,10 +243,30 @@ services:
     image: "sysang/botfrontend"
     build:
       context: "./botfrontend"
+    environment:
+      POSTGRESQL_USERNAME: "${POSTGRES_FRONT_USER}"
+      POSTGRESQL_PASSWORD: "${POSTGRES_FRONT_PASSWORD}"
+      POSTGRESQL_DATABASE: "${POSTGRES_FRONT_DB}"
+      POSTGRESQL_HOST: "frontdb"
+      POSTGRESQL_PORT: 5432
     volumes:
       - ./botfrontend/:/usr/src/app/
     expose:
       - "8000"
+    depends_on:
+      - frontdb
+
+  frontdb:
+    restart: on-failure:5
+    image: "bitnami/postgresql:11.9.0"
+    ports:
+      - "54323:5432"
+    environment:
+      POSTGRESQL_USERNAME: "${POSTGRES_FRONT_USER}"
+      POSTGRESQL_PASSWORD: "${POSTGRES_FRONT_PASSWORD}"
+      POSTGRESQL_DATABASE: "${POSTGRES_FRONT_DB}"
+    volumes:
+      - ./mounts/frontdb:/bitnami/postgresql
 
   cwbase: &cwbase
     image: chatwoot/chatwoot:v2.8.1-ce

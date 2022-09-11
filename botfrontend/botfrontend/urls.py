@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -22,12 +22,17 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('dialogue/booking/', include('chatroom.urls', namespace='booking')),
-    path('dialogue/urls', views.urls, name='urls'),
-    path('dialogue/chatroom/', include('chatroom.urls', namespace='chatroom')),
-]
+    path('dialogue/admin/', admin.site.urls),
+    path('dialogue/accounts/', include('django.contrib.auth.urls')),
+    path('dialogue/accounts/', include('registration.backends.default.urls')),
 
+    path('dialogue/urls', views.urls, name='urls'),
+
+    path('dialogue/booking/', include('chatroom.urls', namespace='booking')),
+    path('dialogue/chatroom/', include('chatroom.urls', namespace='chatroom')),
+
+    path('dialogue/o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

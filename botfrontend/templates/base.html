@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}My amazing site{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <link href="{% static 'registration/css/default.uni-form.css' %}" media="all" rel="stylesheet"/>
+    {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+    {% endblock %}
+    <style>
+        body {
+            min-height: 100vh;
+            font-size: 17px;
+            font-family: system-ui;
+            background-color: #DCDCDC;
+        }
+        #content {
+            padding-top: 30px;
+            margin-left: 31%;
+            margin-right: 31%;
+            box-sizing: border-box;
+            background-color: #fffff0;
+        }
+        label {
+            display: inline-block;
+            min-width: 182px;
+        }
+        .formHint{
+            font-size: smaller;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+     <script src="{% static 'registration/js/jquery.min.js' %}"></script>
+     <script src="{% static 'registration/js/uni-form.jquery.min.js' %}"></script>
+     <script src="{% static 'registration/js/uni-form-validation.jquery.min.js' %}"></script>
+    {% block extra_js %}
+        {# Override this in templates to add extra javascript #}
+    {% endblock %}
+</body>
+</html>
