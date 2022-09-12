@@ -209,6 +209,14 @@ ACCOUNT_ACTIVATION_DAYS = 3
 ACCOUNT_AUTHENTICATED_REGISTRATION_REDIRECTS = True
 LOGIN_REDIRECT_URL = '/dialogue/booking'
 
+# https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+    },
+}
+
 try:
     from .local import *
 except ImportError:

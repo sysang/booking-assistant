@@ -8,9 +8,11 @@ code_verifier = base64.urlsafe_b64encode(code_verifier.encode('utf-8'))
 
 code_challenge = hashlib.sha256(code_verifier).digest()
 code_challenge = base64.urlsafe_b64encode(code_challenge).decode('utf-8').replace('=', '')
-print('code_challenge: ', code_challenge)  # Mysp4UxsX669Ub6zRP1xuH0ub9V4aT16DVlLad2KYSI
+print('code_verifier: ', code_verifier)  # QlZDRFhBNFhLOFZEVFMxTlFUU0RDQzdIUENTMURCVEVITlZZRkJDMDQyTFpONUpKRUtTTjlDVU5aNzE=
+print('code_challenge: ', code_challenge)  # SvDHn491oJJ6kCOcGuRuZ-V0eg19NVI4q0yJDfj8B3M
 
-# export ID=hr1KELDoCLue5AAbtNHaTSmwGyqBp341GVT6Upqn
-# export SECRET=0ITbfqrVbrhqBnvaZdUkdDAq4WmKVXNlfgnBsf5iCZO0qeO3n6vQHKvXBAs9tu5OXfJDCZpvgpCNNOk0S7d3ZGIdNeR9qQvNh2YyMXxoXd5EGLAM62t2sv7VWbn8BdOb
+OAUTH2_APP_ID='SAv9oQXjRP6Dfa08o4EPUVjuLMbEHXiemfI67av4'
+# OAUTH2_APP_SECRET='JYYxLsXMRNfvkKvQfc8RLzxCtNsykiN8jqgVhoANQHtbNP9QGvyuyy1FMjOh2puivkVgZJuhnHTGuACCayZAASe6Fn8GlTVAamTs8iBIBFZEWLZX8LSgLquBKtrZHFcQ'
 
-# http://rasachatbot.sysang/dialogue/o/authorize/?response_type=code&code_challenge=Mysp4UxsX669Ub6zRP1xuH0ub9V4aT16DVlLad2KYSI&client_id=hr1KELDoCLue5AAbtNHaTSmwGyqBp341GVT6Upqn&redirect_uri=http://rasachatbot.sysang/dialogue/noexist/callback
+url = f"http://rasachatbot.sysang/dialogue/o/authorize/?response_type=code&code_challenge={code_challenge}&client_id={OAUTH2_APP_ID}"
+print('url: ', url)

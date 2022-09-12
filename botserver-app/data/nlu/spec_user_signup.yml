@@ -1,0 +1,8 @@
+version: "3.1"
+
+nlu:
+- intent: request_to_login
+  examples: |
+    - i want to log in
+    - i want to sign in
+    - please log me in
