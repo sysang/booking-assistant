@@ -1,0 +1,55 @@
+version: "3.1"
+
+nlu:
+- intent: introduce_name
+  examples: |
+    - my name is [nazy ahmad](full_name)
+    - my name is [adnan ajmal](full_name)
+    - my name is [fahad rehman](full_name)
+    - i am [ahtisham gull](full_name)
+    - i am [amir butt](full_name)
+    - i am [khadija azam](full_name)
+    - my name is [kashif wahid](full_name)
+    - my name is [ranjhoo haneef](full_name)
+    - my name is [sonia aziz](full_name)
+    - i'm [zeerak arain](full_name)
+    - i'm [khudija zahid](full_name)
+    - i'm [mirha nizam](full_name)
+
+- intent: introduce_age
+  examples: |
+    - [5](number) years old
+    - [18](number) years old
+    - [19](number) years old
+    - [20](number) years old
+    - [21](number) years old
+    - [22](number) year old
+    - i am [40](number) years old
+    - i am [41](number) years old
+    - i am [42](number) years old
+    - i am [43](number) years old
+    - i am [45](number) year old
+    - i am [46](number)
+    - i am [47](number)
+    - i am [48](number)
+    - i am [49](number)
+    - my age is [30](number)
+    - my age is [31](number)
+    - my age is [32](number)
+    - my age is [33](number)
+    - my age is [34](number)
+
+- intent: request_searching_job
+  examples: |
+    - I'm looking for job
+    - i am find a job
+    - please search job
+    - please find job
+    - help me to search for job
+    - could you help me search job
+    - can you search job
+    - could you find job
+    - show me jobs
+    - i want to explore job opportunities
+    - what are job posts
+    - are there many job opportunities

@@ -1,0 +1,38 @@
+version: "3.1"
+
+- story: form execution, perform chitchat
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - intent: smalltalk
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_smalltalk
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+
+- story: form execution, perform chitchat
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - intent: smalltalk
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_smalltalk
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+

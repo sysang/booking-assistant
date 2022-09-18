@@ -55,6 +55,8 @@ def parse_date_range(from_time, duration, format=DATE_FORMAT):
 
 
 def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any], domain: Dict[Text, Any], requested_slot: Text = None) -> Dict[Text, Any]:
+    # TODO: check if from_entity mapping has any invalid intent setting or entity setting (do not exist!)
+    # If this mistake exists it produces bug that takes much effort to investigate
 
     def map_requested_slot(condition):
         if not condition.get('active_loop'):
@@ -63,28 +65,43 @@ def slots_for_entities(entities: List[Dict[Text, Any]], intent: Dict[Text, Any],
             return requested_slot
         return condition.get('requested_slot', None)
 
+    def checkif_conditions_satisfied(mapping):
+        conditions = mapping.get('conditions', [])
+
+        if len(conditions) == 0:
+            return True
+
+        # TODO: improve checking logic for condition type other than form
+        if not requested_slot:
+            return False
+
+        inclusive_requested_slots = list(map(map_requested_slot, conditions))
+
+        return requested_slot in inclusive_requested_slots
+
     mapped_slots = {}
     for slot_name, slot_conf in domain['slots'].items():
         slot_mappings = slot_conf['mappings']
-        for entity in entities:
-            for mapping in slot_mappings:
-                if mapping.get('type', None) != 'from_entity':
-                    continue
-                if mapping.get('entity', None) != entity['entity']:
-                    continue
+
+        for mapping in slot_mappings:
+            if mapping.get('type', None) == 'from_entity':
+                for entity in entities:
+                    if mapping.get('entity', None) != entity['entity']:
+                        continue
+                    if mapping.get('intent', None) != intent['name']:
+                        continue
+                    if not checkif_conditions_satisfied(mapping):
+                        continue
+                    mapped_slots[slot_name] = entity.get('value')
+
+            elif mapping.get('type', None) == 'from_intent':
                 if mapping.get('intent', None) != intent['name']:
                     continue
-
-                conditions = mapping.get('conditions', [])
-                if len(conditions) != 0 and requested_slot:
-                    inclusive_requested_slots = list(map(map_requested_slot, conditions))
-                    if requested_slot not in inclusive_requested_slots:
-                        continue
-
-                mapped_slots[slot_name] = entity.get('value')
+                if not checkif_conditions_satisfied(mapping):
+                    continue
+                mapped_slots[slot_name] = mapping.get('value')
 
     return mapped_slots
-
 
 def parse_bkinfo_bed_type(expression: Text) -> Text:
     VALID_BED_TYPES = ['twin', 'single', 'double', 'king', 'queen']
@@ -345,20 +362,21 @@ def __test__DictUpdatingMemmQueue():
 
 def __test__slots_for_entities():
     from ruamel.yaml import YAML
-
     yaml = YAML(typ="safe", pure=True)
-    with open(f"actions/test_data/domain.yml", 'r') as reader:
+
+    with open(f"actions/test_data/slots-booking.yml", 'r') as reader:
         domain = yaml.load(reader)
 
-    print('[CASE 1] requested_slot -> None')
+    print('[CASE 1] requested_slot -> bkinfo_area')
     intent = {'name': 'request_listing_hotel_by_area', 'confidence': 0.99997484683990}
     entities = [
         {'entity': 'area', 'start': 37, 'end': 44, 'confidence_entity': 0.9996579885482788, 'value': 'bangkok', 'extractor': 'DIETClassifier'}
     ]
-    requested_slot = None
+    requested_slot = 'bkinfo_area'
     mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
     expected = {'bkinfo_area': 'bangkok'}
     assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
+
 
     print('[CASE 2] requested_slot -> bkinfo_duration; intent -> request_bed_type; bed_type -> single')
     intent = {'name': 'request_bed_type', 'confidence': 0.99997484683990}
@@ -369,6 +387,18 @@ def __test__slots_for_entities():
     mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
     expected = {}
     assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
+
+
+    print('[CASE 3] from_intent, intent -> affirm, requested_slot -> profileinfo_experience_oversea, value -> True')
+    with open(f"actions/test_data/slots-job.yml", 'r') as reader:
+        domain = yaml.load(reader)
+    intent = {'name': 'affirm', 'confidence': 0.9999994039535522}
+    entities = []
+    requested_slot = 'profileinfo_experience_oversea'
+    mapped_slots = slots_for_entities(entities=entities, intent=intent, domain=domain, requested_slot=requested_slot)
+    expected = {'profileinfo_experience_oversea': True}
+    assert mapped_slots == expected, 'mapped_slots: ' + str(mapped_slots)
+
 
     print('[PASSED]')
 

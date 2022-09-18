@@ -1,0 +1,244 @@
+version: "3.1"
+
+slots:
+  botmind_state:
+    type: categorical
+    mappings:
+      - type: custom
+        action: action_botmind_state_mapping
+    influence_conversation: true
+    initial_value: attentive
+    values:
+      - transitioning
+      - thinking
+      - prime_boostX1
+      - prime_boostX2
+      - attentive
+  botmind_context:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: chitchat
+    values:
+      - workingonjobsearch
+      - chitchat #  in waiting user's request
+  botmind_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: engage_context
+    values:
+      - engage_context
+      - engage_interrogative
+      - engage_affirmative
+      - engage_negative
+    mappings:
+      - type: custom
+        action: action_botmind_intention_mappings
+  interlocutor_intention:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    values:
+      - engage_conversation
+      - terminate_session
+    mappings:
+      - type: custom
+        action: action_interlocutor_intention_mappings
+  search_result_flag:
+    type: categorical
+    mappings:
+      - type: custom
+    influence_conversation: true
+    initial_value: null
+    values:
+      - waiting
+      - available
+      - updating
+  botmemo_collecting_profile_progress:  # working memory
+    type: categorical
+    mappings:
+      - type: custom
+        action: botmemo_collecting_profile_progress_mapping
+    influence_conversation: true
+    initial_value: null
+    values:
+      - initialized
+      - information_collecting
+      - done_information_collecting
+      - result_showing
+      - selection_taken
+      - information_revised
+  botmemo_profileinfo_status:
+    type: addons.custom_slot_types.ProfileInfoStatus
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+        action: botmemo_profile_status_slot_mapping
+  jobinfo_id:
+    influence_conversation: true
+    initial_value: null
+    type: float
+    mappings:
+      - type: from_entity
+        intent: user_selects_entity
+        entity: entity_id
+  requested_slot:
+    type: categorical
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+    values:
+      - profileinfo_phone_number
+      - profileinfo_user_name
+      - profileinfo_user_age
+      - profileinfo_degree_type
+      - profileinfo_job_title
+      - profileinfo_experience_year
+      - profileinfo_experience_industry
+      - profileinfo_experience_oversea
+  profileinfo_phone_number:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_phone_number
+        entity: phone_number
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_phone_number
+  profileinfo_user_name:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_name
+        entity: full_name
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_user_name
+      - type: from_entity
+        intent: introduce_name
+        entity: full_name
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_user_name
+  profileinfo_user_age:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_number
+        entity: number
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_user_age
+      - type: from_entity
+        intent: introduce_age
+        entity: number
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_user_age
+  profileinfo_degree_type:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_degree_type
+        entity: degree_type
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_degree_type
+  profileinfo_job_title:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_job_title
+        entity: job_title
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_job_title
+  profileinfo_experience_year:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_number
+        entity: number
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_experience_year
+  profileinfo_experience_industry:
+    influence_conversation: false
+    initial_value: null
+    type: text
+    mappings:
+      - type: from_entity
+        intent: express_industry_field
+        entity: industry_field
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_experience_industry
+  profileinfo_experience_oversea:
+    influence_conversation: false
+    initial_value: null
+    type: bool
+    mappings:
+      - type: from_intent
+        value: true
+        intent: affirm
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_experience_oversea
+      - type: from_intent
+        value: false
+        intent: deny
+        conditions:
+        - active_loop: profileinfo_form
+          requested_slot: profileinfo_experience_oversea
+  logs_debugging_info:
+    type: any
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: []
+  logs_fallback_loop_history:
+    type: any
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: []
+  botmind_name:
+    type: text
+    mappings:
+      - type: custom
+    influence_conversation: false
+    initial_value: Umer
+  old:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+        action: action_old_slot_mapping
+    initial_value: null
+  notes_bkinfo:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null
+  notes_search_result:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+    initial_value: null

@@ -6,12 +6,12 @@ from rasa.shared.core.slots import Slot
 
 logger = logging.getLogger(__name__)
 
-class BkinfoStatus(Slot):
-    status_num = 5
+class BaseInfoStatus(Slot):
+    status_num = 2
     bit_per_status = 2
 
     def type_name(self):
-        return 'addons.custom_slot_types.BkinfoStatus'
+        raise NotImplementedError('type_name must be defined.')
 
     def feature_dimensionality(self):
         return self.status_num * self.bit_per_status
@@ -26,7 +26,7 @@ class BkinfoStatus(Slot):
         if value is None or len(value) == 0:
             return r
 
-        assert isinstance(value, list), "BkinfoStatus value, %s, must be an instance of list, actual type: %s" % (value, type(value))
+        assert isinstance(value, list), "_as_feature: expect value to be an instance of list, actual type: %s" % (type(value))
 
         if len(value) > status_num:
             logging.warning('[WARNING, FATAL] Slot value is incorrectly represented, %s > %s (len(value) > status_num), value: %s', len(value), status_num, str(value))
@@ -46,6 +46,22 @@ class BkinfoStatus(Slot):
                 break
 
         return r
+
+
+class BkinfoStatus(BaseInfoStatus):
+    status_num = 5
+    bit_per_status = 2
+
+    def type_name(self):
+        return 'addons.custom_slot_types.BkinfoStatus'
+
+
+class ProfileInfoStatus(BaseInfoStatus):
+    status_num = 8
+    bit_per_status = 2
+
+    def type_name(self):
+        return 'addons.custom_slot_types.ProfileInfoStatus'
 
 
 if __name__ == '__main__':

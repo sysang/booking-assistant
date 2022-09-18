@@ -1,0 +1,50 @@
+version: "3.1"
+
+stories:
+- story: form execution, initialized, ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - intent: nlu_fallback
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_please_rephrase
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+
+- story: form execution, information_collecting, ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - intent: nlu_fallback
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_please_rephrase
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+
+- story: form execution, showing room, ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: room_showing
+    - search_result_flag: available
+  - intent: nlu_fallback
+  - action: utter_please_rephrase

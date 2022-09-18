@@ -1,0 +1,12 @@
+version: "3.1"
+
+rules:
+- rule: chitchat, ask the user to rephrase whenever they send a message with low NLU confidence
+  condition:
+  - slot_was_set:
+    - collecting_profile_progress: null
+    - search_result_flag: null
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+

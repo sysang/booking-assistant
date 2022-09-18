@@ -18,6 +18,10 @@ trainrasachatbot:
 	make archive_trainrasachabot
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v'
 
+trainjobchatbot:
+	make archive_trainrasachabot
+	docker exec ailab sh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --augmentation 0 -v --data data2 --out models2 -d domain-job.yml -c config-job.yml'
+
 tensorboard_dir := botserver-app/tensorboard/current
 log_dir = botserver-app/tensorboard/$(shell cd botserver-app/models/ && ls -td *.tar.gz | head -1)/
 archive_trainrasachabot:
@@ -36,7 +40,7 @@ dryrun:
 	docker exec ailab zsh -c 'cd /workspace/rasachatbot/botserver-app && rasa train --dry-run'
 
 test:
-	cd botserver-app && python test_runner.py --model=$(model) --testfile=$(testfile) --endpoint=$(endpoint)
+	cd botserver-app && python3 test_runner.py --model=$(model) --testfile=$(testfile) --endpoint=$(endpoint)
 
 testall:
 	-rm -f botserver-app/tests/reports/current/*
@@ -95,3 +99,7 @@ sidekig:
 	make patch_chatwoot
 	docker restart rasachatbot-sidekiq-1
 	docker logs --tail=100 -f rasachatbot-sidekiq-1
+
+mvmodels2:
+	mv botserver-app/models2/${model} botserver-app/models
+	docker restart rasachatbot-rasa-x-1

@@ -1,0 +1,120 @@
+version: "3.1"
+
+stories:
+- story: form execution, terminated, user denies
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - or:
+    - intent: bye
+    - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
+
+- story: form execution, terminated, user affirms
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - collecting_profile_progress: initialized
+    - search_result_flag: waiting
+  - active_loop: profileinfo_form
+  - or:
+    - intent: bye
+    - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  - intent: affirm
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_affirmative
+  - action: botacts_utter_bye
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
+    - botmind_intention: engage_context
+    - interlocutor_intention: null
+    - botmemo_collecting_profile_progress: null
+    - botmemo_profileinfo_status: null
+    - search_result_flag: null
+    - jobinfo_id: null
+
+- story: Showing room, terminated, user denies
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: room_showing
+    - search_result_flag: available
+  - active_loop: null
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  - intent: deny
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_negative
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: bkinfo_area
+
+- story: Showing room, terminated, user affirms
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: room_showing
+    - search_result_flag: available
+  - active_loop: null
+  - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  - intent: affirm
+  - slot_was_set:
+    - interlocutor_intention: null
+    - botmind_intention: engage_affirmative
+  - action: botacts_utter_bye
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: chitchat
+    - botmind_intention: engage_context
+    - interlocutor_intention: null
+    - botmemo_collecting_profile_progress: null
+    - botmemo_profileinfo_status: null
+    - search_result_flag: null
+    - jobinfo_id: null

@@ -1,0 +1,28 @@
+version: "3.1"
+
+rules:
+- rule: idle, bye
+  condition:
+  - slot_was_set:
+    - collecting_profile_progress: null
+    - search_result_flag: null
+  steps:
+  - intent: bye
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  wait_for_user_input: False
+
+- rule: idle, stop_doing
+  condition:
+  - slot_was_set:
+    - collecting_profile_progress: null
+    - search_result_flag: null
+  steps:
+  - intent: stop_doing
+  - slot_was_set:
+    - interlocutor_intention: terminate_session
+    - botmind_intention: engage_interrogative
+  - action: botacts_utter_asking_confirm_stop_searching_job
+  wait_for_user_input: False

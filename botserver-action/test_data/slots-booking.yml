@@ -45,8 +45,8 @@ slots:
       - initialized
       - information_collecting
       - done_information_collecting
-      - room_showing
-      - room_selected
+      - showing_result
+      - entity_selected
       - information_revised
   botmemo_booking_failure:
     type: categorical
@@ -376,6 +376,56 @@ slots:
       - type: from_entity
         intent: revise_area
         entity: area
+  bkinfo_country_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: country
+        intent: revise_area
+  bkinfo_region_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: region
+        intent: revise_area
+  bkinfo_district_revised:
+    influence_conversation: false
+    type: text
+    mappings:
+      - type: from_entity
+        entity: district
+        intent: revise_area
+  bkinfo_area_type_revised:
+    influence_conversation: false
+    type: categorical
+    values:
+      - hotel
+      - hotels
+      - beach
+      - beaches
+      - lake
+      - lakes
+      - cave
+      - caves
+      - bridge
+      - bridges
+      - city
+      - cities
+      - island
+      - islands
+      - bay
+      - bays
+      - airport
+      - museum
+      - station
+      - terminal
+      - university
+    mappings:
+      - type: from_entity
+        entity: area_type
+        intent: revise_area
   bkinfo_checkin_time_revised:
     influence_conversation: true
     initial_value: null

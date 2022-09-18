@@ -1,0 +1,54 @@
+version: "3.1"
+
+stories:
+- story: when initializing collecting_info_progress, unexpected intent
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - active_loop: profileinfo_form
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_number
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+
+- story: when initializing collecting_info_progress, unexpected intent
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - active_loop: profileinfo_form
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_number
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form

@@ -45,8 +45,8 @@ slots:
       - initialized
       - information_collecting
       - done_information_collecting
-      - room_showing
-      - room_selected
+      - showing_result
+      - entity_selected
       - information_revised
   botmemo_booking_failure:
     type: categorical

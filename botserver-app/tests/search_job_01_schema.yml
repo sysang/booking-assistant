@@ -1,0 +1,12 @@
+stories:
+- name: User say hi, form is filled, then show search result
+  steps:
+    - 'hi'
+    - '3002293375'
+    - 'nazy ahmad'
+    - '21 years old'
+    - 'diploma 3 years'
+    - 'plumber'
+    - '3'
+    - 'construction'
+    - 'yes'

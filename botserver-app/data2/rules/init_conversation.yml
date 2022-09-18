@@ -1,0 +1,17 @@
+version: "3.1"
+
+rules:
+- rule: ready to start conversation, mainly used by chat client to trigger starting process
+  steps:
+  - intent: agent_ready
+  - action: botacts_initialize_profile_collecting
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - botmemo_profileinfo_status: [null,null,null,null,null,null,null,null]
+    - search_result_flag: waiting
+  - action: profileinfo_form
+  - active_loop: profileinfo_form

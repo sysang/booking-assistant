@@ -1,0 +1,214 @@
+# The config recipe.
+# https://rasa.com/docs/rasa/model-configuration/
+# recipe: default.v1
+
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
+version: "3.1"
+
+language: en
+
+importers:
+- name: MultiProjectImporter
+
+imports:
+  - data2/Intents
+  - data2/Entities
+  - data2/Slots
+  - data2/Actions
+  - data2/Forms
+
+pipeline:
+# No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
+# If you'd like to customize it, uncomment and adjust the pipeline.
+# See https://rasa.com/docs/rasa/tuning-your-model for more information.
+  - name: WhitespaceTokenizer
+    intent_tokenization_flag: True
+    intent_split_symbol: "+"
+  - name: LanguageModelFeaturizer
+    # Name of the language model to use
+    model_name: "bert"
+    # Pre-Trained weights to be loaded
+    model_weights: "rasa/LaBSE"
+
+    # An optional path to a directory from which
+    # to load pre-trained model weights.
+    # If the requested model is not found in the
+    # directory, it will be downloaded and
+    # cached in this directory for future use.
+    # The default value of `cache_dir` can be
+    # set using the environment variable
+    # `TRANSFORMERS_CACHE`, as per the
+    # Transformers library.
+    cache_dir: null
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
+  # - name: RegexEntityExtractor
+  #   # text will be processed with case insensitive as default
+  #   case_sensitive: False
+  #   # use lookup tables to extract entities
+  #   use_lookup_tables: True
+  #   # use regexes to extract entities
+  #   use_regexes: True
+  #   # use match word boundaries for lookup table
+  #   use_word_boundaries: True
+  - name: DIETClassifier
+    intent_classification: True
+    entity_recognition: True
+    epochs: 151
+    learning_rate: 1e-3
+    batch_size: [128, 512]  # default [64, 256]
+    constrain_similarities: true
+    hidden_layers_sizes:  # default: text: [], label: [])
+      text: []
+      label: []
+    dense_dimension:
+      text: 128
+      label: 20
+    concat_dimension:
+      text: 128
+      label: 20
+    connection_density: 0.20
+    transformer_size: 256  # default 256
+    number_of_transformer_layers: 2  # default 2
+    number_of_attention_heads: 4  # default 4
+    use_masked_language_model: True  # default False
+    embedding_dimension: 20  # default 20
+    drop_rate: 0.25  # Dropout rate for encoder. Default: 0.2
+    drop_rate_attention: 0.25  # Dropout rate for attention.
+    number_of_negative_examples: 501  # default: 20
+    similarity_type: auto  # default: auto
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
+    retrieval_intent: null  # Name of the intent for which this response selector model is trained
+    epochs: 133
+    constrain_similarities: true
+    batch_size: [64, 256]
+    hidden_layers_sizes:
+      text: []
+      label: []
+    dense_dimension:
+      text: 512
+      label: 512
+    concat_dimension:
+      text: 512
+      label: 512
+    transformer_size: 256
+    number_of_transformer_layers: 2
+    number_of_attention_heads: 4
+    use_masked_language_model: true
+    embedding_dimension: 20
+    drop_rate: 0.25
+    drop_rate_attention: 0.25
+    use_key_relative_attention: false
+    use_value_relative_attention: false
+    number_of_negative_examples: 501
+    similarity_type: auto
+  - name: FallbackClassifier
+    threshold: 0.25
+    ambiguity_threshold: 0.35
+
+# Configuration for Rasa Core.
+# https://rasa.com/docs/rasa/core/policies/
+policies:
+# No configuration for policies was provided. The following default policies were used to train your model.
+# If you'd like to customize them, uncomment and adjust the policies.
+# See https://rasa.com/docs/rasa/policies for more information.
+  # - name: MemoizationPolicy
+  - name: RulePolicy
+    core_fallback_threshold: 0.15
+    core_fallback_action_name: custom_action_fallback
+    enable_fallback_prediction: True
+    restrict_rules: true
+    check_for_contradictions: true
+  - name: TEDPolicy
+    max_history: 1
+    learning_rate: 1.3e-3  # default 1e-3
+    epochs: 501
+    constrain_similarities: true
+    model_confidence: softmax
+    batch_size: [241, 249]  # default [32, 256]
+    connection_density: 0.61  # default 0.2
+    dense_dimension:
+      text: 256  # default 128
+      intent: 64  # default 20
+      action_name: 64
+      label_intent: 64
+      entities: 48
+      slots: 48
+      active_loop: 64
+    concat_dimension:
+      text: 150
+      action_text: 128
+      label_action_text: 128  # default 128
+    encoding_dimension: 64
+    transformer_size:
+      text: 80
+      dialogue: 64
+      action_text: 64
+      label_action_text: 64
+    number_of_transformer_layers:
+      text: 2
+      dialogue: 2
+      action_text: 2
+      label_action_text: 2  # default 1
+    number_of_attention_heads: 2  # default 4
+    embedding_dimension: 12  # default 20
+    drop_rate_dialogue: 0.2  # default 0.1
+    drop_rate_label: 0.1  # default 0.0
+    drop_rate_attention: 0.1  # default 0.0
+    renormalize_confidences: True  # default False
+    number_of_negative_examples: 1013  # default 20
+    maximum_positive_similarity: 0.80  # default 0.8
+    maximum_negative_similarity: -0.30  # default -0.2
+    tensorboard_log_directory: './tensorboard/current'
+    tensorboard_log_level: "epoch"
+    evaluate_on_number_of_examples: 0
+    evaluate_every_number_of_epochs: 5
+  # - name: UnexpecTEDIntentPolicy
+  #   tolerance: 0.75
+  #   max_history: 2
+  #   learning_rate: 1.3e-3  # default 1e-3
+  #   epochs: 101
+  #   constrain_similarities: true
+  #   model_confidence: softmax
+  #   batch_size: [241, 249]  # default [32, 256]
+  #   connection_density: 0.61  # default 0.2
+  #   dense_dimension:
+  #     text: 256  # default 128
+  #     intent: 64  # default 20
+  #     action_name: 64
+  #     label_intent: 64
+  #     entities: 48
+  #     slots: 48
+  #     active_loop: 64
+  #   concat_dimension:
+  #     text: 150
+  #     action_text: 128
+  #     label_action_text: 128  # default 128
+  #   encoding_dimension: 64
+  #   transformer_size:
+  #     text: 80
+  #     dialogue: 64
+  #     action_text: 64
+  #     label_action_text: 64
+  #   number_of_transformer_layers:
+  #     text: 2
+  #     dialogue: 2
+  #     action_text: 2
+  #     label_action_text: 2  # default 1
+  #   number_of_attention_heads: 2
+  #   embedding_dimension: 12  # default 20
+  #   drop_rate_dialogue: 0.2  # default 0.1
+  #   drop_rate_label: 0.1  # default 0.0
+  #   drop_rate_attention: 0.1 # default 0.0
+  #   renormalize_confidences: True  # default False
+  #   number_of_negative_examples: 501  # default 20
+  #   maximum_positive_similarity: 0.80  # default 0.8
+  #   maximum_negative_similarity: -0.30  # default -0.2
+

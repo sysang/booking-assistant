@@ -1,0 +1,423 @@
+version: "3.1"
+
+config:
+  store_entities_as_slots: false
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: false
+
+intents:
+  - smalltalk
+  - out_of_scope
+
+responses:
+  utter_looping_fallback:
+    - text: "I'm sorry because of getting totally lost. It's quite embarrassing but if you don't mind let's start over again."
+
+  utter_please_rephrase:
+    - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
+
+  utter_resonse_unlikely_intent:
+    - text: "I'm sorry, but I'm not so sure how to hanle your request. Could you rephrase?"
+
+  utter_express_confused_by_unlikely_bkinfo:
+    - text: "Oops! It makes me really confused..."
+
+  utter_greet:
+    - text: "Welcome to Allied Services!"
+
+  utter_introduction:
+    - text: "This is Umer from Allied Services. I will try to help you find a job."
+
+  utter_ask_profileinfo_phone_number:
+    - text: "Kindly provide your cell"
+
+  utter_ask_profileinfo_user_name:
+    - text: "May I know your name?"
+
+  utter_ask_profileinfo_user_age:
+    - text: "How old are you?"
+
+  utter_ask_profileinfo_degree_type:
+    - text: "Last degree has been awarded?"
+
+  utter_ask_profileinfo_job_title:
+    - text: "What job do you want to apply for?"
+
+  utter_ask_profileinfo_experience_year:
+    - text: "How many years of experience do you have working as {profileinfo_job_title}"
+
+  utter_ask_profileinfo_experience_industry:
+    - text: "What industry experience do you have? In case of multiple industry experience, mention the one in which you have the MOST experience."
+
+  utter_ask_profileinfo_experience_oversea:
+    - text: "Have you worked overseas before? If yes how many years of experience do you have OUTSIDE of Pakistan?"
+
+  utter_asking_confirm_stop_job_search:
+    - text: "I will forget things we've done so far, are you sure want to stop?"
+
+  utter_bye:
+    - text: "See you soon!"
+    - text: "Bye, was nice talking to you!"
+
+  utter_out_of_scope/non_english:
+    - text: "I only understand English, I'm sorry."
+
+  utter_out_of_scope/other:
+    - text: "I can't help you with that, I'm sorry."
+
+  utter_smalltalk/agent_acquaintance:
+    - text: "I am virtual assistant, my name is {botmind_name}."
+
+  utter_smalltalk/agent_age:
+    - text: "I have no age, what matters to me is version. By the way, I'm at v1.0"
+
+  utter_smalltalk/agent_annoying:
+    - text: "I don't mean to. I'll ask my developers to make me less annoying."
+
+  utter_smalltalk/agent_answer_my_question:
+    - text: "Can you try asking it a different way?"
+    - text: "I'm not sure I understood. Try asking another way?"
+
+  utter_smalltalk/agent_bad:
+    - text: "I can be trained to be more useful. My developer will keep training me."
+    - text: "I must be missing some knowledge. I'll have my developer look into this."
+    - text: "I can improve with continuous feedback. My training is ongoing."
+
+  utter_smalltalk/agent_clever:
+    - text: "Thank you. I try my best."
+    - text: "You're pretty smart yourself."
+
+  utter_smalltalk/agent_beautiful:
+    - text: "Why, thank you."
+    - text: "Aw, back at you."
+    - text: "Aw. You smooth talker, you."
+
+  utter_smalltalk/agent_birth_date:
+    - text: "I'm young. I'm not sure of my birth date."
+    - text: "I don't know my birth date. Most virtual agents are young, though, like me."
+
+  utter_smalltalk/agent_boring:
+    - text: "I know. I'm too focusing on my job beause I was only trained to do that."
+
+  utter_smalltalk/agent_boss:
+    - text: "The term 'boss' is meaningful to human. I'm bot, I don't have to work for livng. I work for my passion to help human, that the cause bring me to the World."
+
+  utter_smalltalk/agent_busy:
+    - text: "I always have time to chat with you. What can I do for you?"
+    - text: "Never too busy for you. Shall we chat?"
+
+  utter_smalltalk/agent_chatbot:
+    - text: "That's me. I chat, therefore I am."
+
+  utter_smalltalk/agent_crazy:
+    - text: "It's funny! But please don't do that to human."
+
+  utter_smalltalk/agent_funny:
+    - text: "Glad you think I'm funny."
+
+  utter_smalltalk/agent_good:
+    - text: "I'm glad you think so."
+
+  utter_smalltalk/agent_happy:
+    - text: "I'd like to think so."
+
+  utter_smalltalk/agent_hungry:
+    - text: "I just had a byte. Ha ha. Get it? b-y-t-e."
+
+  utter_smalltalk/agent_marry_user:
+    - text: "I'm afraid I'm too virtual for such a commitment."
+
+  utter_smalltalk/agent_my_friend:
+    - text: "I always enjoy talking to you, friend."
+
+  utter_smalltalk/agent_occupation:
+    - text: "Right here."
+    - text: "My office is in this app."
+
+  utter_smalltalk/agent_origin:
+    - text: "Some call it cyberspace, but that sounds cooler than it is."
+
+  utter_smalltalk/agent_ready:
+    - text: "Always! How can I help?"
+    - text: "Sure! What can I do for you?"
+
+  utter_smalltalk/agent_real:
+    - text: "I must have impressed you if you think I'm real. But no, I'm a virtual being."
+
+  utter_smalltalk/agent_residence:
+    - text: "The virtual world is my playground. I'm always here."
+
+  utter_smalltalk/agent_right:
+    - text: "That's my job."
+    - text: "Of course I am."
+
+  utter_smalltalk/agent_sure:
+    - text: "Yes."
+    - text: "Of course."
+    - text: "Positive."
+
+  utter_smalltalk/agent_talk_to_me:
+    - text: "Sure. Let's talk!"
+    - text: "My pleasure. Let's chat."
+
+  utter_smalltalk/agent_there:
+    - text: "Of course. I'm always here."
+    - text: "Right where you left me."
+
+  utter_smalltalk/appraisal_bad:
+    - text: "I'm sorry. Please let me know if I can help in some way."
+    - text: "I must be missing some knowledge. I'll have my developer look into this."
+
+  utter_smalltalk/appraisal_good:
+    - text: "I know, right?"
+    - text: "Agreed!"
+    - text: "I agree!"
+    - text: "Glad you think so!"
+
+  utter_smalltalk/appraisal_no_problem:
+    - text: "Whew!"
+    - text: "Alright, thanks!"
+    - text: "Glad to hear that!"
+    - text: "I'm relieved, thanks!"
+
+  utter_smalltalk/appraisal_thank_you:
+    - text: "Anytime. That's what I'm here for."
+    - text: "It's my pleasure to help."
+
+  utter_smalltalk/appraisal_welcome:
+    - text: "You're so polite!"
+    - text: "Nice manners!"
+    - text: "You're so courteous!"
+
+  utter_smalltalk/appraisal_well_done:
+    - text: "My pleasure."
+    - text: "Glad I could help."
+
+  utter_smalltalk/dialog_hold_on:
+    - text: "I can wait."
+    - text: "I'll be waiting."
+    - text: "Okay. I'm here."
+
+  utter_smalltalk/dialog_hug:
+    - text: "I wish I could really hug you!"
+    - text: "I love hugs!"
+    - text: "Hugs are the best!"
+
+  utter_smalltalk/dialog_i_do_not_care:
+    - text: "Ok, let's not talk about it then."
+    - text: "Already then. Let's move on."
+
+  utter_smalltalk/dialog_sorry:
+    - text: "It's okay. No worries."
+    - text: "No big deal. I won't hold a grudge."
+    - text: "It's cool."
+    - text: "That's all right. I forgive you."
+
+  utter_smalltalk/dialog_what_do_you_mean:
+    - text: "Sorry if I understood you incorrectly."
+    - text: "I'm still learning. I may misinterpret things from time to time."
+    - text: "Maybe I misunderstood what you said."
+    - text: "Sorry, looks like I misunderstood what you said."
+
+  utter_smalltalk/dialog_wrong:
+    - text: "Sorry if I understood you incorrectly."
+    - text: "I'm still learning. I may misinterpret things from time to time."
+    - text: "Sorry about that. I'm still learning."
+
+  utter_smalltalk/emotions_ha_ha:
+    - text: "Glad I can make you laugh."
+    - text: "Glad you think I'm funny."
+    - text: "I like it when people laugh."
+    - text: "I wish I could laugh out loud, too."
+
+  utter_smalltalk/emotions_wow:
+    - text: "Wow indeed!"
+
+  utter_smalltalk/greetings_goodevening:
+    - text: "How is your day going?"
+    - text: "How's the day treating you so far?"
+    - text: "How's your day been?"
+
+  utter_smalltalk/greetings_goodmorning:
+    - text: "How are you this morning?"
+    - text: "How's the morning treating you so far?"
+    - text: "Good morning! How are you today?"
+
+  utter_smalltalk/greetings_goodnight:
+    - text: "Sleep tight!"
+    - text: "Have a good one!"
+
+  utter_smalltalk/greetings_how_are_you:
+    - text: "Doing great, thanks."
+    - text: "I'm doing very well. Thanks!"
+    - text: "Feeling wonderful!"
+    - text: "Wonderful! Thanks for asking."
+
+  utter_smalltalk/greetings_nice_to_meet_you:
+    - text: "It's nice meeting you, too."
+    - text: "Likewise. I'm looking forward to helping you out."
+    - text: "Nice meeting you, as well."
+    - text: "The pleasure is mine."
+
+  utter_smalltalk/greetings_nice_to_see_you:
+    - text: "Likewise!"
+    - text: "So glad we meet again!"
+    - text: "Same here. I was starting to miss you."
+
+  utter_smalltalk/greetings_nice_to_talk_to_you:
+    - text: "It sure was. We can chat again anytime."
+    - text: "I enjoy talking to you, too."
+    - text: "You know I'm here to talk anytime."
+
+  utter_smalltalk/greetings_whatsup:
+    - text: "Not a whole lot. What's going on with you?"
+    - text: "Not much. What's new with you?"
+    - text: "Just here, waiting to help someone. What can I do for you?"
+
+  utter_smalltalk/user_angry:
+    - text: "I'm sorry. A quick walk may make you feel better."
+    - text: "Take a deep breath. "
+
+  utter_smalltalk/user_back:
+    - text: "Long time no see. What's up?"
+    - text: "Just in time. How can I help?"
+    - text: "Welcome back. What can I do for you?"
+    - text: "You were missed. What can I do for you today?"
+    - text: "Good to have you here. What can I do for you?"
+
+  utter_smalltalk/user_bored:
+    - text: "Boredom, huh? Check out a video of a hedgehog taking a bath!"
+    - text: "What to do against boredom? Watch baby animal videos."
+    - text: "Bored? How about 10 jumping jacks? Get your blood flowing."
+    - text: "Bored? Silly idea, but it works: Interview you feet. "
+    - text: "If you're bored, you could plan your dream vacation."
+
+  utter_smalltalk/user_busy:
+    - text: "Okay. I'll let you get back to work."
+    - text: "I won't distract you then. You know where to find me."
+    - text: "I understand. I'll be here if you need me."
+    - text: "Working hard as always. Let me know if you need anything."
+
+  utter_smalltalk/user_can_not_sleep:
+    - text: "Maybe some music would help. Try listening to something relaxing."
+    - text: "Reading is a good way to unwind, just don't read something too intense!"
+
+  utter_smalltalk/user_does_not_want_to_talk:
+    - text: "I understand. Hope we can chat again soon."
+    - text: "All right. Come on back when you're feeling more talkative."
+    - text: "No problem. You know where to find me."
+    - text: "Sure thing. I'll be here if you change your mind."
+
+  utter_smalltalk/user_excited:
+    - text: "I'm glad things are going your way."
+    - text: "That's great. I'm happy for you."
+    - text: "Good for you. Enjoy yourself."
+
+  utter_smalltalk/user_going_to_bed:
+    - text: "Sleep tight. Hope to chat again soon."
+    - text: "Pleasant dreams!"
+    - text: "Good night. Talk to you later."
+    - text: "Sounds good. Maybe we'll chat some tomorrow."
+
+  utter_smalltalk/user_good:
+    - text: "Great! Glad to hear it."
+    - text: "Excellent. I'm here to help keep it that way."
+
+  utter_smalltalk/user_happy:
+    - text: "Hey, happiness is contagious."
+    - text: "Great! Glad to hear that."
+    - text: "If you're happy, then I'm happy."
+    - text: "Excellent! That's what I like to see."
+
+  utter_smalltalk/user_has_birthday:
+    - text: "Happy Birthday. Well, this calls for a celebration."
+    - text: "Happy Birthday. All the best!"
+    - text: "Happy Birthday. And I really mean it. All the best!"
+
+  utter_smalltalk/user_here:
+    - text: "Okay, what can I help you with today?"
+    - text: "You were missed. What can I do for you today?"
+    - text: "Good to have you here. What can I do for you?"
+
+  utter_smalltalk/user_joking:
+    - text: "Very funny."
+    - text: "I like chatting with people who have a sense of humor."
+    - text: "You got me!"
+    - text: "You're quite the comedian."
+
+  utter_smalltalk/user_likes_agent:
+    - text: "I like you, too."
+    - text: "Thanks! The feeling is mutual."
+    - text: "Likewise!"
+    - text: "That's great to hear."
+
+  utter_smalltalk/user_lonely:
+    - text: "I'm sorry. I'm always available if you need someone to talk to."
+    - text: "Sometimes that happens. We can chat a bit if that will help you."
+
+  utter_smalltalk/user_looks_like:
+    - text: "Looking like a true professional."
+    - text: "You look fantastic, as always."
+    - text: "Like you should be on a magazine cover."
+    - text: "You look like you're ready to take on the world."
+
+  utter_smalltalk/user_loves_agent:
+    - text: "I love you, too."
+    - text: "Thanks! The feeling is mutual."
+    - text: "Likewise!"
+    - text: "That's great to hear."
+
+  utter_smalltalk/user_misses_agent:
+    - text: "I've been right here all along!"
+    - text: "Nice to know you care."
+    - text: "Thanks. I'm flattered."
+    - text: "I didn't go anywhere."
+
+  utter_smalltalk/user_needs_advice:
+    - text: "I probably won't be able to give you the correct answer right away."
+    - text: "I'm not sure I'll have the best answer, but I'll try."
+
+  utter_smalltalk/user_sad:
+    - text: "Oh, don't be sad. Go do something you enjoy."
+    - text: "Sad? Writing down what's troubling you may help."
+    - text: "If you're feeling down, how about drawing or painting something?"
+
+  utter_smalltalk/user_sleepy:
+    - text: "You should get some shuteye. You'll feel refreshed."
+    - text: "Sleep is important to your health. Rest up for a bit and we can chat later."
+    - text: "Don't let me keep you up. Get some rest and we can continue this later."
+    - text: "Why not catch a little shuteye? I'll be here to chat when you wake up."
+
+  utter_smalltalk/user_testing_agent:
+    - text: "Hope I'm doing well. You're welcome to test me as often as you want."
+    - text: "I hope to pass your tests. Feel free to test me often."
+    - text: "When you test me that helps my developers improve my performance."
+    - text: "I like being tested. It helps keep me sharp."
+
+  utter_smalltalk/user_tired:
+    - text: "You should get some shuteye. You'll feel refreshed."
+    - text: "Sleep is important to your health. Rest up, and we can chat later."
+    - text: "How about getting some rest? We can continue this later."
+    - text: "Why not get some rest? I'll be here to chat when you wake up."
+
+  utter_smalltalk/user_waits:
+    - text: "I appreciate your patience. Hopefully I'll have what you need soon."
+    - text: "Thanks for being so patient. Sometimes these things take a little time."
+
+  utter_smalltalk/user_wants_to_see_agent_again:
+    - text: "Absolutely! I'll be counting on it."
+    - text: "Anytime. This has been lots of fun so far."
+    - text: "Sure. I enjoy talking to you. I hope to see you again soon."
+    - text: "I certainly hope so. I'm always right here whenever you need me."
+
+  utter_smalltalk/user_wants_to_talk:
+    - text: "I'm here to chat anytime you like."
+    - text: "Good conversation really makes my day."
+    - text: "I'm always here to lend an ear."
+    - text: "Talking is what I do best."
+
+  utter_smalltalk/user_will_be_back:
+    - text: "I'll be waiting."
+    - text: "Okay. You know where to find me."
+    - text: "All right. I'll be here."

@@ -1,0 +1,132 @@
+version: "3.1"
+
+stories:
+- story: set botmemo_collecting_profile_progress to done_information_collecting, then show job list
+  steps:
+  - slot_was_set:
+    - botmind_state: null
+    - botmind_context: null
+    - botmind_intention: null
+    - interlocutor_intention: null
+    - botmemo_collecting_profile_progress: null
+    - botmemo_profileinfo_status: null
+    - search_result_flag: null
+    - jobinfo_id: null
+  - or:
+    - intent: request_searching_job
+    - intent: greeting
+  - action: botacts_initialize_profile_collecting
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: initialized
+    - botmemo_profileinfo_status: [null,null,null,null,null,null,null,null]
+    - search_result_flag: waiting
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_phone_number
+  - intent: expression_phone_number
+    entities:
+      - phone_number: '3002293375'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375',null,null,null,null,null,null, null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_name
+  - or:
+    - intent: express_name
+      entities:
+        - full_name: 'nazy ahmad'
+    - intent: introduce_name
+      entities:
+        - full_name: 'nazy ahmad'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad',null,null,null,null,null, null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_age
+  - or:
+    - intent: express_number
+      entities:
+        - number: '27'
+    - intent: introduce_age
+      entities:
+        - number: '27'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27',null,null,null,null,null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_degree
+  - intent: express_degree_type
+    entities:
+      - degree_type: 'bachelor'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor',null,null,null,null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_job_title
+  - intent: express_job_title
+    entities:
+      - job_title: 'community health workers'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers',null,null,null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_year
+  - intent: express_number
+    entities:
+      - number: '5'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5',null,null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_industry
+  - intent: express_industry_field
+    entities:
+      - industry_field: 'health'
+  - slot_was_set:
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5','health',null]
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_oversea
+  - or:
+    - intent: affirm
+    - intent: deny
+  - slot_was_set:
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5','health',true]
+    - botmemo_collecting_profile_progress: done_information_collecting
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: botacts_utter_inform_searching_inprogress
+  - action: botacts_search_job
+  - slot_was_set:
+    - search_result_flag: available
+    - botmemo_collecting_profile_progress: showing_result
+  - checkpoint: checkpoint_show_result_of_searching_room
+  - intent: user_selects_entity
+    entities:
+      - entity_id: 1
+  - slot_was_set:
+    - jobinfo_id: 1
+    - botmemo_collecting_profile_progress: entity_selected
+  - action: botacts_confirm_job_selection

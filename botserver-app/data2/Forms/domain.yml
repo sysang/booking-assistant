@@ -1,0 +1,14 @@
+version: "3.1"
+
+forms:
+  profileinfo_form:
+    required_slots:
+      - profileinfo_phone_number
+      - profileinfo_user_name
+      - profileinfo_user_age
+      - profileinfo_degree_type
+      - profileinfo_job_title
+      - profileinfo_experience_year
+      - profileinfo_experience_industry
+      - profileinfo_experience_oversea
+

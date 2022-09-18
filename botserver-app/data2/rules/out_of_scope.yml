@@ -1,0 +1,12 @@
+version: "3.1"
+
+rules:
+- rule: response to out_of_scope
+  condition:
+  - slot_was_set:
+    - collecting_profile_progress: null
+    - search_result_flag: null
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+

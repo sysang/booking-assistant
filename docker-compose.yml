@@ -68,7 +68,7 @@ x-rasa-services: &default-rasa-service
     --config-endpoint http://rasa-x:5002/api/config?token=${RASA_X_TOKEN}
     --port 5005
     --jwt-method HS256
-    --jwt-secret ${JWT_SECRET}
+    --jwt-secret "${JWT_SECRET}"
     --auth-token '${RASA_TOKEN}'
     --cors "*"
     -vv
@@ -80,7 +80,7 @@ x-rasa-services: &default-rasa-service
 services:
   rasa-x:
     restart: on-failure:5
-    image: "rasa/rasa-x:${RASA_X_VERSION}"
+    image: "${RASA_X_IMAGE}"
     expose:
       - "5002"
     volumes:
@@ -88,8 +88,8 @@ services:
       - ./botserver-app/environments.yml:/app/environments.yml
       - ./botserver-app/credentials.yml:/app/credentials.yml
       - ./botserver-app/endpoints.yml:/app/endpoints.yml
-      - ./botserver-app/logs:/logs
-      - ./botserver-app/auth:/app/auth
+      # - ./botserver-app/logs:/logs
+      # - ./botserver-app/auth:/app/auth
     environment:
       <<: *database-credentials
       <<: *rasa-credentials
@@ -108,7 +108,7 @@ services:
     entrypoint: ["python"]
     command: ["-m", "rasax.community.services.db_migration_service"]
     restart: on-failure:5
-    image: "rasa/rasa-x:${RASA_X_VERSION}"
+    image: "${RASA_X_IMAGE}"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/health || kill 1"]
       interval: 5s

@@ -1,0 +1,35 @@
+version: '3.1'
+
+nlu:
+- intent: express_degree_type
+  examples: |
+    - [under matric](degree_type)
+    - [matric](degree_type)
+    - [intermediate](degree_type)
+    - [diploma 1 year](degree_type)
+    - [diploma 2 years](degree_type)
+    - [diploma 3 years](degree_type)
+    - [b-tech](degree_type)
+    - [be/bsc](degree_type)
+    - [graduate](degree_type)
+    - [mba/msc](degree_type)
+    - [bachelor](degree_type)
+    - [master](degree_type)
+    - [phd](degree_type)
+
+- lookup: degree_type
+  examples: |
+    - under matric
+    - matric
+    - intermediate
+    - diploma 1 year
+    - diploma 2 years
+    - diploma 3 years
+    - b-tech
+    - be/bsc
+    - bachelor
+    - diploma
+    - graduate
+    - mba/msc
+    - master
+    - phd

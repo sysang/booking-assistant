@@ -1,0 +1,10 @@
+version: "3.1"
+
+entities:
+  - entity_id
+  - full_name
+  - degree_type
+  - job_title
+  - industry_field
+  - number
+  - phone_number

@@ -1,0 +1,251 @@
+version: "3.1"
+
+stories:
+- story: when requesting profileinfo_phone_number, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: [null,null,null,null,null,null,null,null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_phone_number
+  - or:
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_number
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_phone_number
+
+- story: when requesting profileinfo_user_name, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375',null,null,null,null,null,null, null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_name
+  - or:
+    - intent: expression_phone_number
+    - intent: express_number
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_name
+
+- story: when requesting profileinfo_user_age, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad',null,null,null,null,null, null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_age
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_user_age
+
+- story: when requesting profileinfo_degree_type, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27',null,null,null,null,null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_degree_type
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_number
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_degree_type
+
+- story: when requesting profileinfo_job_title, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor',null,null,null,null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_job_title
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_number
+    - intent: express_degree_type
+    - intent: express_industry_field
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_job_title
+
+- story: when requesting profileinfo_experience_year, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers',null,null,null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_year
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_degree_type
+    - intent: express_industry_field
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_year
+
+- story: when requesting profileinfo_experience_industry, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5',null,null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_industry
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_degree_type
+    - intent: express_number
+    - intent: express_job_title
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_industry
+
+- story: when requesting profileinfo_experience_oversea, unexpected intent
+  steps:
+  - slot_was_set:
+    - botmind_state: attentive
+    - botmind_context: workingonjobsearch
+    - botmind_intention: engage_context
+    - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5','health',null]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_oversea
+  - or:
+    - intent: expression_phone_number
+    - intent: expression_name
+    - intent: introduce_name
+    - intent: express_degree_type
+    - intent: express_job_title
+    - intent: express_number
+    - intent: express_industry_field
+  - action: action_execution_rejected
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_express_confused_by_unlikely_bkinfo
+  - action: profileinfo_form
+  - active_loop: profileinfo_form
+  - slot_was_set:
+    - requested_slot: profileinfo_experience_oversea
+

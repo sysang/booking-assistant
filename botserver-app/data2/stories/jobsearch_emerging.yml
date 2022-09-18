@@ -1,0 +1,38 @@
+version: "3.1"
+
+stories:
+- story: when done_information_collecting, tend to search job
+  steps:
+  - slot_was_set:
+    # - botmind_state: attentive
+    # - botmind_context: workingonjobsearch
+    # - botmind_intention: engage_context
+    # - interlocutor_intention: engage_conversation
+    - botmemo_collecting_profile_progress: done_information_collecting
+    - botmemo_profileinfo_status: ['3002293375','nazy ahmad','27','bachelor','community health workers','5','health',true]
+    - search_result_flag: waiting
+    - jobinfo_id: null
+  - intent: bot_embodies_intention
+    entities:
+    - botmind_state: transitioning
+  - slot_was_set:
+    - botmind_state: transitioning
+  - action: pseudo_action
+  - slot_was_set:
+    - botmind_state: attentive
+  - action: profileinfo_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: botacts_utter_inform_searching_inprogress
+  - action: botacts_search_job
+  - slot_was_set:
+    - search_result_flag: available
+    - botmemo_collecting_profile_progress: showing_result
+  - intent: user_selects_entity
+    entities:
+      - entity_id: 1
+  - slot_was_set:
+    - jobinfo_id: 1
+    - botmemo_collecting_profile_progress: entity_selected
+  - action: botacts_confirm_job_selection

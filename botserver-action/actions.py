@@ -46,6 +46,7 @@ from .utils import SortbyDictionary
 from .utils import parse_date_range
 from .utils import DictUpdatingMemmQueue
 from .utils import request_botfrontend_url
+from .slot_default_values import INTERLOCUTOR_INTENTION_DEFAULT
 
 from .duckling_service import (
     parse_checkin_time,
@@ -53,6 +54,8 @@ from .duckling_service import (
     parse_bkinfo_price,
 )
 from .redis_service import set_cache, get_cache
+from .slot_default_values import BOTMIND_INTENTION_DEFAULT
+
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +69,6 @@ BOTMIND_STATE_SLOT = {
 }
 
 DATE_FORMAT = 'MMMM Do YYYY'
-
 TEST_ENV = False
 
 
@@ -532,21 +534,6 @@ class botacts_confirm_room_selection(Action):
     return events
 
 
-class botacts_utter_bye(Action):
-
-    def name(self) -> Text:
-        return "botacts_utter_bye"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(response='utter_bye')
-
-        return [
-            FollowupAction(name='action_listen'),
-            AllSlotsReset(),
-        ]
-
-
 class botacts_utter_asking_confirm_stop_booking(Action):
 
     def name(self) -> Text:
@@ -562,6 +549,21 @@ class botacts_utter_asking_confirm_stop_booking(Action):
         dispatcher.utter_message(response='utter_asking_confirm_stop_booking')
 
         return []
+
+
+class botacts_utter_bye(Action):
+
+    def name(self) -> Text:
+        return "botacts_utter_bye"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(response='utter_bye')
+
+        return [
+            FollowupAction(name='action_listen'),
+            AllSlotsReset(),
+        ]
 
 
 class botacts_start_booking_progress(Action):
@@ -594,10 +596,10 @@ class botacts_start_booking_progress(Action):
             SlotSet('search_result_flag', search_result_flag),
             # default values
             SlotSet('botmind_state', 'attentive'),
-            SlotSet('botmind_intention', None),
+            SlotSet('botmind_intention', BOTMIND_INTENTION_DEFAULT),
             SlotSet('bkinfo_orderby', None),
             SlotSet('search_result_query', None),
-            SlotSet('interlocutor_intention', None),
+            SlotSet('interlocutor_intention', INTERLOCUTOR_INTENTION_DEFAULT),
             SlotSet('bkinfo_room_id', None),
         ]
 
@@ -634,10 +636,10 @@ class botacts_express_bot_job_to_support_booking(Action):
             SlotSet('search_result_flag', search_result_flag),
             # default values
             SlotSet('botmind_state', 'attentive'),
-            SlotSet('botmind_intention', None),
+            SlotSet('botmind_intention', BOTMIND_INTENTION_DEFAULT),
             SlotSet('bkinfo_orderby', None),
             SlotSet('search_result_query', None),
-            SlotSet('interlocutor_intention', None),
+            SlotSet('interlocutor_intention', INTERLOCUTOR_INTENTION_DEFAULT),
             SlotSet('bkinfo_room_id', None),
         ]
 
@@ -812,17 +814,25 @@ class action_botmind_intention_mappings(Action):
         return "action_botmind_intention_mappings"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        slots = tracker.slots
         intent = tracker.latest_message['intent']['name']
-
         slot_name = 'botmind_intention'
-        mind_map = {
-            'bye': 'engage_interrogative',
-            'stop_doing': 'engage_interrogative',
-            'affirm': 'engage_affirmative',
-            'deny': 'engage_negative',
+
+        interlocutor_intention = slots.get('interlocutor_intention')
+
+        mind_mapped_intent = {
+            None: {},
+            'engage_conversation': {
+                'bye': 'engage_interrogative',
+                'stop_doing': 'engage_interrogative',
+            },
+            'terminate_session': {
+                'affirm': 'engage_affirmative',
+                'deny': 'engage_negative',
+            },
         }
 
-        slot_value = mind_map.get(intent, None)
+        slot_value = mind_mapped_intent.get(interlocutor_intention, {}).get(intent, BOTMIND_INTENTION_DEFAULT)
 
         return [SlotSet(slot_name, slot_value)]
 
@@ -832,19 +842,25 @@ class action_interlocutor_intention_mappings(Action):
         return "action_interlocutor_intention_mappings"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        IGNORED_INTENTS = [
+            'bot_embodies_intention'
+        ]
+
         intent = tracker.latest_message['intent']['name']
         slot_name = 'interlocutor_intention'
-        ignored_intents = ['bot_embodies_intention']
-        if intent in ignored_intents:
+        default_intention = 'engage_conversation'
+
+        if intent in IGNORED_INTENTS:
             logger.info('[INFO] skip mapping due to intent: %s', intent)
             return []
 
-        mind_map = {
+        secondary_intention_mapping = {
             'bye': 'terminate_session',
             'stop_doing': 'terminate_session',
         }
 
-        slot_value = mind_map.get(intent, None)
+        slot_value = secondary_intention_mapping.get(intent, default_intention)
 
         return [SlotSet(slot_name, slot_value)]
 

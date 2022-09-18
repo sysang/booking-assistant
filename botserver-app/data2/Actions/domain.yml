@@ -1,0 +1,32 @@
+version: "3.1"
+
+actions:
+  - action_test_development
+  - action_unlikely_intent
+  - custom_action_fallback
+  - pseudo_action
+  - bot_relieves_imposition_to_think
+  - bot_switchto_thinking
+  - bot_let_action_emerges
+  - action_validate_slot_mappings
+  - botmemo_profile_status_slot_mapping
+  - botmemo_collecting_profile_progress_mapping
+  - botacts_initialize_profile_collecting
+  - botacts_utter_inform_searching_inprogress
+  - botacts_search_job
+  - botacts_utter_asking_confirm_stop_searching_job
+  - botacts_utter_bye
+  - botacts_confirm_job_selection
+  # - validate_bkinfo_form
+  # - action_botmemo_booking_progress
+  # - action_old_slot_mapping
+  # - action_bkinfo_status_slot_mapping
+  # - action_botmemo_booking_progress_mapping
+  - action_botmind_state_mapping
+  - action_botmind_intention_mappings
+  - action_interlocutor_intention_mappings
+  # - botacts_express_bot_job_to_support_booking
+  # - botacts_search_hotel_rooms
+  # - botacts_confirm_room_selection
+  # - botacts_utter_revised_bkinfo
+  # - botacts_start_booking_progress

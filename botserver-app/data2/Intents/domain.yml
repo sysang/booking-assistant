@@ -1,0 +1,49 @@
+version: "3.1"
+
+intents:
+  - test_development
+  - greeting
+  - bye
+  - thank
+  - affirm
+  - deny
+  - stop_doing
+  - react_positive
+  - react_negative
+  - agent_ready
+  - bot_intents_to_think
+  - bot_embodies_intention
+  - user_selects_entity
+  - request_searching_job
+  - expression_name
+  - introduce_name
+  - express_time
+  - express_degree_type
+  - express_job_title
+  - express_number
+  - expression_phone_number
+  - express_industry_field
+  # - request_listing_hotel_by_area
+  # - request_searching_hotel
+  # - request_checkin_time
+  # - request_room_reservation_duration
+  # - request_bed_type
+  # - revise_area
+  # - revise_checkin_time
+  # - revise_room_reservation_duration
+  # - revise_bed_type
+  # - revise_price
+  # - request_checkin_time+request_room_reservation_duration
+  # - request_listing_hotel_by_area+request_checkin_time
+  # - request_listing_hotel_by_area+request_checkin_time+request_room_reservation_duration
+  # - request_bed_type+request_checkin_time
+  # - request_bed_type+request_room_reservation_duration
+  # - express_area
+  # - express_time
+  # - express_length_of_time
+  # - express_bed_type
+  # - express_mountof_money
+  # - express_expected_mountof_money
+  # - sort_room_by_popularity
+  # - sort_room_by_review_score
+  # - sort_room_by_price

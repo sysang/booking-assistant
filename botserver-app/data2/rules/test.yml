@@ -1,0 +1,8 @@
+version: "3.1"
+
+rules:
+- rule: test
+  steps:
+  - intent: test_development
+  - action: action_test_development
+
