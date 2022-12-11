@@ -38,3 +38,7 @@ def room_photos(request):
 
 
     return TemplateResponse(request, 'chatroom/room_photos.html', {'images': images})
+
+
+def scroll_animation(request):
+    return TemplateResponse(request, 'chatroom/scroll_animation.html')

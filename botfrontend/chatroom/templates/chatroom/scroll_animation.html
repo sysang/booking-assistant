@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iphone 14 presentation</title>
+    <link href="{% static 'scroll_animation/css/fonts.css' %}" rel="stylesheet">
+    <link href="{% static 'scroll_animation/css/output.css' %}" rel="stylesheet">
+    <script src="{% static 'scroll_animation/js/scroll-based-animation.js' %}"></script>
+</head>
+<body class="notready bg-white overflow-hidden">
+    <div class="overlay"></div>
+    <section class="header fixed z-50 w-screen border-solid border-b border-gray-200">
+        <div class="container mx-auto px-32 py-2 grid grid-cols-3 gap-0">
+            <div class="product-name text-base">iPhone 14</div>
+            <div class="header-nav col-span-2">
+                <ul class="h-full flex justify-end text-xs font-extralight items-center">
+                    <li class="ml-3">Overzicht</li>
+                    <li class="ml-3">Specificaties</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="">
+        <section class="iphone-logo w-full h-screen flex items-center">
+            <div class="drivers">
+                <div id="iphone-logo-driver-1-start"
+                    data-supersonic-driver="iphone-logo-driver-1"
+                    data-supersonic-type="start">
+                </div>
+                <div id="iphone-logo-driver-1-end"
+                    data-supersonic-driver="iphone-logo-driver-1"
+                    data-supersonic-type="end">
+                </div>
+                <div id="iphone-logo-driver-2-start"
+                    data-supersonic-driver="iphone-logo-driver-2"
+                    data-supersonic-type="start">
+                </div>
+                <div id="iphone-logo-driver-2-end"
+                    data-supersonic-driver="iphone-logo-driver-2"
+                    data-supersonic-type="end">
+                </div>
+            </div>
+            <div class="container mx-auto px-60">
+                <picture>
+                    <img class="w-full iphone-logo-img" src="{% static 'scroll_animation/images/hero_iphone_logo.png' %}" alt="iphone4">
+                </picture>
+            </div>
+        </section>
+
+        <section class="holding-phone">
+            <div class="drivers">
+                <div id="holding-phone-driver-1-start" class="my-driver"
+                    data-supersonic-driver="holding-phone-driver-1"
+                    data-supersonic-type="start">
+                </div>
+                <div id="holding-phone-driver-1-end"
+                    data-supersonic-driver="holding-phone-driver-1"
+                    data-supersonic-type="end">
+                </div>
+                <div id="left-phone-text-driver-start"
+                    data-supersonic-driver="left-phone-text-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="left-phone-text-driver-end"
+                    data-supersonic-driver="left-phone-text-driver"
+                    data-supersonic-type="end">
+                </div>
+                <div id="right-phone-text-driver-start"
+                    data-supersonic-driver="right-phone-text-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="right-phone-text-driver-end"
+                    data-supersonic-driver="right-phone-text-driver"
+                    data-supersonic-type="end">
+                </div>
+                <div id="phone-screen-driver-start"
+                    data-supersonic-driver="phone-screen-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="phone-screen-driver-end"
+                    data-supersonic-driver="phone-screen-driver"
+                    data-supersonic-type="end">
+                </div>
+                <div id="holding-phone-driver-left-start"
+                    data-supersonic-driver="holding-phone-driver-left"
+                    data-supersonic-type="start">
+                </div>
+                <div id="holding-phone-driver-left-end"
+                    data-supersonic-driver="holding-phone-driver-left"
+                    data-supersonic-type="end">
+                </div>
+                <div id="holding-phone-driver-right-start"
+                    data-supersonic-driver="holding-phone-driver-right"
+                    data-supersonic-type="start">
+                </div>
+                <div id="holding-phone-driver-right-end"
+                    data-supersonic-driver="holding-phone-driver-right"
+                    data-supersonic-type="end">
+                </div>
+                <div id="battery-start"
+                    data-supersonic-driver="battery"
+                    data-supersonic-type="start">
+                </div>
+                <div id="battery-end"
+                    data-supersonic-driver="battery"
+                    data-supersonic-type="end">
+                </div>
+                <div id="left-phone-text-2-start"
+                    data-supersonic-driver="left-phone-text-2-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="left-phone-text-2-end"
+                    data-supersonic-driver="left-phone-text-2-driver"
+                    data-supersonic-type="end">
+                </div>
+                <div id="right-phone-text-2-start"
+                    data-supersonic-driver="right-phone-text-2-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="right-phone-text-2-end"
+                    data-supersonic-driver="right-phone-text-2-driver"
+                    data-supersonic-type="end">
+                </div>
+                <div id="left-phone-text-2-start-2"
+                    data-supersonic-driver="left-phone-text-2-driver-2"
+                    data-supersonic-type="start">
+                </div>
+                <div id="left-phone-text-2-end-2"
+                    data-supersonic-driver="left-phone-text-2-driver-2"
+                    data-supersonic-type="end">
+                </div>
+                <div id="right-phone-text-2-start-2"
+                    data-supersonic-driver="right-phone-text-2-driver-2"
+                    data-supersonic-type="start">
+                </div>
+                <div id="right-phone-text-2-end-2"
+                    data-supersonic-driver="right-phone-text-2-driver-2"
+                    data-supersonic-type="end">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-0" id="holding-phone-cont">
+                <div dir="rtl" class="left-holds-phone relative">
+                    <div id="left-phone-text" class="text-7xl font-semibold">
+                        <div>
+                            <div>Groot</div>
+                        </div>
+                    </div>
+                    <div id="left-phone-text-2" class="">
+                        <div>
+                            <div class="text-xl font-semibold">14 iPhone</div>
+                            <div class="text-7xl font-semibold">"6,1</div>
+                        </div>
+                    </div>
+                    <div class="w-full overflow-hidden">
+                        <picture >
+                            <img src="{% static 'scroll_animation/images/left_holds_phone.jpg' %}" alt="iphone4">
+                        </picture>
+                    </div>
+                </div>
+                <div  class="right-holds-phone relative">
+                    <div id="right-phone-text" class="text-7xl font-semibold">
+                        <div>
+                            <div>en groter.</div>
+                        </div>
+                    </div>
+                    <div id="right-phone-text-2" class="">
+                        <div>
+                            <div class="text-xl font-semibold">iPhone 14 Plus</div>
+                            <div class="text-7xl font-semibold">6,7"</div>
+                        </div>
+                    </div>
+                    <div class="w-full overflow-hidden">
+                        <picture >
+                            <img src="{% static 'scroll_animation/images/right_hold_phone.jpg' %}" alt="iphone4">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+            <div id="battery-section" class="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center">
+                <div id="battery-cont-wrap">
+                    <div id="battery-cont" class="w-28 text-center">
+                        <div id="battery-logo">
+                            <img src="{% static 'scroll_animation/images/battery-outline.png' %}" alt="iphone4">
+                            <img src="{% static 'scroll_animation/images/battery-volume.png' %}" alt="iphone4">
+                        </div>
+                        <p class=" font-semibold text-sm leading-3"> Onze langste </br> batterijduur </br> ooit. </p>
+                    </div>
+                <div>
+            </div>
+        </section>
+        <section id="portrait-photo">
+            <div class="drivers">
+                <div id="introduction-battery-start"
+                    data-supersonic-driver="introduction-battery"
+                    data-supersonic-type="start">
+                </div>
+                <div id="introduction-battery-end"
+                    data-supersonic-driver="introduction-battery"
+                    data-supersonic-type="end">
+                </div>
+                <div id="introduction-1-start"
+                    data-supersonic-driver="introduction-1"
+                    data-supersonic-type="start">
+                </div>
+                <div id="introduction-1-end"
+                    data-supersonic-driver="introduction-1"
+                    data-supersonic-type="end">
+                </div>
+                <div id="introduction-photo-driver-start"
+                    data-supersonic-driver="introduction-photo-driver"
+                    data-supersonic-type="start">
+                </div>
+                <div id="introduction-photo-driver-end"
+                    data-supersonic-driver="introduction-photo-driver"
+                    data-supersonic-type="end">
+                </div>
+            </div>
+            <div id="introduction-1-wrap">
+                <div id="introduction-1" class="px-36 pt-36 pb-8">
+                    <p class="text-7xl font-semibold text-center">Een enorme </br> verbetering voor </br> foto’s bij </br> weinig licht.</p>
+                </div>
+            </div>
+            <div id="photo">
+                <img class="relative left-1/4" src="{% static 'scroll_animation/images/portrait-photo.jpg' %}" alt="iphone4">
+            </div>
+        </section>
+    </div>
+
+    <script src="{% static 'scroll_animation/js/main.js' %}"></script>
+</body>
+</html>
