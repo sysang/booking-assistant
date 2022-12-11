@@ -7,19 +7,18 @@
             this.isEnable = false;
             this.scrollLeft = 0;
             this.scrollTop = null;
+            this.timeout = null;
         }
 
         enable(duration){
-            if (this.isEnable){
-                return;
-            }
 
             this.isEnable = true;
             // Get the current page scroll position
             // this.scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
             this.scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-            setTimeout(() => {
+            clearTimeout(this.timeout)
+            this.timeout = setTimeout(() => {
                 freezer.disable()
             }, duration)
         }
@@ -33,7 +32,7 @@
         perform(){
             if(this.isEnable){
                 let currentPointer = window.pageYOffset || document.documentElement.scrollTop;
-                let delta = (currentPointer - this.scrollTop) * 0.25
+                let delta = (currentPointer - this.scrollTop) * 0.57
                 this.scrollTop += delta
                 window.scrollTo(this.scrollLeft, this.scrollTop);
             }
@@ -50,7 +49,6 @@
             freezer.perform()
 
             let currentPointer = window.pageYOffset || document.documentElement.scrollTop;
-            console.log(currentPointer)
             if (Math.abs(currentPointer - scrollTop) / scrollTop > 0.01){
                 scrollTop = currentPointer;
                 localStorage.setItem('scrollTop', scrollTop)
@@ -96,8 +94,8 @@
                     },
                     hooks: { // property hooks, each hook is optional
                         onAfterRender(property) {
-                            if (property.progress > 0.75 ){
-                                freezer.enable(300)
+                            if (property.progress > 0.01 ){
+                                freezer.enable(10000)
                             }
                         },
                     },
@@ -119,6 +117,13 @@
                             end: 0,
                             unit: "px",
                             elements: ["#left-phone-text > div > div", "#right-phone-text > div > div"],
+                        },
+                    },
+                    hooks: { // property hooks, each hook is optional
+                        onAfterRender(property) {
+                            if (property.progress > 0.55 ){
+                                freezer.enable(2000)
+                            }
                         },
                     },
                 },
@@ -167,7 +172,7 @@
                             if (property.progress < 0.00001 || property.progress >= 0.9999){
                                 if(holdingPhoneContEl.style.position === 'fixed'){
                                     holdingPhoneContEl.style.position = '';
-                                    freezer.enable(300)
+                                    freezer.enable(2000)
                                 }
                             } else if (holdingPhoneContEl.style.position !== 'fixed') {
                                 // To store the position at starting point to use lately in reverse animation
